@@ -40,6 +40,14 @@ export default extendTheme({
           },
         },
       },
+      carousel: {
+        iconButton: {
+          color: grey2,
+          _hover: {
+            color: 'black',
+          },
+        },
+      },
       drawerMenu: {
         item: {
           color: grey3,

@@ -10,8 +10,8 @@ export const Categories = () => {
   if (isLoading) return <div>Loading...</div>; // TODO:!
 
   return (
-    <Carousel>
-      {data.map(({ id, name, path, imageUrl }, i) => (
+    <Carousel rows={2} slideWidth="10rem" slideHeight="10rem">
+      {data.map(({ name, path, imageUrl }, i) => (
         <Link key={i} href={path ? path : '/'}>
           <Image w="10rem" h="10rem" src={imageUrl} alt={name} />
         </Link>
