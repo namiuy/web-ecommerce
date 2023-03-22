@@ -11,9 +11,9 @@ export const Categories = () => {
 
   return (
     <Carousel rows={2} slideWidth="10rem" slideHeight="10rem">
-      {data.map(({ name, path, imageUrl }, i) => (
+      {data.map(({ name, path, image_url }, i) => (
         <Link key={i} href={path ? path : '/'}>
-          <Image w="10rem" h="10rem" src={imageUrl} alt={name} />
+          <Image w="10rem" h="10rem" src={image_url} alt={name} />
         </Link>
       ))}
     </Carousel>

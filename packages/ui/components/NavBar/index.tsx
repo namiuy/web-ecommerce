@@ -21,11 +21,11 @@ export type NavBarProps = {
 };
 
 export const NavBar = (props: NavBarProps) => {
-  const isDesktop = useBreakpointValue({
+  const isLg = useBreakpointValue({
     base: false,
     lg: true,
   });
-  const NavBarDisplay = isDesktop ? NavBarDesktop : NavBarMobile;
+  const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
   return (
     <Box position="sticky" top="0" w="100%" zIndex="99">
       <NavBarDisplay {...props} />

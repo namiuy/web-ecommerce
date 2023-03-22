@@ -1,8 +1,6 @@
-type Category = {
+export type Category = {
   id: string;
   name: string;
   path: string;
-  imageUrl: string;
+  image_url: string;
 };
-
-export default Category;

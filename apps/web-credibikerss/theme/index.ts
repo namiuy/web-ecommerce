@@ -42,9 +42,9 @@ export default extendTheme({
       },
       carousel: {
         iconButton: {
-          color: grey2,
+          color: 'rgba(201, 201, 201, 0.6)',
           _hover: {
-            color: 'black',
+            color: 'rgb(201, 201, 201)',
           },
         },
       },

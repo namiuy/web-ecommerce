@@ -1,40 +1,19 @@
-// import { Box, Image } from '@chakra-ui/react';
-// import Link from 'next/link';
-// import { useCategoryList } from '../../hooks/request/category/useList';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Grid, Navigation } from 'swiper';
+import { Center, useBreakpointValue } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+import { Carousel } from './Carousel';
 
-import { Box } from '@chakra-ui/react';
+export const Banner = ({ children }: { children: ReactNode }) => {
+  const h = { base: '10rem', lg: '21rem' };
+  const isLg = useBreakpointValue({
+    base: false,
+    lg: true,
+  });
 
-// import 'swiper/css';
-// import 'swiper/css/grid';
-// import 'swiper/css/navigation';
-
-export const Banner = () => {
-  // const { isLoading, error, data } = useCategoryList();
-  // if (error) return <div>Error!</div>;
-
-  // if (isLoading) return <div>Loading...</div>;
-
-  // return (
-  //   <Swiper
-  //     navigation={true}
-  //     slidesPerView="auto"
-  //     grid={{
-  //       rows: 2,
-  //     }}
-  //     modules={[Grid, Navigation]}
-  //     style={{ height: 320 }}
-  //     grabCursor={true}
-  //   >
-  //     {data.map(({ id, name, path, imageUrl }) => (
-  //       <SwiperSlide key={id} style={{ width: 160, height: 160 }}>
-  //         <Link href={path ? path : '/'}>
-  //           <Image w="10rem" h="10rem" src={imageUrl} alt={name} />
-  //         </Link>
-  //       </SwiperSlide>
-  //     ))}
-  //   </Swiper>
-  // );
-  return <Box w="100%" h="10rem" bg="#1DD47D" />;
+  return (
+    <Carousel slideWidth="100%" slideHeight={isLg ? h.lg : h.base}>
+      <Center bg="lightgrey" w="100%" h={h} color="white">
+        {children}
+      </Center>
+    </Carousel>
+  );
 };
