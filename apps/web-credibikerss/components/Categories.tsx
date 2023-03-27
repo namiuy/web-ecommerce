@@ -5,7 +5,10 @@ import { Carousel, Image } from 'ui';
 export const Categories = () => {
   const { isLoading, error, data = [] } = useCategoryList();
 
-  if (error) return <div>Error!</div>; // TODO:!
+  if (error) {
+    console.log(error);
+    return <></>;
+  }
 
   if (isLoading) return <div>Loading...</div>; // TODO:!
 

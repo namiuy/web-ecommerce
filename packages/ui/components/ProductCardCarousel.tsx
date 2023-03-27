@@ -5,7 +5,7 @@ import { Carousel, ProductCard } from 'ui';
 
 // ProductCard
 const _maxW = { base: '9rem', lg: '13rem' };
-const _minH = { base: '14rem', lg: '19rem' }; // ['12rem', '17rem'];
+const _minH = { base: '15rem', lg: '21rem' }; // ['13rem', '18rem'];
 
 const baseSizes = { slideWidth: _maxW.base, slideHeight: _minH.base, navigationLeft: '-1rem' };
 const lgSizes = {
@@ -15,6 +15,12 @@ const lgSizes = {
 };
 
 type ProductCardCarouselProps = { productListId: number; productsLength: number };
+
+const getEmptyArray = <T,>(length: number) => {
+  let arr = [];
+  for (let i = 0; i < length; i++) arr.push({} as T);
+  return arr;
+};
 
 export const ProductCardCarousel = ({ productListId, productsLength }: ProductCardCarouselProps) => {
   const { isLoading, error, data } = useProductListGet(productListId);
@@ -26,9 +32,9 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
 
   const { slideWidth, slideHeight, navigationLeft } = isLg ? lgSizes : baseSizes;
 
-  if (error) return <div>Error!</div>; // TODO:!
+  if (error) console.log(error);
 
-  const products = isLoading ? [...Array(productsLength).keys()].map(() => ({} as Product)) : data?.products;
+  const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products;
 
   return (
     <Carousel slideWidth={slideWidth} slideHeight={slideHeight} navigationLeft={navigationLeft} spaceBetween={16}>

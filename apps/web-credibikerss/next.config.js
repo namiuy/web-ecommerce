@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ['ui'],
+  transpilePackages: ['shared', 'ui'],
   publicRuntimeConfig: {
     appName: 'CrediBikerss',
   },

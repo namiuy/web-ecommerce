@@ -5,6 +5,6 @@ export type ProductList = {
   section: string;
   indx: number;
   name: string;
-  productIds: Array<string>;
+  product_ids: Array<string>;
   products: Array<Product>;
 };
