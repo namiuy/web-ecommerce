@@ -1,10 +1,10 @@
 import useSWRImmutable from 'swr/immutable';
-import { Category } from '../../entities/category';
+import { Brand } from '../../entities/brand';
 import { fetcher } from './fetcher';
 import { Response } from './response';
 
-const useCategoryList = (): Response<Array<Category>> => {
-  const { isLoading, error, data } = useSWRImmutable('http://localhost:3001/category', fetcher);
+const useBrandList = (): Response<Array<Brand>> => {
+  const { isLoading, error, data } = useSWRImmutable('http://localhost:3001/brand', fetcher);
 
   // if (cache) {
   //   return { isLoading: false, data: cache };
@@ -21,4 +21,4 @@ const useCategoryList = (): Response<Array<Category>> => {
   return { isLoading, error, data };
 };
 
-export { useCategoryList };
+export { useBrandList };

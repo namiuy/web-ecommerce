@@ -1,5 +1,5 @@
-import { Flex, Banner, Container, Head, ProductListSection, Center } from 'ui';
-import { NavBar, Categories } from '../components';
+import { Flex, Banner, Container, Head, ProductListSection } from 'ui';
+import { NavBar, Brands, Categories } from '../components';
 
 export default function Web() {
   return (
@@ -13,6 +13,7 @@ export default function Web() {
           <ProductListSection name="home_a" />
           <Banner>Banner X</Banner>
           <ProductListSection name="home_b" />
+          <Brands />
         </Flex>
       </Container>
     </>

@@ -20,13 +20,12 @@ const _bodyGap = '.25rem';
 type ProductCardProps = {
   isLoading: boolean;
   product?: Product;
-  href?: string;
 };
 
-export const ProductCard = ({ isLoading, product, href }: ProductCardProps) => {
-  const { name, category, price, image_url } = product || {};
+export const ProductCard = ({ isLoading, product }: ProductCardProps) => {
+  const { name, category, price, path, image_url } = product || {};
   return (
-    <Link href={href} _hover={{ textDecoration: 'none' }}>
+    <Link href={path} _hover={{ textDecoration: 'none' }}>
       <Card
         maxW={_maxW}
         minH={_minH}
