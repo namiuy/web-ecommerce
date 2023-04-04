@@ -1,5 +1,5 @@
 import { useBreakpointValue } from '@chakra-ui/react';
-import { useProductListGet } from 'shared';
+import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
@@ -16,12 +16,6 @@ const lgSizes = {
 
 type ProductCardCarouselProps = { productListId: number; productsLength: number };
 
-const getEmptyArray = <T,>(length: number) => {
-  let arr = [];
-  for (let i = 0; i < length; i++) arr.push({} as T);
-  return arr;
-};
-
 export const ProductCardCarousel = ({ productListId, productsLength }: ProductCardCarouselProps) => {
   const { isLoading, error, data } = useProductListGet(productListId);
 
@@ -32,14 +26,17 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
 
   const { slideWidth, slideHeight, navigationLeft } = isLg ? lgSizes : baseSizes;
 
-  if (error) console.log(error);
+  if (error) {
+    console.log(error);
+    return <></>;
+  }
 
   const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products;
 
   return (
     <Carousel slideWidth={slideWidth} slideHeight={slideHeight} navigationLeft={navigationLeft} spaceBetween={16}>
       {products?.map((product, i) => (
-        <ProductCard key={i} isLoading={isLoading} product={product} href={'/'} />
+        <ProductCard key={i} isLoading={isLoading} product={product} />
       ))}
     </Carousel>
   );

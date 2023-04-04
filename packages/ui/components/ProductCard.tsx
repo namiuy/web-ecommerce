@@ -18,11 +18,11 @@ const _bodyM = { base: '0 1rem 1rem 1rem', lg: '1rem' };
 const _bodyGap = '.25rem';
 
 type ProductCardProps = {
-  isLoading: boolean;
+  isLoading?: boolean;
   product?: Product;
 };
 
-export const ProductCard = ({ isLoading, product }: ProductCardProps) => {
+export const ProductCard = ({ isLoading = false, product }: ProductCardProps) => {
   const { name, category, price, path, image_url } = product || {};
   return (
     <Link href={path} _hover={{ textDecoration: 'none' }}>

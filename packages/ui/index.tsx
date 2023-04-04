@@ -11,6 +11,7 @@ export * from './components/Image';
 export * from './components/NavBar';
 export * from './components/ProductCard';
 export * from './components/ProductListSection';
+export * from './components/ProductSearch';
 export * from './components/Skeleton';
 export * from './components/Text';
 export * from './components/ThemeProvider';
