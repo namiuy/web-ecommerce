@@ -5,6 +5,13 @@ const grey1 = '#C9C9C9';
 const grey2 = '#7D7D7D';
 const grey3 = '#3E4448';
 
+import '@fontsource/roboto/100.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto/900.css';
+
 export default extendTheme({
   fonts: {
     heading: `'Roboto', sans-serif`,
@@ -52,6 +59,10 @@ export default extendTheme({
         item: {
           color: grey3,
         },
+      },
+      productFilters: {
+        backgroundColor: grey0,
+        borderColor: grey1,
       },
     },
   },

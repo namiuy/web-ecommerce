@@ -1,17 +1,30 @@
+import {
+  Box as BoxChakra,
+  Button as ButtonChakra,
+  Center as CenterChakra,
+  Flex as FlexChakra,
+  Image as ImageChakra,
+  Text as TextChakra,
+  Grid as GridChakra,
+} from '@chakra-ui/react';
+
+export const Center = CenterChakra;
+export const Box = BoxChakra;
+export const Button = ButtonChakra;
+export const Image = ImageChakra;
+export const Text = TextChakra;
+export const Flex = FlexChakra;
+export const Grid = GridChakra;
+
 export * from './components/Banner';
-export * from './components/Box';
-export * from './components/Button';
 export * from './components/Carousel';
-export * from './components/Center';
 export * from './components/Container';
 export * from './components/DesignDebug';
-export * from './components/Flex';
 export * from './components/Head';
-export * from './components/Image';
 export * from './components/NavBar';
 export * from './components/ProductCard';
+export * from './components/ProductFilters';
 export * from './components/ProductListSection';
 export * from './components/ProductSearch';
 export * from './components/Skeleton';
-export * from './components/Text';
 export * from './components/ThemeProvider';

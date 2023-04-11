@@ -1,7 +1,7 @@
 import { Category } from './category';
 
 export type Product = {
-  id: number;
+  id: string;
   is_original: boolean;
   is_public: boolean;
   created_at: Date;

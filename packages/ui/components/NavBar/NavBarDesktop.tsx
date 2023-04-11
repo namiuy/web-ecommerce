@@ -5,7 +5,7 @@ import Nav from '../Nav';
 import SearchInput from '../SearchInput';
 import SocialNeworks from '../SocialNeworks';
 
-const navItemColor = 'brand.nav.item.color';
+const _navItemColor = 'brand.nav.item.color';
 const _backgroundColor = 'brand.navBar.backgroundColor';
 const _borderColor = 'brand.navBar.borderColor';
 
@@ -34,7 +34,7 @@ const NavBarDesktop = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProp
     </GridItem>
     <GridItem />
     <GridItem>
-      <SocialNeworks color={navItemColor} items={socialNeworksItems} />
+      <SocialNeworks color={_navItemColor} items={socialNeworksItems} />
     </GridItem>
     <GridItem />
   </Grid>

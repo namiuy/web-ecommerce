@@ -3,4 +3,5 @@ export type Category = {
   name: string;
   path: string;
   image_url: string;
+  subCategories?: Array<Category>;
 };
