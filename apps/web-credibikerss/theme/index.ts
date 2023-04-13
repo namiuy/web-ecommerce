@@ -63,6 +63,10 @@ export default extendTheme({
       productFilters: {
         backgroundColor: grey0,
         borderColor: grey1,
+        selected: {
+          backgroundColor: grey1,
+          color: grey3,
+        },
       },
     },
   },

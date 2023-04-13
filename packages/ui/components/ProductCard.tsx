@@ -9,7 +9,8 @@ const _grey2 = 'brand.grey.2';
 
 const _maxW = { base: '9rem', lg: '13rem' };
 const _minH = { base: '13rem', lg: '18rem' };
-const _minImageH = { base: '8rem', lg: '12rem' };
+const _imageMaxW = { base: '7rem', lg: '11rem' };
+const _imageMinH = { base: '5rem', lg: '9rem' };
 const _categorySize = { base: '0.625rem', lg: '0.75rem' };
 const _nameSize = { base: '0.875rem', lg: '1.375rem' };
 const _nameHeight = { base: '1.75rem', lg: '2.75rem' };
@@ -37,9 +38,9 @@ export const ProductCard = ({ isLoading = false, product }: ProductCardProps) =>
         <Flex direction="column" minH={_minH} justifyContent="space-between">
           <Box p="1rem">
             {isLoading ? (
-              <Skeleton w={_maxW} h={_minImageH} />
+              <Skeleton maxW={_imageMaxW} h={_imageMinH} />
             ) : (
-              <Image maxW={_maxW} h={_minImageH} alt={name} src={image_url} fit="contain" />
+              <Image maxW={_imageMaxW} h={_imageMinH} alt={name} src={image_url} fit="contain" />
             )}
           </Box>
           <Flex direction="column" justifyContent="space-between" m={_bodyM} gap={_bodyGap}>

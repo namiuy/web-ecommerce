@@ -1,3 +1,5 @@
+'use client';
+
 import { NextPage } from 'next';
 import { Grid, Head, ProductSearch, ProductFilters, Text, Box } from 'ui';
 import { NavBar } from '../components';
@@ -20,22 +22,19 @@ const ResultsFor = ({ text }: { text?: string }) =>
     </Box>
   );
 
-const ProductsPage: NextPage<ProductsPageProps> = props => {
-  const { text } = props;
-  return (
-    <>
-      <Head />
-      <NavBar />
-      <Grid gridTemplateColumns="16rem auto">
-        <ProductFilters {...props} />
-        <div>
-          <ResultsFor text={text} />
-          <ProductSearch {...props} />
-        </div>
-      </Grid>
-    </>
-  );
-};
+const ProductsPage: NextPage<ProductsPageProps> = props => (
+  <>
+    <Head />
+    <NavBar />
+    <Grid gridTemplateColumns="16rem auto">
+      <ProductFilters {...props} />
+      <div>
+        <ResultsFor text={props.text} />
+        <ProductSearch {...props} />
+      </div>
+    </Grid>
+  </>
+);
 
 ProductsPage.getInitialProps = async ({ query }) => {
   const { b, c, t } = query;

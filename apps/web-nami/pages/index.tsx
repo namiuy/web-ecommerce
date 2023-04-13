@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, Banner, Container, Head, ProductListSection } from 'ui';
 import { NavBar } from '../components';
 

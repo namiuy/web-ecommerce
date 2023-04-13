@@ -68,8 +68,10 @@ const NavBarMobile = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProps
     <>
       <Grid
         bg={_backgroundColor}
-        borderBottom={showSearchInput ? 'solid 0' : 'solid 1px'}
-        borderBottomColor={showSearchInput ? 'transparent' : _borderColor}
+        //borderBottom={showSearchInput ? 'solid 0' : 'solid 1px'}
+        //borderBottomColor={showSearchInput ? 'transparent' : _borderColor}
+        borderBottom="solid 1px"
+        borderBottomColor={_borderColor}
         gridTemplateColumns="auto 1rem 1fr 1rem auto"
         pt="1rem"
         pb="1rem"

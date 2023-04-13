@@ -1,3 +1,5 @@
+'use client';
+
 import { NextPage } from 'next';
 import { Flex, Banner, Container, Head, ProductListSection } from 'ui';
 import { NavBar, Brands, Categories } from '../components';

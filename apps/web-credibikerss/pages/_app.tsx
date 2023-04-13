@@ -1,17 +1,17 @@
 import type { AppProps } from 'next/app';
-import { AppContext } from 'shared';
+import { AppContextProvider } from 'shared';
 import { DesignDebug, ThemeProvider } from 'ui';
-import initalValues from '../context';
+import initialState from '../context';
 import theme from '../theme';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <AppContext.Provider value={initalValues}>
+    <AppContextProvider initialState={initialState}>
       <ThemeProvider theme={theme}>
         <DesignDebug />
         <Component {...pageProps} />
       </ThemeProvider>
-    </AppContext.Provider>
+    </AppContextProvider>
   );
 };
 

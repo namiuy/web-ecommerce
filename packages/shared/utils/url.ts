@@ -7,3 +7,11 @@ export const addSearchParamsToUrl = (url: string, newParams: Record<string, stri
   });
   return new URL(`${baseUrl.origin}${baseUrl.pathname}?${combinedParams.toString()}`).href;
 };
+
+export const removeSearchParamFromUrl = (url: string, key: string): string => {
+  const baseUrl = new URL(url);
+  let currentParams = Object.fromEntries(baseUrl.searchParams);
+  delete currentParams[key];
+  const params = new URLSearchParams(currentParams);
+  return new URL(`${baseUrl.origin}${baseUrl.pathname}?${params.toString()}`).href;
+};
