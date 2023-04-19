@@ -1,5 +1,5 @@
-const initalValues = {
+const initialState = {
   appName: 'Nami',
 };
 
-export default initalValues;
+export default initialState;

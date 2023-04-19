@@ -10,7 +10,7 @@ export const Banner = ({ children }: { children: ReactNode }) => {
   });
 
   return (
-    <Carousel slideWidth="100%" slideHeight={isLg ? h.lg : h.base}>
+    <Carousel slideWidth="100%" slideHeight={isLg ? h.lg : h.base} slidesPerView={1}>
       <Center bg="lightgrey" w="100%" h={h} color="white">
         {children}
       </Center>
