@@ -1,12 +1,13 @@
 import { useRequestWithCache } from '.';
 import { ProductList } from '../../entities/product-list';
+import { bff } from '../../env';
 import { Response } from './response';
 
 const oneHour = 60 * 1;
 const sixHours = 60 * 6;
 
 export const useProductListGet = (id: number): Response<ProductList> =>
-  useRequestWithCache(`http://localhost:3001/product-list/${id}`, oneHour);
+  useRequestWithCache(`${bff.url}/product-list/${id}`, oneHour);
 
 export const useProductListList = (): Response<Array<ProductList>> =>
-  useRequestWithCache('http://localhost:3001/product-list', sixHours);
+  useRequestWithCache(`${bff.url}/product-list`, sixHours);

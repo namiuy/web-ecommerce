@@ -3,6 +3,7 @@ import { useRequest } from '.';
 import { AppContext } from '../../context';
 import { ProductSearch } from '../../entities/product-search';
 import { addSearchParamsToUrl } from '../../utils/url';
+import { bff } from '../../env';
 import { Response } from './response';
 
 type ProductSearchProps = {
@@ -11,7 +12,7 @@ type ProductSearchProps = {
   text?: string;
 };
 
-export const useProductGet = (id: number): Response<ProductSearch> => useRequest(`http://localhost:3001/product/${id}`);
+export const useProductGet = (id: number): Response<ProductSearch> => useRequest(`${bff.url}/product/${id}`);
 
 export const useProductSearch = ({ brandId, categoryId, text }: ProductSearchProps): Response<ProductSearch> => {
   const filters = {
@@ -19,7 +20,7 @@ export const useProductSearch = ({ brandId, categoryId, text }: ProductSearchPro
     c: categoryId?.toString(),
     t: text?.toString(),
   };
-  const url = addSearchParamsToUrl('http://localhost:3001/product/search', filters);
+  const url = addSearchParamsToUrl(`${bff.url}/product/search`, filters);
   const { isLoading, data, ...rest } = useRequest<ProductSearch>(url);
 
   const { setProductSearchFilters } = useContext(AppContext);
