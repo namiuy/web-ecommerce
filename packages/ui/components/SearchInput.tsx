@@ -22,7 +22,7 @@ const SearchInput = ({
   const [value, setValue] = useState(isProductsPath && t ? t : '');
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') router.push(`${productsPath}?t=${value}`);
+    if (event.key === 'Enter' && value.length > 2) router.push(`${productsPath}?t=${value}`);
   };
   return (
     <InputGroup>

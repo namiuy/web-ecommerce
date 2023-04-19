@@ -49,6 +49,7 @@ type CarouselProps = {
   navigationLeft?: number | string;
   slideWidth: number | string;
   slideHeight: number | string;
+  slidesPerView: number;
   spaceBetween?: number;
   children: ReactNode;
 };
@@ -57,6 +58,7 @@ export const Carousel = ({
   rows = 1,
   slideWidth,
   slideHeight,
+  slidesPerView,
   spaceBetween = 0,
   navigationLeft,
   children,
@@ -69,16 +71,16 @@ export const Carousel = ({
         direction="before"
         slideHeight={slideHeight}
         left={navigationLeft}
-        onClick={() => swiperRef.current?.slidePrev()}
+        onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex - slidesPerView)}
       />
       <NavigationButton
         rows={rows}
         direction="next"
         slideHeight={slideHeight}
-        onClick={() => swiperRef.current?.slideNext()}
+        onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex + slidesPerView)}
       />
       <Swiper
-        slidesPerView="auto"
+        slidesPerView={slidesPerView}
         grid={{
           rows,
         }}
@@ -90,6 +92,11 @@ export const Carousel = ({
         }}
         spaceBetween={spaceBetween}
       >
+        {Children.map(children, (child, i) => (
+          <SwiperSlide key={i} style={{ width: slideWidth, height: slideHeight }}>
+            {child}
+          </SwiperSlide>
+        ))}{' '}
         {Children.map(children, (child, i) => (
           <SwiperSlide key={i} style={{ width: slideWidth, height: slideHeight }}>
             {child}

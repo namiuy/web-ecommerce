@@ -6,6 +6,7 @@ import {
   Image as ImageChakra,
   Text as TextChakra,
   Grid as GridChakra,
+  GridItem as GridItemChakra,
 } from '@chakra-ui/react';
 
 export const Center = CenterChakra;
@@ -15,6 +16,7 @@ export const Image = ImageChakra;
 export const Text = TextChakra;
 export const Flex = FlexChakra;
 export const Grid = GridChakra;
+export const GridItem = GridItemChakra;
 
 export * from './components/Banner';
 export * from './components/Carousel';

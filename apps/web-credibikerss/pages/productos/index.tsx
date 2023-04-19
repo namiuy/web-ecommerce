@@ -2,7 +2,7 @@
 
 import { NextPage } from 'next';
 import { Grid, Head, ProductSearch, ProductFilters, Text, Box } from 'ui';
-import { NavBar } from '../components';
+import { NavBar } from '../../components';
 
 type ProductsPageProps = {
   brandId?: number;

@@ -34,7 +34,13 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
   const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products;
 
   return (
-    <Carousel slideWidth={slideWidth} slideHeight={slideHeight} navigationLeft={navigationLeft} spaceBetween={16}>
+    <Carousel
+      slideWidth={slideWidth}
+      slideHeight={slideHeight}
+      navigationLeft={navigationLeft}
+      slidesPerView={5}
+      spaceBetween={16}
+    >
       {products?.map((product, i) => (
         <ProductCard key={i} isLoading={isLoading} product={product} />
       ))}

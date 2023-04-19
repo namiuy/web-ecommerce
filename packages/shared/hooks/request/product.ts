@@ -25,7 +25,7 @@ export const useProductSearch = ({ brandId, categoryId, text }: ProductSearchPro
   const { setProductSearchFilters } = useContext(AppContext);
 
   useEffect(() => {
-    if (!isLoading && data?.filters) setProductSearchFilters(data?.filters);
+    if (!isLoading) setProductSearchFilters(data?.filters);
   }, [data?.filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return { isLoading, data, ...rest };

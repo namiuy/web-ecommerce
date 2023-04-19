@@ -23,6 +23,7 @@ type ItemProps = {
   isSecondLevel?: boolean;
   isLoading?: boolean;
   content: string;
+  productFiltersProps: ProductFiltersProps;
   params: Record<string, string | undefined>;
 };
 
@@ -36,18 +37,29 @@ type ProductFiltersProps = {
   categoryId?: string;
 };
 
+const getProductsUrl = () => `${window.location.protocol}//${window.location.host}/productos${window.location.search}`;
+
 const Title = ({ children }: TitleProps) => (
   <Text m="0 1rem 1rem 0" fontWeight="bold" fontSize={_fontSize}>
     {children}
   </Text>
 );
 
-const Item = ({ isSecondLevel = false, isLoading = false, content, params }: ItemProps) => {
+const Item = ({
+  isSecondLevel = false,
+  isLoading = false,
+  content,
+  params,
+  productFiltersProps: { brandId, categoryId },
+}: ItemProps) => {
   if (isLoading) {
     <Skeleton h="2rem" />;
   }
 
-  const url = typeof window === 'undefined' ? '/' : addSearchParamsToUrl(window.location.href, params);
+  const url =
+    typeof window === 'undefined'
+      ? '/'
+      : addSearchParamsToUrl(getProductsUrl(), { b: brandId?.toString(), c: categoryId, ...params });
 
   return (
     <Box as="li" pl={isSecondLevel ? '1rem' : '0'} pb="1rem" pr="1rem" fontSize={_fontSize} lineHeight="1rem">
@@ -57,7 +69,7 @@ const Item = ({ isSecondLevel = false, isLoading = false, content, params }: Ite
 };
 
 const SelectedItem = ({ paramKey, content }: SelectedItem) => {
-  const url = typeof window === 'undefined' ? '/' : removeSearchParamFromUrl(window.location.href, paramKey);
+  const url = typeof window === 'undefined' ? '/' : removeSearchParamFromUrl(getProductsUrl(), paramKey);
 
   return (
     <Tag
@@ -93,7 +105,7 @@ const loadCategories = (data: Array<Category>, filtersCategoryIds?: Array<string
     }))
     .filter(c => (filtersCategoryIds ? filtersCategoryIds.includes(c.id) : c));
 
-export const ProductFilters = ({ brandId, categoryId }: ProductFiltersProps) => {
+export const ProductFilters = (props: ProductFiltersProps) => {
   const { productSearchFilters: sf } = useContext(AppContext);
 
   const { isLoading: brandsIsLoading, error: brandsError, data: brandsData = [] } = useBrandList();
@@ -107,8 +119,11 @@ export const ProductFilters = ({ brandId, categoryId }: ProductFiltersProps) => 
     ? getEmptyArray<Category>(LOADING_CATEGORIES_LENGTH)
     : loadCategories(categoriesData, sf?.categoryIds);
 
-  const selectedBrand = brands.find(b => b.id === brandId);
-  const selectedCategory = categories.find(c => c?.id === categoryId);
+  const selectedBrand = brands.find(b => b.id === props.brandId);
+  const selectedCategory = categories.find(c => c?.id === props.categoryId);
+
+  const showBrands = !!(selectedBrand || brands.length);
+  const showCategories = !!(selectedCategory || categories.length);
 
   return (
     <Flex
@@ -119,25 +134,45 @@ export const ProductFilters = ({ brandId, categoryId }: ProductFiltersProps) => 
       p="2rem"
       minH={{ base: 'calc(calc(100vh - 9rem) - 1px)', lg: 'calc(100vh - 6rem)' }}
     >
-      <Title>Categoria</Title>
-      {selectedCategory ? (
-        <SelectedItem paramKey="c" content={selectedCategory.name} />
-      ) : (
-        <Box as="ol" listStyleType="none">
-          {categories.map(({ id, name, is_sub_category }, i) => (
-            <Item isSecondLevel={is_sub_category} key={i} content={name} params={{ c: id }} />
-          ))}
-        </Box>
+      {showCategories && (
+        <>
+          <Title>Categoria</Title>
+          {selectedCategory ? (
+            <SelectedItem paramKey="c" content={selectedCategory.name} />
+          ) : (
+            <Box as="ol" listStyleType="none">
+              {categories.map(({ id, name, is_sub_category }, i) => (
+                <Item
+                  isSecondLevel={is_sub_category}
+                  key={i}
+                  content={name}
+                  productFiltersProps={props}
+                  params={{ c: id }}
+                />
+              ))}
+            </Box>
+          )}
+        </>
       )}
-      <Title>Marca</Title>
-      {selectedBrand ? (
-        <SelectedItem paramKey="b" content={selectedBrand.name} />
-      ) : (
-        <Box as="ol" listStyleType="none">
-          {brands.map(({ id, name }, i) => (
-            <Item key={i} isLoading={brandsIsLoading} content={name} params={{ b: id?.toString() }} />
-          ))}
-        </Box>
+      {showBrands && (
+        <>
+          <Title>Marca</Title>
+          {selectedBrand ? (
+            <SelectedItem paramKey="b" content={selectedBrand.name} />
+          ) : (
+            <Box as="ol" listStyleType="none">
+              {brands.map(({ id, name }, i) => (
+                <Item
+                  key={i}
+                  isLoading={brandsIsLoading}
+                  content={name}
+                  productFiltersProps={props}
+                  params={{ b: id?.toString() }}
+                />
+              ))}
+            </Box>
+          )}
+        </>
       )}
     </Flex>
   );
