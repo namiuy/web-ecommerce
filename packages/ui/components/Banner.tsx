@@ -15,7 +15,7 @@ export const Banner = ({ showNavigation, children }: BannerProps) => {
   });
 
   return (
-    <Carousel slideWidth="100%" slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
+    <Carousel slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
       <Center bg="#2716be" w="100%" h={h} color="white">
         {children}
       </Center>
