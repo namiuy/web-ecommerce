@@ -16,10 +16,11 @@ type NavigationButtonProps = {
   rows: number;
   direction: 'before' | 'next';
   left?: number | string;
+  right?: number | string;
   onClick: VoidFunction;
 };
 
-const NavigationButton = ({ slideHeight, rows, direction, left, onClick }: NavigationButtonProps) => {
+const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onClick }: NavigationButtonProps) => {
   const isBefore = direction === 'before';
   const ariaLabel = isBefore ? 'Atras' : 'Siguiente';
   const icon = isBefore ? MdOutlineNavigateBefore : MdOutlineNavigateNext;
@@ -32,7 +33,7 @@ const NavigationButton = ({ slideHeight, rows, direction, left, onClick }: Navig
       w={size}
       mt={`calc(((${slideHeight} * ${rows}) - ${size}) / 2)`}
       left={!isBefore ? undefined : left}
-      right={isBefore ? undefined : '0'}
+      right={isBefore ? undefined : right}
       minW="unset"
       zIndex="99"
       as="button"
@@ -47,38 +48,45 @@ const NavigationButton = ({ slideHeight, rows, direction, left, onClick }: Navig
 type CarouselProps = {
   rows?: number;
   navigationLeft?: number | string;
-  slideWidth: number | string;
+  navigationRight?: number | string;
   slideHeight: number | string;
   slidesPerView: number;
   spaceBetween?: number;
+  showNavigation?: boolean;
   children: ReactNode;
 };
 
 export const Carousel = ({
   rows = 1,
-  slideWidth,
   slideHeight,
   slidesPerView,
   spaceBetween = 0,
+  showNavigation = true,
   navigationLeft,
+  navigationRight,
   children,
 }: CarouselProps) => {
   const swiperRef = useRef<SwiperType>();
   return (
     <Box pos="relative">
-      <NavigationButton
-        rows={rows}
-        direction="before"
-        slideHeight={slideHeight}
-        left={navigationLeft}
-        onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex - slidesPerView)}
-      />
-      <NavigationButton
-        rows={rows}
-        direction="next"
-        slideHeight={slideHeight}
-        onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex + slidesPerView)}
-      />
+      {showNavigation && (
+        <>
+          <NavigationButton
+            rows={rows}
+            direction="before"
+            slideHeight={slideHeight}
+            left={navigationLeft}
+            onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex - slidesPerView)}
+          />
+          <NavigationButton
+            rows={rows}
+            direction="next"
+            slideHeight={slideHeight}
+            right={navigationRight}
+            onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex + slidesPerView)}
+          />
+        </>
+      )}
       <Swiper
         slidesPerView={slidesPerView}
         grid={{
@@ -93,12 +101,7 @@ export const Carousel = ({
         spaceBetween={spaceBetween}
       >
         {Children.map(children, (child, i) => (
-          <SwiperSlide key={i} style={{ width: slideWidth, height: slideHeight }}>
-            {child}
-          </SwiperSlide>
-        ))}{' '}
-        {Children.map(children, (child, i) => (
-          <SwiperSlide key={i} style={{ width: slideWidth, height: slideHeight }}>
+          <SwiperSlide key={i} style={{ height: slideHeight }}>
             {child}
           </SwiperSlide>
         ))}

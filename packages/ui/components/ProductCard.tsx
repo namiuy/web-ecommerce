@@ -7,10 +7,10 @@ const _borderColor = 'brand.card.borderColor';
 const _black = 'black';
 const _grey2 = 'brand.grey.2';
 
-const _maxW = { base: '9rem', lg: '13rem' };
-const _minH = { base: '13rem', lg: '18rem' };
-const _imageMaxW = { base: '7rem', lg: '11rem' };
-const _imageMinH = { base: '5rem', lg: '9rem' };
+const _maxW = { base: '12rem', lg: '13rem' };
+const _minH = { base: '14rem', lg: '18rem' };
+const _imageMinH = { base: '8rem', lg: '9rem' };
+const _imageP = { base: '0 0 1rem', lg: '1rem 0' };
 const _categorySize = { base: '0.625rem', lg: '0.75rem' };
 const _nameSize = { base: '0.875rem', lg: '1.375rem' };
 const _nameHeight = { base: '1.75rem', lg: '2.75rem' };
@@ -26,7 +26,7 @@ type ProductCardProps = {
 export const ProductCard = ({ isLoading = false, product }: ProductCardProps) => {
   const { name, category, price, path, image_url } = product || {};
   return (
-    <Link href={path} _hover={{ textDecoration: 'none' }}>
+    <Link href="/" /*href={path}*/ _hover={{ textDecoration: 'none' }}>
       <Card
         maxW={_maxW}
         minH={_minH}
@@ -36,11 +36,11 @@ export const ProductCard = ({ isLoading = false, product }: ProductCardProps) =>
         _hover={{ boxShadow: 'md' }}
       >
         <Flex direction="column" minH={_minH} justifyContent="space-between">
-          <Box p="1rem">
+          <Box p={_imageP}>
             {isLoading ? (
-              <Skeleton maxW={_imageMaxW} h={_imageMinH} />
+              <Skeleton w="100%" h={_imageMinH} />
             ) : (
-              <Image maxW={_imageMaxW} h={_imageMinH} alt={name} src={image_url} fit="contain" />
+              <Image w="100%" h={_imageMinH} alt={name} src={image_url} fit="contain" />
             )}
           </Box>
           <Flex direction="column" justifyContent="space-between" m={_bodyM} gap={_bodyGap}>

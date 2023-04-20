@@ -4,14 +4,17 @@ import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
 // ProductCard
-const _maxW = { base: '9rem', lg: '13rem' };
 const _minH = { base: '15rem', lg: '21rem' }; // ['13rem', '18rem'];
 
-const baseSizes = { slideWidth: _maxW.base, slideHeight: _minH.base, navigationLeft: '-1rem' };
+const baseSizes = {
+  slideHeight: _minH.base,
+  navigationLeft: '-1rem',
+  navigationRight: '-1rem',
+};
 const lgSizes = {
-  slideWidth: _maxW.lg,
   slideHeight: _minH.lg,
   navigationLeft: undefined,
+  navigationRight: undefined,
 };
 
 type ProductCardCarouselProps = { productListId: number; productsLength: number };
@@ -24,7 +27,14 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
     lg: true,
   });
 
-  const { slideWidth, slideHeight, navigationLeft } = isLg ? lgSizes : baseSizes;
+  const slidesPerView =
+    useBreakpointValue({
+      base: 2,
+      sm: 3,
+      lg: 4,
+    }) || 2;
+
+  const { slideHeight, navigationLeft, navigationRight } = isLg ? lgSizes : baseSizes;
 
   if (error) {
     console.log(error);
@@ -35,10 +45,10 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
 
   return (
     <Carousel
-      slideWidth={slideWidth}
       slideHeight={slideHeight}
       navigationLeft={navigationLeft}
-      slidesPerView={5}
+      navigationRight={navigationRight}
+      slidesPerView={slidesPerView}
       spaceBetween={16}
     >
       {products?.map((product, i) => (

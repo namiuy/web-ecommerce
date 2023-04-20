@@ -12,9 +12,11 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '@fontsource/roboto/900.css';
 
+import '@fontsource/play';
+
 export default extendTheme({
   fonts: {
-    heading: `'Roboto', sans-serif`,
+    heading: `'Play', sans-serif`,
     body: `'Roboto', sans-serif`,
   },
   colors: {
@@ -63,6 +65,7 @@ export default extendTheme({
       productFilters: {
         backgroundColor: grey0,
         borderColor: grey1,
+        color: grey2,
         selected: {
           backgroundColor: grey1,
           color: grey3,

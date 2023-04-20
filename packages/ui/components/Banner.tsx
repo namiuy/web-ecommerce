@@ -2,7 +2,12 @@ import { Center, useBreakpointValue } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Carousel } from './Carousel';
 
-export const Banner = ({ children }: { children: ReactNode }) => {
+type BannerProps = {
+  showNavigation?: boolean;
+  children: ReactNode;
+};
+
+export const Banner = ({ showNavigation, children }: BannerProps) => {
   const h = { base: '10rem', lg: '21rem' };
   const isLg = useBreakpointValue({
     base: false,
@@ -10,8 +15,8 @@ export const Banner = ({ children }: { children: ReactNode }) => {
   });
 
   return (
-    <Carousel slideWidth="100%" slideHeight={isLg ? h.lg : h.base} slidesPerView={1}>
-      <Center bg="lightgrey" w="100%" h={h} color="white">
+    <Carousel slideWidth="100%" slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
+      <Center bg="#2716be" w="100%" h={h} color="white">
         {children}
       </Center>
     </Carousel>

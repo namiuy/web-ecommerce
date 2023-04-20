@@ -36,7 +36,7 @@ export const ProductSearch = (props: ProductSearchProps) => {
     if (!products?.length) return <Message content="No se encontro ningun resultado." />;
   }
   return (
-    <Grid gridTemplateColumns="repeat(4, 1fr)">
+    <Grid gridTemplateColumns={['repeat(2, 1fr)', 'repeat(4, 1fr)']}>
       {products?.map((product, i) => (
         <GridItem key={i} p="1rem">
           <ProductCard isLoading={isLoading} product={product} />

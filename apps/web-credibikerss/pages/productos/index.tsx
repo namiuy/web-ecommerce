@@ -26,7 +26,7 @@ const ProductsPage: NextPage<ProductsPageProps> = props => (
   <>
     <Head />
     <NavBar />
-    <Grid gridTemplateColumns="16rem auto">
+    <Grid gridTemplateColumns={{ base: 'auto', lg: '16rem auto' }}>
       <ProductFilters {...props} />
       <div>
         <ResultsFor text={props.text} />
