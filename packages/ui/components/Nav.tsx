@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Flex, Text } from '@chakra-ui/react';
 
-const itemColor = 'brand.nav.item.color';
-const itemHoverColor = 'brand.nav.item._hover.color';
+const _itemColor = 'brand.nav.item.color';
+const _itemHoverColor = 'brand.nav.item._hover.color';
 
 export type NavItem = {
   id: string;
@@ -20,7 +20,7 @@ const Nav = ({ items = [] }: NavProps) => (
       {items.map(({ id, text, href }) => (
         <li key={id}>
           <Link href={href}>
-            <Text fontSize="0.875rem" color={itemColor} _hover={{ color: itemHoverColor }}>
+            <Text fontSize="0.875rem" color={_itemColor} _hover={{ color: _itemHoverColor }} fontWeight="600">
               {text}
             </Text>
           </Link>

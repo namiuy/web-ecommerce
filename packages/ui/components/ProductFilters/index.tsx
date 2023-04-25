@@ -51,6 +51,7 @@ export const ProductFilters = (props: ProductFiltersProps) => {
   const categoriesIsLoading = cIsLoading;
 
   const brands = brandsIsLoading ? getEmptyArray<Brand>(LOADING_BRANDS_LENGTH) : loadBrands(brandsData, sf?.brandIds);
+  console.log(brandsData, sf?.brandIds);
   const categories = categoriesIsLoading
     ? getEmptyArray<Category>(LOADING_CATEGORIES_LENGTH)
     : loadCategories(categoriesData, sf?.categoryIds);

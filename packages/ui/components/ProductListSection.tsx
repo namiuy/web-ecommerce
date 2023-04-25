@@ -21,8 +21,7 @@ export const ProductListSection = ({ name }: { name: string }) => {
         .filter(productList => productList.section === name)
         .map(({ id, name, product_ids }, i) => (
           <Flex key={i} direction="column" w="100%" gap="1rem">
-            <Heading as="h3" size="xl">
-              {/* <Text fontSize="1.5rem" color={_grey3} fontWeight="semibold"> */}
+            <Heading as="h3" size="xl" color={_grey3}>
               {name}
             </Heading>
             <ProductCardCarousel key={i} productListId={id} productsLength={product_ids.length} />

@@ -32,3 +32,4 @@ export * from './components/ProductListSection';
 export * from './components/ProductSearch';
 export * from './components/Skeleton';
 export * from './components/ThemeProvider';
+export * from './components/ResultsFor';

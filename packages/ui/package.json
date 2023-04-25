@@ -8,6 +8,7 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
+    "@types/deep-extend": "^0.6.0",
     "@types/react": "^18.0.22",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
@@ -19,6 +20,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "deep-extend": "^0.6.0",
     "framer-motion": "^10.2.4",
     "next": "^13.2.4",
     "react-icons": "^4.8.0",

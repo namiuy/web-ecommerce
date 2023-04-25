@@ -5,6 +5,7 @@ import { Text, Skeleton } from 'ui';
 const _borderRadious = 'brand.card.borderRadious';
 const _borderColor = 'brand.card.borderColor';
 const _black = 'black';
+const _grey0 = 'brand.grey.0';
 const _grey2 = 'brand.grey.2';
 
 const _maxW = { base: '12rem', lg: '13rem' };
@@ -40,7 +41,14 @@ export const ProductCard = ({ isLoading = false, product }: ProductCardProps) =>
             {isLoading ? (
               <Skeleton w="100%" h={_imageMinH} />
             ) : (
-              <Image w="100%" h={_imageMinH} alt={name} src={image_url} fit="contain" />
+              <Image
+                w="100%"
+                h={_imageMinH}
+                alt={name}
+                src={image_url}
+                fit="contain"
+                fallback={<Box h={_imageMinH} bg={_grey0} />}
+              />
             )}
           </Box>
           <Flex direction="column" justifyContent="space-between" m={_bodyM} gap={_bodyGap}>

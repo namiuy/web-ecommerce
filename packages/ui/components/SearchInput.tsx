@@ -3,19 +3,17 @@ import { Input, InputGroup, InputLeftElement, Icon } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { KeyboardEvent, ChangeEvent, useState } from 'react';
 
-const _borderColor = 'brand.input.borderColor';
-const _placeholderColor = 'brand.input._placeholder.color';
-const _focusBorderColor = 'brand.input._focus.borderColor';
-
-type SearchInputProps = { placeholder?: string; borderColor?: string; iconColor?: string };
+const _color = 'brand.navBar.input.color';
+const _borderColor = 'brand.navBar.input.borderColor';
+const _iconColor = 'brand.navBar.input.iconColor';
+const _backgroundColor = 'brand.navBar.input.backgroundColor';
+const _placeholderColor = 'brand.navBar.input._placeholder.color';
+const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
+type SearchInputProps = { placeholder?: string };
 
 const productsPath = '/productos';
 
-const SearchInput = ({
-  placeholder = 'Buscar un producto',
-  borderColor = _borderColor,
-  iconColor = borderColor,
-}: SearchInputProps) => {
+const SearchInput = ({ placeholder = 'Buscar un producto' }: SearchInputProps) => {
   const router = useRouter();
   const isProductsPath = router.pathname === productsPath;
   const { t } = router.query;
@@ -27,7 +25,7 @@ const SearchInput = ({
   return (
     <InputGroup>
       <InputLeftElement w="3rem" h="3rem">
-        <Icon w="1.25rem" h="1.25rem" as={AiOutlineSearch} color={iconColor} />
+        <Icon w="1.25rem" h="1.25rem" as={AiOutlineSearch} color={_iconColor} />
       </InputLeftElement>
       <Input
         h="3rem"
@@ -35,11 +33,14 @@ const SearchInput = ({
         pr="1rem"
         borderRadius="3rem"
         border="solid 1px"
-        borderColor={borderColor}
+        borderColor={_borderColor}
+        color={_color}
+        backgroundColor={_backgroundColor}
         fontSize="0.813rem"
         placeholder={placeholder}
         _placeholder={{ color: _placeholderColor }}
         _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
+        _hover={{ borderColor: _focusBorderColor }}
         value={value}
         onChange={handleChange}
         onKeyPress={handleKeyPress}

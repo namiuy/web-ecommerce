@@ -16,6 +16,7 @@ export type SocialNeworkItem = {
 
 export type NavBarProps = {
   logo?: ElementType;
+  fontWeight?: number;
   menuItems: Array<MenuItem>;
   socialNeworksItems: Array<SocialNeworkItem>;
 };

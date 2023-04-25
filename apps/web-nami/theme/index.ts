@@ -1,44 +1,35 @@
-import { extendTheme } from '@chakra-ui/react';
+const primaryColor = '#030366';
 
-const grey0 = '#F7F7F7';
-const grey1 = '#C9C9C9';
-const grey2 = '#7D7D7D';
-const grey3 = '#3E4448';
-
-const primary = '#000066';
-
-export default extendTheme({
-  fonts: {
-    heading: `'Roboto', sans-serif`,
-    body: `'Roboto', sans-serif`,
-  },
+export const theme: Record<string, any> = {
   colors: {
     brand: {
-      grey: { '0': grey0, '1': grey1, '2': grey2, '3': grey3 },
-      input: {
-        borderColor: grey1,
-        _focus: {
-          borderColor: grey2,
-        },
-        _placeholder: {
-          color: grey2,
-        },
-      },
       nav: {
         item: {
           color: 'white',
           _hover: {
-            color: grey3,
+            color: 'lightgrey',
           },
         },
       },
       navBar: {
-        backgroundColor: primary,
-        borderColor: grey1,
+        backgroundColor: primaryColor,
+        borderColor: 'none',
         iconButton: {
           color: 'white',
           _hover: {
-            color: 'black',
+            color: 'white',
+          },
+        },
+        input: {
+          color: 'white',
+          borderColor: '#1c1d92',
+          iconColor: '#6566c1',
+          backgroundColor: '#08096a',
+          _focus: {
+            borderColor: '#464796',
+          },
+          _placeholder: {
+            color: '#6566c1',
           },
         },
       },
@@ -50,11 +41,6 @@ export default extendTheme({
           },
         },
       },
-      drawerMenu: {
-        item: {
-          color: grey3,
-        },
-      },
     },
   },
-});
+};
