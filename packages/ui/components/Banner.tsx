@@ -1,4 +1,4 @@
-import { Center, useBreakpointValue } from '@chakra-ui/react';
+import { Center, useBreakpointValue, Image } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Carousel } from './Carousel';
 
@@ -16,8 +16,14 @@ export const Banner = ({ showNavigation, children }: BannerProps) => {
 
   return (
     <Carousel slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
-      <Center bg="#2716be" w="100%" h={h} color="white">
-        {children}
+      <Center bg="#22343e" w="100%" h={h} color="white">
+        <Image
+          w="100%"
+          h={h}
+          fit="contain"
+          alt="Launch"
+          src="https://lnwfrvtxdlaazenidbdt.supabase.co/storage/v1/object/public/banners/launch_elevadores.jpg"
+        />
       </Center>
     </Carousel>
   );

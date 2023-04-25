@@ -6,8 +6,6 @@ import { Response } from './response';
 const oneHour = 60 * 1;
 const sixHours = 60 * 6;
 
-console.log('bffUrl', bff.url);
-
 export const useProductListGet = (id: number): Response<ProductList> =>
   useRequestWithCache(`${bff.url}/product-list/${id}`, oneHour);
 
