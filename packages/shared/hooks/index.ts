@@ -1,3 +1,4 @@
+export * from './request/banner';
 export * from './request/brand';
 export * from './request/category';
 export * from './request/product';

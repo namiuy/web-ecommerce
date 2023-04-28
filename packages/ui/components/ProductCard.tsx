@@ -8,7 +8,7 @@ const _black = 'black';
 const _grey0 = 'brand.grey.0';
 const _grey2 = 'brand.grey.2';
 
-const _maxW = { base: '12rem', lg: '13rem' };
+const _maxW = { base: '8rem', lg: '12rem' };
 const _minH = { base: '14rem', lg: '18rem' };
 const _imageMinH = { base: '8rem', lg: '9rem' };
 const _imageP = { base: '0 0 1rem', lg: '1rem 0' };
@@ -27,7 +27,7 @@ type ProductCardProps = {
 export const ProductCard = ({ isLoading = false, product }: ProductCardProps) => {
   const { name, category, price, path, image_url } = product || {};
   return (
-    <Link href="/" /*href={path}*/ _hover={{ textDecoration: 'none' }}>
+    <Link href="/" /*href={path}*/ display="contents" _hover={{ textDecoration: 'none' }}>
       <Card
         maxW={_maxW}
         minH={_minH}

@@ -15,3 +15,6 @@ export const removeSearchParamFromUrl = (url: string, key: string): string => {
   const params = new URLSearchParams(currentParams);
   return new URL(`${baseUrl.origin}${baseUrl.pathname}?${params.toString()}`).href;
 };
+
+export const getProductsUrl = () =>
+  `${window.location.protocol}//${window.location.host}/productos${window.location.search}`;

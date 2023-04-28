@@ -3,7 +3,9 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useBrandList } from 'shared';
+import { Head } from 'ui';
 import ProductsPage from '..';
+import { NavBar } from '../../../components';
 
 type BrandPageProps = {
   brandName?: string;

@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { getEmptyArray, useBrandList } from 'shared';
-import { Center, Image, Flex, Skeleton, Box } from 'ui';
+import { Image, Flex, Skeleton, Box, Center } from 'ui';
 
 const LOADING_LENGTH = 14;
 
 const _w = '6rem';
 const _h = '4rem';
+
+const _grey2 = 'brand.grey.2';
 
 export const Brands = () => {
   const { isLoading, error, data = [] } = useBrandList();
@@ -29,7 +31,13 @@ export const Brands = () => {
                 opacity=".7"
                 fit="cover"
                 _hover={{ opacity: '1' }}
-                fallback={<Box w={_w} h={_h}></Box>}
+                fallback={
+                  <Flex w={_w} h={_h}>
+                    <Center w="100%" textAlign="center" color={_grey2}>
+                      {name}
+                    </Center>
+                  </Flex>
+                }
               />
             </Link>
           ))}

@@ -22,11 +22,11 @@ export const theme: Record<string, any> = {
         },
         input: {
           color: 'white',
-          borderColor: '#1c1d92',
+          borderColor: '#2f3092',
           iconColor: '#6566c1',
-          backgroundColor: '#08096a',
+          backgroundColor: '#0c0d77',
           _focus: {
-            borderColor: '#464796',
+            borderColor: '#6163d3',
           },
           _placeholder: {
             color: '#6566c1',

@@ -21,6 +21,8 @@ export const GridItem = GridItemChakra;
 export const Heading = HeadingChakra;
 
 export * from './components/Banner';
+export * from './components/Brands';
+export * from './components/Categories';
 export * from './components/Carousel';
 export * from './components/Container';
 export * from './components/DesignDebug';
@@ -33,3 +35,4 @@ export * from './components/ProductSearch';
 export * from './components/Skeleton';
 export * from './components/ThemeProvider';
 export * from './components/ResultsFor';
+export * from './components/ProductSortBy';

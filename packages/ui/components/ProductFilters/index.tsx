@@ -14,9 +14,6 @@ export type ProductFiltersProps = {
   categoryId?: string;
 };
 
-export const getProductsUrl = () =>
-  `${window.location.protocol}//${window.location.host}/productos${window.location.search}`;
-
 const loadBrands = (data: Array<Brand>, filtersBrandIds?: Array<number>): Array<Brand> => {
   return data.filter(b => (filtersBrandIds ? filtersBrandIds.includes(b.id) : b));
 };
@@ -36,8 +33,9 @@ const loadCategories = (data: Array<Category>, filtersCategoryIds?: Array<string
 };
 
 export const ProductFilters = (props: ProductFiltersProps) => {
-  const { productSearchFilters: sf } = useContext(AppContext);
-
+  const {
+    productSearchOptions: { filters },
+  } = useContext(AppContext);
   const { isLoading: bIsLoading, error: brandsError, data: brandsData = [] } = useBrandList();
   const { isLoading: cIsLoading, error: categoriesError, data: categoriesData = [] } = useCategoryList();
 
@@ -50,11 +48,13 @@ export const ProductFilters = (props: ProductFiltersProps) => {
   const brandsIsLoading = bIsLoading;
   const categoriesIsLoading = cIsLoading;
 
-  const brands = brandsIsLoading ? getEmptyArray<Brand>(LOADING_BRANDS_LENGTH) : loadBrands(brandsData, sf?.brandIds);
+  const brands = brandsIsLoading
+    ? getEmptyArray<Brand>(LOADING_BRANDS_LENGTH)
+    : loadBrands(brandsData, filters?.brandIds);
 
   const categories = categoriesIsLoading
     ? getEmptyArray<Category>(LOADING_CATEGORIES_LENGTH)
-    : loadCategories(categoriesData, sf?.categoryIds);
+    : loadCategories(categoriesData, filters?.categoryIds);
 
   const selectedBrand = brands.find(b => b.id && b.id === props.brandId);
   const selectedCategory = categories.find(c => c.id && c.id === props.categoryId);

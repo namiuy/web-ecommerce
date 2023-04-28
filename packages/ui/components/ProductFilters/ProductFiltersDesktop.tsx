@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';
-import { addSearchParamsToUrl, removeSearchParamFromUrl } from 'shared/utils/url';
-import { getProductsUrl, ProductFiltersProps } from '.';
+import { addSearchParamsToUrl, getProductsUrl, removeSearchParamFromUrl } from 'shared/utils/url';
+import { ProductFiltersProps } from '.';
 
 const _backgroundColor = 'brand.productFilters.backgroundColor';
 const _selectedBackgroundColor = 'brand.productFilters.selected.backgroundColor';

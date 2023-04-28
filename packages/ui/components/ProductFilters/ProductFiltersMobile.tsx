@@ -26,8 +26,8 @@ import { BiSortAlt2 } from 'react-icons/bi';
 import { MdTune } from 'react-icons/md';
 import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';
-import { addSearchParamsToUrl, removeSearchParamFromUrl } from 'shared/utils/url';
-import { getProductsUrl, ProductFiltersProps } from '.';
+import { addSearchParamsToUrl, getProductsUrl, removeSearchParamFromUrl } from 'shared/utils/url';
+import { ProductFiltersProps } from '.';
 
 const _color = 'brand.productFilters.color';
 const _selectedBackgroundColor = 'brand.productFilters.selected.backgroundColor';
@@ -82,11 +82,11 @@ const Item = ({
       : addSearchParamsToUrl(getProductsUrl(), { b: brandId?.toString(), c: categoryId, ...params });
 
   return (
-    <Box as="li" pl={isSecondLevel ? '1rem' : '0'} pb="1rem" pr="1rem" fontSize={_fontSize} lineHeight="1rem">
-      <Link href={url} onClick={onClick}>
+    <Link href={url} onClick={onClick}>
+      <Box as="li" pl={isSecondLevel ? '1rem' : '0'} pb="1rem" pr="1rem" fontSize={_fontSize} lineHeight="1rem">
         {content}
-      </Link>
-    </Box>
+      </Box>
+    </Link>
   );
 };
 

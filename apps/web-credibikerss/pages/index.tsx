@@ -1,8 +1,8 @@
 'use client';
 
 import { NextPage } from 'next';
-import { Flex, Banner, Container, Head, ProductListSection, Box, Center } from 'ui';
-import { NavBar, Brands } from '../components';
+import { Flex, Banner, Brands, Container, Head, ProductListSection, Box, Center } from 'ui';
+import { NavBar } from '../components';
 
 const HomePage: NextPage = () => (
   <>
@@ -10,10 +10,10 @@ const HomePage: NextPage = () => (
     <NavBar />
     <Container p="0">
       <Flex direction="column" gap="4rem">
-        <Banner>Banner A</Banner>
+        <Banner section="home_a" />
         <Brands />
         <ProductListSection name="home_a" />
-        <Banner showNavigation={false}>Banner sobre financiación</Banner>
+        <Banner section="home_b" showNavigation={false} />
         <ProductListSection name="home_b" />
         <Box h="32rem" bg="#1c1e20" pt="14rem">
           <Center color="grey">Footer</Center>

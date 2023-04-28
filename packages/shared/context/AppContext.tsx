@@ -1,19 +1,21 @@
 import { createContext, ReactElement, useState } from 'react';
-import { ProductSearchFilters } from '../entities/product-search';
+import { ProductSearchFilters, ProductSearchOptions, ProductSearchSortBy } from '../entities/product-search';
 
 type AppInitialState = {
   appName: string;
 };
 
 type App = AppInitialState & {
-  productSearchFilters?: ProductSearchFilters;
-  setProductSearchFilters: (data?: ProductSearchFilters) => void;
+  productSearchOptions: ProductSearchOptions;
+  setProductSearchResultFilters: (filters?: ProductSearchFilters) => void;
+  setProductSearchSortBy: (sortBy?: ProductSearchSortBy) => void;
 };
 
 const defaultValues: App = {
   appName: 'APP_NAME',
-  setProductSearchFilters: () => {},
-  productSearchFilters: undefined,
+  setProductSearchResultFilters: () => {},
+  setProductSearchSortBy: () => {},
+  productSearchOptions: {},
 };
 
 export const AppContext = createContext<App>(defaultValues);
@@ -25,12 +27,22 @@ export const AppContextProvider = ({
   initialState: AppInitialState;
   children: ReactElement;
 }) => {
-  const [productSearchFilters, setProductSearchFilters] = useState<ProductSearchFilters | undefined>(
-    defaultValues.productSearchFilters
+  const [productSearchOptions, setProductSearchOptions] = useState<ProductSearchOptions>(
+    defaultValues.productSearchOptions
   );
+  const setProductSearchResultFilters = (filters?: ProductSearchFilters) => {
+    console.log('setProductSearchResultFilters', filters);
+    setProductSearchOptions({ ...productSearchOptions, filters });
+  };
+  const setProductSearchSortBy = (sortBy?: ProductSearchSortBy) => {
+    console.log('setProductSearchOptions', sortBy);
+    setProductSearchOptions({ ...productSearchOptions, sortBy });
+  };
 
   return (
-    <AppContext.Provider value={{ ...initialState, productSearchFilters, setProductSearchFilters }}>
+    <AppContext.Provider
+      value={{ ...initialState, productSearchOptions, setProductSearchResultFilters, setProductSearchSortBy }}
+    >
       {children}
     </AppContext.Provider>
   );
