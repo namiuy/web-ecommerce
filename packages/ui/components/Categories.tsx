@@ -10,12 +10,21 @@ const _grey0 = 'brand.grey.0';
 const _grey3 = 'brand.grey.3';
 
 type CategoriesProps = {
+  removeParams?: boolean;
+  color?: string;
+  borderColor?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
-type ItemProps = { id: string; name: string; onClick?: React.MouseEventHandler<HTMLAnchorElement> };
+type ItemProps = {
+  id: string;
+  name: string;
+  color?: string;
+  borderColor?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+};
 
-export const Item = ({ id, name, onClick }: ItemProps) => {
+export const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }: ItemProps) => {
   const url = typeof window === 'undefined' ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: id });
   return (
     <Link href={url} onClick={onClick}>
@@ -25,9 +34,9 @@ export const Item = ({ id, name, onClick }: ItemProps) => {
         justifyContent="space-between"
         p="1rem 1rem 1rem 3rem"
         cursor="pointer"
-        color={_grey3}
+        color={color}
         borderBottom="solid 1px"
-        borderColor={_grey0}
+        borderColor={borderColor}
         _hover={{ bg: _grey0 }}
       >
         {name}
@@ -36,8 +45,9 @@ export const Item = ({ id, name, onClick }: ItemProps) => {
   );
 };
 
-export const Categories = ({ onClick }: CategoriesProps) => {
+export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0, onClick }: CategoriesProps) => {
   const { isLoading, error, data = [] } = useCategoryList();
+  // TODO: removeParams
 
   if (error) {
     console.log(error);
@@ -52,17 +62,17 @@ export const Categories = ({ onClick }: CategoriesProps) => {
         isLoading ? (
           <Skeleton h="2rem" mb="1rem" />
         ) : (
-          <AccordionItem key={i} borderColor={_grey0}>
+          <AccordionItem key={i} borderColor={borderColor}>
             <AccordionButton p="1rem 1rem 1rem 2rem">
-              <Box as="span" flex="1" textAlign="left">
+              <Box as="span" flex="1" textAlign="left" color={color}>
                 {name}
               </Box>
-              <AccordionIcon color={_grey3} />
+              <AccordionIcon color={color} />
             </AccordionButton>
             <AccordionPanel p="0">
               <Box as="ol" listStyleType="none" p="0">
                 {sub_categories?.map(({ id, name }, ii) => (
-                  <Item key={ii} id={id} name={name} onClick={onClick} />
+                  <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onClick} />
                 ))}
               </Box>
             </AccordionPanel>

@@ -3,9 +3,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useBrandList } from 'shared';
-import { Head } from 'ui';
 import ProductsPage from '..';
-import { NavBar } from '../../../components';
 
 type BrandPageProps = {
   brandName?: string;
@@ -15,6 +13,7 @@ const BrandPage: NextPage<BrandPageProps> = ({ brandName }) => {
   const { asPath } = useRouter();
   const { data = [] } = useBrandList();
   const brand = data.find(b => b.path === asPath);
+  // TODO: when change storeBy this is broken
   return <ProductsPage brandId={brand && brand.id} />;
 };
 

@@ -5,7 +5,6 @@ import { KeyboardEvent, ChangeEvent, useState } from 'react';
 
 const _color = 'brand.navBar.input.color';
 const _borderColor = 'brand.navBar.input.borderColor';
-const _iconColor = 'brand.navBar.input.iconColor';
 const _backgroundColor = 'brand.navBar.input.backgroundColor';
 const _placeholderColor = 'brand.navBar.input._placeholder.color';
 const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
@@ -25,7 +24,7 @@ const SearchInput = ({ placeholder = 'Buscar un producto' }: SearchInputProps) =
   return (
     <InputGroup>
       <InputLeftElement w="3rem" h="3rem">
-        <Icon w="1.25rem" h="1.25rem" as={AiOutlineSearch} color={_iconColor} />
+        <Icon w="1.25rem" h="1.25rem" as={AiOutlineSearch} color={_borderColor} />
       </InputLeftElement>
       <Input
         h="3rem"

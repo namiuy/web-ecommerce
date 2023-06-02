@@ -3,6 +3,7 @@ import { ProductSearchFilters, ProductSearchOptions, ProductSearchSortBy } from 
 
 type AppInitialState = {
   appName: string;
+  toggleTheme?: () => void;
 };
 
 type App = AppInitialState & {

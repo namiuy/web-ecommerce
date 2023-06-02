@@ -20,7 +20,10 @@ import { NavItem } from './Nav';
 import SocialNeworks from './SocialNeworks';
 import { Categories } from './Categories';
 
+const _backgroundColor = 'brand.drawerMenu.backgroundColor';
+const _backdropFilter = 'saturate(180%) blur(20px)';
 const _menuItemColor = 'brand.drawerMenu.item.color';
+const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor';
 const _grey0 = 'brand.grey.0';
 const _grey3 = 'brand.grey.3';
 
@@ -34,16 +37,16 @@ type AccordionProductsProps = {
 };
 
 const AccordionProducts = ({ onClick }: AccordionProductsProps) => (
-  <Accordion allowToggle borderBottom="solid 1px" borderColor={_grey0}>
+  <Accordion allowToggle borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
     <AccordionItem borderColor={'transparent'}>
       <AccordionButton p="1rem">
         <Text flex="1" textAlign="left" color={_menuItemColor}>
           Productos
         </Text>
-        <AccordionIcon color={_grey3} />
+        <AccordionIcon color={_menuItemColor} />
       </AccordionButton>
       <AccordionPanel p="0">
-        <Categories onClick={onClick} />
+        <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
       </AccordionPanel>
     </AccordionItem>
   </Accordion>
@@ -59,7 +62,7 @@ const MenuDrawerItems = ({ items, onClick }: MenuDrawerItemsProps) => (
             <AccordionProducts onClick={onClick} />
           ) : (
             <Link href={href}>
-              <Text p="1rem" color={_menuItemColor} borderBottom="solid 1px" borderColor={_grey0}>
+              <Text p="1rem" color={_menuItemColor} borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
                 {text}
               </Text>
             </Link>
@@ -78,8 +81,8 @@ type MenuDrawerProps = Omit<DrawerProps, 'children'> & {
 export const MenuDrawer = ({ isOpen, onClose, finalFocusRef, menuItems, socialNeworksItems }: MenuDrawerProps) => (
   <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={finalFocusRef}>
     <DrawerOverlay />
-    <DrawerContent>
-      <DrawerCloseButton />
+    <DrawerContent bg={_backgroundColor} backdropFilter={_backdropFilter}>
+      <DrawerCloseButton color={_menuItemColor} />
       <DrawerBody p=".5rem 0">
         <MenuDrawerItems items={menuItems} onClick={onClose} />
         <Box p="1rem">

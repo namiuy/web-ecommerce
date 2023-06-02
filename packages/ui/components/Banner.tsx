@@ -1,10 +1,10 @@
-import { Center, Image, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Image, useBreakpointValue } from '@chakra-ui/react';
 import Link from 'next/link';
-import { ReactNode } from 'react';
 import { useBannerList } from 'shared';
 import { Carousel } from './Carousel';
 
-const h = { base: '10rem', lg: '21rem' };
+const h = { base: '7rem', lg: '27rem' };
+const pt = { base: '5rem', lg: '0' };
 
 type BannerProps = {
   section: string;
@@ -29,17 +29,19 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
   const banners = data.filter(b => b.section === section).sort((a, b) => a.indx - b.indx);
 
   return (
-    <Carousel slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
-      {banners.map(({ name, color, url, link }, i) => {
-        const Img = <Image key={i} w="100%" h={h} fit="contain" alt={name} bg={color} src={url} />;
-        return link ? (
-          <Link target="_blank" href={link}>
-            {Img}
-          </Link>
-        ) : (
-          Img
-        );
-      })}
-    </Carousel>
+    <Box pt={pt}>
+      <Carousel slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
+        {banners.map(({ name, color, url, link }, i) => {
+          const Img = <Image key={i} w="100%" h={h} fit="contain" alt={name} bg={color} src={url} />;
+          return link ? (
+            <Link target="_blank" href={link}>
+              {Img}
+            </Link>
+          ) : (
+            Img
+          );
+        })}
+      </Carousel>
+    </Box>
   );
 };
