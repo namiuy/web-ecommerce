@@ -24,10 +24,18 @@ type ItemProps = {
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
+type AccordionItemProps = {
+  name: string;
+  showIcon: boolean;
+  color?: string;
+};
+
+const getUrl = (categoryId: string) =>
+  typeof window === 'undefined' ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: categoryId });
+
 export const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }: ItemProps) => {
-  const url = typeof window === 'undefined' ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: id });
   return (
-    <Link href={url} onClick={onClick}>
+    <Link href={getUrl(id)} onClick={onClick}>
       <Flex
         as="li"
         alignItems="center"
@@ -45,6 +53,15 @@ export const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }
   );
 };
 
+const AccordionItem2 = ({ name, color, showIcon }: AccordionItemProps) => (
+  <AccordionButton p="1rem 1rem 1rem 2rem">
+    <Box as="span" flex="1" textAlign="left" color={color}>
+      {name}
+    </Box>
+    {showIcon && <AccordionIcon color={color} />}
+  </AccordionButton>
+);
+
 export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0, onClick }: CategoriesProps) => {
   const { isLoading, error, data = [] } = useCategoryList();
   // TODO: removeParams
@@ -58,24 +75,27 @@ export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0,
 
   return (
     <Accordion allowToggle>
-      {categories.map(({ name, sub_categories }, i) =>
+      {categories.map(({ id, name, sub_categories }, i) =>
         isLoading ? (
           <Skeleton h="2rem" mb="1rem" />
         ) : (
           <AccordionItem key={i} borderColor={borderColor}>
-            <AccordionButton p="1rem 1rem 1rem 2rem">
-              <Box as="span" flex="1" textAlign="left" color={color}>
-                {name}
-              </Box>
-              <AccordionIcon color={color} />
-            </AccordionButton>
-            <AccordionPanel p="0">
-              <Box as="ol" listStyleType="none" p="0">
-                {sub_categories?.map(({ id, name }, ii) => (
-                  <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onClick} />
-                ))}
-              </Box>
-            </AccordionPanel>
+            {!!sub_categories?.length ? (
+              <>
+                <AccordionItem2 name={name} color={color} showIcon={!!sub_categories?.length} />
+                <AccordionPanel p="0">
+                  <Box as="ol" listStyleType="none" p="0">
+                    {sub_categories?.map(({ id, name }, ii) => (
+                      <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onClick} />
+                    ))}
+                  </Box>
+                </AccordionPanel>
+              </>
+            ) : (
+              <Link href={getUrl(id)} onClick={onClick}>
+                <AccordionItem2 name={name} color={color} showIcon={!!sub_categories?.length} />
+              </Link>
+            )}
           </AccordionItem>
         )
       )}

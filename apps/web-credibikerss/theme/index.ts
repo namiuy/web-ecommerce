@@ -5,12 +5,15 @@ const grey1 = '#C9C9C9';
 const grey2 = '#7D7D7D';
 const grey3 = '#3E4448';
 
+const primary = '#d7fc00';
+
 export const lightTheme: Record<string, any> = {
   fonts: {
     heading: `'Play', sans-serif`,
   },
   colors: {
     brand: {
+      primary,
       nav: {
         item: {
           color: grey2,
@@ -57,6 +60,7 @@ export const darkTheme: Record<string, any> = {
   },
   colors: {
     brand: {
+      primary,
       nav: {
         item: {
           color: grey1,

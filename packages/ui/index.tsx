@@ -20,6 +20,7 @@ export const Grid = GridChakra;
 export const GridItem = GridItemChakra;
 export const Heading = HeadingChakra;
 
+export * from './components/AnimationWrapper';
 export * from './components/Banner';
 export * from './components/Brands';
 export * from './components/Categories';
@@ -28,6 +29,7 @@ export * from './components/Container';
 export * from './components/DesignDebug';
 export * from './components/Head';
 export * from './components/NavBar';
+export * from './components/Map';
 export * from './components/ProductCard';
 export * from './components/ProductFilters';
 export * from './components/ProductListSection';

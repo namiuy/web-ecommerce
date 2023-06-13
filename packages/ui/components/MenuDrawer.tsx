@@ -14,18 +14,17 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
-import { MenuItem, SocialNeworkItem } from './NavBar';
+import { MenuItem } from './NavBar';
 import Link from 'next/link';
 import { NavItem } from './Nav';
 import SocialNeworks from './SocialNeworks';
 import { Categories } from './Categories';
+import { Center } from '..';
 
 const _backgroundColor = 'brand.drawerMenu.backgroundColor';
 const _backdropFilter = 'saturate(180%) blur(20px)';
 const _menuItemColor = 'brand.drawerMenu.item.color';
 const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor';
-const _grey0 = 'brand.grey.0';
-const _grey3 = 'brand.grey.3';
 
 type MenuDrawerItemsProps = {
   items: NavItem[];
@@ -75,18 +74,19 @@ const MenuDrawerItems = ({ items, onClick }: MenuDrawerItemsProps) => (
 
 type MenuDrawerProps = Omit<DrawerProps, 'children'> & {
   menuItems: Array<MenuItem>;
-  socialNeworksItems: Array<SocialNeworkItem>;
 };
 
-export const MenuDrawer = ({ isOpen, onClose, finalFocusRef, menuItems, socialNeworksItems }: MenuDrawerProps) => (
+export const MenuDrawer = ({ isOpen, onClose, finalFocusRef, menuItems }: MenuDrawerProps) => (
   <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={finalFocusRef}>
     <DrawerOverlay />
     <DrawerContent bg={_backgroundColor} backdropFilter={_backdropFilter}>
       <DrawerCloseButton color={_menuItemColor} />
       <DrawerBody p=".5rem 0">
         <MenuDrawerItems items={menuItems} onClick={onClose} />
-        <Box p="1rem">
-          <SocialNeworks color={_menuItemColor} items={socialNeworksItems} />
+        <Box p="2rem 0">
+          <Center>
+            <SocialNeworks dark color={_menuItemColor} size="2rem" />
+          </Center>
         </Box>
       </DrawerBody>
     </DrawerContent>

@@ -57,7 +57,7 @@ const IconButton = ({ buttonProps, icon }: IconButtonProps) => (
 //   return [y];
 // };
 
-const NavBarMobile = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProps) => {
+const NavBarMobile = ({ logo: Logo, menuItems = [] }: NavBarProps) => {
   const { toggleTheme } = useContext(AppContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
@@ -113,13 +113,7 @@ const NavBarMobile = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProps
           </Collapse>
         </GridItem> */}
       </Grid>
-      <MenuDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        menuItems={menuItems}
-        socialNeworksItems={socialNeworksItems}
-      />
+      <MenuDrawer isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} menuItems={menuItems} />
     </>
   );
 };

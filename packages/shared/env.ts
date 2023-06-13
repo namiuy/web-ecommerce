@@ -1,10 +1,18 @@
 import getConfig from 'next/config';
 
-const {
-  publicRuntimeConfig: { bffUrl },
-} = getConfig();
-console.log('env', bffUrl);
+const { publicRuntimeConfig: prc } = getConfig();
+
+type SocialNeworkItem = {
+  id: string;
+  href: string;
+};
 
 export const bff = {
-  url: bffUrl,
+  url: prc.bffUrl,
 };
+
+export const keys = prc.keys;
+
+export const menuItems = prc.menuItems;
+
+export const socialNeworksItems = prc.socialNeworksItems as SocialNeworkItem[];

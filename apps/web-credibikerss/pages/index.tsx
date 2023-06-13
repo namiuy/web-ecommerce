@@ -3,6 +3,8 @@
 import { NextPage } from 'next';
 import { Flex, Banner, Brands, Container, Head, ProductListSection, Box, Center } from 'ui';
 import { NavBar } from '../components';
+import { BannerFinancing } from '../components/BannerFinancing';
+import { Footer } from '../components/Footer';
 
 const HomePage: NextPage = () => (
   <>
@@ -13,13 +15,12 @@ const HomePage: NextPage = () => (
         <Banner section="home_a" />
         <Brands />
         <ProductListSection name="home_a" />
-        <Banner section="home_b" showNavigation={false} />
+        <BannerFinancing />
         <ProductListSection name="home_b" />
-        <Box h="32rem" bg="#1c1e20" pt="14rem">
-          <Center color="grey">Footer</Center>
-        </Box>
       </Flex>
     </Container>
+    <Box h="2rem" />
+    <Footer />
   </>
 );
 
