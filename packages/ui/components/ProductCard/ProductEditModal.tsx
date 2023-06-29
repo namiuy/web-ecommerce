@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { Product } from 'shared/entities/product';
 import { ModalEdit } from '../ModalEdit';
 import { ProductForm } from '../ProductForm';
+import lscache from 'lscache';
 
 export type ProductEditModalProps = {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export const ProductEditModal: FC<ProductEditModalProps> = ({ isOpen, product, o
   const router = useRouter();
   const handleSuccess = () => {
     onClose();
+    lscache.flush(); // TODO: improve this
     router.refresh();
   };
   return (
