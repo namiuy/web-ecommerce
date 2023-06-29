@@ -1,15 +1,17 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, IconButton, useDisclosure } from '@chakra-ui/react';
 import { sort, useProductListList } from 'shared';
 import { Heading } from 'ui';
 import { ModalEdit } from './ModalEdit';
 import { ProductListSectionEdit } from './ProductListSectionEdit';
 import { ProductCardCarousel } from './ProductCardCarousel';
 import { ProductList } from 'shared/entities/product-list';
+import { MdEdit } from 'react-icons/md';
 
 const _grey3 = 'brand.grey.3';
 
 export const ProductListSection = ({ name }: { name: string }) => {
   const { isLoading, error, data = [] } = useProductListList();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (error) {
     console.log(error);
@@ -27,7 +29,17 @@ export const ProductListSection = ({ name }: { name: string }) => {
         <Flex key={i} direction="column" w="100%" gap="1rem">
           <Heading as="h3" size="xl" color={_grey3}>
             {name}{' '}
-            <ModalEdit title="Listas de productos">
+            <IconButton
+              w="3rem"
+              h="3rem"
+              aria-label=""
+              bg="none"
+              color="grey"
+              icon={<MdEdit />}
+              onClick={onOpen}
+              _hover={{ color: 'black' }}
+            />
+            <ModalEdit title="Listas de productos" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
               <ProductListSectionEdit data={data} />
             </ModalEdit>
           </Heading>

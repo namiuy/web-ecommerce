@@ -53,7 +53,7 @@ export const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }
   );
 };
 
-const AccordionItem2 = ({ name, color, showIcon }: AccordionItemProps) => (
+const AccordionItemCustom = ({ name, color, showIcon }: AccordionItemProps) => (
   <AccordionButton p="1rem 1rem 1rem 2rem">
     <Box as="span" flex="1" textAlign="left" color={color}>
       {name}
@@ -79,10 +79,10 @@ export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0,
         isLoading ? (
           <Skeleton h="2rem" mb="1rem" />
         ) : (
-          <AccordionItem key={i} borderColor={borderColor}>
+          <AccordionItem key={i} borderColor={i > 0 && i < categories.length ? borderColor : 'transparent'}>
             {!!sub_categories?.length ? (
               <>
-                <AccordionItem2 name={name} color={color} showIcon={!!sub_categories?.length} />
+                <AccordionItemCustom name={name} color={color} showIcon={!!sub_categories?.length} />
                 <AccordionPanel p="0">
                   <Box as="ol" listStyleType="none" p="0">
                     {sub_categories?.map(({ id, name }, ii) => (
@@ -93,7 +93,7 @@ export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0,
               </>
             ) : (
               <Link href={getUrl(id)} onClick={onClick}>
-                <AccordionItem2 name={name} color={color} showIcon={!!sub_categories?.length} />
+                <AccordionItemCustom name={name} color={color} showIcon={!!sub_categories?.length} />
               </Link>
             )}
           </AccordionItem>

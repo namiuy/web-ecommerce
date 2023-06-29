@@ -13,6 +13,8 @@ import {
   DrawerProps,
   Flex,
   Text,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { MenuItem } from './NavBar';
 import Link from 'next/link';
@@ -20,6 +22,7 @@ import { NavItem } from './Nav';
 import SocialNeworks from './SocialNeworks';
 import { Categories } from './Categories';
 import { Center } from '..';
+import { ProductAddModal } from './ProductCard/ProductAddModal';
 
 const _backgroundColor = 'brand.drawerMenu.backgroundColor';
 const _backdropFilter = 'saturate(180%) blur(20px)';
@@ -35,21 +38,26 @@ type AccordionProductsProps = {
   onClick(): void;
 };
 
-const AccordionProducts = ({ onClick }: AccordionProductsProps) => (
-  <Accordion allowToggle borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
-    <AccordionItem borderColor={'transparent'}>
-      <AccordionButton p="1rem">
-        <Text flex="1" textAlign="left" color={_menuItemColor}>
-          Productos
-        </Text>
-        <AccordionIcon color={_menuItemColor} />
-      </AccordionButton>
-      <AccordionPanel p="0">
-        <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
-      </AccordionPanel>
-    </AccordionItem>
-  </Accordion>
-);
+const AccordionProducts = ({ onClick }: AccordionProductsProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <Accordion allowToggle borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
+      <AccordionItem borderColor={'transparent'}>
+        <AccordionButton p="1rem">
+          <Text flex="1" textAlign="left" color={_menuItemColor}>
+            Productos
+          </Text>
+          <AccordionIcon color={_menuItemColor} />
+        </AccordionButton>
+        <AccordionPanel p="0">
+          <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
+          <Button onClick={onOpen}>Nuevo</Button>
+          <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
+  );
+};
 
 const MenuDrawerItems = ({ items, onClick }: MenuDrawerItemsProps) => (
   <nav>

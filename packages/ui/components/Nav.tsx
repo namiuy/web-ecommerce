@@ -6,6 +6,7 @@ import { Text } from '..';
 
 const _itemColor = 'brand.nav.item.color';
 const _itemHoverColor = 'brand.nav.item._hover.color';
+//const _backdropFilter = 'saturate(180%) blur(20px)';
 const _fontSize = '0.875rem';
 const _fontWeight = '600';
 
@@ -52,7 +53,7 @@ const Nav = ({ items = [] }: NavProps) => (
               >
                 {text}
               </MenuButton>
-              <MenuList>
+              <MenuList p="0">
                 <Content />
               </MenuList>
             </Menu>

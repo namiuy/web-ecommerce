@@ -4,5 +4,6 @@ export type Banner = {
   name: string;
   color: string;
   url: string;
+  url_mobile: string;
   link?: string;
 };

@@ -3,4 +3,4 @@ import { Category } from '../../entities/category';
 import { bff } from '../../env';
 import { Response } from './response';
 
-export const useCategoryList = (): Response<Array<Category>> => useRequestWithCache(`${bff.url}/category`);
+export const useCategoryList = (): Response<Array<Category>> => useRequestWithCache(`${bff.url}/categories`);

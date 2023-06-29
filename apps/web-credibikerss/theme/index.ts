@@ -5,15 +5,41 @@ const grey1 = '#C9C9C9';
 const grey2 = '#7D7D7D';
 const grey3 = '#3E4448';
 
-const primary = '#d7fc00';
+const primary = 'black';
+const secondary = '#d7fc00';
 
 export const lightTheme: Record<string, any> = {
   fonts: {
     heading: `'Play', sans-serif`,
   },
   colors: {
+    primary: {
+      main: primary,
+      50: primary,
+      100: primary,
+      200: primary,
+      300: primary,
+      400: primary,
+      500: primary,
+      600: primary,
+      700: primary,
+      800: primary,
+      900: primary,
+    },
+    secondary: {
+      main: secondary,
+      50: secondary,
+      100: secondary,
+      200: secondary,
+      300: secondary,
+      400: secondary,
+      500: secondary,
+      600: secondary,
+      700: secondary,
+      800: secondary,
+      900: secondary,
+    },
     brand: {
-      primary,
       nav: {
         item: {
           color: grey2,
@@ -59,8 +85,33 @@ export const darkTheme: Record<string, any> = {
     heading: `'Play', sans-serif`,
   },
   colors: {
+    primary: {
+      main: primary,
+      50: primary,
+      100: primary,
+      200: primary,
+      300: primary,
+      400: primary,
+      500: primary,
+      600: primary,
+      700: primary,
+      800: primary,
+      900: primary,
+    },
+    secondary: {
+      main: secondary,
+      50: secondary,
+      100: secondary,
+      200: secondary,
+      300: secondary,
+      400: secondary,
+      500: secondary,
+      600: secondary,
+      700: secondary,
+      800: secondary,
+      900: secondary,
+    },
     brand: {
-      primary,
       nav: {
         item: {
           color: grey1,

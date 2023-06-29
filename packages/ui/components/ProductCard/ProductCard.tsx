@@ -9,7 +9,7 @@ const _black = 'black';
 const _grey0 = 'brand.grey.0';
 const _grey2 = 'brand.grey.2';
 
-const _minMaxW = '8rem';
+const _minW = '8rem';
 const _minMinH = undefined;
 const _minImageMinH = '6rem';
 const _minImageP = '0';
@@ -20,10 +20,10 @@ const _minPriceSize = '0.75rem';
 const _minBodyM = '0 1rem 1rem 1rem';
 const _minBodyGap = '0';
 
-const _maxW = { base: '8rem', lg: '12rem' };
+const _w = { base: '8rem', lg: '12rem' };
 const _minH = { base: '14rem', lg: '18rem' };
 const _imageMinH = { base: '8rem', lg: '9rem' };
-const _imageP = { base: '0 0 1rem', lg: '1rem 0' };
+const _imageP = { base: '0 0 1rem', lg: '0' };
 const _categorySize = { base: '0.625rem', lg: '0.75rem' };
 const _nameSize = { base: '0.875rem', lg: '1.375rem' };
 const _nameHeight = { base: '1.75rem', lg: '2.75rem' };
@@ -31,7 +31,7 @@ const _priceSize = { base: '0.75rem', lg: '0.875rem' };
 const _bodyM = { base: '0 1rem 1rem 1rem', lg: '1rem' };
 const _bodyGap = '.25rem';
 
-type ProductCardProps = {
+export type ProductCardProps = {
   min?: boolean;
   isLoading?: boolean;
   product?: Product;
@@ -39,7 +39,7 @@ type ProductCardProps = {
 
 export const ProductCard: FC<ProductCardProps> = ({ min = false, isLoading = false, product }) => {
   const { name, category, price, path, image_url } = product || {};
-  const maxW = min ? _minMaxW : _maxW;
+  const w = min ? _minW : _w;
   const minH = min ? _minMinH : _minH;
   const imageMinH = min ? _minImageMinH : _imageMinH;
   const imageP = min ? _minImageP : _imageP;
@@ -53,7 +53,7 @@ export const ProductCard: FC<ProductCardProps> = ({ min = false, isLoading = fal
   return (
     <Link href="/" /*href={path}*/ display="contents" _hover={{ textDecoration: 'none' }}>
       <Card
-        maxW={maxW}
+        w={w}
         minH={minH}
         borderRadius={_borderRadious}
         borderColor={_borderColor}

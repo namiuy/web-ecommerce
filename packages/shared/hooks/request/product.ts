@@ -5,6 +5,8 @@ import { ProductSearch, ProductSearchSortBy } from '../../entities/product-searc
 import { addSearchParamsToUrl } from '../../utils/url';
 import { bff } from '../../env';
 import { Response } from './response';
+import { Product } from '../../entities/product';
+import { del, post, put } from '../../utils/fetcher';
 
 type ProductSearchProps = {
   brandId?: number;
@@ -13,7 +15,15 @@ type ProductSearchProps = {
   sortBy?: ProductSearchSortBy;
 };
 
-export const useProductGet = (id: number): Response<ProductSearch> => useRequest(`${bff.url}/product/${id}`);
+export const productAdd = (data: any): Promise<Product> =>
+  post<Product>(`${bff.url}/products`, { body: JSON.stringify(data) });
+
+export const productUpdate = (id: string, data: any): Promise<Product> =>
+  put<Product>(`${bff.url}/products/${id}`, { body: JSON.stringify(data) });
+
+export const productDelete = (id: string): Promise<Product> => del<Product>(`${bff.url}/products/${id}`);
+
+export const useProductGet = (id: number): Response<ProductSearch> => useRequest(`${bff.url}/products/${id}`);
 
 export const useProductSearch = ({
   brandId,
@@ -27,7 +37,7 @@ export const useProductSearch = ({
     t: text?.toString(),
   };
 
-  const url = addSearchParamsToUrl(`${bff.url}/product/search`, {
+  const url = addSearchParamsToUrl(`${bff.url}/products/search`, {
     ...filters,
     sortBy,
   });

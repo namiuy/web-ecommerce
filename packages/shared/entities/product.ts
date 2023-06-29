@@ -1,3 +1,4 @@
+import { Brand } from './brand';
 import { Category } from './category';
 
 export type Product = {
@@ -6,7 +7,7 @@ export type Product = {
   is_public: boolean;
   created_at: Date;
   category: Category;
-  brand: number;
+  brand: Brand;
   name: string;
   description: string;
   price: number;

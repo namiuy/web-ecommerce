@@ -4,5 +4,5 @@ import { bff } from '../../env';
 import { Response } from './response';
 
 export const useBrandList = (): Response<Array<Brand>> => {
-  return useRequestWithCache<Array<Brand>>(`${bff.url}/brand`);
+  return useRequestWithCache<Array<Brand>>(`${bff.url}/brands`);
 };

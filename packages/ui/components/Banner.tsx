@@ -1,10 +1,11 @@
-import { Box, Image, useBreakpointValue } from '@chakra-ui/react';
+import { AspectRatio, Box, Image, useBreakpointValue } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useBannerList } from 'shared';
-import { Carousel } from './Carousel';
+//import { Carousel } from './Carousel';
 
-const h = { base: '7rem', lg: '27rem' };
-const pt = { base: '5rem', lg: '0' };
+const _pt = { base: '5rem', lg: '6rem' };
+const _ratio = { base: 164 / 75, md: 25 / 7 };
 
 type BannerProps = {
   section: string;
@@ -12,11 +13,12 @@ type BannerProps = {
 };
 
 export const Banner = ({ section, showNavigation }: BannerProps) => {
+  const [bg, setBg] = useState('#383838');
   const { isLoading, error, data = [] } = useBannerList();
 
-  const isLg = useBreakpointValue({
+  const isMd = useBreakpointValue({
     base: false,
-    lg: true,
+    md: true,
   });
 
   if (error) {
@@ -29,19 +31,23 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
   const banners = data.filter(b => b.section === section).sort((a, b) => a.indx - b.indx);
 
   return (
-    <Box pt={pt}>
-      <Carousel slideHeight={isLg ? h.lg : h.base} slidesPerView={1} showNavigation={showNavigation}>
-        {banners.map(({ name, color, url, link }, i) => {
-          const Img = <Image key={i} w="100%" h={h} fit="contain" alt={name} bg={color} src={url} />;
-          return link ? (
-            <Link target="_blank" href={link}>
-              {Img}
-            </Link>
-          ) : (
-            Img
-          );
-        })}
-      </Carousel>
+    <Box pt={_pt} bg={bg}>
+      <AspectRatio ratio={_ratio}>
+        {/* <Carousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation} onChange={r => console.log(r)}>*/}
+        <>
+          {banners.map(({ name, color, url, url_mobile, link }, i) => {
+            const Img = <Image key={i} alt={name} src={isMd ? url : url_mobile} objectFit="cover" />;
+            return link ? (
+              <Link key={i} href={link}>
+                {Img}
+              </Link>
+            ) : (
+              Img
+            );
+          })}
+          {/* </Carousel> */}
+        </>
+      </AspectRatio>
     </Box>
   );
 };

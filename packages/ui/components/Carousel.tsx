@@ -54,6 +54,7 @@ type CarouselProps = {
   spaceBetween?: number;
   showNavigation?: boolean;
   children: ReactNode;
+  onChange?: () => void;
 };
 
 export const Carousel = ({
@@ -65,6 +66,7 @@ export const Carousel = ({
   navigationLeft,
   navigationRight,
   children,
+  onChange,
 }: CarouselProps) => {
   const swiperRef = useRef<SwiperType>();
   return (
@@ -99,6 +101,7 @@ export const Carousel = ({
           swiperRef.current = swiper;
         }}
         spaceBetween={spaceBetween}
+        onChange={onChange}
       >
         {Children.map(children, (child, i) => (
           <SwiperSlide key={i} style={{ height: slideHeight }}>

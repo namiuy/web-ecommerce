@@ -6,7 +6,7 @@ import { IoLogoWhatsapp } from 'react-icons/io5';
 import { Icon, Link } from '@chakra-ui/react';
 import { useBreakpointValue } from '@chakra-ui/react';
 
-const _primaryColor = 'brand.primary';
+const _secondaryColor = '#d7fc00'; // TODO: fix
 
 const _color = '#d5d5d5';
 const _mapH = '26rem';
@@ -61,7 +61,7 @@ const FooterMap: FC<FooterMapProps> = ({ loaction, address, whatsApp, position }
           target="_blank"
           textDecoration="none"
           fontFamily="Play"
-          _hover={{ color: _primaryColor }}
+          _hover={{ color: _secondaryColor }}
         >
           <Flex alignItems="center" fontSize={_wspSize}>
             <Icon as={IoLogoWhatsapp} w={_wspIconSize} h={_wspIconSize} />
