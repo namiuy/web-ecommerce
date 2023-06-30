@@ -52,7 +52,7 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
       spaceBetween={16}
     >
       {products?.map((product, i) => (
-        <ProductCard key={i} isLoading={isLoading} product={product} />
+        <ProductCard key={i} edit isLoading={isLoading} product={product} />
       ))}
     </Carousel>
   );

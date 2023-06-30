@@ -9,9 +9,9 @@ const menuItems = [
     href: '/',
   },
   {
-    id: 'index',
-    text: 'Inicio',
-    href: '/',
+    id: 'products',
+    text: 'Productos',
+    href: '/productos',
   },
   {
     id: 'services',

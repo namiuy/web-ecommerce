@@ -42,9 +42,9 @@ export const lightTheme: Record<string, any> = {
     brand: {
       nav: {
         item: {
-          color: grey2,
+          color: grey3,
           _hover: {
-            color: grey3,
+            color: 'black',
           },
         },
       },
@@ -52,12 +52,12 @@ export const lightTheme: Record<string, any> = {
         backgroundColor: 'rgba(255, 255, 255, .6)',
         borderColor: 'rgba(0, 0, 0, .1)',
         input: {
-          borderColor: grey1,
+          borderColor: grey2,
           _focus: {
-            borderColor: grey2,
+            borderColor: grey3,
           },
           _placeholder: {
-            color: grey2,
+            color: grey3,
           },
         },
         iconButton: {

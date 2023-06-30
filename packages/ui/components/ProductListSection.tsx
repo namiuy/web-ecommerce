@@ -1,17 +1,43 @@
 import { Flex, IconButton, useDisclosure } from '@chakra-ui/react';
+import { FC } from 'react';
+import { MdEdit } from 'react-icons/md';
 import { sort, useProductListList } from 'shared';
+import { ProductList } from 'shared/entities/product-list';
 import { Heading } from 'ui';
 import { ModalEdit } from './ModalEdit';
-import { ProductListSectionEdit } from './ProductListSectionEdit';
 import { ProductCardCarousel } from './ProductCardCarousel';
-import { ProductList } from 'shared/entities/product-list';
-import { MdEdit } from 'react-icons/md';
+import { ProductListSectionEdit } from './ProductListSectionEdit';
 
 const _grey3 = 'brand.grey.3';
 
-export const ProductListSection = ({ name }: { name: string }) => {
-  const { isLoading, error, data = [] } = useProductListList();
+type ProductListSectionProps = { name: string };
+type EditProps = {
+  data: Array<ProductList>;
+};
+
+const Edit: FC<EditProps> = ({ data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <IconButton
+        w="3rem"
+        h="3rem"
+        aria-label=""
+        bg="none"
+        color="grey"
+        icon={<MdEdit />}
+        onClick={onOpen}
+        _hover={{ color: 'black' }}
+      />
+      <ModalEdit title="Listas de productos" isOpen={isOpen} scrollBehavior="inside" onOpen={onOpen} onClose={onClose}>
+        <ProductListSectionEdit data={data} />
+      </ModalEdit>
+    </>
+  );
+};
+
+export const ProductListSection: FC<ProductListSectionProps> = ({ name }) => {
+  const { isLoading, error, data = [] } = useProductListList();
 
   if (error) {
     console.log(error);
@@ -28,20 +54,7 @@ export const ProductListSection = ({ name }: { name: string }) => {
       {dataSort.map(({ id, name, product_ids }, i) => (
         <Flex key={i} direction="column" w="100%" gap="1rem">
           <Heading as="h3" size="xl" color={_grey3}>
-            {name}{' '}
-            <IconButton
-              w="3rem"
-              h="3rem"
-              aria-label=""
-              bg="none"
-              color="grey"
-              icon={<MdEdit />}
-              onClick={onOpen}
-              _hover={{ color: 'black' }}
-            />
-            <ModalEdit title="Listas de productos" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-              <ProductListSectionEdit data={data} />
-            </ModalEdit>
+            {name} <Edit data={data} />
           </Heading>
           <ProductCardCarousel key={i} productListId={id} productsLength={product_ids.length} />
         </Flex>

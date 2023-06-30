@@ -7,12 +7,13 @@ import lscache from 'lscache';
 
 export type ProductEditModalProps = {
   isOpen: boolean;
+  product?: Product;
+  scrollBehavior?: 'outside' | 'inside';
   onOpen: () => void;
   onClose: () => void;
-  product?: Product;
 };
 
-export const ProductEditModal: FC<ProductEditModalProps> = ({ isOpen, product, onOpen, onClose }) => {
+export const ProductEditModal: FC<ProductEditModalProps> = ({ isOpen, product, scrollBehavior, onOpen, onClose }) => {
   const router = useRouter();
   const handleSuccess = () => {
     onClose();
@@ -20,7 +21,7 @@ export const ProductEditModal: FC<ProductEditModalProps> = ({ isOpen, product, o
     router.refresh();
   };
   return (
-    <ModalEdit isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+    <ModalEdit isOpen={isOpen} scrollBehavior={scrollBehavior} onOpen={onOpen} onClose={onClose}>
       <ProductForm product={product} onSuccess={handleSuccess} />
     </ModalEdit>
   );

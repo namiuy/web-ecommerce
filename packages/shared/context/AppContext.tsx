@@ -32,7 +32,6 @@ export const AppContextProvider = ({
     defaultValues.productSearchOptions
   );
   const setProductSearchResultFilters = (filters?: ProductSearchFilters) => {
-    console.log('setProductSearchResultFilters', filters);
     setProductSearchOptions({ ...productSearchOptions, filters });
   };
   const setProductSearchSortBy = (sortBy?: ProductSearchSortBy) => {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Flex, Menu, MenuButton, MenuList, Button } from '@chakra-ui/react';
+import { Flex, Menu, MenuButton, MenuList, Button, useDisclosure } from '@chakra-ui/react';
 import { FunctionComponent, ReactElement } from 'react';
 import { MdExpandMore } from 'react-icons/md';
 import { Text } from '..';
@@ -31,41 +31,45 @@ const NavItem = ({ children }: NavItemProps) => (
   </Text>
 );
 
-const Nav = ({ items = [] }: NavProps) => (
-  <nav>
-    <Flex as="ol" listStyleType="none" gap="2rem" alignItems="center">
-      {items.map(({ id, text, href, menuContent: Content }) => (
-        <li key={id}>
-          {Content ? (
-            <Menu>
-              <MenuButton
-                as={Button}
-                bg="transparent"
-                h="auto"
-                p="0"
-                color={_itemColor}
-                fontSize={_fontSize}
-                fontWeight={_fontWeight}
-                rightIcon={<MdExpandMore />}
-                _hover={{ color: _itemHoverColor }}
-                _active={{ bg: 'transparent', color: _itemHoverColor }}
-                _focus={{ bg: 'transparent', color: _itemHoverColor }}
-              >
-                {text}
-              </MenuButton>
-              <MenuList p="0">
-                <Content />
-              </MenuList>
-            </Menu>
-          ) : (
-            <Link href={href}>
-              <NavItem>{text}</NavItem>
-            </Link>
-          )}
-        </li>
-      ))}
-    </Flex>
-  </nav>
-);
+const Nav = ({ items = [] }: NavProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <nav>
+      <Flex as="ol" listStyleType="none" gap="2rem" alignItems="center">
+        {items.map(({ id, text, href, menuContent: Content }) => (
+          <Flex as="li" key={id}>
+            {Content ? (
+              <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+                <MenuButton
+                  as={Button}
+                  bg="transparent"
+                  h="auto"
+                  p="0"
+                  color={_itemColor}
+                  fontSize={_fontSize}
+                  fontWeight={_fontWeight}
+                  rightIcon={<MdExpandMore />}
+                  _hover={{ color: _itemHoverColor }}
+                  _active={{ bg: 'transparent', color: _itemHoverColor }}
+                  _focus={{ bg: 'transparent', color: _itemHoverColor }}
+                >
+                  {text}
+                </MenuButton>
+                <MenuList p="0">
+                  {/* @ts-ignore */}
+                  <Content onClick={onClose} />
+                </MenuList>
+              </Menu>
+            ) : (
+              <Link href={href}>
+                <NavItem>{text}</NavItem>
+              </Link>
+            )}
+          </Flex>
+        ))}
+      </Flex>
+    </nav>
+  );
+};
 
 export default Nav;
