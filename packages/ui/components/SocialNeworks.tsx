@@ -37,28 +37,26 @@ const SocialNeworks = ({
   gap = '1rem',
   hide = [],
 }: SocialNeworksProps) => (
-  <AnimationWrapper tag="a">
-    <nav>
-      <Flex as="ol" alignItems="center" listStyleType="none" gap={gap}>
-        {socialNeworksItems
-          .filter(({ id }) => !hide.includes(id))
-          .map(({ id, href }) => (
-            <li key={id}>
-              <Link href={href}>
-                <ChakraIcon
-                  as={icons[id].icon}
-                  w={size}
-                  h={size}
-                  display="block"
-                  color={color}
-                  _hover={{ color: dark ? icons[id].hoverColorDark || icons[id].hoverColor : icons[id].hoverColor }}
-                />
-              </Link>
-            </li>
-          ))}
-      </Flex>
-    </nav>
-  </AnimationWrapper>
+  <nav>
+    <Flex as="ol" alignItems="center" listStyleType="none" gap={gap}>
+      {socialNeworksItems
+        .filter(({ id }) => !hide.includes(id))
+        .map(({ id, href }) => (
+          <li key={id}>
+            <Link href={href}>
+              <ChakraIcon
+                as={icons[id].icon}
+                w={size}
+                h={size}
+                display="block"
+                color={color}
+                _hover={{ color: dark ? icons[id].hoverColorDark || icons[id].hoverColor : icons[id].hoverColor }}
+              />
+            </Link>
+          </li>
+        ))}
+    </Flex>
+  </nav>
 );
 
 export default SocialNeworks;

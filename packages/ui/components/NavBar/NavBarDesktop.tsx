@@ -6,7 +6,6 @@ import SearchInput from '../SearchInput';
 import SocialNeworks from '../SocialNeworks';
 import { AppContext } from 'shared';
 import Link from 'next/link';
-import { AnimationWrapper } from '../AnimationWrapper';
 import { Categories } from '../Categories';
 import MenuAdmin from '../MenuAdmin';
 
@@ -32,13 +31,11 @@ const NavBarDesktop = ({ logo: Logo, menuItems = [] }: NavBarProps) => {
     >
       <GridItem justifySelf="center">
         {Logo && (
-          <AnimationWrapper tag="a">
-            <div onClick={toggleTheme}>
-              <Link href="/">
-                <Logo />
-              </Link>
-            </div>
-          </AnimationWrapper>
+          <div onClick={toggleTheme}>
+            <Link href="/">
+              <Logo />
+            </Link>
+          </div>
         )}
       </GridItem>
       <GridItem>

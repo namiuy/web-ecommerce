@@ -51,7 +51,6 @@ const AccordionProducts = ({ onClick }: AccordionProductsProps) => {
         </AccordionButton>
         <AccordionPanel p="0">
           <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
-          <Button onClick={onOpen}>Nuevo</Button>
           <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
         </AccordionPanel>
       </AccordionItem>

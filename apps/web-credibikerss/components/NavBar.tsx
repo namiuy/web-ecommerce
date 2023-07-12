@@ -1,4 +1,8 @@
-import { NavBar as NavBarUI } from 'ui';
+import { AnimationWrapper, NavBar as NavBarUI } from 'ui';
 import { Logo } from './Logo';
 
-export const NavBar = () => <NavBarUI logo={Logo} />;
+export const NavBar = () => (
+  <AnimationWrapper tag="a">
+    <NavBarUI logo={Logo} />
+  </AnimationWrapper>
+);
