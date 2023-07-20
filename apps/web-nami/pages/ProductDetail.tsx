@@ -3,6 +3,7 @@ import { Image } from '@chakra-ui/react';
 import { Grid } from '@chakra-ui/react';
 import { GridItem } from '@chakra-ui/react';
 import { Text } from '@chakra-ui/react';
+import { Button } from 'ui';
 
 const jsonStr = {
   code: 'STLT235SB',
@@ -10,6 +11,7 @@ const jsonStr = {
   description: 'HIDRAULICO',
   price: 2900,
   stock: 'NO',
+  image: 'https://www.nami.com.uy/FotosNami/STLT235SB.jpg',
   brand: {
     name: 'Launch',
   },
@@ -24,12 +26,13 @@ const jsonStr = {
   ],
 };
 
-type Producto = {
+type Product = {
   code: string;
   name: string;
   description: string;
   price: number;
   stock: string;
+  image: string;
   brand: {
     name: string;
   };
@@ -45,7 +48,7 @@ type Producto = {
 };
 
 const ProductDetail = () => {
-  const producto: Producto = jsonStr;
+  const product: Product = jsonStr;
   return (
     <Container maxW={'950px'} h={'550px'} border={'1px'} p={'5'} mt={'4'}>
       <Grid
@@ -55,16 +58,19 @@ const ProductDetail = () => {
         gap={4}
       >
         <GridItem bg={'purple.100'} area={'image'} borderRight={'1px'} p={'1rem'}>
-          <Image src="https://www.nami.com.uy/FotosNami/STLT235SB.jpg" alt="Herramienta NAMI" />
+          <Image src={product.image} alt="Herramienta NAMI" />
         </GridItem>
         <GridItem bg="purple.100" area={'details'}>
-          <Text>{producto.name}</Text>
-          <Text>{producto.code}</Text>
-          <Text>{producto.price}</Text>
+          <Text>{product.name}</Text>
+          <Text>{product.code}</Text>
+          <Text>{product.price} + IVA </Text>
         </GridItem>
-        <GridItem bg="purple.100" area={'buy'}></GridItem>
+        <GridItem bg="purple.100" area={'buy'}>
+          <Text>{product.stock}</Text>
+          <Button>Comprar</Button>
+        </GridItem>
         <GridItem bg="purple.100" borderTop={'1px'} area={'description'}>
-          <Text> {producto.description} </Text>
+          <Text> {product.description} </Text>
         </GridItem>
       </Grid>
     </Container>
