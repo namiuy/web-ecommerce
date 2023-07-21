@@ -1,5 +1,6 @@
 import { Brand } from './brand';
 import { Category } from './category';
+import { RelatedLink } from './related-link';
 
 export type Product = {
   id: string;
@@ -13,4 +14,6 @@ export type Product = {
   price: number;
   image_url: string;
   path: string;
+  stock: 'NO' | 'CO' | 'AV';
+  relatedLinks: RelatedLink[];
 };
