@@ -34,8 +34,6 @@ const ProductDetail = () => {
     <>
       <Container
         maxW={{ lg: '65%', base: '90%' }}
-        border={'1px'}
-        borderColor={'blackAlpha.200'}
         p={{ lg: '2rem', base: '1rem' }}
         mt={'5rem'}
         boxShadow={' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%);'}
@@ -120,8 +118,6 @@ const ProductDetail = () => {
         <Container
           maxW={{ lg: '65%', base: '90%' }}
           px={0}
-          border={'1px'}
-          borderColor={'blackAlpha.200'}
           _hover={{ bg: 'blue.50' }}
           boxShadow={'0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%)'}
         >
