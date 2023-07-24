@@ -1,15 +1,28 @@
-import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import {
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
+  Icon,
+  Tooltip,
+  Link,
+} from '@chakra-ui/react';
 import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';
 import { Product } from 'shared/entities/product';
-import { Container, Image, Grid, GridItem, Text, Box, Button } from 'ui';
+import { Container, Image, Grid, GridItem, Heading, Text, Box, Button } from 'ui';
+import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
+import { BiSolidShoppingBag } from 'react-icons/bi';
+import { ImageModal } from 'ui/components/ImageModal';
 
 const jsonStr = {
   id: 'STLT235SB',
   name: 'ELEVADOR 2 COLUMNAS 3.5 TONS TRABAS MANUALES OFERTA !!! LAUNCH',
   description: 'HIDRAULICO',
   price: 2900,
-  stock: 'CO',
+  stock: 'AV',
   image_url: 'https://www.nami.com.uy/FotosNami/STLT235SB.jpg',
   brand: {
     name: 'Launch',
@@ -25,39 +38,33 @@ const jsonStr = {
   ],
 } as Product;
 
-const ShowImage = (props: any) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  return (
-    <>
-      <Image onClick={onOpen} src={props.image} alt="Herramienta NAMI" cursor={'pointer'} />
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent maxW={'70%'} maxH={'85%'}>
-          <ModalCloseButton />
-          <ModalBody mx={'auto'}>
-            <Image src={props.image} alt="Herramienta NAMI" />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-};
-
 const ProductDetail = () => {
   const product: Product = jsonStr;
   return (
     <>
-      <Container maxW={'950px'} border={'1px'} borderColor={'blackAlpha.200'} p={'2rem'} mt={'5rem'}>
+      <Container
+        maxW={{ lg: '65%', base: '90%' }}
+        border={'1px'}
+        borderColor={'blackAlpha.200'}
+        p={{ lg: '2rem', base: '1rem' }}
+        mt={'5rem'}
+        boxShadow={' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%);'}
+      >
         <Grid
-          templateAreas={`"image details" "description description"`}
+          templateAreas={{ lg: `"image details" "description description"`, base: `"image" "details" "description"` }}
           templateRows={'auto 1fr'}
-          templateColumns={'repeat(2, 1fr)'}
+          templateColumns={{ lg: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' }}
           gap={4}
         >
-          <GridItem area={'image'} borderRight={'1px'} borderColor={'blackAlpha.200'} pr={'3rem'}>
-            <ShowImage image={product.image_url} />
+          <GridItem
+            area={'image'}
+            borderRight={{ lg: '1px', base: '0' }}
+            pr={{ lg: '3rem', base: '0' }}
+            borderColor={'red.500'}
+          >
+            <ImageModal image={product.image_url} brand={product.brand.name} />
           </GridItem>
-          <GridItem area={'details'} pl={'2rem'}>
+          <GridItem area={'details'} pl={{ lg: '2rem', base: '0' }}>
             <Box borderBottom={'1px'} borderColor={'blackAlpha.200'}>
               <Text fontWeight={'extrabold'} fontSize={'1.3rem'}>
                 {product.name}
@@ -80,13 +87,32 @@ const ProductDetail = () => {
               </Text>
             </Box>
             <Box>
-              <Text color={'blackAlpha.600'} fontSize={'0.65rem'} pt={'2rem'} pb={'1rem'}>
-                Stock {product.stock === 'AV' && 'Disponible'}
-                {product.stock === 'CO' && 'Consulte'}
-                {product.stock === 'NO' && 'No disponible'}
+              <Text color={'blackAlpha.600'} fontSize={'0.75rem'} pt={'2rem'} pb={'1rem'}>
+                Stock
+                {product.stock === 'AV' && (
+                  <Tooltip label="Disponible" bg={'blackAlpha.700'} fontSize={'0.7rem'} borderRadius={'5px'}>
+                    <CheckIcon ml={'5px'} boxSize={3} mb={'3px'} />
+                  </Tooltip>
+                )}
+                {product.stock === 'CO' && (
+                  <Tooltip label="Consulte" bg={'blackAlpha.700'} fontSize={'0.7rem'} borderRadius={'5px'}>
+                    <PhoneIcon ml={'5px'} boxSize={3} mb={'3px'} />
+                  </Tooltip>
+                )}
+                {product.stock === 'NO' && (
+                  <Tooltip label="Agotado" bg={'blackAlpha.700'} fontSize={'0.7rem'} borderRadius={'5px'}>
+                    <CloseIcon ml={'5px'} boxSize={3} mb={'3px'} />
+                  </Tooltip>
+                )}
               </Text>
-              <Button width={'100%'} bg={'red.500'} color={'white'} _hover={{ bg: 'red.700' }}>
-                COMPRAR
+              <Button
+                width={'100%'}
+                bg={'red.500'}
+                color={'white'}
+                _hover={{ bg: 'red.700' }}
+                isDisabled={product.stock === 'CO' || product.stock === 'NO'}
+              >
+                COMPRAR <Icon as={BiSolidShoppingBag} ml={'5px'} mb={'3px'} boxSize={4} />
               </Button>
             </Box>
           </GridItem>
@@ -95,6 +121,25 @@ const ProductDetail = () => {
           </GridItem>
         </Grid>
       </Container>
+      <Box my={'4rem'} borderY={'1px'} borderColor={'blackAlpha.200'} py={'3rem'}>
+        <Container maxW={{ lg: '65%', base: '90%' }} px={0} mb={'2rem'}>
+          <Heading fontSize={'1.5rem'} color={'blackAlpha.700'}>
+            LINKS
+          </Heading>
+        </Container>
+        <Container
+          maxW={{ lg: '65%', base: '90%' }}
+          px={0}
+          border={'1px'}
+          borderColor={'blackAlpha.200'}
+          _hover={{ bg: 'blue.50' }}
+          boxShadow={'0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%)'}
+        >
+          <Link href={product.relatedLinks[0].url} display={'block'} p={'1rem'} color={'blue.400'}>
+            <Box>{product.relatedLinks[0].name}</Box>
+          </Link>
+        </Container>
+      </Box>
     </>
   );
 };
