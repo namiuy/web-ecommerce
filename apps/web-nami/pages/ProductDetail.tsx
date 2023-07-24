@@ -1,18 +1,8 @@
-import {
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  ModalCloseButton,
-  Icon,
-  Tooltip,
-  Link,
-} from '@chakra-ui/react';
+import { Icon, Tooltip, Link } from '@chakra-ui/react';
 import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';
 import { Product } from 'shared/entities/product';
-import { Container, Image, Grid, GridItem, Heading, Text, Box, Button } from 'ui';
+import { Container, Grid, GridItem, Heading, Text, Box, Button } from 'ui';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 import { BiSolidShoppingBag } from 'react-icons/bi';
 import { ImageModal } from 'ui/components/ImageModal';
@@ -58,9 +48,9 @@ const ProductDetail = () => {
         >
           <GridItem
             area={'image'}
-            borderRight={{ lg: '1px', base: '0' }}
             pr={{ lg: '3rem', base: '0' }}
-            borderColor={'red.500'}
+            borderRight={{ lg: '1px', base: '0' }}
+            borderColor={{ lg: 'blackAlpha.200' }}
           >
             <ImageModal image={product.image_url} brand={product.brand.name} />
           </GridItem>
