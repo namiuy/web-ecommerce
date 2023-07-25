@@ -23,7 +23,7 @@ export const productUpdate = (id: string, data: any): Promise<Product> =>
 
 export const productDelete = (id: string): Promise<Product> => del<Product>(`${bff.url}/products/${id}`);
 
-export const useProductGet = (id: number): Response<ProductSearch> => useRequest(`${bff.url}/products/${id}`);
+export const useProductGet = (id: string): Response<Product> => useRequest(`${bff.url}/products/${id}`);
 
 export const useProductSearch = ({
   brandId,
