@@ -50,7 +50,7 @@ const ProductDetail = () => {
             borderRight={{ lg: '1px', base: '0' }}
             borderColor={{ lg: 'blackAlpha.200' }}
           >
-            <ImageModal image={product.image_url} brand={product.brand.name} />
+            <ImageModal image={product.image_url} title={product.brand.name} />
           </GridItem>
           <GridItem area={'details'} pl={{ lg: '2rem', base: '0' }}>
             <Box borderBottom={'1px'} borderColor={'blackAlpha.200'}>
