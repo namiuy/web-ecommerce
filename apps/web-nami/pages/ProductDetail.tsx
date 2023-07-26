@@ -10,6 +10,8 @@ import _ from 'lodash';
 
 const _mainBoxMinHeight = '100vh';
 
+const _emptyBoxPaddingY = '2rem';
+
 const _containerSize = { lg: '65%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
 const _containerMarginTop = '5rem';
@@ -28,16 +30,38 @@ const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
 
 const _gridIemDetailsPaddingLeft = { lg: '1rem', base: '0' };
 const _gridItemDetailsBorderBottom = '1px';
-const _gridItemDetailsFontSize = '1.3rem';
+const _gridItemDetailsTitleFontWeight = 'extrabold';
+const _gridItemDetailsTitleFontSize = '1.3rem';
+const _gridItemDetailsCodeSmallFontSize = '0.6rem';
+const _gridItemDetailsCodeFontSize = '0.8rem';
+const _gridItemDetailsCurrencyFontSize = '1.7rem';
+const _gridItemDetailsPricePaddingTop = '1rem';
+const _gridItemDetailsPricePaddingBottom = '2.5rem';
+const _gridItemDetailsPriceFontSize = '2.2rem';
 
-const _tooltipBg = 'blackAlpha.700';
+const _gridItemDetailsTaxFontSize = '0.7rem';
+const _gridItemDetailsStockPaddingY = '1rem';
+const _gridItemDetailsStockFontSize = '0.75rem';
+const _gridItemDetailsBuyButton = { width: '100%', bg: 'red.500', color: 'white', _hover: { bg: 'red.700' } };
+
+const _gridItemDescriptionBorderTop = '1px';
+const _gridItemDescriptionPaddingTop = '1.5rem';
+const _smallTextColor = 'brand.productDetail.smallText';
+
+const _tooltipBg = 'brand.productDetail.tooltipBg';
 const _tooltipFontSize = '0.7rem';
 const _tooltipBorderRadius = '0.3rem';
 
-const _smallTextSizeOne = '0.8rem';
-const _smallTextSizeTwo = '0.6rem';
-const _smallTextSizeThree = '0.75rem';
-const _smallTextColor = 'brand.productDetail.smallText';
+const _stockIcon = { ml: '5px', boxSize: 3, mb: '3px' };
+const _shoppingBagIcon = { ml: '5px', boxSize: 4, mb: '3px' };
+
+const _relatedLinksMarginY = '4rem';
+const _relatedLinksPaddingY = '3rem';
+const _relatedLinksBorderY = '1px';
+const _relatedLinksTitleContainerMarginBottom = '2rem';
+const _relatedLinksHeadingSize = 'lg';
+const _relatedLinksMainContainerHover = { bg: 'blue.50' };
+const _relatedLinksLink = { display: 'block', p: '1rem', color: 'blue.400' };
 
 type ProductDetailProps = {
   id?: string;
@@ -57,102 +81,71 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
     <Box minHeight={_mainBoxMinHeight}>
       <Head />
       <NavBar />
-      <Box py={'2rem'}></Box>
+      <Box py={_emptyBoxPaddingY}></Box>
       <Container maxW={_containerSize} p={_containerPadding} mt={_containerMarginTop} boxShadow={_boxShadow}>
-        <Grid
-          templateAreas={_gridTemplateAreas}
-          templateRows={_gridTemplateRows}
-          templateColumns={_gridTemplateColumns}
-          gap={_gridGap}
-        >
-          <GridItem
-            area={'image'}
-            pr={_gridItemImagePaddingRight}
-            borderRight={_gridItemImageBorderRight}
-            borderColor={_griditemImageBorderColor}
-          >
+        <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns} gap={_gridGap}>
+          <GridItem area={'image'} pr={_gridItemImagePaddingRight} borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
             <ImageModal image={data.image_url} title={data.brand.name} />
           </GridItem>
           <GridItem area={'details'} pl={_gridIemDetailsPaddingLeft}>
             <Box borderBottom={_gridItemDetailsBorderBottom} borderColor={_borderColor}>
-              <Text fontWeight={'extrabold'} fontSize={_gridItemDetailsFontSize}>
+              <Text fontWeight={_gridItemDetailsTitleFontWeight} fontSize={_gridItemDetailsTitleFontSize}>
                 {data.name}
               </Text>
-              <Text color={_smallTextColor} fontSize={_smallTextSizeOne}>
-                <Text as="span" fontSize={_smallTextSizeTwo}>
+              <Text color={_smallTextColor} fontSize={_gridItemDetailsCodeFontSize}>
+                <Text as="span" fontSize={_gridItemDetailsCodeSmallFontSize}>
                   Cod{' '}
                 </Text>
                 {data.id}
               </Text>
-              <Text pt={'1rem'} pb={'2.5rem'} fontSize={'2.2rem'}>
-                <Text as="span" fontSize={'1.7rem'}>
+              <Text pt={_gridItemDetailsPricePaddingTop} pb={_gridItemDetailsPricePaddingBottom} fontSize={_gridItemDetailsPriceFontSize}>
+                <Text as="span" fontSize={_gridItemDetailsCurrencyFontSize}>
                   U$S{' '}
                 </Text>
                 {data.price}
-                <Text as="span" color={_smallTextColor} fontSize={_smallTextSizeTwo}>
+                <Text as="span" color={_smallTextColor} fontSize={_gridItemDetailsTaxFontSize}>
                   {' '}
                   + IVA
                 </Text>
               </Text>
             </Box>
             <Box>
-              <Text color={_smallTextColor} fontSize={_smallTextSizeThree} py={'1rem'}>
+              <Text color={_smallTextColor} fontSize={_gridItemDetailsStockFontSize} py={_gridItemDetailsStockPaddingY}>
                 Stock
                 {data.stock === 'AV' && (
-                  <Tooltip
-                    label="Disponible"
-                    bg={_tooltipBg}
-                    fontSize={_tooltipFontSize}
-                    borderRadius={_tooltipBorderRadius}
-                  >
-                    <CheckIcon ml={'5px'} boxSize={3} mb={'3px'} />
+                  <Tooltip label="Disponible" bg={_tooltipBg} fontSize={_tooltipFontSize} borderRadius={_tooltipBorderRadius}>
+                    <CheckIcon sx={_stockIcon} />
                   </Tooltip>
                 )}
                 {data.stock === 'CO' && (
-                  <Tooltip
-                    label="Consulte"
-                    bg={_tooltipBg}
-                    fontSize={_tooltipFontSize}
-                    borderRadius={_tooltipBorderRadius}
-                  >
-                    <PhoneIcon ml={'5px'} boxSize={3} mb={'3px'} />
+                  <Tooltip label="Consulte" bg={_tooltipBg} fontSize={_tooltipFontSize} borderRadius={_tooltipBorderRadius}>
+                    <PhoneIcon sx={_stockIcon} />
                   </Tooltip>
                 )}
                 {data.stock === 'NO' && (
-                  <Tooltip
-                    label="Agotado"
-                    bg={_tooltipBg}
-                    fontSize={_tooltipFontSize}
-                    borderRadius={_tooltipBorderRadius}
-                  >
-                    <CloseIcon ml={'5px'} boxSize={3} mb={'3px'} />
+                  <Tooltip label="Agotado" bg={_tooltipBg} fontSize={_tooltipFontSize} borderRadius={_tooltipBorderRadius}>
+                    <CloseIcon sx={_stockIcon} />
                   </Tooltip>
                 )}
               </Text>
-              <Button
-                width={'100%'}
-                bg={'red.500'}
-                color={'white'}
-                _hover={{ bg: 'red.700' }}
-                isDisabled={data.stock === 'CO' || data.stock === 'NO'}
-              >
-                COMPRAR <Icon as={BiSolidShoppingBag} ml={'5px'} mb={'3px'} boxSize={4} />
+              <Button sx={_gridItemDetailsBuyButton} isDisabled={data.stock === 'CO' || data.stock === 'NO'}>
+                COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
               </Button>
             </Box>
           </GridItem>
-          <GridItem area={'description'} borderTop={'1px'} borderColor={_borderColor}>
-            <Text pt={'1.5rem'}> {data.description} </Text>
+          <GridItem area={'description'} borderTop={_gridItemDescriptionBorderTop} borderColor={_borderColor} pt={_gridItemDescriptionPaddingTop}>
+            <Text> {data.description} </Text>
           </GridItem>
         </Grid>
       </Container>
       {data.relatedLinks && (
-        <Box my={'4rem'} borderY={'1px'} borderColor={_borderColor} py={'3rem'}>
-          <Container maxW={_containerSize} px={0} mb={'2rem'}>
-            <Heading size={'lg'}>LINKS</Heading>
+        <Box my={_relatedLinksMarginY} py={_relatedLinksPaddingY} borderY={_relatedLinksBorderY} borderColor={_borderColor}>
+          <Container maxW={_containerSize} px={0} mb={_relatedLinksTitleContainerMarginBottom}>
+            <Heading size={_relatedLinksHeadingSize}>LINKS</Heading>
           </Container>
-          <Container maxW={_containerSize} px={0} _hover={{ bg: 'blue.50' }} boxShadow={_boxShadow}>
+          <Container maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} boxShadow={_boxShadow}>
             {data.relatedLinks.map((link, i) => (
-              <Link href={link.url} display={'block'} p={'1rem'} color={'blue.400'} key={i}>
+              <Link href={link.url} sx={_relatedLinksLink} key={i}>
                 <Box>{link.name}</Box>
               </Link>
             ))}

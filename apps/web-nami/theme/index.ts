@@ -3,6 +3,11 @@ const secondary = '#030366';
 
 const grey1 = '#eeeeee';
 const grey2 = '#909090';
+const grey3 = '#676767';
+
+const red1 = '#e53e3e' 
+const red2 = '#9b2c2c'
+
 
 export const theme: Record<string, any> = {
   colors: {
@@ -36,7 +41,14 @@ export const theme: Record<string, any> = {
       productDetail: {
         borderColor: grey1,
         smallText: grey2,
+        tooltipBg: grey3,
+        buyButton: {
+          backgroundColor: red1,
+          _hover: {
+            backgroundColor: red2,
+      }
       },
+    },
       nav: {
         item: {
           color: 'white',
