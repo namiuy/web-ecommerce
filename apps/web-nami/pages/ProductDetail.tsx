@@ -8,6 +8,8 @@ import { NextPage } from 'next';
 import { NavBar } from '../components';
 import _ from 'lodash';
 
+const _mainBoxMinHeight = '100vh';
+
 const _containerSize = { lg: '65%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
 const _containerMarginTop = '5rem';
@@ -24,9 +26,18 @@ const _gridItemImagePaddingRight = { lg: '2rem', base: '0' };
 const _gridItemImageBorderRight = { lg: '1px', base: '0' };
 const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
 
+const _gridIemDetailsPaddingLeft = { lg: '1rem', base: '0' };
+const _gridItemDetailsBorderBottom = '1px';
+const _gridItemDetailsFontSize = '1.3rem';
+
 const _tooltipBg = 'blackAlpha.700';
 const _tooltipFontSize = '0.7rem';
 const _tooltipBorderRadius = '0.3rem';
+
+const _smallTextSizeOne = '0.8rem';
+const _smallTextSizeTwo = '0.6rem';
+const _smallTextSizeThree = '0.75rem';
+const _smallTextColor = 'brand.productDetail.smallText';
 
 type ProductDetailProps = {
   id?: string;
@@ -35,7 +46,7 @@ type ProductDetailProps = {
 const ProductDetail: NextPage<ProductDetailProps> = props => {
   const { isLoading, error, data } = useProductGet(props?.id || '');
 
-  if (isLoading || !data) return <>Loading</>;
+  if (isLoading || !data) return <>Loading...</>;
 
   if (error) {
     console.log(error);
@@ -43,7 +54,7 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
   }
 
   return (
-    <Box minHeight={'100vh'}>
+    <Box minHeight={_mainBoxMinHeight}>
       <Head />
       <NavBar />
       <Box py={'2rem'}></Box>
@@ -62,13 +73,13 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
           >
             <ImageModal image={data.image_url} title={data.brand.name} />
           </GridItem>
-          <GridItem area={'details'} pl={{ lg: '1rem', base: '0' }}>
-            <Box borderBottom={'1px'} borderColor={_borderColor}>
-              <Text fontWeight={'extrabold'} fontSize={'1.3rem'}>
+          <GridItem area={'details'} pl={_gridIemDetailsPaddingLeft}>
+            <Box borderBottom={_gridItemDetailsBorderBottom} borderColor={_borderColor}>
+              <Text fontWeight={'extrabold'} fontSize={_gridItemDetailsFontSize}>
                 {data.name}
               </Text>
-              <Text color={'blackAlpha.600'} fontSize={'0.8rem'}>
-                <Text as="span" fontSize={'0.6rem'}>
+              <Text color={_smallTextColor} fontSize={_smallTextSizeOne}>
+                <Text as="span" fontSize={_smallTextSizeTwo}>
                   Cod{' '}
                 </Text>
                 {data.id}
@@ -78,14 +89,14 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
                   U$S{' '}
                 </Text>
                 {data.price}
-                <Text as="span" color={'blackAlpha.600'} fontSize={'0.6rem'}>
+                <Text as="span" color={_smallTextColor} fontSize={_smallTextSizeTwo}>
                   {' '}
                   + IVA
                 </Text>
               </Text>
             </Box>
             <Box>
-              <Text color={'blackAlpha.600'} fontSize={'0.75rem'} py={'1rem'}>
+              <Text color={_smallTextColor} fontSize={_smallTextSizeThree} py={'1rem'}>
                 Stock
                 {data.stock === 'AV' && (
                   <Tooltip
@@ -134,27 +145,19 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
           </GridItem>
         </Grid>
       </Container>
-      {data.relatedLinks ? (
+      {data.relatedLinks && (
         <Box my={'4rem'} borderY={'1px'} borderColor={_borderColor} py={'3rem'}>
           <Container maxW={_containerSize} px={0} mb={'2rem'}>
             <Heading size={'lg'}>LINKS</Heading>
           </Container>
-          <Container
-            maxW={_containerSize}
-            px={0}
-            _hover={{ bg: 'blue.50' }}
-            boxShadow={'0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%)'}
-          >
+          <Container maxW={_containerSize} px={0} _hover={{ bg: 'blue.50' }} boxShadow={_boxShadow}>
             {data.relatedLinks.map((link, i) => (
               <Link href={link.url} display={'block'} p={'1rem'} color={'blue.400'} key={i}>
                 <Box>{link.name}</Box>
               </Link>
             ))}
-            : (<> </>)
           </Container>
         </Box>
-      ) : (
-        <> </>
       )}
     </Box>
   );

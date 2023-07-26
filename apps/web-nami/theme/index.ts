@@ -2,6 +2,7 @@ const primary = '#030366';
 const secondary = '#030366';
 
 const grey1 = '#eeeeee';
+const grey2 = '#909090';
 
 export const theme: Record<string, any> = {
   colors: {
@@ -34,6 +35,7 @@ export const theme: Record<string, any> = {
     brand: {
       productDetail: {
         borderColor: grey1,
+        smallText: grey2,
       },
       nav: {
         item: {
