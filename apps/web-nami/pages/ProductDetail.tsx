@@ -6,15 +6,19 @@ import { ImageModal } from 'ui/components/ImageModal';
 import { useProductGet } from 'shared';
 import { NextPage } from 'next';
 import { NavBar } from '../components';
+import { useRouter } from 'next/router';
 import _ from 'lodash';
 
 const _mainBoxMinHeight = '100vh';
-
 const _emptyBoxPaddingY = '2rem';
+
+const _returnLinkHoverColor = { color: 'brand.productDetail.linkColor' };
+const _returnLinkFontSize = '0.95rem';
+const _returnLinkMarginBottom = '0.3rem';
+const _returnLinkMarginTop = '5rem';
 
 const _containerSize = { lg: '65%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
-const _containerMarginTop = '5rem';
 
 const _borderColor = 'brand.productDetail.borderColor';
 const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
@@ -38,11 +42,11 @@ const _gridItemDetailsCurrencyFontSize = '1.7rem';
 const _gridItemDetailsPricePaddingTop = '1rem';
 const _gridItemDetailsPricePaddingBottom = '2.5rem';
 const _gridItemDetailsPriceFontSize = '2.2rem';
-
 const _gridItemDetailsTaxFontSize = '0.7rem';
 const _gridItemDetailsStockPaddingY = '1rem';
 const _gridItemDetailsStockFontSize = '0.75rem';
-const _gridItemDetailsBuyButton = { width: '100%', bg: 'red.500', color: 'white', _hover: { bg: 'red.700' } };
+const _gridItemDetailsBuyButtonWidth = '100%';
+const _gridItemDetailsBuyButtonColors = { bg: 'red.500', color: 'white', _hover: { bg: 'red.700' } };
 
 const _gridItemDescriptionBorderTop = '1px';
 const _gridItemDescriptionPaddingTop = '1.5rem';
@@ -61,7 +65,9 @@ const _relatedLinksBorderY = '1px';
 const _relatedLinksTitleContainerMarginBottom = '2rem';
 const _relatedLinksHeadingSize = 'lg';
 const _relatedLinksMainContainerHover = { bg: 'blue.50' };
-const _relatedLinksLink = { display: 'block', p: '1rem', color: 'blue.400' };
+const _relatedLinksLinkDisplay = 'block';
+const _relatedLinksLinkPadding = '1rem';
+const _relatedLinksLinkColor = 'brand.productDetail.linkColor';
 
 type ProductDetailProps = {
   id?: string;
@@ -69,6 +75,7 @@ type ProductDetailProps = {
 
 const ProductDetail: NextPage<ProductDetailProps> = props => {
   const { isLoading, error, data } = useProductGet(props?.id || '');
+  const router = useRouter();
 
   if (isLoading || !data) return <>Loading...</>;
 
@@ -82,7 +89,17 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
       <Head />
       <NavBar />
       <Box py={_emptyBoxPaddingY}></Box>
-      <Container maxW={_containerSize} p={_containerPadding} mt={_containerMarginTop} boxShadow={_boxShadow}>
+      <Container maxW={_containerSize} px={0} mt={_returnLinkMarginTop} mb={_returnLinkMarginBottom} fontSize={_returnLinkFontSize}>
+        <Link onClick={() => router.back()} fontWeight={'bold'} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
+          Volver
+        </Link>
+        <Text as="span" mx={'0.4rem'}>
+          {' '}
+          |{' '}
+        </Text>
+        <Text display={'inline'}> {data.category.name}</Text>
+      </Container>
+      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow}>
         <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns} gap={_gridGap}>
           <GridItem area={'image'} pr={_gridItemImagePaddingRight} borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
             <ImageModal image={data.image_url} title={data.brand.name} />
@@ -128,7 +145,7 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
                   </Tooltip>
                 )}
               </Text>
-              <Button sx={_gridItemDetailsBuyButton} isDisabled={data.stock === 'CO' || data.stock === 'NO'}>
+              <Button width={_gridItemDetailsBuyButtonWidth} sx={_gridItemDetailsBuyButtonColors} isDisabled={data.stock === 'CO' || data.stock === 'NO'}>
                 COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
               </Button>
             </Box>
@@ -145,7 +162,14 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
           </Container>
           <Container maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} boxShadow={_boxShadow}>
             {data.relatedLinks.map((link, i) => (
-              <Link href={link.url} sx={_relatedLinksLink} key={i}>
+              <Link
+                href={link.url}
+                display={_relatedLinksLinkDisplay}
+                p={_relatedLinksLinkPadding}
+                color={_relatedLinksLinkColor}
+                key={i}
+                style={{ textDecoration: 'none' }}
+              >
                 <Box>{link.name}</Box>
               </Link>
             ))}

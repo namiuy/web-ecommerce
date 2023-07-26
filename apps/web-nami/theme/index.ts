@@ -5,9 +5,10 @@ const grey1 = '#eeeeee';
 const grey2 = '#909090';
 const grey3 = '#676767';
 
-const red1 = '#e53e3e' 
-const red2 = '#9b2c2c'
+const red1 = '#e53e3e';
+const red2 = '#9b2c2c';
 
+const blue1 = '#4195db';
 
 export const theme: Record<string, any> = {
   colors: {
@@ -48,6 +49,7 @@ export const theme: Record<string, any> = {
             backgroundColor: red2,
       }
       },
+      linkColor: blue1,
     },
       nav: {
         item: {
