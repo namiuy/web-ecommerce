@@ -2,9 +2,11 @@ import { Head, Container, Heading, Text, Box } from 'ui';
 import { NavBar } from '../components';
 
 const _backgroundColor = 'brand.productDetail.backgroundColor';
+const _borderColor = 'brand.productDetail.borderColor';
 
 const _containerSize = { lg: '65%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
+const _emptyBoxPadding = { lg: '2rem', base: '0.5rem' };
 
 const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
 
@@ -13,54 +15,55 @@ const Historia = () => {
     <Box minHeight={'100vh'} bg={_backgroundColor}>
       <Head />
       <NavBar />
-      <Box py={'1rem'}></Box>
-      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} mt={'8rem'} bg={'white'}>
-        <Heading mb={'1rem'} borderBottom={'1px'}>
+      <Box py={_emptyBoxPadding}></Box>
+      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} mt={'5rem'} bg={'white'}>
+        <Heading pb={'0.5rem'} mb={'1rem'} borderBottom={'1px'} borderColor={_borderColor}>
           Historia
         </Heading>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Luis Panasco S.A. es una Empresa familiar, fundada hace más de 50 años por don Luis D´Assuncao Panasco como fabricante de radiadores de automóvil para
-          el mercado de reposición.
+        <Box>
+          <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+            Luis Panasco S.A. es una empresa familiar con más de 50 años de trayectoria, fundada por don Luis D´Assuncao Panasco como fabricante de radiadores
+            de automóvil para el mercado de reposición.
+          </Text>
+        </Box>
+        <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+          En 1975, la empresa dio un importante paso al desarrollar y producir su primer radiador como unidad original para la planta de Armado Automotriz
+          Uruguaya, destinado a un vehículo con motor General Motors. Desde entonces, hemos sido proveedores de distintas marcas de vehículos cero kilómetro,
+          como Fiat, Ford, General Motors, Renault, Citroen y Peugeot. Durante los años 1977 y 1981, también exportamos unidades para automóviles cero kilómetro
+          de las marcas Fiat y Renault a Argentina. A lo largo de 27 años, hemos acompañado a la industria automotriz, adaptando nuestros procesos para cumplir
+          con sus exigentes normas de calidad.
         </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          En el año 1975 la Empresa desarrolla y produce su primer radiador como unidad original para la primer planta de Armado Automotriz Uruguaya, para un
-          vehículo con motor General Motors. Posteriormente ha sido proveedora de distintas Marcas de vehículos cero kilómetro tales como: Fiat. Ford, General
-          Motors, Renault, Citroen, Peugeot; exportando a Argentina durante los años 1977 1981 unidades para automóviles cero kilometro de las marcas Fiat y
-          Renault. Durante 27 años nuestra Empresa ha acompañado a la Industria Automotriz ajustando nuestros procesos a sus muy exigentes normas de calidad
+        <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+          En ese contexto, NAMI se inició como distribuidores de los productos &quot;Radiadores EL IMÁN&quot; de Luis Panasco S.A., con el objetivo de estar más
+          cerca de nuestros clientes. En 1986, abrimos nuestro primer local en la calle Br. Artigas, ofreciendo servicios de reparación y mantenimiento de
+          sistemas de enfriamiento y radiadores.
         </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          NAMI inició su actividad como distribuidores de Luis Panasco S.A., de sus productos “Radiadores EL IMAN”, por la necesidad de estar en contacto
-          directo con nuestros clientes. Fue así que en 1986 abrimos nuestro primer local en la calle Br. Artigas, ofreciendo el servicio para el sistema de
-          enfriamiento y reparación de radiadores.
+        <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+          Atentos a las necesidades del mercado y a la satisfacción de nuestros clientes, ampliamos nuestra oferta y añadimos otros servicios y productos en
+          nuestros locales. Incorporamos productos importados como radiadores, intercoolers, condensadores, electroventiladores, entre otros, convirtiéndonos en
+          representantes y distribuidores de marcas como Behr, Valeo, Visconde, Delphi, entre otras.
         </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Inmediatamente, atentos a las necesidades de nuestro mercado y a nuestra obligación para con nuestros clientes de ofrecerles un servicio cada vez más
-          integral, anexamos otros servicios y productos en nuestros locales. Comenzando con productos importados como radiadores, intercoolers, condensadores,
-          electroventiladores, etc. Siendo desde esa época representantes y distribuidres de las firmas Behr, Valeo, Visconde, Delphi, entre otras.
+        <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+          Posteriormente, inauguramos un segundo local en la calle Cerro Largo, especializado en la instalación de equipos de aire acondicionado para vehículos
+          0Km, así como en la venta y reparación de repuestos para unidades usadas.
         </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Años más tarde, abrimos nuestro segundo local en la calle Cerro Largo, orientado a la instalacion de equipos de aire acondicionado, con colocación en
-          vehículos 0Km, así como tambien reparación y venta de todo tipo de repuestos para unidades usadas.
+        <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+          A través de nuestras visitas a ferias internacionales, identificamos la necesidad de ampliar nuestra gama de productos para incluir bombas de aguas,
+          viscosos, radiadores de aceite y todo lo relacionado con sistemas de enfriamiento y aire acondicionado para vehículos tanto ligeros como pesados. En
+          una segunda etapa, también incorporamos insumos de inyección electrónica y herramientas de diagnóstico.
         </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Como consecuencia de nuestra visitas, y viajes a ferias internacionales, vimos la necesidad de incluír en nuestros productos, la línea de bombas de
-          aguas, viscosos, radiadores de aceite, y todo lo referente a los sistemas de enfriamiento y A/A automotrices y líneas pesadas. En una segunda etapa se
-          incorporaron insumos de inyección electrónica y herramientas de diagnóstico.
+        <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
+          Dado el crecimiento de estas nuevas incorporaciones, implementamos un servicio de postventa especializado para atender herramientas y equipamiento
+          destinados a talleres mecánicos, como elevadores, scanners, balanceadoras y alienadoras, entre otros.
         </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Debido al gran crecimiento de estas últimas incorporaciones, nos vimos agregar un servicio de postventa especializado para la atencion de herramientas
-          y equipamiento para el taller mecánico, como elevadores, scanners, balanceadoras, alienadoras, entre otras.
-        </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Luego de tantos años en el mercado, comprendemos que a nuestros clientes es importante brindarle un servicio integral, por tal motivo, si bien cada
-          local se especifica en su tarea principal, ninguna abandonó la venta de los repuestos con la que comenzamos y crecimos.
-        </Text>
-        <Text pb={'1rem'} style={{ textAlign: 'justify' }}>
-          Sin olvidar nuestros principios y orgullosos de nuestro crecimiento, mantenemos hasta el día de hoy los valores de nuestros orígenes como empresa
-          familiar.
+        <Text style={{ textAlign: 'justify' }}>
+          A pesar de nuestro crecimiento y evolución, nunca hemos olvidado nuestros principios. Nos enorgullecemos de mantener los valores que nos identifican
+          como empresa familiar desde nuestros inicios. Si bien cada local se enfoca en su tarea principal, nunca hemos abandonado la venta de repuestos, con la
+          cual comenzamos y crecimos, pues comprendemos la importancia de brindar un servicio integral a nuestros apreciados clientes, quienes son la razón de
+          nuestro éxito hasta el día de hoy.
         </Text>
       </Container>
-      <Box py={'2rem'}></Box>
+      <Box py={'1.5rem'}></Box>
     </Box>
   );
 };

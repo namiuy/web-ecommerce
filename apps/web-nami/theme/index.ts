@@ -40,6 +40,9 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
+      login:{
+        backgroundColor: primary,
+      },
       productDetail: {
         borderColor: grey1,
         smallText: grey2,

@@ -25,7 +25,7 @@ const _gridItemImagePaddingRight = { lg: '2rem', base: '0' };
 const _gridItemImageBorderRight = { lg: '1px', base: '0' };
 const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
 
-const _gridIemDetailsPaddingLeft = { lg: '1rem', base: '0' };
+const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
 
 const _gridItemDetailsBuyButtonColors = { bg: 'red.500', color: 'white', _hover: { bg: 'red.700' } };
 
@@ -58,19 +58,21 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
     <Box minHeight={'100vh'} bg={_backgroundColor}>
       <Head />
       <NavBar />
-      <Box py={'2rem'}></Box>
-      <Container maxW={_containerSize} px={0} mt={'5rem'} mb={'0.25rem'} fontSize={'0.875rem'}>
-        <Link onClick={() => router.back()} fontWeight={'bold'} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
+      <Container maxW={_containerSize} px={0} pt={'10rem'} mb={'0.25rem'} fontSize={'0.875rem'}>
+        <Link onClick={() => router.back()} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
           Volver
         </Link>
-        <Text as="span" mx={'0.4rem'}>
+        <Text as="span" mx={'0.375rem'}>
           {' '}
           |{' '}
         </Text>
-        <Text display={'inline'}> {data.category.name}</Text>
+        <Link href={`/productos?c=${data.category.id}`} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
+          {' '}
+          {data.category.name}
+        </Link>
       </Container>
       <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} bg={'white'}>
-        <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns} gap={'1rem'}>
+        <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns}>
           <GridItem area={'image'} pr={_gridItemImagePaddingRight} borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
             <ImageModal image={data.image_url} title={data.brand.name} />
           </GridItem>
@@ -120,9 +122,11 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
               </Button>
             </Box>
           </GridItem>
-          <GridItem area={'description'} borderTop={'1px'} borderColor={_borderColor} pt={'1.5rem'}>
-            <Text> {data.description} </Text>
-          </GridItem>
+          {data.description && (
+            <GridItem area={'description'} borderTop={'1px'} borderColor={_borderColor} pt={'1.5rem'} mt={'2rem'}>
+              <Text> {data.description} </Text>
+            </GridItem>
+          )}
         </Grid>
       </Container>
       {data.relatedLinks && (
