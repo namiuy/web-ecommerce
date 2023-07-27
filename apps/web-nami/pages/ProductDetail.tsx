@@ -7,66 +7,36 @@ import { useProductGet } from 'shared';
 import { NextPage } from 'next';
 import { NavBar } from '../components';
 import { useRouter } from 'next/router';
-import _ from 'lodash';
 
-const _mainBoxMinHeight = '100vh';
-const _emptyBoxPaddingY = '2rem';
-
+const _backgroundColor = 'brand.productDetail.backgroundColor';
+const _borderColor = 'brand.productDetail.borderColor';
 const _returnLinkHoverColor = { color: 'brand.productDetail.linkColor' };
-const _returnLinkFontSize = '0.95rem';
-const _returnLinkMarginBottom = '0.3rem';
-const _returnLinkMarginTop = '5rem';
+
+const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
 
 const _containerSize = { lg: '65%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
 
-const _borderColor = 'brand.productDetail.borderColor';
-const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
-
 const _gridTemplateAreas = { lg: `"image details" "description description"`, base: `"image" "details" "description"` };
 const _gridTemplateRows = { lg: 'auto 1fr', base: 'auto 1fr' };
 const _gridTemplateColumns = { lg: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' };
-const _gridGap = '1rem';
 
 const _gridItemImagePaddingRight = { lg: '2rem', base: '0' };
 const _gridItemImageBorderRight = { lg: '1px', base: '0' };
 const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
 
 const _gridIemDetailsPaddingLeft = { lg: '1rem', base: '0' };
-const _gridItemDetailsBorderBottom = '1px';
-const _gridItemDetailsTitleFontWeight = 'extrabold';
-const _gridItemDetailsTitleFontSize = '1.3rem';
-const _gridItemDetailsCodeSmallFontSize = '0.6rem';
-const _gridItemDetailsCodeFontSize = '0.8rem';
-const _gridItemDetailsCurrencyFontSize = '1.7rem';
-const _gridItemDetailsPricePaddingTop = '1rem';
-const _gridItemDetailsPricePaddingBottom = '2.5rem';
-const _gridItemDetailsPriceFontSize = '2.2rem';
-const _gridItemDetailsTaxFontSize = '0.7rem';
-const _gridItemDetailsStockPaddingY = '1rem';
-const _gridItemDetailsStockFontSize = '0.75rem';
-const _gridItemDetailsBuyButtonWidth = '100%';
+
 const _gridItemDetailsBuyButtonColors = { bg: 'red.500', color: 'white', _hover: { bg: 'red.700' } };
 
-const _gridItemDescriptionBorderTop = '1px';
-const _gridItemDescriptionPaddingTop = '1.5rem';
 const _smallTextColor = 'brand.productDetail.smallText';
 
 const _tooltipBg = 'brand.productDetail.tooltipBg';
-const _tooltipFontSize = '0.7rem';
-const _tooltipBorderRadius = '0.3rem';
 
 const _stockIcon = { ml: '5px', boxSize: 3, mb: '3px' };
 const _shoppingBagIcon = { ml: '5px', boxSize: 4, mb: '3px' };
 
-const _relatedLinksMarginY = '4rem';
-const _relatedLinksPaddingY = '3rem';
-const _relatedLinksBorderY = '1px';
-const _relatedLinksTitleContainerMarginBottom = '2rem';
-const _relatedLinksHeadingSize = 'lg';
 const _relatedLinksMainContainerHover = { bg: 'blue.50' };
-const _relatedLinksLinkDisplay = 'block';
-const _relatedLinksLinkPadding = '1rem';
 const _relatedLinksLinkColor = 'brand.productDetail.linkColor';
 
 type ProductDetailProps = {
@@ -85,11 +55,11 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
   }
 
   return (
-    <Box minHeight={_mainBoxMinHeight}>
+    <Box minHeight={'100vh'} bg={_backgroundColor}>
       <Head />
       <NavBar />
-      <Box py={_emptyBoxPaddingY}></Box>
-      <Container maxW={_containerSize} px={0} mt={_returnLinkMarginTop} mb={_returnLinkMarginBottom} fontSize={_returnLinkFontSize}>
+      <Box py={'2rem'}></Box>
+      <Container maxW={_containerSize} px={0} mt={'5rem'} mb={'0.25rem'} fontSize={'0.875rem'}>
         <Link onClick={() => router.back()} fontWeight={'bold'} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
           Volver
         </Link>
@@ -99,77 +69,70 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
         </Text>
         <Text display={'inline'}> {data.category.name}</Text>
       </Container>
-      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow}>
-        <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns} gap={_gridGap}>
+      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} bg={'white'}>
+        <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns} gap={'1rem'}>
           <GridItem area={'image'} pr={_gridItemImagePaddingRight} borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
             <ImageModal image={data.image_url} title={data.brand.name} />
           </GridItem>
           <GridItem area={'details'} pl={_gridIemDetailsPaddingLeft}>
-            <Box borderBottom={_gridItemDetailsBorderBottom} borderColor={_borderColor}>
-              <Text fontWeight={_gridItemDetailsTitleFontWeight} fontSize={_gridItemDetailsTitleFontSize}>
+            <Box borderBottom={'1px'} borderColor={_borderColor}>
+              <Text fontWeight={'extrabold'} fontSize={'1.25rem'}>
                 {data.name}
               </Text>
-              <Text color={_smallTextColor} fontSize={_gridItemDetailsCodeFontSize}>
-                <Text as="span" fontSize={_gridItemDetailsCodeSmallFontSize}>
+              <Text color={_smallTextColor} fontSize={'0.75rem'}>
+                <Text as="span" fontSize={'0.625rem'}>
                   Cod{' '}
                 </Text>
                 {data.id}
               </Text>
-              <Text pt={_gridItemDetailsPricePaddingTop} pb={_gridItemDetailsPricePaddingBottom} fontSize={_gridItemDetailsPriceFontSize}>
-                <Text as="span" fontSize={_gridItemDetailsCurrencyFontSize}>
+              <Text pt={'1rem'} pb={'2.5rem'} fontSize={'2.25rem'}>
+                <Text as="span" fontSize={'1.625rem'}>
                   U$S{' '}
                 </Text>
                 {data.price}
-                <Text as="span" color={_smallTextColor} fontSize={_gridItemDetailsTaxFontSize}>
+                <Text as="span" color={_smallTextColor} fontSize={'0.75rem'}>
                   {' '}
                   + IVA
                 </Text>
               </Text>
             </Box>
             <Box>
-              <Text color={_smallTextColor} fontSize={_gridItemDetailsStockFontSize} py={_gridItemDetailsStockPaddingY}>
+              <Text color={_smallTextColor} fontSize={'0.75rem'} py={'1rem'}>
                 Stock
                 {data.stock === 'AV' && (
-                  <Tooltip label="Disponible" bg={_tooltipBg} fontSize={_tooltipFontSize} borderRadius={_tooltipBorderRadius}>
+                  <Tooltip label="Disponible" bg={_tooltipBg} fontSize={'0.75rem'} borderRadius={'0.25rem'}>
                     <CheckIcon sx={_stockIcon} />
                   </Tooltip>
                 )}
                 {data.stock === 'CO' && (
-                  <Tooltip label="Consulte" bg={_tooltipBg} fontSize={_tooltipFontSize} borderRadius={_tooltipBorderRadius}>
+                  <Tooltip label="Consulte" bg={_tooltipBg} fontSize={'0.75rem'} borderRadius={'0.25rem'}>
                     <PhoneIcon sx={_stockIcon} />
                   </Tooltip>
                 )}
                 {data.stock === 'NO' && (
-                  <Tooltip label="Agotado" bg={_tooltipBg} fontSize={_tooltipFontSize} borderRadius={_tooltipBorderRadius}>
+                  <Tooltip label="Agotado" bg={_tooltipBg} fontSize={'0.75rem'} borderRadius={'0.25rem'}>
                     <CloseIcon sx={_stockIcon} />
                   </Tooltip>
                 )}
               </Text>
-              <Button width={_gridItemDetailsBuyButtonWidth} sx={_gridItemDetailsBuyButtonColors} isDisabled={data.stock === 'CO' || data.stock === 'NO'}>
+              <Button width={'100%'} sx={_gridItemDetailsBuyButtonColors} isDisabled={data.stock === 'CO' || data.stock === 'NO'}>
                 COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
               </Button>
             </Box>
           </GridItem>
-          <GridItem area={'description'} borderTop={_gridItemDescriptionBorderTop} borderColor={_borderColor} pt={_gridItemDescriptionPaddingTop}>
+          <GridItem area={'description'} borderTop={'1px'} borderColor={_borderColor} pt={'1.5rem'}>
             <Text> {data.description} </Text>
           </GridItem>
         </Grid>
       </Container>
       {data.relatedLinks && (
-        <Box my={_relatedLinksMarginY} py={_relatedLinksPaddingY} borderY={_relatedLinksBorderY} borderColor={_borderColor}>
-          <Container maxW={_containerSize} px={0} mb={_relatedLinksTitleContainerMarginBottom}>
-            <Heading size={_relatedLinksHeadingSize}>LINKS</Heading>
+        <Box my={'4rem'} py={'3rem'} borderY={'1px'} borderColor={_borderColor}>
+          <Container maxW={_containerSize} px={0} mb={'2rem'}>
+            <Heading size={'lg'}>LINKS</Heading>
           </Container>
-          <Container maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} boxShadow={_boxShadow}>
+          <Container maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} boxShadow={_boxShadow} bg={'white'}>
             {data.relatedLinks.map((link, i) => (
-              <Link
-                href={link.url}
-                display={_relatedLinksLinkDisplay}
-                p={_relatedLinksLinkPadding}
-                color={_relatedLinksLinkColor}
-                key={i}
-                style={{ textDecoration: 'none' }}
-              >
+              <Link href={link.url} display={'block'} p={'1rem'} color={_relatedLinksLinkColor} key={i} style={{ textDecoration: 'none' }}>
                 <Box>{link.name}</Box>
               </Link>
             ))}

@@ -4,6 +4,7 @@ const secondary = '#030366';
 const grey1 = '#eeeeee';
 const grey2 = '#909090';
 const grey3 = '#676767';
+const greyBg = '#fafafa'
 
 const red1 = '#e53e3e';
 const red2 = '#9b2c2c';
@@ -50,6 +51,7 @@ export const theme: Record<string, any> = {
       }
       },
       linkColor: blue1,
+      backgroundColor: greyBg,
     },
       nav: {
         item: {
