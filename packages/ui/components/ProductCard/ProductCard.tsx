@@ -38,7 +38,7 @@ export type ProductCardProps = {
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ min = false, isLoading = false, product }) => {
-  const { name, category, price, path, image_url } = product || {};
+  const { name, category, price, id, image_url } = product || {};
   const w = min ? _minW : _w;
   const minH = min ? _minMinH : _minH;
   const imageMinH = min ? _minImageMinH : _imageMinH;
@@ -51,7 +51,7 @@ export const ProductCard: FC<ProductCardProps> = ({ min = false, isLoading = fal
   const bodyGap = min ? _minBodyGap : _bodyGap;
 
   return (
-    <Link href="/" /*href={path}*/ display="contents" _hover={{ textDecoration: 'none' }}>
+    <Link href={`/ProductDetail?id=${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card
         w={w}
         minH={minH}

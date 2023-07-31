@@ -1,6 +1,16 @@
 const primary = '#030366';
 const secondary = '#030366';
 
+const grey1 = '#eeeeee';
+const grey2 = '#909090';
+const grey3 = '#676767';
+const greyBg = '#fafafa'
+
+const red1 = '#e53e3e';
+const red2 = '#9b2c2c';
+
+const blue1 = '#4195db';
+
 export const theme: Record<string, any> = {
   colors: {
     primary: {
@@ -30,6 +40,22 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
+      login:{
+        backgroundColor: primary,
+      },
+      productDetail: {
+        borderColor: grey1,
+        smallText: grey2,
+        tooltipBg: grey3,
+        buyButton: {
+          backgroundColor: red1,
+          _hover: {
+            backgroundColor: red2,
+      }
+      },
+      linkColor: blue1,
+      backgroundColor: greyBg,
+    },
       nav: {
         item: {
           color: 'white',
