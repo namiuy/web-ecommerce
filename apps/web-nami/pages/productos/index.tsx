@@ -1,20 +1,6 @@
-'use client';
-
 import { NextPage } from 'next';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
-import {
-  Categories,
-  Brands,
-  Grid,
-  Head,
-  ProductSearch,
-  ProductFilters,
-  ResultsFor,
-  Container,
-  Box,
-  Flex,
-  ProductSortBy,
-} from 'ui';
+import { Categories, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
 import { NavBar } from '../../components';
 
 type ProductsPageProps = {
@@ -39,24 +25,7 @@ const ProductsPage: NextPage<ProductsPageProps> = props => {
     <>
       <Head />
       <NavBar />
-      {!hasQueryParams ? (
-        <CategoriesAndBrands />
-      ) : (
-        <Grid gridTemplateColumns={{ base: 'auto', lg: '16rem auto' }}>
-          <ProductFilters {...props} />
-          <div>
-            <Flex>
-              <Box flex="1">
-                <ResultsFor text={props.text} />
-              </Box>
-              <Box p="1rem">
-                <ProductSortBy />
-              </Box>
-            </Flex>
-            <ProductSearch {...props} />
-          </div>
-        </Grid>
-      )}
+      {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
     </>
   );
 };

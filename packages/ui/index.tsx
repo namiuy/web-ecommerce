@@ -38,3 +38,7 @@ export * from './components/Skeleton';
 export * from './components/ThemeProvider';
 export * from './components/ResultsFor';
 export * from './components/ProductSortBy';
+export * from './components/ImageModal';
+
+export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetail';
+export { Products as ProductsTemplate } from './templates/Products';

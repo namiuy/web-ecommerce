@@ -51,7 +51,7 @@ export const ProductCard: FC<ProductCardProps> = ({ min = false, isLoading = fal
   const bodyGap = min ? _minBodyGap : _bodyGap;
 
   return (
-    <Link href={`/ProductDetail?id=${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
+    <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card
         w={w}
         minH={minH}

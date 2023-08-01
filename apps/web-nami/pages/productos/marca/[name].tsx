@@ -1,27 +1,21 @@
-'use client';
-
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useBrandList } from 'shared';
-import ProductsPage from '..';
+import { Head, ProductsTemplate } from 'ui';
+import { NavBar } from '../../../components/NavBar';
 
-type BrandPageProps = {
-  brandName?: string;
-};
-
-const BrandPage: NextPage<BrandPageProps> = ({ brandName }) => {
+const BrandPage: NextPage = () => {
   const { asPath } = useRouter();
   const { data = [] } = useBrandList();
   const brand = data.find(b => b.path === asPath);
   // TODO: when change storeBy this is broken
-  return <ProductsPage brandId={brand && brand.id} />;
-};
-
-BrandPage.getInitialProps = async ({ query }) => {
-  const { name } = query;
-  return {
-    brandName: name?.toString(),
-  };
+  return (
+    <>
+      <Head />
+      <NavBar />
+      <ProductsTemplate brandId={brand && brand.id} />
+    </>
+  );
 };
 
 export default BrandPage;

@@ -1,12 +1,10 @@
 import { Icon, Tooltip, Link } from '@chakra-ui/react';
-import { Head, Container, Grid, GridItem, Heading, Text, Box, Button, Skeleton } from 'ui';
+import { Container, Grid, GridItem, Heading, Text, Box, Button, Skeleton, ImageModal } from 'ui';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 import { BiSolidShoppingBag } from 'react-icons/bi';
-import { ImageModal } from 'ui/components/ImageModal';
 import { useProductGet } from 'shared';
-import { NextPage } from 'next';
-import { NavBar } from '../components';
 import { useRouter } from 'next/router';
+import { FC } from 'react';
 
 const _backgroundColor = 'brand.productDetail.backgroundColor';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -42,11 +40,11 @@ const _relatedLinksLinkColor = 'brand.productDetail.linkColor';
 const _imageSkeletonMarginBottom = { lg: '0', base: '1rem' };
 
 type ProductDetailProps = {
-  id?: string;
+  id: string;
 };
 
-const ProductDetail: NextPage<ProductDetailProps> = props => {
-  const { isLoading, error, data } = useProductGet(props?.id || '');
+export const ProductDetail: FC<ProductDetailProps> = ({ id }) => {
+  const { isLoading, error, data } = useProductGet(id);
   const router = useRouter();
 
   if (error) {
@@ -56,8 +54,6 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
 
   return (
     <Box minHeight={'100vh'} bg={_backgroundColor}>
-      <Head />
-      <NavBar />
       <Container maxW={_containerSize} px={0} pt={'10rem'} mb={'0.25rem'} fontSize={'0.875rem'}>
         {isLoading || !data ? (
           <Skeleton w={'30%'} h={'1.25rem'} />
@@ -71,7 +67,11 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
               |{' '}
             </Text>
 
-            <Link href={`/productos?c=${data.category.id}`} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
+            <Link
+              href={`/productos?c=${data.category.id}`}
+              style={{ textDecoration: 'none' }}
+              _hover={_returnLinkHoverColor}
+            >
               {' '}
               {data.category.name}
             </Link>
@@ -79,8 +79,17 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
         )}
       </Container>
       <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} bg={'white'}>
-        <Grid templateAreas={_gridTemplateAreas} templateRows={_gridTemplateRows} templateColumns={_gridTemplateColumns}>
-          <GridItem area={'image'} pr={_gridItemImagePaddingRight} borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
+        <Grid
+          templateAreas={_gridTemplateAreas}
+          templateRows={_gridTemplateRows}
+          templateColumns={_gridTemplateColumns}
+        >
+          <GridItem
+            area={'image'}
+            pr={_gridItemImagePaddingRight}
+            borderRight={_gridItemImageBorderRight}
+            borderColor={_griditemImageBorderColor}
+          >
             {isLoading || !data ? (
               <Skeleton w={'100%'} h={'20rem'} mb={_imageSkeletonMarginBottom} />
             ) : (
@@ -147,7 +156,11 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
               {isLoading || !data ? (
                 <Skeleton w={'100%'} h={'2.5rem'} />
               ) : (
-                <Button width={'100%'} sx={_gridItemDetailsBuyButtonColors} isDisabled={data.stock === 'CO' || data.stock === 'NO'}>
+                <Button
+                  width={'100%'}
+                  sx={_gridItemDetailsBuyButtonColors}
+                  isDisabled={data.stock === 'CO' || data.stock === 'NO'}
+                >
                   COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
                 </Button>
               )}
@@ -168,9 +181,22 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
           {isLoading || !data ? (
             <Skeleton w={'100%'} h={'5rem'} />
           ) : (
-            <Container maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} boxShadow={_boxShadow} bg={'white'}>
+            <Container
+              maxW={_containerSize}
+              px={0}
+              _hover={_relatedLinksMainContainerHover}
+              boxShadow={_boxShadow}
+              bg={'white'}
+            >
               {data.relatedLinks.map((link, i) => (
-                <Link href={link.url} display={'block'} p={'1rem'} color={_relatedLinksLinkColor} key={i} style={{ textDecoration: 'none' }}>
+                <Link
+                  href={link.url}
+                  display={'block'}
+                  p={'1rem'}
+                  color={_relatedLinksLinkColor}
+                  key={i}
+                  style={{ textDecoration: 'none' }}
+                >
                   <Box>{link.name}</Box>
                 </Link>
               ))}
@@ -181,12 +207,3 @@ const ProductDetail: NextPage<ProductDetailProps> = props => {
     </Box>
   );
 };
-
-ProductDetail.getInitialProps = async ({ query }) => {
-  const { id } = query;
-  return {
-    id: id?.toString(),
-  };
-};
-
-export default ProductDetail;
