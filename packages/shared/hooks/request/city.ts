@@ -1,10 +1,10 @@
 import { useRequest, useRequestWithCache } from '.';
 import { City } from '../../entities/city';
 import { bff } from '../../env';
-import { Response } from './response';
+import { Response } from './result';
 
 const sevenDays = 1000 * 60 * 60 * 24 * 7;
 
-export const useCityList = (): Response<Array<City>> => useRequestWithCache(`${bff.url}/cities`, sevenDays);
+export const useCityList = (): Result<Array<City>> => useRequestWithCache(`${bff.url}/cities`, sevenDays);
 
-export const useCityListWithoutCache = (): Response<Array<City>> => useRequest(`${bff.url}/cities`);
+export const useCityListWithoutCache = (): Result<Array<City>> => useRequest(`${bff.url}/cities`);

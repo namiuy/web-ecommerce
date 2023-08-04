@@ -1,7 +1,7 @@
 import { Box, Container, Heading, Button, Grid, GridItem } from 'ui';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Formik, Field } from 'formik';
-import { Link, FormControl, FormLabel, Input, Select, FormErrorMessage } from '@chakra-ui/react';
+import { Link, FormControl, FormLabel, Input, Select, FormErrorMessage, Progress } from '@chakra-ui/react';
 import { useState, FC } from 'react';
 
 import { useStateList } from 'shared/hooks/request/state';
@@ -14,6 +14,11 @@ import {
   validateRepeatPassword,
   useAddUser,
 } from 'shared';
+import { State } from 'shared/entities/state';
+import { City } from 'shared/entities/city';
+import { UserAdd } from 'shared/entities/user-add';
+
+const EMAIL_ALREADY_IN_USE = 'Email already in use';
 
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
@@ -25,32 +30,26 @@ const _containerW = { md: '45rem', base: '90%' };
 const _formControlW = { md: '20rem', base: '100%' };
 
 const _gridTemplateAreas = {
-  md: `"firstName lastName" "email email" "password passwordConfirm" "phone address" "department location" "submit submit"`,
-  base: `"firstName" "lastName" "email" "password" "passwordConfirm" "phone" "address" "department" "location" "submit"`,
+  md: `"firstName lastName" "email email" "password passwordConfirm" "phone address" "state city" "progress progress" "submit submit"`,
+  base: `"firstName" "lastName" "email" "password" "passwordConfirm" "phone" "address" "state" "city" "progress" "submit"`,
 };
 
 type RegisterProps = {
   Logo: FC;
 };
 
-type RegisterValues = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  personId: string;
-  roles: Array<string>;
-};
-
 export const Register: FC<RegisterProps> = ({ Logo }) => {
   const states = useStateList();
   const cities = useCityList();
-  const [registerProps, setRegisterProps] = useState<RegisterValues>();
+  const [selectedState, setSelectedState] = useState(null);
+  const [registerProps, setRegisterProps] = useState<UserAdd>();
   const { isLoading, data, error } = useAddUser(registerProps);
-  console.log(data);
+  const emailInUseError = error === EMAIL_ALREADY_IN_USE;
+
+  console.log(data); // TODO: add success message when data === true
+
   const statesSelect = () => {
-    return states?.data?.map(state => (
+    return states?.data?.map((state: State) => (
       <option key={state.id} value={state.id}>
         {state.name}
       </option>
@@ -58,7 +57,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
   };
 
   const citiesSelect = (id: any) => {
-    return cities?.data?.map(city =>
+    return cities?.data?.map((city: City) =>
       city.stateId === id ? (
         <option key={city.id} value={city.id}>
           {city.name}
@@ -66,8 +65,6 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
       ) : null,
     );
   };
-
-  const [selectedState, setSelectedState] = useState(null);
 
   const handleStateChange = (e: any) => {
     setSelectedState(e.target.value);
@@ -84,7 +81,6 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
         <Container
           maxW={_containerW}
           color={'white'}
-          mt={'5rem'}
           mb={'1rem'}
           px={0}
           display={'flex'}
@@ -110,23 +106,30 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
         >
           <Formik
             initialValues={{
-              firstName: '',
-              lastName: '',
-              email: '',
-              password: '',
-              passwordConfirm: '',
-              phone: '',
-              address: '',
-              department: '',
-              location: '',
+              // firstName: '',
+              // lastName: '',
+              // email: '',
+              // password: '',
+              // passwordConfirm: '',
+              // phone: '',
+              // address: '',
+              // state: '',
+              // city: '',
+              firstName: 'Ignacio',
+              lastName: 'Rodriguez',
+              email: 'ignacio@sircal.com.uy',
+              password: 'Danubio12345',
+              passwordConfirm: 'Danubio12345',
+              phone: '1234',
+              address: 'dir xxx',
+              state: 2,
+              city: 1,
             }}
             onSubmit={values => {
               setRegisterProps({
                 ...values,
                 password,
-                id: '8787787',
-                personId: '8787787',
-                roles: [],
+                state: selectedState ?? 0,
               });
             }}
             validateOnChange={false}
@@ -140,6 +143,8 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="firstName">Nombre</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
+                        dis
                         id="firstName"
                         name="firstName"
                         type="text"
@@ -157,6 +162,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="lastName">Apellido</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
                         id="lastName"
                         name="lastName"
                         type="text"
@@ -170,10 +176,11 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'email'}>
-                    <FormControl isInvalid={!!errors.email}>
+                    <FormControl isInvalid={!!errors.email || emailInUseError}>
                       <FormLabel htmlFor="email">Correo electrónico</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
                         id="email"
                         name="email"
                         type="text"
@@ -183,7 +190,9 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                           return validateEmail(value);
                         }}
                       />
-                      <FormErrorMessage>{errors.firstName}</FormErrorMessage>
+                      <FormErrorMessage>
+                        {emailInUseError ? 'El email ya se encuentra en uso' : errors.email}
+                      </FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'password'}>
@@ -191,6 +200,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="password">Contraseña</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
                         id="password"
                         name="password"
                         type="password"
@@ -212,6 +222,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="passwordConfirm">Confirme su contraseña</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
                         id="passwordConfirm"
                         name="passwordConfirm"
                         type="password"
@@ -229,6 +240,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="phone">Teléfono</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
                         id="phone"
                         name="phone"
                         type="number"
@@ -246,6 +258,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="address">Dirección</FormLabel>
                       <Field
                         as={Input}
+                        disabled={isLoading}
                         id="address"
                         name="address"
                         type="text"
@@ -258,15 +271,16 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormErrorMessage>{errors.address}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
-                  <GridItem gridArea={'department'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.department}>
-                      <FormLabel htmlFor="department">Departamento</FormLabel>
+                  <GridItem gridArea={'state'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.state}>
+                      <FormLabel htmlFor="state">Departamento</FormLabel>
                       <Field
                         as={Select}
+                        disabled={isLoading}
                         onChange={handleStateChange}
                         value={selectedState}
-                        id="department"
-                        name="department"
+                        id="state"
+                        name="state"
                         type="text"
                         variant="filled"
                         isDisabled={states.isLoading}
@@ -278,16 +292,17 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         <option value="-1">Seleccione un departamento...</option>
                         {statesSelect()}
                       </Field>
-                      <FormErrorMessage>{errors.department}</FormErrorMessage>
+                      <FormErrorMessage>{errors.state}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
-                  <GridItem gridArea={'location'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.location}>
-                      <FormLabel htmlFor="location">Localidad</FormLabel>
+                  <GridItem gridArea={'city'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.city}>
+                      <FormLabel htmlFor="city">Localidad</FormLabel>
                       <Field
                         as={Select}
-                        id="location"
-                        name="location"
+                        disabled={isLoading}
+                        id="city"
+                        name="city"
                         type="text"
                         variant="filled"
                         isDisabled={cities.isLoading || !selectedState || selectedState === '-1'}
@@ -299,12 +314,29 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         <option value="-1">Seleccione una localidad...</option>
                         {citiesSelect(selectedState)}
                       </Field>
-                      <FormErrorMessage>{errors.location}</FormErrorMessage>
+                      <FormErrorMessage>{errors.city}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
 
+                  <GridItem gridArea={'progress'}>
+                    <Progress
+                      h={isLoading ? '4px' : '1px'}
+                      m="1rem 0"
+                      size="xs"
+                      isIndeterminate={isLoading}
+                      colorScheme="primary"
+                    />
+                  </GridItem>
+
                   <GridItem gridArea={'submit'} mt={'1rem'}>
-                    <Button type="submit" bg={_loginButtonBg} color={'white'} width="100%" mb={'0.75rem'}>
+                    <Button
+                      disabled={isLoading}
+                      type="submit"
+                      bg={_loginButtonBg}
+                      color={'white'}
+                      width="100%"
+                      mb={'0.75rem'}
+                    >
                       Registrarse
                     </Button>
                   </GridItem>

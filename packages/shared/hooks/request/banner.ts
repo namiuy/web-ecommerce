@@ -1,8 +1,8 @@
 import { useRequest, useRequestWithCache } from '.';
 import { Banner } from '../../entities/banner';
 import { bff } from '../../env';
-import { Response } from './response';
+import { Response } from './result';
 
-export const useBannerList = (): Response<Array<Banner>> => useRequestWithCache(`${bff.url}/banners`);
+export const useBannerList = (): Result<Array<Banner>> => useRequestWithCache(`${bff.url}/banners`);
 
-export const useBannerListWithoutCache = (): Response<Array<Banner>> => useRequest(`${bff.url}/banners`);
+export const useBannerListWithoutCache = (): Result<Array<Banner>> => useRequest(`${bff.url}/banners`);
