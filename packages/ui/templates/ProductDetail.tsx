@@ -4,7 +4,8 @@ import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 import { BiSolidShoppingBag } from 'react-icons/bi';
 import { useProductGet } from 'shared';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { ModalQuote } from '../components/ModalQuote';
 
 const _backgroundColor = 'brand.productDetail.backgroundColor';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -45,6 +46,7 @@ type ProductDetailProps = {
 
 export const ProductDetail: FC<ProductDetailProps> = ({ id }) => {
   const { isLoading, error, data } = useProductGet(id);
+  const [modalQuoteIsOpen, setModalQuoteIsOpen] = useState(true);
   const router = useRouter();
 
   if (error) {
@@ -156,12 +158,20 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id }) => {
               {isLoading || !data ? (
                 <Skeleton w={'100%'} h={'2.5rem'} />
               ) : (
+                // <Button
+                //   width={'100%'}
+                //   sx={_gridItemDetailsBuyButtonColors}
+                //   isDisabled={data.stock === 'CO' || data.stock === 'NO'}
+                // >
+                //   COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
+                // </Button>
                 <Button
                   width={'100%'}
                   sx={_gridItemDetailsBuyButtonColors}
                   isDisabled={data.stock === 'CO' || data.stock === 'NO'}
+                  onClick={() => setModalQuoteIsOpen(true)}
                 >
-                  COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
+                  Solicitar financiación
                 </Button>
               )}
             </Box>
@@ -204,6 +214,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id }) => {
           )}
         </Box>
       )}
+      {data && <ModalQuote isOpen={modalQuoteIsOpen} product={data} onClose={() => setModalQuoteIsOpen(false)} />}
     </Box>
   );
 };
