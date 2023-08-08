@@ -1,15 +1,7 @@
 const primary = '#030366';
-const secondary = '#030366';
+const secondary = '#e53e3e';
 
-const grey1 = '#eeeeee';
-const grey2 = '#909090';
-const grey3 = '#676767';
-const greyBg = '#fafafa'
-
-const red1 = '#e53e3e';
-const red2 = '#9b2c2c';
-
-const blue1 = '#4195db';
+const greyBg = '#fafafa';
 
 export const theme: Record<string, any> = {
   colors: {
@@ -40,22 +32,40 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
-      login:{
-        backgroundColor: primary,
+      login: {
+        backgroundColorOne: primary,
+        backgroundColorTwo: greyBg,
       },
       productDetail: {
-        borderColor: grey1,
-        smallText: grey2,
-        tooltipBg: grey3,
+        backgroundColor: greyBg,
+        borderColor: '#eeeeee',
+        smallText: '#909090',
+        tooltipBg: '#676767',
         buyButton: {
-          backgroundColor: red1,
+          backgroundColor: secondary,
+          color: 'white',
           _hover: {
-            backgroundColor: red2,
-      }
+            backgroundColor: '#9b2c2c',
+          },
+        },
+        relatedLinks: {
+          linkColor: '#4195db',
+          _hover: {
+            backgroundColor: '#4195db',
+          },
+        },
       },
-      linkColor: blue1,
-      backgroundColor: greyBg,
-    },
+      profile: {
+        subtitlesColor: primary,
+        backgroundColorOne: primary,
+        backgroundColorTwo: greyBg,
+        backButton: {
+          _hover: {
+            backgroundColor: 'white',
+            color: primary,
+          },
+        },
+      },
       nav: {
         item: {
           color: 'white',
