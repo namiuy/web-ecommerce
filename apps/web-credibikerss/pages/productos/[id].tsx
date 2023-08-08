@@ -21,7 +21,7 @@ const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
     <>
       <Head />
       <NavBar />
-      <ProductDetailTemplate id={id} />
+      <ProductDetailTemplate id={id} actions={['quote_request']} />
     </>
   );
 };

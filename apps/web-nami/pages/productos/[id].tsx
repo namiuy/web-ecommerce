@@ -1,7 +1,7 @@
 'use client';
 
 import { NextPage } from 'next';
-import { Head, ProductDetailTemplate } from 'ui';
+import { AddToCartButton, Head, ProductDetailTemplate } from 'ui';
 import { NavBar } from '../../components';
 import { useRouter } from 'next/router';
 
@@ -21,7 +21,7 @@ const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
     <>
       <Head />
       <NavBar />
-      <ProductDetailTemplate id={id} />
+      <ProductDetailTemplate id={id} actions={['add_to_cart']} />
     </>
   );
 };
