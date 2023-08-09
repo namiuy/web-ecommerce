@@ -105,6 +105,7 @@ export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) =
         onDrop={handleDrop}
         onClick={handleFileButtonClick}
         border={dragging ? '1px dashed' : '1px solid'}
+        cursor="pointer"
       >
         Subir archivo
       </Button>

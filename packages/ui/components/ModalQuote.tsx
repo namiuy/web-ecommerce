@@ -14,7 +14,6 @@ import {
   Box,
   Grid,
   GridItem,
-  Text,
   Select,
   Textarea,
   Icon,
@@ -36,7 +35,6 @@ const _grey0 = 'brand.grey.1';
 const _backgroundColor = 'rgba(0, 0, 0, .6)';
 const _backdropFilter = 'saturate(180%) blur(6px)';
 const _formErrorMessageFontSize = '.7rem';
-
 const FormLabel = styled(FormLabelChalkra)`
   font-size: 0.75rem;
 `;
@@ -45,7 +43,6 @@ type ModalQuoteProps = {
   isOpen: boolean;
   product: Product;
   onClose: () => void;
-};
 
 type FormControlInputProps = {
   disabled: boolean;
