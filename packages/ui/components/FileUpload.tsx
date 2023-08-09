@@ -1,38 +1,38 @@
 import { FC, useRef, useState, useEffect, ChangeEvent, DragEvent } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { Button, Icon } from '@chakra-ui/react';
+import { Box } from '..';
+import { attachmentUpload } from 'shared';
+import { File as FileEntity } from 'shared/entities/file';
 
-type Result = {
+type FileUploadProps = {
   path: string;
-  originalname: string;
+  onSuccess: (result?: FileEntity) => void;
 };
 
-export const FileUpload: FC = () => {
+export const FileUpload: FC<FileUploadProps> = ({ path, onSuccess }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<Result>();
+  const [result, setResult] = useState<FileEntity>();
   const [error, setError] = useState<string>();
   const [dragging, setDragging] = useState(false);
 
   useEffect(() => {
     if (file) {
-      const formData = new FormData();
-      formData.append('upload', file);
       setIsLoading(true);
-      fetch('http://localhost:3001/files/attachments/upload', {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(data => setResult(data))
+      attachmentUpload(path, file)
+        .then(data => {
+          setResult(data);
+          onSuccess(data);
+        })
         .catch(error => {
           console.error('Error al cargar la imagen:', error);
           setError(error.message);
         })
         .finally(() => setIsLoading(false));
     }
-  }, [file]);
+  }, [file, onSuccess, path]);
 
   const handleDragOver = (event: DragEvent) => {
     event.preventDefault();
@@ -69,6 +69,7 @@ export const FileUpload: FC = () => {
   const clear = () => {
     setFile(undefined);
     setResult(undefined);
+    onSuccess(undefined);
   };
 
   return result ? (
@@ -87,7 +88,6 @@ export const FileUpload: FC = () => {
     <>
       <input ref={fileInputRef} type="file" onChange={handleFileInputChange} style={{ display: 'none' }} />
       <Button
-        as="div"
         isLoading={isLoading}
         w="12rem"
         onDragOver={handleDragOver}
@@ -95,9 +95,15 @@ export const FileUpload: FC = () => {
         onDrop={handleDrop}
         onClick={handleFileButtonClick}
         border={dragging ? '1px dashed' : '1px solid'}
+        cursor="pointer"
       >
         Subir archivo
       </Button>
+      {error && (
+        <Box color="red" fontSize=".8rem">
+          {error}
+        </Box>
+      )}
     </>
   );
 };
