@@ -11,7 +11,7 @@ export const QuoteRequestButton: FC<ProductActionProps> = ({ product }) => {
       <Button width="full" isDisabled={!product} colorScheme="primary" onClick={onOpen}>
         Solicitar financiación
       </Button>
-      {product && <ModalQuote isOpen={isOpen} product={product} onClose={onClose} />}
+      {product && <ModalQuote isOpen={!isOpen} product={product} onClose={onClose} />}
     </>
   );
 };
