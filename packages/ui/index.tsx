@@ -44,3 +44,4 @@ export * from './components/QuoteRequestButton';
 
 export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetail';
 export { Products as ProductsTemplate } from './templates/Products';
+export { SignIn as SignInTemplate } from './templates/SignIn';
