@@ -24,7 +24,7 @@ const getUser = (access_token: string, user_id: string): Promise<User> => {
   return get<User>(`${bff.url}/users/${user_id}`, { headers: { Authorization: `OAuth ${access_token}` } });
 };
 
-const addUser = (user:User): Promise<User> => {
+const addUser = (user: User): Promise<User> => {
   return post<User>(`${bff.url}/users`, { body: JSON.stringify(user) });
 };
 
@@ -81,20 +81,20 @@ export const useAddUser = (props?: User): Response<User> => {
   const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    if(props) {
+    if (props) {
       setIsLoading(true);
       const fetchData = async () => {
-      const result = await addUser(props);
-      if(typeof result === 'number'){
-        setError(new Error('error desconocido'))
-      } else {
-        setUser(result);
-      }
-      setIsLoading(false);
-    }
-    fetchData();
+        const result = await addUser(props);
+        if (typeof result === 'number') {
+          setError(new Error('error desconocido'));
+        } else {
+          setUser(result);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
     }
   }, [props]);
 
-  return { isLoading, data: user, error }
-}
+  return { isLoading, data: user, error };
+};
