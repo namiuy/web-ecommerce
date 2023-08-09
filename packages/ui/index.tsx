@@ -54,3 +54,4 @@ export { SignIn as SignInTemplate } from './templates/SignIn';
 export { Register as RegisterTemplate } from './templates/Register';
 export { SignIn as SignInTemplate } from './templates/SignIn';
 export { Register as RegisterTemplate } from './templates/Register';
+export { SignIn as SignInTemplate } from './templates/SignIn';
