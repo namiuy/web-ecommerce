@@ -56,7 +56,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
 
   useEffect(() => {
     if (data) {
-      // TODO: save user data in localStorage
+      lscache.set('user', JSON.stringify(data));
       router.push('/');
     }
   }, [router, data]);
