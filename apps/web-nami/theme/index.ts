@@ -2,6 +2,11 @@ const primary = '#030366';
 const secondary = '#e53e3e';
 
 const greyBg = '#fafafa';
+const borderColor = '#eeeeee';
+const smallText = '#909090';
+const tooltipBg = '#676767';
+const buyButtonHoverBg = '#e53e3e';
+const relatedLinksColor = '#4195db';
 
 export const theme: Record<string, any> = {
   colors: {
@@ -38,20 +43,20 @@ export const theme: Record<string, any> = {
       },
       productDetail: {
         backgroundColor: greyBg,
-        borderColor: '#eeeeee',
-        smallText: '#909090',
-        tooltipBg: '#676767',
+        borderColor: borderColor,
+        smallText: smallText,
+        tooltipBg: tooltipBg,
         buyButton: {
           backgroundColor: secondary,
           color: 'white',
           _hover: {
-            backgroundColor: '#9b2c2c',
+            backgroundColor: buyButtonHoverBg,
           },
         },
         relatedLinks: {
-          linkColor: '#4195db',
+          linkColor: relatedLinksColor,
           _hover: {
-            backgroundColor: '#4195db',
+            backgroundColor: relatedLinksColor,
           },
         },
       },
