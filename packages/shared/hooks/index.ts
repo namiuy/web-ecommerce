@@ -6,3 +6,5 @@ export * from './request/product-list';
 export * from './request/user';
 export * from './request/file';
 export * from './request/quote';
+export * from './request/state';
+export * from './request/city';
