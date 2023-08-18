@@ -6,7 +6,7 @@ const getRequestInit = (method: Method, init?: RequestInit): RequestInit | undef
     method,
     headers: withContent
       ? {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         }
       : {},
     ...init,
