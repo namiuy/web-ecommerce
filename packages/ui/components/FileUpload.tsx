@@ -6,11 +6,12 @@ import { attachmentUpload } from 'shared';
 import { File as FileEntity } from 'shared/entities/file';
 
 type FileUploadProps = {
+  disabled?: boolean;
   path: string;
   onSuccess: (result?: FileEntity) => void;
 };
 
-export const FileUpload: FC<FileUploadProps> = ({ path, onSuccess }) => {
+export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
@@ -74,28 +75,36 @@ export const FileUpload: FC<FileUploadProps> = ({ path, onSuccess }) => {
 
   return result ? (
     <Button
-      w="12rem"
+      disabled={disabled}
+      w="100%"
       overflow="hidden"
       whiteSpace="nowrap"
       display="block"
       textOverflow="ellipsis"
       leftIcon={<Icon transform="translateY(3px)" as={MdDelete} />}
-      onClick={clear}
+      onClick={disabled ? undefined : clear}
     >
       {result.originalname}
     </Button>
   ) : (
     <>
-      <input ref={fileInputRef} type="file" onChange={handleFileInputChange} style={{ display: 'none' }} />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*, .pdf"
+        onChange={handleFileInputChange}
+        style={{ display: 'none' }}
+      />
       <Button
         isLoading={isLoading}
-        w="12rem"
+        disabled={disabled}
+        w="100%"
+        cursor="pointer"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleFileButtonClick}
         border={dragging ? '1px dashed' : '1px solid'}
-        cursor="pointer"
       >
         Subir archivo
       </Button>
