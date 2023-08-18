@@ -64,8 +64,8 @@ const action: Record<ProductAction, FC<ProductActionProps>> = {
 };
 
 const getAction = (action: ProductAction, props: ProductActionProps) => {
-  if (action === 'add_to_cart') return <AddToCartButton {...props} />;
-  if (action === 'quote_request') return <QuoteRequestButton {...props} />;
+  if (action === 'add_to_cart') return <AddToCartButton key={action} {...props} />;
+  if (action === 'quote_request') return <QuoteRequestButton key={action} {...props} />;
   return <></>;
 };
 

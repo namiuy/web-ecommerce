@@ -3,13 +3,13 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 const getRequestInit = (method: Method, init?: RequestInit): RequestInit | undefined => {
   const withContent = method === 'POST' || method === 'PUT';
   return {
-    ...init,
     method,
     headers: withContent
       ? {
           'Content-Type': 'application/json',
         }
       : {},
+    ...init,
   };
 };
 

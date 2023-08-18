@@ -8,7 +8,7 @@ export const QuoteRequestButton: FC<ProductActionProps> = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button w="100%" isDisabled={!product} onClick={onOpen}>
+      <Button width="full" isDisabled={!product} colorScheme="primary" onClick={onOpen}>
         Solicitar financiación
       </Button>
       {product && <ModalQuote isOpen={isOpen} product={product} onClose={onClose} />}

@@ -1,38 +1,39 @@
 import { FC, useRef, useState, useEffect, ChangeEvent, DragEvent } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { Button, Icon } from '@chakra-ui/react';
+import { Box } from '..';
+import { attachmentUpload } from 'shared';
+import { File as FileEntity } from 'shared/entities/file';
 
-type Result = {
+type FileUploadProps = {
+  disabled?: boolean;
   path: string;
-  originalname: string;
+  onSuccess: (result?: FileEntity) => void;
 };
 
-export const FileUpload: FC = () => {
+export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<Result>();
+  const [result, setResult] = useState<FileEntity>();
   const [error, setError] = useState<string>();
   const [dragging, setDragging] = useState(false);
 
   useEffect(() => {
     if (file) {
-      const formData = new FormData();
-      formData.append('upload', file);
       setIsLoading(true);
-      fetch('http://localhost:3001/files/attachments/upload', {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(data => setResult(data))
+      attachmentUpload(path, file)
+        .then(data => {
+          setResult(data);
+          onSuccess(data);
+        })
         .catch(error => {
           console.error('Error al cargar la imagen:', error);
           setError(error.message);
         })
         .finally(() => setIsLoading(false));
     }
-  }, [file]);
+  }, [file, onSuccess, path]);
 
   const handleDragOver = (event: DragEvent) => {
     event.preventDefault();
@@ -69,27 +70,36 @@ export const FileUpload: FC = () => {
   const clear = () => {
     setFile(undefined);
     setResult(undefined);
+    onSuccess(undefined);
   };
 
   return result ? (
     <Button
-      w="12rem"
+      disabled={disabled}
+      w="100%"
       overflow="hidden"
       whiteSpace="nowrap"
       display="block"
       textOverflow="ellipsis"
       leftIcon={<Icon transform="translateY(3px)" as={MdDelete} />}
-      onClick={clear}
+      onClick={disabled ? undefined : clear}
     >
       {result.originalname}
     </Button>
   ) : (
     <>
-      <input ref={fileInputRef} type="file" onChange={handleFileInputChange} style={{ display: 'none' }} />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*, .pdf"
+        onChange={handleFileInputChange}
+        style={{ display: 'none' }}
+      />
       <Button
-        as="div"
         isLoading={isLoading}
-        w="12rem"
+        disabled={disabled}
+        w="100%"
+        cursor="pointer"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -98,6 +108,11 @@ export const FileUpload: FC = () => {
       >
         Subir archivo
       </Button>
+      {error && (
+        <Box color="red" fontSize=".8rem">
+          {error}
+        </Box>
+      )}
     </>
   );
 };
