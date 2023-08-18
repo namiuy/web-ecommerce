@@ -6,7 +6,7 @@ export const validateEmpty = (value: string) => {
 export const validateEmptySelect = (value: any) => {
   if (!value || value == -1) return 'Debes seleccionar una opción';
   return undefined;
-}
+};
 
 export const validateEmail = (value: string) => {
   if (!value.toString().length) return 'El campo no puede estar vacio';

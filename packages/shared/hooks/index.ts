@@ -15,3 +15,4 @@ export * from './request/state';
 export * from './request/city';
 export * from './request/user';
 export * from './request/file';
+export * from './request/quote';
