@@ -1,18 +1,26 @@
 import { Box, Container, Heading, Button, Grid, GridItem } from 'ui';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Formik, Field } from 'formik';
-import { Link, FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
-import { useState, FC, use } from 'react';
+import { Link, FormControl, FormLabel, Input, Select, FormErrorMessage } from '@chakra-ui/react';
+import { useState, FC } from 'react';
 
 import { useStateList } from 'shared/hooks/request/state';
 import { useCityList } from 'shared/hooks/request/city';
+import { validateEmpty, validateEmptySelect, validatePassword, validateEmail, validateRepeatPassword } from 'shared';
 
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
-const _backgroundColorTwo = 'brand.login.backgroundColorTwo';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
 
 const _backButtonHover = { color: 'brand.login.backgroundColorOne', backgroundColor: 'white' };
 const _loginButtonBg = 'brand.login.backgroundColorOne';
+
+const _containerW = { md: '45rem', base: '90%' };
+const _formControlW = { md: '20rem', base: '100%' };
+
+const _gridTemplateAreas = {
+  md: `"name lastName" "email email" "password passwordConfirm" "phone address" "department location" "submit submit"`,
+  base: `"name" "lastName" "email" "password" "passwordConfirm" "phone" "address" "department" "location" "submit"`,
+};
 
 type RegisterProps = {
   Logo: FC;
@@ -46,14 +54,20 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
     setSelectedState(e.target.value);
   };
 
+  const [password, setPassword] = useState('');
+
+  const handlePasswordChange = (e: any) => {
+    setPassword(e.target.value);
+  };
+
   return (
-    <Box height={'100vh'} bg={_backgroundColorTwo}>
-      <Box bgGradient={_backgroundGradient} h={'40rem'}>
+    <Box>
+      <Box height={'100vh'} bgGradient={_backgroundGradient}>
         <Box p={'1.5rem'} display={'flex'} justifyContent={{ base: 'center', lg: 'start' }}>
           <Logo />
         </Box>
         <Container
-          maxW={'45rem'}
+          maxW={_containerW}
           color={'white'}
           mt={'5rem'}
           mb={'1rem'}
@@ -72,7 +86,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
           <Box width={'2rem'}> &nbsp;</Box>
         </Container>
         <Container
-          maxW={'45rem'}
+          maxW={_containerW}
           minH={'20rem'}
           bg={'white'}
           boxShadow={'lg'}
@@ -94,15 +108,14 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
             onSubmit={values => {
               alert(JSON.stringify(values, null, 2));
             }}
+            validateOnChange={false}
+            validateOnBlur={false}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, errors }) => (
               <form onSubmit={handleSubmit}>
-                <Grid
-                  gridTemplateAreas={`"name lastName" "email email" "password passwordConfirm" "phone address" "department location" "submit submit"`}
-                  gap={'1rem'}
-                >
+                <Grid gridTemplateAreas={_gridTemplateAreas} gap={'1rem'}>
                   <GridItem gridArea={'name'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.name}>
                       <FormLabel htmlFor="name">Nombre</FormLabel>
                       <Field
                         as={Input}
@@ -111,11 +124,15 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         type="text"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
                       />
+                      <FormErrorMessage>{errors.name}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'lastName'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.lastName}>
                       <FormLabel htmlFor="lastName">Apellido</FormLabel>
                       <Field
                         as={Input}
@@ -124,24 +141,32 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         type="text"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
                       />
+                      <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'email'}>
-                    <FormControl>
+                    <FormControl isInvalid={!!errors.email}>
                       <FormLabel htmlFor="email">Correo electrónico</FormLabel>
                       <Field
                         as={Input}
                         id="email"
                         name="email"
-                        type="email"
+                        type="text"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmail(value);
+                        }}
                       />
+                      <FormErrorMessage>{errors.name}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'password'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.password}>
                       <FormLabel htmlFor="password">Contraseña</FormLabel>
                       <Field
                         as={Input}
@@ -150,11 +175,17 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         type="password"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        onChange={handlePasswordChange}
+                        value={password}
+                        validate={() => {
+                          return validatePassword(password);
+                        }}
                       />
+                      <FormErrorMessage>{errors.password}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'passwordConfirm'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.passwordConfirm}>
                       <FormLabel htmlFor="passwordConfirm">Confirme su contraseña</FormLabel>
                       <Field
                         as={Input}
@@ -163,25 +194,33 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         type="password"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateRepeatPassword(value, password);
+                        }}
                       />
+                      <FormErrorMessage>{errors.passwordConfirm}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'phone'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.phone}>
                       <FormLabel htmlFor="phone">Teléfono</FormLabel>
                       <Field
                         as={Input}
                         id="phone"
                         name="phone"
-                        type="tel"
+                        type="number"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
                       />
+                      <FormErrorMessage>{errors.phone}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'address'}>
-                    <FormControl width={'20rem'}>
-                      <FormLabel htmlFor="address">Direccion</FormLabel>
+                    <FormControl width={_formControlW} isInvalid={!!errors.address}>
+                      <FormLabel htmlFor="address">Dirección</FormLabel>
                       <Field
                         as={Input}
                         id="address"
@@ -189,11 +228,15 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         type="text"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
                       />
+                      <FormErrorMessage>{errors.address}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'department'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.department}>
                       <FormLabel htmlFor="department">Departamento</FormLabel>
                       <Field
                         as={Select}
@@ -205,14 +248,18 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         variant="filled"
                         isDisabled={states.isLoading}
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={() => {
+                          return validateEmptySelect(selectedState);
+                        }}
                       >
                         <option value="-1">Seleccione un departamento...</option>
                         {statesSelect()}
                       </Field>
+                      <FormErrorMessage>{errors.department}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'location'}>
-                    <FormControl width={'20rem'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.location}>
                       <FormLabel htmlFor="location">Localidad</FormLabel>
                       <Field
                         as={Select}
@@ -220,24 +267,21 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         name="location"
                         type="text"
                         variant="filled"
-                        isDisabled={cities.isLoading}
+                        isDisabled={cities.isLoading || !selectedState || selectedState === '-1'}
                         _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmptySelect(value) || validateEmptySelect(selectedState);
+                        }}
                       >
                         <option value="-1">Seleccione una localidad...</option>
                         {citiesSelect(selectedState)}
                       </Field>
+                      <FormErrorMessage>{errors.location}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
 
                   <GridItem gridArea={'submit'} mt={'1rem'}>
-                    <Button
-                      type="submit"
-                      bg={_loginButtonBg}
-                      color={'white'}
-                      width="100%"
-                      _hover={{ backgroundColor: 'primary.main' }}
-                      mb={'0.75rem'}
-                    >
+                    <Button type="submit" bg={_loginButtonBg} color={'white'} width="100%" mb={'0.75rem'}>
                       Registrarse
                     </Button>
                   </GridItem>
@@ -246,6 +290,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
             )}
           </Formik>
         </Container>
+        <Box py={'2rem'}></Box>
       </Box>
     </Box>
   );
