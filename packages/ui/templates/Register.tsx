@@ -6,7 +6,14 @@ import { useState, FC } from 'react';
 
 import { useStateList } from 'shared/hooks/request/state';
 import { useCityList } from 'shared/hooks/request/city';
-import { validateEmpty, validateEmptySelect, validatePassword, validateEmail, validateRepeatPassword } from 'shared';
+import {
+  validateEmpty,
+  validateEmptySelect,
+  validatePassword,
+  validateEmail,
+  validateRepeatPassword,
+  useAddUser,
+} from 'shared';
 
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
@@ -18,18 +25,30 @@ const _containerW = { md: '45rem', base: '90%' };
 const _formControlW = { md: '20rem', base: '100%' };
 
 const _gridTemplateAreas = {
-  md: `"name lastName" "email email" "password passwordConfirm" "phone address" "department location" "submit submit"`,
-  base: `"name" "lastName" "email" "password" "passwordConfirm" "phone" "address" "department" "location" "submit"`,
+  md: `"firstName lastName" "email email" "password passwordConfirm" "phone address" "department location" "submit submit"`,
+  base: `"firstName" "lastName" "email" "password" "passwordConfirm" "phone" "address" "department" "location" "submit"`,
 };
 
 type RegisterProps = {
   Logo: FC;
 };
 
+type RegisterValues = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  personId: string;
+  roles: Array<string>;
+};
+
 export const Register: FC<RegisterProps> = ({ Logo }) => {
   const states = useStateList();
   const cities = useCityList();
-
+  const [registerProps, setRegisterProps] = useState<RegisterValues>();
+  const { isLoading, data, error } = useAddUser(registerProps);
+  console.log(data);
   const statesSelect = () => {
     return states?.data?.map(state => (
       <option key={state.id} value={state.id}>
@@ -55,10 +74,6 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
   };
 
   const [password, setPassword] = useState('');
-
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
-  };
 
   return (
     <Box>
@@ -95,7 +110,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
         >
           <Formik
             initialValues={{
-              name: '',
+              firstName: '',
               lastName: '',
               email: '',
               password: '',
@@ -106,7 +121,13 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
               location: '',
             }}
             onSubmit={values => {
-              alert(JSON.stringify(values, null, 2));
+              setRegisterProps({
+                ...values,
+                password,
+                id: '8787787',
+                personId: '8787787',
+                roles: [],
+              });
             }}
             validateOnChange={false}
             validateOnBlur={false}
@@ -114,13 +135,13 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
             {({ handleSubmit, errors }) => (
               <form onSubmit={handleSubmit}>
                 <Grid gridTemplateAreas={_gridTemplateAreas} gap={'1rem'}>
-                  <GridItem gridArea={'name'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.name}>
-                      <FormLabel htmlFor="name">Nombre</FormLabel>
+                  <GridItem gridArea={'firstName'}>
+                    <FormControl width={_formControlW} isInvalid={!!errors.firstName}>
+                      <FormLabel htmlFor="firstName">Nombre</FormLabel>
                       <Field
                         as={Input}
-                        id="name"
-                        name="name"
+                        id="firstName"
+                        name="firstName"
                         type="text"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
@@ -128,7 +149,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                           return validateEmpty(value);
                         }}
                       />
-                      <FormErrorMessage>{errors.name}</FormErrorMessage>
+                      <FormErrorMessage>{errors.firstName}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'lastName'}>
@@ -162,7 +183,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                           return validateEmail(value);
                         }}
                       />
-                      <FormErrorMessage>{errors.name}</FormErrorMessage>
+                      <FormErrorMessage>{errors.firstName}</FormErrorMessage>
                     </FormControl>
                   </GridItem>
                   <GridItem gridArea={'password'}>
@@ -175,7 +196,9 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         type="password"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
-                        onChange={handlePasswordChange}
+                        onChange={(e: any) => {
+                          setPassword(e.target.value);
+                        }}
                         value={password}
                         validate={() => {
                           return validatePassword(password);
