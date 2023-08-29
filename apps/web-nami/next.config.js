@@ -1,6 +1,6 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 
-const { APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY } = process.env;
+const { APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_AFTER_PRICE_TEXT } = process.env;
 
 const menuItems = [
   {
@@ -54,6 +54,9 @@ module.exports = {
     socialNeworksItems,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
+    },
+    product: {
+      afterPriceText: PRODUCT_AFTER_PRICE_TEXT,
     },
   },
 };

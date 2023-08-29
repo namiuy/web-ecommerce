@@ -1,6 +1,7 @@
 import {
   Box as BoxChakra,
   Button as ButtonChakra,
+  Card as CardChakra,
   Center as CenterChakra,
   Flex as FlexChakra,
   Image as ImageChakra,
@@ -8,8 +9,11 @@ import {
   Grid as GridChakra,
   GridItem as GridItemChakra,
   Heading as HeadingChakra,
+  Stack as StackChakra,
+  StackDivider as StackDividerChakra,
 } from '@chakra-ui/react';
 
+export const Card = CardChakra;
 export const Center = CenterChakra;
 export const Box = BoxChakra;
 export const Button = ButtonChakra;
@@ -19,6 +23,8 @@ export const Flex = FlexChakra;
 export const Grid = GridChakra;
 export const GridItem = GridItemChakra;
 export const Heading = HeadingChakra;
+export const Stack = StackChakra;
+export const StackDivider = StackDividerChakra;
 
 export * from './components/AddToCartButton';
 export * from './components/AnimationWrapper';

@@ -54,7 +54,7 @@ export const ProductListSection: FC<ProductListSectionProps> = ({ name }) => {
       {dataSort.map(({ id, name, product_ids }, i) => (
         <Flex key={i} direction="column" w="100%" gap="1rem">
           <Heading as="h3" size="xl" color={_grey3}>
-            {name} <Edit data={data} />
+            {name} {/* <Edit data={data} /> */}
           </Heading>
           <ProductCardCarousel key={i} productListId={id} productsLength={product_ids.length} />
         </Flex>

@@ -39,10 +39,10 @@ export const useSignIn = (props?: SignInProps): Response<User> => {
           const result = await getAccessToken(props.email, props.password);
           if (typeof result === 'number') {
             setError(new Error(result === 401 ? UNAUTHORIZED_MESSAGE : UNEXPECTED_ERROR_MESSAGE));
-            setIsLoading(false);
           } else {
             setAccessTokenResult(result);
           }
+          setIsLoading(false);
         }
       };
 

@@ -1,6 +1,6 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 
-const { APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY } = process.env;
+const { APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_AFTER_PRICE_TEXT } = process.env;
 
 const menuItems = [
   {
@@ -14,11 +14,6 @@ const menuItems = [
     href: '/productos',
   },
   {
-    id: 'services',
-    text: 'Servicios',
-    href: '/servicios',
-  },
-  {
     id: 'company',
     text: 'Empresa',
     href: '/empresa',
@@ -28,15 +23,15 @@ const menuItems = [
 const socialNeworksItems = [
   {
     id: 'facebook',
-    href: '/',
+    href: 'https://www.facebook.com/Credibikerss',
   },
   {
     id: 'instagram',
-    href: '/',
+    href: 'https://www.instagram.com/credibikerss',
   },
   {
     id: 'tiktok',
-    href: '/',
+    href: 'https://www.tiktok.com/@credibikerss',
   },
   {
     id: 'whatsapp',
@@ -54,6 +49,9 @@ module.exports = {
     socialNeworksItems,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
+    },
+    product: {
+      afterPriceText: PRODUCT_AFTER_PRICE_TEXT,
     },
   },
 };

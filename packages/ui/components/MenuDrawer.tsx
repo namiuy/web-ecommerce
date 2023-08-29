@@ -13,7 +13,6 @@ import {
   DrawerProps,
   Flex,
   Text,
-  Button,
   useDisclosure,
 } from '@chakra-ui/react';
 import { MenuItem } from './NavBar';
@@ -80,10 +79,11 @@ const MenuDrawerItems = ({ items, onClick }: MenuDrawerItemsProps) => (
 );
 
 type MenuDrawerProps = Omit<DrawerProps, 'children'> & {
+  dark?: boolean;
   menuItems: Array<MenuItem>;
 };
 
-export const MenuDrawer = ({ isOpen, onClose, finalFocusRef, menuItems }: MenuDrawerProps) => (
+export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems }: MenuDrawerProps) => (
   <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={finalFocusRef}>
     <DrawerOverlay />
     <DrawerContent bg={_backgroundColor} backdropFilter={_backdropFilter}>
@@ -92,7 +92,7 @@ export const MenuDrawer = ({ isOpen, onClose, finalFocusRef, menuItems }: MenuDr
         <MenuDrawerItems items={menuItems} onClick={onClose} />
         <Box p="2rem 0">
           <Center>
-            <SocialNeworks dark color={_menuItemColor} size="2rem" />
+            <SocialNeworks dark={dark} color={_menuItemColor} size="2rem" />
           </Center>
         </Box>
       </DrawerBody>

@@ -1,10 +1,8 @@
 import { Grid, GridItem } from '@chakra-ui/react';
-import { useContext } from 'react';
 import { NavBarProps } from '.';
 import Nav from '../Nav';
 import SearchInput from '../SearchInput';
 import SocialNeworks from '../SocialNeworks';
-import { AppContext } from 'shared';
 import Link from 'next/link';
 import { Categories } from '../Categories';
 import MenuAdmin from '../MenuAdmin';
@@ -16,8 +14,7 @@ const _borderColor = 'brand.navBar.borderColor';
 const _menuItemColor = 'brand.drawerMenu.item.color'; // TODO: fix
 const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor'; // TODO: fix
 
-const NavBarDesktop = ({ logo: Logo, menuItems = [] }: NavBarProps) => {
-  const { toggleTheme } = useContext(AppContext);
+const NavBarDesktop = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: Categories } : i));
   return (
     <Grid
@@ -31,11 +28,9 @@ const NavBarDesktop = ({ logo: Logo, menuItems = [] }: NavBarProps) => {
     >
       <GridItem justifySelf="center">
         {Logo && (
-          <div onClick={toggleTheme}>
-            <Link href="/">
-              <Logo />
-            </Link>
-          </div>
+          <Link href="/">
+            <Logo />
+          </Link>
         )}
       </GridItem>
       <GridItem>
@@ -47,12 +42,12 @@ const NavBarDesktop = ({ logo: Logo, menuItems = [] }: NavBarProps) => {
       </GridItem>
       <GridItem />
       <GridItem>
-        <SocialNeworks color={_navItemColor} size="1.2rem" />
+        <SocialNeworks dark={dark} color={_navItemColor} size="1.2rem" />
       </GridItem>
       <GridItem />
-      <GridItem>
+      {/* <GridItem>
         <MenuAdmin />
-      </GridItem>
+      </GridItem> */}
       <GridItem />
     </Grid>
   );

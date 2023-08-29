@@ -97,7 +97,7 @@ export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0,
               </Link>
             )}
           </AccordionItem>
-        )
+        ),
       )}
     </Accordion>
   );

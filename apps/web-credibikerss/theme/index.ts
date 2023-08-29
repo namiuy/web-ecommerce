@@ -8,79 +8,7 @@ const grey3 = '#3E4448';
 const primary = 'black';
 const secondary = '#d7fc00';
 
-export const lightTheme: Record<string, any> = {
-  fonts: {
-    heading: `'Play', sans-serif`,
-  },
-  colors: {
-    primary: {
-      main: primary,
-      50: grey0,
-      100: grey1,
-      200: grey1,
-      300: grey2,
-      400: grey2,
-      500: primary,
-      600: grey3,
-      700: grey3,
-      800: primary,
-      900: primary,
-    },
-    secondary: {
-      main: secondary,
-      50: secondary,
-      100: secondary,
-      200: secondary,
-      300: secondary,
-      400: secondary,
-      500: secondary,
-      600: secondary,
-      700: secondary,
-      800: secondary,
-      900: secondary,
-    },
-    brand: {
-      nav: {
-        item: {
-          color: grey3,
-          _hover: {
-            color: 'black',
-          },
-        },
-      },
-      navBar: {
-        backgroundColor: 'rgba(255, 255, 255, .6)',
-        borderColor: 'rgba(0, 0, 0, .1)',
-        input: {
-          borderColor: grey2,
-          _focus: {
-            borderColor: grey3,
-          },
-          _placeholder: {
-            color: grey3,
-          },
-        },
-        iconButton: {
-          color: grey3,
-          _hover: {
-            color: 'black',
-          },
-        },
-      },
-      input: {
-        borderColor: grey1,
-      },
-      drawerMenu: {
-        backgroundColor: 'rgba(255, 255, 255, .7)',
-        item: {
-          borderColor: 'rgba(0, 0, 0, .1)',
-        },
-      },
-    },
-  },
-};
-
-export const darkTheme: Record<string, any> = {
+export const theme: Record<string, any> = {
   fonts: {
     heading: `'Play', sans-serif`,
   },
@@ -112,6 +40,12 @@ export const darkTheme: Record<string, any> = {
       900: secondary,
     },
     brand: {
+      grey: {
+        0: grey0,
+        1: grey1,
+        2: grey2,
+        3: grey3,
+      },
       nav: {
         item: {
           color: grey1,
@@ -146,6 +80,25 @@ export const darkTheme: Record<string, any> = {
           color: grey1,
           borderColor: 'rgba(255, 255, 255, .05)',
         },
+      },
+      productDetail: {
+        backgroundColor: grey0,
+        borderColor: '#e2e2e2',
+        // smallText: smallText,
+        // tooltipBg: tooltipBg,
+        // buyButton: {
+        //   backgroundColor: secondary,
+        //   color: 'white',
+        //   _hover: {
+        //     backgroundColor: buyButtonHoverBg,
+        //   },
+        // },
+        // relatedLinks: {
+        //   linkColor: relatedLinksColor,
+        //   _hover: {
+        //     backgroundColor: relatedLinksColor,
+        //   },
+        // },
       },
     },
   },

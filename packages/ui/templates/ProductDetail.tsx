@@ -10,25 +10,27 @@ import {
   ImageModal,
   AddToCartButton,
   QuoteRequestButton,
+  Card,
 } from 'ui';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 import { useProductGet } from 'shared';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Product } from 'shared/entities/product';
+import { product as productConf } from 'shared';
 
-const _backgroundColor = 'brand.productDetail.backgroundColor';
+const { afterPriceText } = productConf;
+
+const _borderRadious = 'brand.card.borderRadious';
 const _borderColor = 'brand.productDetail.borderColor';
 const _returnLinkHoverColor = { color: 'brand.productDetail.linkColor' };
 
-const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
-
 const _containerSize = { lg: '65%', base: '90%' };
-const _containerPadding = { lg: '2rem', base: '1rem' };
+const _containerPadding = { lg: '2rem 2rem 3rem 2rem', base: '1rem' };
 
 const _gridTemplateAreas = { lg: `"image details" "description description"`, base: `"image" "details" "description"` };
 const _gridTemplateRows = { lg: 'auto 1fr', base: 'auto 1fr' };
-const _gridTemplateColumns = { lg: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' };
+const _gridTemplateColumns = { lg: '3fr 2fr', base: 'repeat(1, 1fr)' };
 
 const _gridItemImagePaddingRight = { lg: '2rem', base: '0' };
 const _gridItemImageBorderRight = { lg: '1px', base: '0' };
@@ -70,8 +72,7 @@ const getAction = (action: ProductAction, props: ProductActionProps) => {
 };
 
 export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
-  const { isLoading: isGetLoading, error, data } = useProductGet(id);
-  const [modalQuoteIsOpen, setModalQuoteIsOpen] = useState(true);
+  const { isLoading, error, data } = useProductGet(id);
   const router = useRouter();
 
   if (error) {
@@ -79,19 +80,17 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
     return <></>;
   }
 
-  const isLoading = isGetLoading && !!data;
-
   return (
-    <Box minHeight={'100vh'} bg={_backgroundColor}>
-      <Container maxW={_containerSize} px={0} pt={'10rem'} mb={'0.25rem'} fontSize={'0.875rem'}>
+    <>
+      <Container maxW={_containerSize} px={0} pt="8rem" mb="0.25rem" fontSize="0.875rem">
         {isLoading ? (
-          <Skeleton w={'30%'} h={'1.25rem'} />
+          <Skeleton w="30%" h="1.25rem" />
         ) : (
           <Box>
             <Link onClick={() => router.back()} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
               Volver
             </Link>
-            <Text as="span" mx={'0.375rem'}>
+            <Text as="span" mx="0.375rem">
               {' '}
               |{' '}
             </Text>
@@ -107,113 +106,136 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           </Box>
         )}
       </Container>
-      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} bg={'white'}>
+      <Card
+        m="auto"
+        maxW={_containerSize}
+        p={_containerPadding}
+        borderRadius={_borderRadious}
+        boxShadow="md"
+        bg="white"
+      >
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
           templateColumns={_gridTemplateColumns}
         >
           <GridItem
-            area={'image'}
+            area="image"
             pr={_gridItemImagePaddingRight}
             borderRight={_gridItemImageBorderRight}
             borderColor={_griditemImageBorderColor}
           >
             {isLoading ? (
-              <Skeleton w={'100%'} h={'20rem'} mb={_imageSkeletonMarginBottom} />
+              <Skeleton w="100%" h="20rem" mb={_imageSkeletonMarginBottom} />
             ) : data ? (
               <ImageModal image={data?.image_url} title={data?.brand.name} />
             ) : (
               <></>
             )}
           </GridItem>
-          <GridItem area={'details'} pl={_gridIemDetailsPaddingLeft}>
-            <Box borderBottom={'1px'} borderColor={_borderColor}>
+          <GridItem area="details" pl={_gridIemDetailsPaddingLeft}>
+            <Box>
               {isLoading ? (
-                <Skeleton w={'100%'} h={'3.5rem'} mb={'0.375rem'} />
+                <Skeleton w="100%" h="3.5rem" mb="0.375rem" />
               ) : (
-                <Text fontWeight={'extrabold'} fontSize={'1.25rem'}>
+                <Text fontWeight="extrabold" fontSize="1.5rem">
                   {data?.name}
                 </Text>
               )}
               {isLoading ? (
-                <Skeleton w={'20%'} h={'1.25rem'} mb={'1.5rem'} />
+                <Skeleton w="20%" h="1.25rem" mb="1.5rem" />
               ) : (
-                <Text color={_smallTextColor} fontSize={'0.75rem'}>
-                  <Text as="span" fontSize={'0.625rem'}>
-                    Cod{' '}
+                <Text color={_smallTextColor} fontSize="0.75rem">
+                  <Text as="span" fontSize="0.625rem">
+                    Codigo{' '}
                   </Text>
                   {data?.id}
                 </Text>
               )}
               {isLoading ? (
-                <Skeleton w={'50%'} h={'2.5rem'} mb={'3rem'} />
+                <Skeleton w="50%" h="2.5rem" mb="3rem" />
               ) : (
-                <Text pt={'1rem'} pb={'2.5rem'} fontSize={'2.25rem'}>
-                  <Text as="span" fontSize={'1.625rem'}>
+                <Text pt="1rem" pb="2rem" fontSize="2.25rem">
+                  <Text as="span" fontSize="1.625rem">
                     U$S{' '}
                   </Text>
                   {data?.price}
-                  <Text as="span" color={_smallTextColor} fontSize={'0.75rem'}>
-                    {' '}
-                    + IVA
-                  </Text>
+                  {afterPriceText && (
+                    <Text as="span" color={_smallTextColor} fontSize="0.75rem">
+                      {' '}
+                      {afterPriceText}
+                    </Text>
+                  )}
                 </Text>
               )}
             </Box>
             <Box>
               {isLoading ? (
-                <Skeleton w={'7%'} h={'1rem'} my={'1rem'} />
-              ) : (
-                <Text color={_smallTextColor} fontSize={'0.75rem'} py={'1rem'}>
+                <Skeleton w="7%" h="1rem" my="1rem" />
+              ) : data?.stock ? (
+                <Text color={_smallTextColor} fontSize="0.75rem" py="1rem">
                   Stock
                   {data?.stock === 'AV' && (
-                    <Tooltip label="Disponible" bg={_tooltipBg} fontSize={'0.75rem'} borderRadius={'0.25rem'}>
+                    <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
                       <CheckIcon sx={_stockIcon} />
                     </Tooltip>
                   )}
                   {data?.stock === 'CO' && (
-                    <Tooltip label="Consulte" bg={_tooltipBg} fontSize={'0.75rem'} borderRadius={'0.25rem'}>
+                    <Tooltip label="Consulte" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
                       <PhoneIcon sx={_stockIcon} />
                     </Tooltip>
                   )}
                   {data?.stock === 'NO' && (
-                    <Tooltip label="Agotado" bg={_tooltipBg} fontSize={'0.75rem'} borderRadius={'0.25rem'}>
+                    <Tooltip label="Agotado" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
                       <CloseIcon sx={_stockIcon} />
                     </Tooltip>
                   )}
                 </Text>
+              ) : (
+                <></>
               )}
               {actions.map(a => getAction(a, { isLoading, product: data }))}
             </Box>
           </GridItem>
           {data && data?.description && (
-            <GridItem area={'description'} borderTop={'1px'} borderColor={_borderColor} pt={'1.5rem'} mt={'2rem'}>
-              {isLoading ? <Skeleton w={'100%'} h={'3rem'} /> : <Text> {data?.description} </Text>}
+            <GridItem area="description" borderTop="1px" borderColor={_borderColor} mt="2rem" pt="2rem">
+              {isLoading ? (
+                <Skeleton w="100%" h="3rem" />
+              ) : (
+                <Text lineHeight="2rem">
+                  {data?.description?.split('\n').map((linea, i) => (
+                    <>
+                      {linea}
+                      <br />
+                    </>
+                  ))}
+                </Text>
+              )}
             </GridItem>
           )}
         </Grid>
-      </Container>
+      </Card>
       {data && data?.relatedLinks && (
-        <Box my={'4rem'} py={'3rem'} borderY={'1px'} borderColor={_borderColor}>
-          <Container maxW={_containerSize} px={0} mb={'2rem'}>
-            <Heading size={'lg'}>LINKS</Heading>
+        <Box my="4rem" py="3rem" borderY="1px" borderColor={_borderColor}>
+          <Container maxW={_containerSize} px={0} mb="2rem">
+            <Heading size="lg">LINKS</Heading>
           </Container>
           {isLoading ? (
-            <Skeleton w={'100%'} h={'5rem'} />
+            <Skeleton w="100%" h="5rem" />
           ) : (
-            <Container
+            <Card
               maxW={_containerSize}
               px={0}
               _hover={_relatedLinksMainContainerHover}
-              boxShadow={_boxShadow}
-              bg={'white'}
+              borderRadius={_borderRadious}
+              boxShadow="md"
+              bg="white"
             >
               {data?.relatedLinks.map((link, i) => (
                 <Link
                   href={link.url}
-                  display={'block'}
-                  p={'1rem'}
+                  display="block"
+                  p="1rem"
                   color={_relatedLinksLinkColor}
                   key={i}
                   style={{ textDecoration: 'none' }}
@@ -221,10 +243,10 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                   <Box>{link.name}</Box>
                 </Link>
               ))}
-            </Container>
+            </Card>
           )}
         </Box>
       )}
-    </Box>
+    </>
   );
 };

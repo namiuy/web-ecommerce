@@ -16,3 +16,5 @@ export const keys = prc.keys;
 export const menuItems = prc.menuItems;
 
 export const socialNeworksItems = prc.socialNeworksItems as SocialNeworkItem[];
+
+export const product = prc.product;

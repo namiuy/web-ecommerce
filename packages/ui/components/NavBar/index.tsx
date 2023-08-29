@@ -11,6 +11,7 @@ export type MenuItem = {
 };
 
 export type NavBarProps = {
+  dark?: boolean;
   logo?: ElementType;
   fontWeight?: number;
   menuItems?: Array<MenuItem>;

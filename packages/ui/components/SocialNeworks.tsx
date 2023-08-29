@@ -43,7 +43,7 @@ const SocialNeworks = ({
         .filter(({ id }) => !hide.includes(id))
         .map(({ id, href }) => (
           <li key={id}>
-            <Link href={href}>
+            <Link href={href} target="_blank">
               <ChakraIcon
                 as={icons[id].icon}
                 w={size}

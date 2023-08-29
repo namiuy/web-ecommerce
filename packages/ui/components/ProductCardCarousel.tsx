@@ -51,9 +51,7 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
       slidesPerView={slidesPerView}
       spaceBetween={16}
     >
-      {products?.map((product, i) => (
-        <ProductCard key={i} edit isLoading={isLoading} product={product} />
-      ))}
+      {products?.map((product, i) => <ProductCard key={i} isLoading={isLoading} product={product} />)}
     </Carousel>
   );
 };

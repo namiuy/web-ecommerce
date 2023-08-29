@@ -1,8 +1,10 @@
 import { AnimationWrapper, NavBar as NavBarUI } from 'ui';
 import { Logo } from './Logo';
 
-export const NavBar = () => (
-  <AnimationWrapper tag="a">
-    <NavBarUI logo={Logo} />
+const AnimatedLogo = () => (
+  <AnimationWrapper tag="svg">
+    <Logo />
   </AnimationWrapper>
 );
+
+export const NavBar = () => <NavBarUI dark logo={AnimatedLogo} />;
