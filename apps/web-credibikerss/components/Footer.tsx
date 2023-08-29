@@ -5,6 +5,7 @@ import SocialNeworks from 'ui/components/SocialNeworks';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import { Icon, Link } from '@chakra-ui/react';
 import { useBreakpointValue } from '@chakra-ui/react';
+import { branches } from 'shared';
 
 const _secondaryColor = '#d7fc00'; // TODO: fix
 
@@ -15,27 +16,6 @@ const _addressColor = 'brand.grey.2';
 const _branchNameSize = { base: '1.2rem', sm: '1.4rem', lg: '1.8rem' };
 const _wspSize = { base: '1rem', sm: '1.2rem', lg: '1.6rem' };
 const _wspIconSize = { base: '1rem', sm: '1rem' };
-
-const branches = [
-  {
-    loaction: 'Montevideo',
-    address: 'Mercedes 1789, esq. Tristán Narvaja',
-    whatsApp: {
-      number: 598097530690,
-      text: '097 530 690',
-    },
-    position: { lat: -34.900745, lng: -56.178579 },
-  },
-  {
-    loaction: 'Las Piedras',
-    address: 'Av. Dr. Enrique Pouey 711, esq. Aparicio Saravia',
-    whatsApp: {
-      number: 598092555609,
-      text: '092 555 609',
-    },
-    position: { lat: -34.7308552, lng: -56.2236266 },
-  },
-];
 
 type FooterMapProps = {
   loaction: string;
