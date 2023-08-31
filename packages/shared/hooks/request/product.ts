@@ -4,7 +4,7 @@ import { AppContext } from '../../context';
 import { ProductSearch, ProductSearchSortBy } from '../../entities/product-search';
 import { addSearchParamsToUrl } from '../../utils/url';
 import { bff } from '../../env';
-import { Response } from './response';
+import { Response } from './result';
 import { Product } from '../../entities/product';
 import { del, post, put } from '../../utils/fetcher';
 
@@ -23,14 +23,9 @@ export const productUpdate = (id: string, data: any): Promise<Product> =>
 
 export const productDelete = (id: string): Promise<Product> => del<Product>(`${bff.url}/products/${id}`);
 
-export const useProductGet = (id: string): Response<Product> => useRequest(`${bff.url}/products/${id}`);
+export const useProductGet = (id: string): Result<Product> => useRequest(`${bff.url}/products/${id}`);
 
-export const useProductSearch = ({
-  brandId,
-  categoryId,
-  text,
-  sortBy,
-}: ProductSearchProps): Response<ProductSearch> => {
+export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductSearchProps): Result<ProductSearch> => {
   const filters = {
     b: brandId?.toString(),
     c: categoryId?.toString(),

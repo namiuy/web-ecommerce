@@ -6,6 +6,7 @@ import { FC, useEffect, useState } from 'react';
 import { useSignIn } from 'shared';
 import { useRouter } from 'next/router';
 
+const USER_OR_PWD_ICORRECT = 'The user or password is incorrect';
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
 const _backgroundColorTwo = 'brand.login.backgroundColorTwo';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
@@ -44,7 +45,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
         toast({
           id,
           title: 'Error al iniciar sesión',
-          description: error.message,
+          description: error === USER_OR_PWD_ICORRECT ? 'El usuario o la contraseña es incorrecto/a' : error,
           position: 'top',
           status: 'error',
           duration: 4000,

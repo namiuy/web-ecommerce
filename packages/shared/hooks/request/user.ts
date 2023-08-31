@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { bff } from '../../env';
-import { Response } from './response';
+import { Result } from './result';
 import { get, post } from '../../utils/fetcher';
 import { User } from '../../entities/user';
-
-const UNAUTHORIZED_MESSAGE = 'El correo electrónico y/o la contraseña son incorrectos.';
-const UNEXPECTED_ERROR_MESSAGE = 'Ha ocurrido un error inesperado, por favor vuelve a intentarlo mas tarde.';
+import { UserAdd } from '../../entities/user-add';
 
 type SignInProps = {
   email: string;
@@ -15,6 +13,7 @@ type SignInProps = {
 type AccessToken = {
   access_token: string;
   user_id: string;
+  error?: string;
 };
 
 const getAccessToken = (username: string, password: string): Promise<AccessToken> =>
@@ -24,21 +23,25 @@ const getUser = (access_token: string, user_id: string): Promise<User> => {
   return get<User>(`${bff.url}/users/${user_id}`, { headers: { Authorization: `OAuth ${access_token}` } });
 };
 
-export const useSignIn = (props?: SignInProps): Response<User> => {
+const addUser = (user: UserAdd): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/users`, { body: JSON.stringify(user) });
+};
+
+export const useSignIn = (props?: SignInProps): Result<User> => {
   const [accessTokenResult, setAccessTokenResult] = useState<AccessToken>();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User>();
-  const [error, setError] = useState<Error>();
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     if (props) {
       const fetchData = async () => {
         if (props) {
           setIsLoading(true);
-
           const result = await getAccessToken(props.email, props.password);
-          if (typeof result === 'number') {
-            setError(new Error(result === 401 ? UNAUTHORIZED_MESSAGE : UNEXPECTED_ERROR_MESSAGE));
+
+          if (result.error) {
+            setError(result.error);
           } else {
             setAccessTokenResult(result);
           }
@@ -55,8 +58,9 @@ export const useSignIn = (props?: SignInProps): Response<User> => {
       const fetchData = async () => {
         if (accessTokenResult) {
           const result = await getUser(accessTokenResult.access_token, accessTokenResult.user_id);
-          if (typeof result === 'number') {
-            setError(new Error(result === 401 ? UNAUTHORIZED_MESSAGE : UNEXPECTED_ERROR_MESSAGE));
+
+          if (result.error) {
+            setError(result.error);
           } else {
             setUser(result);
           }
@@ -69,4 +73,29 @@ export const useSignIn = (props?: SignInProps): Response<User> => {
   }, [accessTokenResult]);
 
   return { isLoading, data: user, error };
+};
+
+export const useAddUser = (props?: UserAdd): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean>();
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (props) {
+      setIsLoading(true);
+      const fetchData = async () => {
+        const result = await addUser(props);
+
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setData(true);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+  }, [props]);
+
+  return { isLoading, data, error };
 };

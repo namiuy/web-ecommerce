@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { bff } from '../..';
 import { Quote } from '../../entities/quote';
 import { post } from '../../utils/fetcher';
-import { Response } from './response';
+import { Response } from './result';
 
-export const useQuoteRequest = (req?: Quote): Response<boolean> => {
+export const useQuoteRequest = (req?: Quote): Result<boolean> => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<boolean>();
   const [error, setError] = useState<Error>();

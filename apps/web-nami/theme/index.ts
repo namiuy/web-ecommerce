@@ -1,4 +1,4 @@
-const primary = '#030366';
+const primary = '#6A0000';
 const secondary = '#e53e3e';
 
 const greyBg = '#fafafa';
@@ -80,8 +80,8 @@ export const theme: Record<string, any> = {
         },
       },
       navBar: {
-        backgroundColor: 'rgba(3, 3, 102, .94)',
-        borderColor: 'none',
+        backgroundColor: primary,
+        borderColor: primary,
         iconButton: {
           color: 'white',
           _hover: {
@@ -90,14 +90,14 @@ export const theme: Record<string, any> = {
         },
         input: {
           color: 'white',
-          borderColor: '#2f3092',
+          borderColor: '#AC2222',
           iconColor: '#6566c1',
           //backgroundColor: '#0c0d77',
           _focus: {
             borderColor: '#6163d3',
           },
           _placeholder: {
-            color: '#6566c1',
+            color: '#C16565',
           },
         },
       },

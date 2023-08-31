@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 import lscache from 'lscache';
 import { fetcher } from '../../utils/fetcher';
-import { Response } from './response';
+import { Response } from './result';
 
 const oneDay = 60 * 24;
 
-export const useRequest = <T>(url: string): Response<T> => {
+export const useRequest = <T>(url: string): Result<T> => {
   return useSWRImmutable<T>(url, fetcher);
 };
 
-export const useRequestWithCache = <T>(url: string, cacheTime: number = oneDay): Response<T> => {
+export const useRequestWithCache = <T>(url: string, cacheTime: number = oneDay): Result<T> => {
   const windowState = typeof window !== 'undefined';
   const [cache, setCache] = useState();
   const [isWindowReady, setIsWindowReady] = useState(false);
