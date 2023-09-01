@@ -46,6 +46,10 @@ export const theme: Record<string, any> = {
         2: grey2,
         3: grey3,
       },
+      login: {
+        backgroundColorOne: primary,
+        backgroundColorTwo: 'white',
+      },
       nav: {
         item: {
           color: grey1,

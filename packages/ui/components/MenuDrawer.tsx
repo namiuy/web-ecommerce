@@ -21,7 +21,7 @@ import { NavItem } from './Nav';
 import SocialNeworks from './SocialNeworks';
 import { Categories } from './Categories';
 import { Center } from '..';
-import { ProductAddModal } from './ProductCard/ProductAddModal';
+import MenuAdmin from './MenuAdmin';
 
 const _backgroundColor = 'brand.drawerMenu.backgroundColor';
 const _backdropFilter = 'saturate(180%) blur(20px)';
@@ -38,7 +38,6 @@ type AccordionProductsProps = {
 };
 
 const AccordionProducts = ({ onClick }: AccordionProductsProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Accordion allowToggle borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
       <AccordionItem borderColor={'transparent'}>
@@ -50,7 +49,6 @@ const AccordionProducts = ({ onClick }: AccordionProductsProps) => {
         </AccordionButton>
         <AccordionPanel p="0">
           <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
-          <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
@@ -90,6 +88,9 @@ export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems }: 
       <DrawerCloseButton color={_menuItemColor} />
       <DrawerBody p=".5rem 0">
         <MenuDrawerItems items={menuItems} onClick={onClose} />
+        <Box m="1rem">
+          <MenuAdmin />
+        </Box>
         <Box p="2rem 0">
           <Center>
             <SocialNeworks dark={dark} color={_menuItemColor} size="2rem" />

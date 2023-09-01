@@ -1,3 +1,4 @@
+import lscache from 'lscache';
 import { Box, Container, Button, Text } from 'ui';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Formik, Field } from 'formik';
@@ -7,6 +8,8 @@ import { useSignIn } from 'shared';
 import { useRouter } from 'next/router';
 
 const USER_OR_PWD_ICORRECT = 'The user or password is incorrect';
+const UNAUTHORIZED = 'Unauthorized';
+
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
 const _backgroundColorTwo = 'brand.login.backgroundColorTwo';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
@@ -45,7 +48,10 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
         toast({
           id,
           title: 'Error al iniciar sesión',
-          description: error === USER_OR_PWD_ICORRECT ? 'El usuario o la contraseña es incorrecto/a' : error,
+          description:
+            error === USER_OR_PWD_ICORRECT || error === UNAUTHORIZED
+              ? 'El usuario o la contraseña es incorrecto/a'
+              : error,
           position: 'top',
           status: 'error',
           duration: 4000,
@@ -57,7 +63,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
 
   useEffect(() => {
     if (data) {
-      lscache.set('user', JSON.stringify(data));
+      lscache.set('user', data);
       router.push('/');
     }
   }, [router, data]);

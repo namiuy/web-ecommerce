@@ -1,7 +1,7 @@
 'use client';
 
 import { NextPage } from 'next';
-import { Flex, Banner, Brands, Container, Head, ProductListSection, Box, Center } from 'ui';
+import { Flex, Banner, Brands, Container, Head, ProductListSection, Box } from 'ui';
 import { NavBar } from '../components';
 import { BannerFinancing } from '../components/BannerFinancing';
 import { Footer } from '../components/Footer';

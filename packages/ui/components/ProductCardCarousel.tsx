@@ -17,9 +17,9 @@ const lgSizes = {
   navigationRight: undefined,
 };
 
-type ProductCardCarouselProps = { productListId: number; productsLength: number };
+type ProductCardCarouselProps = { editMode?: boolean; productListId: number; productsLength: number };
 
-export const ProductCardCarousel = ({ productListId, productsLength }: ProductCardCarouselProps) => {
+export const ProductCardCarousel = ({ editMode = false, productListId, productsLength }: ProductCardCarouselProps) => {
   const { isLoading, error, data } = useProductListGet(productListId);
 
   const isLg = useBreakpointValue({
@@ -51,7 +51,9 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
       slidesPerView={slidesPerView}
       spaceBetween={16}
     >
-      {products?.map((product, i) => <ProductCard key={i} isLoading={isLoading} product={product} />)}
+      {products?.map((product: Product, i: number) => (
+        <ProductCard key={i} isLoading={isLoading} editMode={editMode} product={product} />
+      ))}
     </Carousel>
   );
 };

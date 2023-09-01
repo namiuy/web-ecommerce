@@ -2,6 +2,6 @@ import { FC } from 'react';
 import { ProductCard as Component, ProductCardProps } from './ProductCard';
 import { ProductCardWithEdit } from './ProductCardWithEdit';
 
-export const ProductCard: FC<ProductCardProps & { edit?: boolean }> = ({ edit = false, ...props }) => {
-  return edit ? <ProductCardWithEdit {...props} /> : <Component {...props} />;
+export const ProductCard: FC<ProductCardProps & { editMode?: boolean }> = ({ editMode = false, ...props }) => {
+  return editMode ? <ProductCardWithEdit {...props} /> : <Component {...props} />;
 };
