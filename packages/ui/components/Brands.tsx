@@ -18,7 +18,7 @@ export const Brands = () => {
   }
 
   return (
-    <Flex wrap="wrap" p="1rem" gap={{ base: '2rem', lg: '3rem' }} justifyContent="space-around">
+    <Flex wrap="wrap" p="2rem 1rem" gap={{ base: '2rem', lg: '3rem' }} justifyContent="space-around">
       {isLoading
         ? getEmptyArray(LOADING_LENGTH).map((_, i) => <Skeleton key={i} w={_w} h={_h} />)
         : data.map(({ name, path, logo_url }, i) => (

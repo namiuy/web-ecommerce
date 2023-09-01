@@ -1,7 +1,7 @@
 import { useRequest, useRequestWithCache } from '.';
 import { Banner } from '../../entities/banner';
 import { bff } from '../../env';
-import { Response } from './result';
+import { Result } from './result';
 
 export const useBannerList = (): Result<Array<Banner>> => useRequestWithCache(`${bff.url}/banners`);
 

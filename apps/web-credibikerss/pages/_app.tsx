@@ -1,3 +1,5 @@
+'use client';
+
 import type { AppProps } from 'next/app';
 import { AppContextProvider } from 'shared';
 import { ThemeProvider } from 'ui';

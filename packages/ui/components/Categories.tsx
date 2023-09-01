@@ -1,6 +1,6 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex } from '@chakra-ui/react';
 import Link from 'next/link';
-import { addSearchParamsToUrl, getEmptyArray, getProductsUrl, useCategoryList } from 'shared';
+import { addSearchParamsToUrl, getEmptyArray, getProductsUrl, isBrowser, useCategoryList } from 'shared';
 import { Category } from 'shared/entities/category';
 import { Skeleton } from 'ui';
 
@@ -30,8 +30,7 @@ type AccordionItemProps = {
   color?: string;
 };
 
-const getUrl = (categoryId: string) =>
-  typeof window === 'undefined' ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: categoryId });
+const getUrl = (categoryId: string) => (!isBrowser() ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: categoryId }));
 
 export const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }: ItemProps) => {
   return (

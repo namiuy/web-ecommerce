@@ -111,7 +111,6 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
   };
 
   const add = (values: Record<string, any>) => {
-    console.log(values);
     setIsLoading(true);
     productAdd(values)
       .then(() => {
@@ -152,7 +151,7 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
   };
 
   return (
-    <Grid alignItems="start" gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }}>
+    <Grid alignItems="start" mt="1rem" gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }}>
       <Center p={{ base: '2rem 1rem', lg: '2rem' }}>
         <AspectRatio w="100%" ratio={4 / 3}>
           <Image alt={data?.name} src={data?.image_url} fit="contain" fallback={<Box w="100%" bg={_grey0} />} />

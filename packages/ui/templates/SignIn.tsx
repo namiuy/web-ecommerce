@@ -2,7 +2,7 @@ import lscache from 'lscache';
 import { Box, Container, Button, Text } from 'ui';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Formik, Field } from 'formik';
-import { Link, FormControl, FormLabel, FormErrorMessage, Input, useToast } from '@chakra-ui/react';
+import { Link, FormControl, FormLabel, FormErrorMessage, Input, useToast, Progress } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useSignIn } from 'shared';
 import { useRouter } from 'next/router';
@@ -154,11 +154,23 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                   />
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
+
                 <Box mb={'1rem'} textAlign={'end'}>
                   <Link href={'/'} color={'primary.main'} fontSize={'0.875rem'}>
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </Box>
+
+                <Box>
+                  <Progress
+                    h={isLoading ? '4px' : '1px'}
+                    m="1rem 0"
+                    size="xs"
+                    isIndeterminate={isLoading}
+                    colorScheme="primary"
+                  />
+                </Box>
+
                 <Button
                   type="submit"
                   isDisabled={isLoading}

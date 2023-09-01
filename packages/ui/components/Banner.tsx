@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useBannerList } from 'shared';
 //import { Carousel } from './Carousel';
 
-const _pt = { base: '5rem', lg: '6rem' };
 const _ratio = { base: 164 / 75, md: 25 / 7 };
 
 type BannerProps = {
@@ -31,7 +30,7 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
   const banners = data.filter(b => b.section === section).sort((a, b) => a.indx - b.indx);
 
   return (
-    <Box pt={_pt} bg={bg}>
+    <Box bg={bg}>
       <AspectRatio ratio={_ratio}>
         {/* <Carousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation} onChange={r => console.log(r)}>*/}
         <>

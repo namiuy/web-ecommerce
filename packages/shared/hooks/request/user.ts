@@ -82,8 +82,8 @@ export const useAddUser = (props?: UserAdd): Result<boolean> => {
 
   useEffect(() => {
     if (props) {
-      setIsLoading(true);
       const fetchData = async () => {
+        setIsLoading(true);
         const result = await addUser(props);
 
         if (result.error) {

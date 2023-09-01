@@ -1,14 +1,12 @@
+import { cardTheme } from './card.theme';
+
 import '@fontsource/roboto/100.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '@fontsource/roboto/900.css';
-
-const grey0 = '#F7F7F7';
-const grey1 = '#C9C9C9';
-const grey2 = '#7D7D7D';
-const grey3 = '#3E4448';
+import { grey0, grey1, grey2, grey3 } from './colors';
 
 export const defaultTheme: Record<string, any> = {
   fonts: {
@@ -77,5 +75,8 @@ export const defaultTheme: Record<string, any> = {
         },
       },
     },
+  },
+  components: {
+    Card: cardTheme,
   },
 };

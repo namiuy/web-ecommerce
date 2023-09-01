@@ -4,7 +4,7 @@ import { AppContext } from '../../context';
 import { ProductSearch, ProductSearchSortBy } from '../../entities/product-search';
 import { addSearchParamsToUrl } from '../../utils/url';
 import { bff } from '../../env';
-import { Response } from './result';
+import { Result } from './result';
 import { Product } from '../../entities/product';
 import { del, post, put } from '../../utils/fetcher';
 
@@ -39,11 +39,21 @@ export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductS
 
   const { isLoading, data, ...rest } = useRequest<ProductSearch>(url);
 
-  const { setProductSearchResultFilters, setProductSearchSortBy } = useContext(AppContext);
+  const {
+    setProductSearchResultIsLoading,
+    setProductSearchResult,
+    setProductSearchResultFilters,
+    setProductSearchSortBy,
+  } = useContext(AppContext);
 
   useEffect(() => {
-    if (!isLoading) setProductSearchResultFilters(data?.filters);
-  }, [data?.filters]); // eslint-disable-line react-hooks/exhaustive-deps
+    setProductSearchResultIsLoading(isLoading);
+
+    if (!isLoading) {
+      setProductSearchResult(data?.products);
+      setProductSearchResultFilters(data?.filters);
+    }
+  }, [isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => setProductSearchSortBy(sortBy), [sortBy]); // eslint-disable-line react-hooks/exhaustive-deps
 

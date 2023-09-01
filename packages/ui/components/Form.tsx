@@ -69,6 +69,7 @@ export const Form: FC<FromProps> = ({ isLoading, schema, data, selectors, onSubm
                       disabled={isLoading}
                       type={type}
                       variant="filled"
+                      height={type === 'textarea' ? '12rem' : undefined}
                       validate={validate}
                     />
                   )}

@@ -1,7 +1,7 @@
 import { useRequest, useRequestWithCache } from '.';
 import { State } from '../../entities/state';
 import { bff } from '../../env';
-import { Response } from './result';
+import { Result } from './result';
 
 const sevenDays = 1000 * 60 * 60 * 24 * 7;
 

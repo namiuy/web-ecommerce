@@ -73,7 +73,7 @@ module.exports = {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
     },
     product: {
-      afterPriceText: '+ IVA',
+      afterPriceText: '',
     },
   },
 };

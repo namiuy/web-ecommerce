@@ -24,8 +24,11 @@ export const NavBar = (props: NavBarProps) => {
   });
   const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
   return (
-    <Box position="fixed" top="0" w="100%" zIndex="999">
-      <NavBarDisplay {...props} menuItems={menuItems} />
-    </Box>
+    <>
+      <Box h="5rem" bg="black" />
+      <Box position="fixed" top="0" w="100%" zIndex="999">
+        <NavBarDisplay {...props} menuItems={menuItems} />
+      </Box>
+    </>
   );
 };

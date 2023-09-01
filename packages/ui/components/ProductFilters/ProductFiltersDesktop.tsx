@@ -5,6 +5,7 @@ import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';
 import { addSearchParamsToUrl, getProductsUrl, removeSearchParamFromUrl } from 'shared/utils/url';
 import { ProductFiltersProps } from '.';
+import { isBrowser } from 'shared';
 
 const _backgroundColor = 'brand.productFilters.backgroundColor';
 const _selectedBackgroundColor = 'brand.productFilters.selected.backgroundColor';
@@ -58,10 +59,9 @@ const Item = ({
     return <Skeleton w="6rem" h="1rem" mb="1rem" />;
   }
 
-  const url =
-    typeof window === 'undefined'
-      ? '/'
-      : addSearchParamsToUrl(getProductsUrl(), { b: brandId?.toString(), c: categoryId, ...params });
+  const url = !isBrowser()
+    ? '/'
+    : addSearchParamsToUrl(getProductsUrl(), { b: brandId?.toString(), c: categoryId, ...params });
 
   return (
     <Box as="li" pl={isSecondLevel ? '1rem' : '0'} pb="1rem" pr="1rem" fontSize={_fontSize} lineHeight="1rem">
@@ -71,7 +71,7 @@ const Item = ({
 };
 
 const SelectedItem = ({ paramKey, content }: SelectedItemProps) => {
-  const url = typeof window === 'undefined' ? '/' : removeSearchParamFromUrl(getProductsUrl(), paramKey);
+  const url = !isBrowser() ? '/' : removeSearchParamFromUrl(getProductsUrl(), paramKey);
 
   return (
     <Tag
@@ -106,8 +106,7 @@ export const ProductFiltersDesktop = ({
     direction="column"
     bg={_backgroundColor}
     borderRightColor={_borderColor}
-    borderRight="solid 1px"
-    p="2rem"
+    p="0 2rem 2rem 2rem"
     minH={{ base: 'calc(calc(100vh - 9rem) - 1px)', lg: 'calc(100vh - 6rem)' }}
   >
     {showCategories && (

@@ -46,6 +46,7 @@ export const theme: Record<string, any> = {
         2: grey2,
         3: grey3,
       },
+      background: grey0,
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: 'white',

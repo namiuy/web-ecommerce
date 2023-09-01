@@ -3,19 +3,7 @@ import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
-// ProductCard
-const _minH = { base: '15rem', lg: '21rem' }; // ['13rem', '18rem'];
-
-const baseSizes = {
-  slideHeight: _minH.base,
-  navigationLeft: '-1rem',
-  navigationRight: '-1rem',
-};
-const lgSizes = {
-  slideHeight: _minH.lg,
-  navigationLeft: undefined,
-  navigationRight: undefined,
-};
+const _minH = { base: '16rem', lg: '21rem' };
 
 type ProductCardCarouselProps = { editMode?: boolean; productListId: number; productsLength: number };
 
@@ -34,7 +22,7 @@ export const ProductCardCarousel = ({ editMode = false, productListId, productsL
       lg: 4,
     }) || 2;
 
-  const { slideHeight, navigationLeft, navigationRight } = isLg ? lgSizes : baseSizes;
+  const slideHeight = isLg ? _minH.lg : _minH.base;
 
   if (error) {
     console.log(error);
@@ -46,10 +34,10 @@ export const ProductCardCarousel = ({ editMode = false, productListId, productsL
   return (
     <Carousel
       slideHeight={slideHeight}
-      navigationLeft={navigationLeft}
-      navigationRight={navigationRight}
+      navigationLeft="-1rem"
+      navigationRight="-1rem"
       slidesPerView={slidesPerView}
-      spaceBetween={16}
+      spaceBetween={32}
     >
       {products?.map((product: Product, i: number) => (
         <ProductCard key={i} isLoading={isLoading} editMode={editMode} product={product} />

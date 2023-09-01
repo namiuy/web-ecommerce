@@ -94,7 +94,7 @@ export const ModalQuote: FC<ModalQuoteProps> = ({ isOpen, product, onClose }) =>
   };
 
   useEffect(() => {
-    if (error) console.log(error?.message);
+    if (error) console.log(error);
   }, [error]);
 
   const handleSubmit = (values: Record<string, any>) => {

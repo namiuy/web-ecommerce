@@ -7,9 +7,9 @@ import { Box, Icon, IconButton } from '@chakra-ui/react';
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
+import { boxShadowLg, boxShadowMd } from './ThemeProvider/colors';
 
-const iconButtonColor = 'brand.carousel.iconButton.color';
-const iconButtonHoverColor = 'brand.carousel.iconButton._hover.color';
+const _buttonSize = { base: '2rem', lg: '3rem' };
 
 type NavigationButtonProps = {
   slideHeight: number | string;
@@ -24,22 +24,28 @@ const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onCli
   const isBefore = direction === 'before';
   const ariaLabel = isBefore ? 'Atras' : 'Siguiente';
   const icon = isBefore ? MdOutlineNavigateBefore : MdOutlineNavigateNext;
-  const size = '3rem';
   return (
     <IconButton
       aria-label={ariaLabel}
       pos="absolute"
-      h={size}
-      w={size}
-      mt={`calc(((${slideHeight} * ${rows}) - ${size}) / 2)`}
+      h={_buttonSize}
+      w={_buttonSize}
+      mt={{
+        base: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.base}) / 2)`,
+        lg: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2)`,
+      }}
       left={!isBefore ? undefined : left}
       right={isBefore ? undefined : right}
       minW="unset"
       zIndex="99"
       as="button"
-      bg="transparent"
-      icon={<Icon as={icon} w={size} h={size} color={iconButtonColor} _hover={{ color: iconButtonHoverColor }} />}
-      _hover={{ bg: 'transparent' }}
+      bg="white"
+      borderRadius="50%"
+      boxShadow={boxShadowMd}
+      icon={
+        <Icon as={icon} w={_buttonSize} h={_buttonSize} color={'brand.grey.2'} _hover={{ color: 'brand.grey.3' }} />
+      }
+      _hover={{ bg: 'wihte', boxShadow: boxShadowLg }}
       onClick={onClick}
     />
   );

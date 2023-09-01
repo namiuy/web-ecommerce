@@ -1,4 +1,7 @@
-import { Tooltip, Link } from '@chakra-ui/react';
+'use client';
+
+import lscache from 'lscache';
+import { Tooltip, Link, useDisclosure, Flex } from '@chakra-ui/react';
 import {
   Container,
   Grid,
@@ -13,15 +16,19 @@ import {
   Card,
 } from 'ui';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
-import { useProductGet } from 'shared';
+import { isBrowser, useProductGet } from 'shared';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
 import { product as productConf } from 'shared';
+import { IconButtonEdit } from '../components/IconButtonEdit';
+import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
+import { User } from 'shared/entities/user';
 
 const { afterPriceText } = productConf;
 
-const _borderRadious = 'brand.card.borderRadious';
+const _grey2 = 'brand.grey.2';
+
 const _borderColor = 'brand.productDetail.borderColor';
 const _returnLinkHoverColor = { color: 'brand.productDetail.linkColor' };
 
@@ -60,10 +67,6 @@ type ProductDetailProps = {
   id: string;
   actions: ProductAction[];
 };
-const action: Record<ProductAction, FC<ProductActionProps>> = {
-  add_to_cart: AddToCartButton,
-  quote_request: QuoteRequestButton,
-};
 
 const getAction = (action: ProductAction, props: ProductActionProps) => {
   if (action === 'add_to_cart') return <AddToCartButton key={action} {...props} />;
@@ -72,8 +75,16 @@ const getAction = (action: ProductAction, props: ProductActionProps) => {
 };
 
 export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
+  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
   const router = useRouter();
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
 
   if (error) {
     console.log(error);
@@ -82,38 +93,41 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
 
   return (
     <>
-      <Container maxW={_containerSize} px={0} pt="8rem" mb="0.25rem" fontSize="0.875rem">
-        {isLoading ? (
-          <Skeleton w="30%" h="1.25rem" />
-        ) : (
-          <Box>
-            <Link onClick={() => router.back()} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
-              Volver
-            </Link>
-            <Text as="span" mx="0.375rem">
-              {' '}
-              |{' '}
-            </Text>
+      <Container maxW={_containerSize} px="0" margin="auto" pt={{ lg: '3rem', base: '1.5rem' }} mb="0.25rem">
+        <Flex justifyContent="space-between">
+          <Flex fontSize="0.875rem" color={_grey2}>
+            {isLoading ? (
+              <Skeleton w="30%" h="1.25rem" />
+            ) : (
+              <Box>
+                <Link onClick={() => router.back()} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
+                  Volver
+                </Link>
+                <Text as="span" mx="0.375rem">
+                  {' '}
+                  |{' '}
+                </Text>
 
-            <Link
-              href={`/productos?c=${data?.category.id}`}
-              style={{ textDecoration: 'none' }}
-              _hover={_returnLinkHoverColor}
-            >
-              {' '}
-              {data?.category.name}
-            </Link>
-          </Box>
-        )}
+                <Link
+                  href={`/productos?c=${data?.category.id}`}
+                  style={{ textDecoration: 'none' }}
+                  _hover={_returnLinkHoverColor}
+                >
+                  {' '}
+                  {data?.category.name}
+                </Link>
+              </Box>
+            )}
+          </Flex>
+          {isUserAdmin && (
+            <Box>
+              <IconButtonEdit onClick={onOpen} aria-label="" />
+              <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
+            </Box>
+          )}
+        </Flex>
       </Container>
-      <Card
-        m="auto"
-        maxW={_containerSize}
-        p={_containerPadding}
-        borderRadius={_borderRadious}
-        boxShadow="md"
-        bg="white"
-      >
+      <Card m="auto" maxW={_containerSize} p={_containerPadding} size="md">
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
@@ -126,7 +140,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
             borderColor={_griditemImageBorderColor}
           >
             {isLoading ? (
-              <Skeleton w="100%" h="20rem" mb={_imageSkeletonMarginBottom} />
+              <Skeleton w="100%" h="26rem" mb={_imageSkeletonMarginBottom} />
             ) : data ? (
               <ImageModal image={data?.image_url} title={data?.brand.name} />
             ) : (
@@ -136,7 +150,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           <GridItem area="details" pl={_gridIemDetailsPaddingLeft}>
             <Box>
               {isLoading ? (
-                <Skeleton w="100%" h="3.5rem" mb="0.375rem" />
+                <Skeleton w="100%" h="2.25rem" mb="0.375rem" />
               ) : (
                 <Text fontWeight="extrabold" fontSize="1.5rem">
                   {data?.name}
@@ -153,7 +167,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                 </Text>
               )}
               {isLoading ? (
-                <Skeleton w="50%" h="2.5rem" mb="3rem" />
+                <Skeleton w="50%" h="3.375rem" mb="3rem" />
               ) : (
                 <Text pt="1rem" pb="2rem" fontSize="2.25rem">
                   <Text as="span" fontSize="1.625rem">
@@ -194,13 +208,17 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               ) : (
                 <></>
               )}
-              {actions.map(a => getAction(a, { isLoading, product: data }))}
+              {isLoading ? (
+                <Skeleton w="100%" h="2.5rem" />
+              ) : (
+                <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
+              )}
             </Box>
           </GridItem>
-          {data && data?.description && (
+          {(isLoading || (data && data?.description)) && (
             <GridItem area="description" borderTop="1px" borderColor={_borderColor} mt="2rem" pt="2rem">
               {isLoading ? (
-                <Skeleton w="100%" h="3rem" />
+                <Skeleton w="70%" h="2rem" />
               ) : (
                 <Text lineHeight="2rem">
                   {data?.description?.split('\n').map((linea, i) => (
@@ -223,14 +241,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           {isLoading ? (
             <Skeleton w="100%" h="5rem" />
           ) : (
-            <Card
-              maxW={_containerSize}
-              px={0}
-              _hover={_relatedLinksMainContainerHover}
-              borderRadius={_borderRadious}
-              boxShadow="md"
-              bg="white"
-            >
+            <Card maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} size="md">
               {data?.relatedLinks.map((link, i) => (
                 <Link
                   href={link.url}

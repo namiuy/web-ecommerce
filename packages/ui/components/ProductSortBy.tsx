@@ -1,7 +1,7 @@
 import { Flex, Text, Select } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useContext } from 'react';
-import { addSearchParamsToUrl, AppContext, getProductsUrl } from 'shared';
+import { addSearchParamsToUrl, AppContext, getProductsUrl, isBrowser } from 'shared';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 
 export const ProductSortBy = () => {
@@ -11,10 +11,9 @@ export const ProductSortBy = () => {
   } = useContext(AppContext);
 
   const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const url =
-      typeof window === 'undefined'
-        ? '/'
-        : addSearchParamsToUrl(getProductsUrl(), { s: e.target.value as ProductSearchSortBy });
+    const url = !isBrowser()
+      ? '/'
+      : addSearchParamsToUrl(getProductsUrl(), { s: e.target.value as ProductSearchSortBy });
 
     router.push(url);
   };

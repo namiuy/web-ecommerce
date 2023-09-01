@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { Categories } from '../Categories';
 import MenuAdmin from '../MenuAdmin';
 import { User } from 'shared/entities/user';
+import { isBrowser } from 'shared';
+import { useEffect, useState } from 'react';
 
 const _navItemColor = 'brand.nav.item.color';
 const _backgroundColor = 'brand.navBar.backgroundColor';
@@ -17,9 +19,14 @@ const _borderColor = 'brand.navBar.borderColor';
 // const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor'; // TODO: fix
 
 const NavBarDesktop = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
-  const user: User = lscache.get('user'); // TODO: improve this
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
   const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: Categories } : i));
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
 
   return (
     <Grid

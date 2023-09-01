@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 import lscache from 'lscache';
 import { fetcher } from '../../utils/fetcher';
-import { Response } from './result';
+import { Result } from './result';
+import { isBrowser } from '../../utils';
 
 const oneDay = 60 * 24;
 
@@ -11,7 +12,7 @@ export const useRequest = <T>(url: string): Result<T> => {
 };
 
 export const useRequestWithCache = <T>(url: string, cacheTime: number = oneDay): Result<T> => {
-  const windowState = typeof window !== 'undefined';
+  const windowState = isBrowser();
   const [cache, setCache] = useState();
   const [isWindowReady, setIsWindowReady] = useState(false);
 
@@ -28,5 +29,5 @@ export const useRequestWithCache = <T>(url: string, cacheTime: number = oneDay):
     lscache.set(url, data, cacheTime);
   }
 
-  return { isLoading, error, data: cache ? cache : data };
+  return { isLoading: isLoading || !isWindowReady, error, data: cache ?? data };
 };

@@ -1,7 +1,7 @@
 import { useRequestWithCache } from '.';
 import { ProductList } from '../../entities/product-list';
 import { bff } from '../../env';
-import { Response } from './result';
+import { Result } from './result';
 
 const oneHour = 60 * 1;
 const sixHours = 60 * 6;

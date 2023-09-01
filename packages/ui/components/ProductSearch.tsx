@@ -1,9 +1,14 @@
-import { Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
-import { useContext } from 'react';
+import lscache from 'lscache';
+import { Flex, Grid, GridItem, Heading, Skeleton, Text } from '@chakra-ui/react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext, getEmptyArray, useProductSearch } from 'shared';
 import { Product } from 'shared/entities/product';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { ProductCard } from './ProductCard';
+import { User } from 'shared/entities/user';
+import { isBrowser } from 'shared';
+
+const _grey2 = 'brand.grey.2';
 
 type ProductSearchProps = {
   brandId?: number;
@@ -27,6 +32,14 @@ export const ProductSearch = (props: ProductSearchProps) => {
     productSearchOptions: { filters },
   } = useContext(AppContext);
 
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
+  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
+
   const { isLoading, error, data } = useProductSearch(props);
 
   if (error) {
@@ -36,18 +49,27 @@ export const ProductSearch = (props: ProductSearchProps) => {
 
   const products = isLoading ? getEmptyArray<Product>(LOADING_LENGTH) : data?.products;
 
-  if (!isLoading) {
-    if (!filters) return <Message content="Debes seleccionar un filtro." />;
+  if (!isLoading && products) {
+    // if (!filters) return <Message content="Debes seleccionar un filtro." />;
     if (!products?.length) return <Message content="No se encontro ningun resultado." />;
   }
 
   return (
-    <Grid gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']}>
-      {products?.map((product, i) => (
-        <GridItem key={i} p="1rem 0 2rem 2rem">
-          <ProductCard isLoading={isLoading} product={product} />
-        </GridItem>
-      ))}
-    </Grid>
+    <>
+      {isLoading ? (
+        <Skeleton />
+      ) : (
+        <Text fontSize=".85rem" pr="1rem" color={_grey2}>
+          {products?.length} resultados
+        </Text>
+      )}
+      <Grid gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']} gap="2rem" pb="6rem">
+        {products?.map((product, i) => (
+          <GridItem key={i}>
+            <ProductCard isLoading={isLoading} editMode={isUserAdmin} product={product} />
+          </GridItem>
+        ))}
+      </Grid>
+    </>
   );
 };

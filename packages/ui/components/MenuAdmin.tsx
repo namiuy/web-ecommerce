@@ -4,6 +4,8 @@ import { MdAdd, MdLogout } from 'react-icons/md';
 import { ProductAddModal } from './ProductCard/ProductAddModal';
 import { User } from 'shared/entities/user';
 import { useRouter } from 'next/router';
+import { isBrowser } from 'shared';
+import { useEffect, useState } from 'react';
 
 const _secondaryColor = '#d7fc00'; // TODO: fix
 const _borderRadious = '0.375rem';
@@ -12,7 +14,12 @@ const MenuAdmin = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const user: User = lscache.get('user'); // TODO: improve this
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
 
   if (!user) {
     return <></>;

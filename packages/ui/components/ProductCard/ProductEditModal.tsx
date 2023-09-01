@@ -17,7 +17,6 @@ export const ProductEditModal: FC<ProductEditModalProps> = ({ isOpen, product, s
   const router = useRouter();
   const handleSuccess = () => {
     onClose();
-    lscache.flush(); // TODO: improve this
     router.refresh();
   };
   return (

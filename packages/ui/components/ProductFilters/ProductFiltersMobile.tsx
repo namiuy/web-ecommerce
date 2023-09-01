@@ -6,33 +6,34 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Drawer as DrawerChakra,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-  DrawerProps,
+  ModalOverlay,
   Flex,
   Skeleton,
   Tag,
   TagCloseButton,
   TagLabel,
   useDisclosure,
+  Modal,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  ModalProps,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { MouseEventHandler } from 'react';
 import { IconType } from 'react-icons';
-import { BiSortAlt2 } from 'react-icons/bi';
+//import { BiSortAlt2 } from 'react-icons/bi';
 import { MdTune } from 'react-icons/md';
 import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';
 import { addSearchParamsToUrl, getProductsUrl, removeSearchParamFromUrl } from 'shared/utils/url';
 import { ProductFiltersProps } from '.';
+import { isBrowser } from 'shared';
 
 const _color = 'brand.productFilters.color';
 const _selectedBackgroundColor = 'brand.productFilters.selected.backgroundColor';
 const _selectedColor = 'brand.productFilters.selected.color';
-const _fontSize = '0.875rem';
+const _fontSize = '1rem';
 
 type ItemProps = {
   isSecondLevel?: boolean;
@@ -61,7 +62,7 @@ type ProductFiltersDesktopProps = {
 type OptionProps = {
   content: string;
   icon: IconType;
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
 };
 
 const Item = ({
@@ -76,10 +77,9 @@ const Item = ({
     return <Skeleton w="6rem" h="1rem" mb="1rem" />;
   }
 
-  const url =
-    typeof window === 'undefined'
-      ? '/'
-      : addSearchParamsToUrl(getProductsUrl(), { b: brandId?.toString(), c: categoryId, ...params });
+  const url = !isBrowser()
+    ? '/'
+    : addSearchParamsToUrl(getProductsUrl(), { b: brandId?.toString(), c: categoryId, ...params });
 
   return (
     <Link href={url} onClick={onClick}>
@@ -91,7 +91,7 @@ const Item = ({
 };
 
 const SelectedItem = ({ paramKey, content }: SelectedItem) => {
-  const url = typeof window === 'undefined' ? '/' : removeSearchParamFromUrl(getProductsUrl(), paramKey);
+  const url = !isBrowser() ? '/' : removeSearchParamFromUrl(getProductsUrl(), paramKey);
 
   return (
     <Tag
@@ -112,19 +112,19 @@ const SelectedItem = ({ paramKey, content }: SelectedItem) => {
 };
 
 const Option = ({ content, icon: Icon, onClick }: OptionProps) => (
-  <Button w="100%" size="md" p="1rem" variant="link" color={_color} leftIcon={<Icon />} onClick={onClick}>
+  <Button w="100%" size="md" mt="1rem" p="1rem" variant="link" color={_color} leftIcon={<Icon />} onClick={onClick}>
     {content}
   </Button>
 );
 
-export const Drawer = ({ isOpen, children, onClose }: DrawerProps) => (
-  <DrawerChakra isOpen={isOpen} placement="bottom" size="full" onClose={onClose}>
-    <DrawerOverlay />
-    <DrawerContent>
-      <DrawerCloseButton />
-      <DrawerBody p="3rem 0 0">{children}</DrawerBody>
-    </DrawerContent>
-  </DrawerChakra>
+export const FiltersModal = ({ isOpen, children, onClose }: ModalProps) => (
+  <Modal isOpen={isOpen} size="full" onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalCloseButton />
+      <ModalBody p="4rem 0 1rem 0">{children}</ModalBody>
+    </ModalContent>
+  </Modal>
 );
 
 export const ProductFiltersMobile = ({
@@ -137,22 +137,26 @@ export const ProductFiltersMobile = ({
   categories,
 }: ProductFiltersDesktopProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const hasSomeFilter = selectedCategory || selectedBrand;
+  const hasAllFilters = selectedCategory && selectedBrand;
   return (
     <Flex direction="column">
       <Flex>
-        <Option content="Ordenar" icon={BiSortAlt2} onClick={() => {}} />
-        <Option content="Filtrar" icon={MdTune} onClick={onOpen} />
+        {/* <Option content="Ordenar" icon={BiSortAlt2} onClick={() => {}} /> */}
+        <Option content="Filtrar" icon={MdTune} onClick={hasAllFilters ? undefined : onOpen} />
       </Flex>
-      <Flex p="1rem">
-        {selectedCategory && <SelectedItem paramKey="c" content={selectedCategory.name} />}
-        {selectedBrand && <SelectedItem paramKey="b" content={selectedBrand.name} />}
-      </Flex>
-      <Drawer isOpen={isOpen} onClose={onClose}>
+      {hasSomeFilter && (
+        <Flex p="1rem 0">
+          {selectedCategory && <SelectedItem paramKey="c" content={selectedCategory.name} />}
+          {selectedBrand && <SelectedItem paramKey="b" content={selectedBrand.name} />}
+        </Flex>
+      )}
+      <FiltersModal isOpen={isOpen} onClose={onClose}>
         <Accordion allowToggle>
           {!selectedCategory && (
             <AccordionItem>
               <AccordionButton>
-                <Box as="span" flex="1" textAlign="left">
+                <Box as="span" flex="1" textAlign="left" fontWeight="bold">
                   Categoria
                 </Box>
                 <AccordionIcon />
@@ -177,7 +181,7 @@ export const ProductFiltersMobile = ({
           {!selectedBrand && (
             <AccordionItem>
               <AccordionButton>
-                <Box as="span" flex="1" textAlign="left">
+                <Box as="span" flex="1" textAlign="left" fontWeight="bold">
                   Marca
                 </Box>
                 <AccordionIcon />
@@ -199,7 +203,7 @@ export const ProductFiltersMobile = ({
             </AccordionItem>
           )}
         </Accordion>
-      </Drawer>
+      </FiltersModal>
     </Flex>
   );
 };

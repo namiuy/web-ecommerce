@@ -69,8 +69,8 @@ const SearchInput = ({ placeholder = 'Buscar un producto', onSearch }: SearchInp
           borderRadius="0"
           fontSize="0.875rem"
           onClick={search}
-          _focus={{ bg: 'transparent' }}
-          _hover={{ bg: 'transparent' }}
+          _focus={{ bg: 'transparent', color: _focusBorderColor }}
+          _hover={{ bg: 'transparent', color: _focusBorderColor }}
         >
           Buscar
         </Button>

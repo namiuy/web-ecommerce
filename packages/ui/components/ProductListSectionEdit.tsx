@@ -22,9 +22,9 @@ const ProductListList: FC<ProductListListProps> = ({ productListId }) => {
       <Grid gap="1rem" gridTemplateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)', lg: 'repeat(5, 1fr)' }}>
         {product_ids?.map((id, i) => (
           <GridItem key={i}>
-            <Flex alignItems="center">
+            {/* <Flex alignItems="center">
               <ProductCard min edit={false} product={products?.find(p => p.id === id)} />
-            </Flex>
+            </Flex> */}
           </GridItem>
         ))}
         <GridItem>

@@ -1,35 +1,26 @@
-import { Box, Card, Flex, Image, Link } from '@chakra-ui/react';
+import { Box, Flex, Image, Link } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Product } from 'shared/entities/product';
-import { Text, Skeleton } from 'ui';
+import { Card, Text, Skeleton } from 'ui';
+import { boxShadowMd } from '../ThemeProvider/colors';
 
-const _borderRadious = 'brand.card.borderRadious';
-const _borderColor = 'brand.card.borderColor';
 const _black = 'black';
 const _grey0 = 'brand.grey.0';
 const _grey2 = 'brand.grey.2';
 
-const _minW = '8rem';
-const _minMinH = undefined;
-const _minImageMinH = '6rem';
-const _minImageP = '0';
-const _minCategorySize = '0.625rem';
-const _minNameSize = '0.875rem';
-const _minNameHeight = '1.75rem';
-const _minPriceSize = '0.75rem';
-const _minBodyM = '0 1rem 1rem 1rem';
-const _minBodyGap = '0';
+const _minW = { base: '8rem', lg: '13rem' };
+const _maxW = { base: '12rem', lg: '14rem' };
+const _mt = { base: '1rem', lg: '1rem' };
+const _p = { base: '.5rem .5rem 1rem .5rem', lg: '1rem 1rem 1.25rem 1rem' };
 
-const _w = { base: '8rem', lg: '12rem' };
-const _minH = { base: '14rem', lg: '18rem' };
-const _imageMinH = { base: '8rem', lg: '9rem' };
-const _imageP = { base: '0 0 1rem', lg: '0' };
+const _imageMinH = { base: '8rem', lg: '10rem' };
+const _imageMb = { base: '.5rem', lg: '1rem' };
 const _categorySize = { base: '0.625rem', lg: '0.75rem' };
-const _nameSize = { base: '0.875rem', lg: '1.375rem' };
-const _nameHeight = { base: '1.75rem', lg: '2.75rem' };
-const _priceSize = { base: '0.75rem', lg: '0.875rem' };
-const _bodyM = { base: '0 1rem 1rem 1rem', lg: '1rem' };
-const _bodyGap = '.25rem';
+const _nameSize = { base: '1rem', lg: '1.375rem' };
+const _nameHeight = { base: '2rem', lg: '2.75rem' };
+const _priceSize = { base: '0.875rem', lg: '1rem' };
+const _bodyP = { base: '0 .5rem', lg: 0 };
+const _bodyGap = '.5rem';
 
 export type ProductCardProps = {
   min?: boolean;
@@ -39,65 +30,47 @@ export type ProductCardProps = {
 
 export const ProductCard: FC<ProductCardProps> = ({ min = false, isLoading = false, product }) => {
   const { name, category, price, id, image_url } = product || {};
-  const w = min ? _minW : _w;
-  const minH = min ? _minMinH : _minH;
-  const imageMinH = min ? _minImageMinH : _imageMinH;
-  const imageP = min ? _minImageP : _imageP;
-  const categorySize = min ? _minCategorySize : _categorySize;
-  const nameSize = min ? _minNameSize : _nameSize;
-  const nameHeight = min ? _minNameHeight : _nameHeight;
-  const priceSize = min ? _minPriceSize : _priceSize;
-  const bodyM = min ? _minBodyM : _bodyM;
-  const bodyGap = min ? _minBodyGap : _bodyGap;
-
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
-      <Card
-        w={w}
-        minH={minH}
-        borderRadius={_borderRadious}
-        borderColor={_borderColor}
-        boxShadow="none"
-        _hover={{ boxShadow: 'md' }}
-      >
-        <Flex direction="column" minH={minH} justifyContent="space-between">
-          <Box p={imageP}>
+      <Card minW={_minW} maxW={_maxW} mt={_mt} p={_p} size="sm" _hover={{ boxShadow: boxShadowMd }}>
+        <Flex direction="column" justifyContent="space-between">
+          <Box mb={_imageMb}>
             {isLoading ? (
-              <Skeleton w="100%" h={imageMinH} />
+              <Skeleton w="100%" h={_imageMinH} />
             ) : (
               <Image
                 w="100%"
-                h={imageMinH}
+                h={_imageMinH}
                 alt={name}
                 src={image_url}
                 fit="contain"
-                fallback={<Box h={imageMinH} bg={_grey0} />}
+                fallback={<Box h={_imageMinH} bg={_grey0} />}
               />
             )}
           </Box>
-          <Flex direction="column" justifyContent="space-between" m={bodyM} gap={bodyGap}>
+          <Flex direction="column" justifyContent="space-between" p={_bodyP} gap={_bodyGap}>
             {isLoading ? (
               <>
-                <Skeleton w="50%" h={categorySize} />
-                <Skeleton h={nameSize} />
-                <Skeleton w="40%" h={priceSize} />
+                <Skeleton w="50%" h={_categorySize} />
+                <Skeleton h={_nameSize} />
+                <Skeleton w="40%" h={_priceSize} />
               </>
             ) : (
               <>
-                <Text color={_grey2} fontSize={categorySize} lineHeight={categorySize}>
+                <Text color={_grey2} fontSize={_categorySize} lineHeight={_categorySize}>
                   {category?.name}
                 </Text>
                 <Text
                   color={_black}
-                  fontSize={nameSize}
-                  lineHeight={nameSize}
-                  h={nameHeight}
+                  fontSize={_nameSize}
+                  lineHeight={_nameSize}
+                  h={_nameHeight}
                   fontWeight="semibold"
                   overflow="hidden"
                 >
                   {name}
                 </Text>
-                <Text color={_black} fontSize={priceSize} lineHeight={priceSize}>
+                <Text color={_black} fontSize={_priceSize} lineHeight={_priceSize} fontWeight="bold">
                   U$S {price?.toLocaleString('es-UY')}
                 </Text>
               </>
