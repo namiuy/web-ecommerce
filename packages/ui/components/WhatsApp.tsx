@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { BiLogoWhatsapp, BiTimeFive } from 'react-icons/bi';
 import { IoLocationSharp } from 'react-icons/io5';
+import { branches } from 'shared';
 
 export const WhatsApp = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,56 +40,51 @@ export const WhatsApp = () => {
           <ModalHeader>Contáctese con nosotros</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Box mb={'1rem'} borderBottom={'1px'} borderColor={'blackAlpha.500'} pb={'1rem'}>
-              <Box display={'flex'} alignItems={'center'} pb={'0.5rem'}>
-                <Icon as={IoLocationSharp} boxSize={6} mr={'0.5rem'} />
-                <Text display={'inline-block'} fontSize={'1.375rem'}>
-                  Bvr. Artigas 3397
-                </Text>
-              </Box>
-              <Box display={'flex'} alignItems={'center'} pb={'0.5rem'}>
-                <Icon as={BiTimeFive} boxSize={6} mr={'0.5rem'} />
-                <Text display={'inline-block'} fontSize={'1.125rem'}>
-                  Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.
-                </Text>
-              </Box>
-              <Box display={'flex'} alignItems={'center'}>
-                <Icon as={BiLogoWhatsapp} boxSize={6} mr={'0.5rem'} />
-                <Link
-                  display={'inline-block'}
-                  fontSize={'1.375rem'}
-                  style={{ textDecoration: 'none' }}
-                  _hover={{ color: '#339b11' }}
+            {branches.map((branch, index) => (
+              <Box
+                key={index}
+                pb={'1rem'}
+                style={{ borderTop: index !== 0 ? '1px solid black' : 'none', paddingTop: index !== 0 ? '1rem' : '0' }}
+              >
+                <Box
+                  display={'flex'}
+                  alignItems={'center'}
+                  _hover={{ color: 'red.600' }}
+                  width={'fit-content'}
+                  pb={'0.5rem'}
                 >
-                  098 000 600
-                </Link>
+                  <Icon as={IoLocationSharp} boxSize={6} mr={'0.5rem'} />
+                  <Link
+                    href={branch.location}
+                    target="_blank"
+                    style={{ textDecoration: 'none' }}
+                    display={'inline-block'}
+                    fontSize={'1.375rem'}
+                  >
+                    {branch.address}{' '}
+                  </Link>
+                </Box>
+                <Box display={'flex'} alignItems={'center'} pb={'0.5rem'}>
+                  <Icon as={BiTimeFive} boxSize={6} mr={'0.5rem'} />
+                  <Text display={'inline-block'} fontSize={'1.125rem'}>
+                    {branch.schedule}
+                  </Text>
+                </Box>
+                <Box display={'flex'} alignItems={'center'} _hover={{ color: '#339b11' }} width={'fit-content'}>
+                  <Icon as={BiLogoWhatsapp} boxSize={6} mr={'0.5rem'} />
+                  <Link
+                    href={`https://wa.me/${branch.whatsApp.number}`}
+                    target="_blank"
+                    display={'inline-block'}
+                    fontSize={'1.375rem'}
+                    style={{ textDecoration: 'none' }}
+                    _hover={{ color: '#339b11' }}
+                  >
+                    {branch.whatsApp.text}
+                  </Link>
+                </Box>
               </Box>
-            </Box>
-            <Box pb={'1rem'}>
-              <Box display={'flex'} alignItems={'center'} pb={'0.5rem'}>
-                <Icon as={IoLocationSharp} boxSize={6} mr={'0.5rem'} />
-                <Text display={'inline-block'} fontSize={'1.375rem'}>
-                  Cerro Largo 1518
-                </Text>
-              </Box>
-              <Box display={'flex'} alignItems={'center'} pb={'0.5rem'}>
-                <Icon as={BiTimeFive} boxSize={6} mr={'0.5rem'} />
-                <Text display={'inline-block'} fontSize={'1.125rem'}>
-                  Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.
-                </Text>
-              </Box>
-              <Box display={'flex'} alignItems={'center'}>
-                <Icon as={BiLogoWhatsapp} boxSize={6} mr={'0.5rem'} />
-                <Link
-                  display={'inline-block'}
-                  fontSize={'1.375rem'}
-                  style={{ textDecoration: 'none' }}
-                  _hover={{ color: '#339b11' }}
-                >
-                  091 033 282
-                </Link>
-              </Box>
-            </Box>
+            ))}
           </ModalBody>
         </ModalContent>
       </Modal>
