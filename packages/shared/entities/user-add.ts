@@ -4,7 +4,7 @@ export type UserAdd = {
   email: string;
   password: string;
   phone: string;
+  address: string;
   state: number;
   city: number;
-  address: string;
 };

@@ -41,12 +41,15 @@ type RegisterProps = {
 export const Register: FC<RegisterProps> = ({ Logo }) => {
   const states = useStateList();
   const cities = useCityList();
+  const [password, setPassword] = useState('');
   const [selectedState, setSelectedState] = useState(null);
   const [registerProps, setRegisterProps] = useState<UserAdd>();
   const { isLoading, data, error } = useAddUser(registerProps);
   const emailInUseError = error === EMAIL_ALREADY_IN_USE;
 
-  console.log(data); // TODO: add success message when data === true
+  {
+    data && console.log('Se ha registrado exitosamente!');
+  }
 
   const statesSelect = () => {
     return states?.data?.map((state: State) => (
@@ -65,12 +68,6 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
       ) : null,
     );
   };
-
-  const handleStateChange = (e: any) => {
-    setSelectedState(e.target.value);
-  };
-
-  const [password, setPassword] = useState('');
 
   return (
     <Box>
@@ -106,30 +103,36 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
         >
           <Formik
             initialValues={{
-              // firstName: '',
-              // lastName: '',
-              // email: '',
-              // password: '',
-              // passwordConfirm: '',
-              // phone: '',
-              // address: '',
-              // state: '',
-              // city: '',
-              firstName: 'Ignacio',
-              lastName: 'Rodriguez',
-              email: 'ignacio@sircal.com.uy',
-              password: 'Danubio12345',
-              passwordConfirm: 'Danubio12345',
-              phone: '1234',
-              address: 'dir xxx',
-              state: 2,
-              city: 1,
+              firstName: '',
+              lastName: '',
+              email: '',
+              password: '',
+              passwordConfirm: '',
+              phone: '',
+              address: '',
+              state: '',
+              city: '',
             }}
             onSubmit={values => {
               setRegisterProps({
-                ...values,
-                password,
-                state: selectedState ?? 0,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+                password: password,
+                phone: values.phone,
+                address: values.address,
+                state: selectedState ?? -1,
+                city: Number(values.city),
+              });
+              console.log({
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+                password: password,
+                phone: values.phone,
+                address: values.address,
+                state: Number(selectedState) ?? -1,
+                city: Number(values.city),
               });
             }}
             validateOnChange={false}
@@ -243,7 +246,7 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                         disabled={isLoading}
                         id="phone"
                         name="phone"
-                        type="number"
+                        type="text"
                         variant="filled"
                         _focus={{ borderColor: 'primary.main' }}
                         validate={(value: any) => {
@@ -277,7 +280,9 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <Field
                         as={Select}
                         disabled={isLoading}
-                        onChange={handleStateChange}
+                        onChange={(e: any) => {
+                          setSelectedState(e.target.value);
+                        }}
                         value={selectedState}
                         id="state"
                         name="state"
@@ -300,7 +305,6 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                       <FormLabel htmlFor="city">Localidad</FormLabel>
                       <Field
                         as={Select}
-                        disabled={isLoading}
                         id="city"
                         name="city"
                         type="text"
