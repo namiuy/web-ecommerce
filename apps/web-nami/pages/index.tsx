@@ -2,6 +2,7 @@
 
 import { Flex, Banner, Container, Head, ProductListSection, Brands } from 'ui';
 import { NavBar } from '../components';
+import { WhatsApp } from '../../../packages/ui/components/WhatsApp';
 
 export default function Web() {
   return (
@@ -15,6 +16,7 @@ export default function Web() {
           <Brands />
         </Flex>
       </Container>
+      <WhatsApp />
     </>
   );
 }

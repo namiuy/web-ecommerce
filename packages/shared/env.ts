@@ -7,12 +7,13 @@ type Keys = {
 };
 
 type Branch = {
-  loaction: string;
   address: string;
+  schedule: string;
   whatsApp: {
     number: number;
     text: string;
   };
+  location: string;
   position: { lat: number; lng: number };
 };
 

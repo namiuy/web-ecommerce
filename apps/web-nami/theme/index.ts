@@ -1,6 +1,7 @@
 const primary = '#6A0000';
 const secondary = '#e53e3e';
 
+const white = '#ffffff';
 const greyBg = '#fafafa';
 const borderColor = '#eeeeee';
 const smallText = '#909090';
@@ -48,7 +49,7 @@ export const theme: Record<string, any> = {
         tooltipBg: tooltipBg,
         buyButton: {
           backgroundColor: secondary,
-          color: 'white',
+          color: white,
           _hover: {
             backgroundColor: buyButtonHoverBg,
           },
@@ -66,14 +67,14 @@ export const theme: Record<string, any> = {
         backgroundColorTwo: greyBg,
         backButton: {
           _hover: {
-            backgroundColor: 'white',
+            backgroundColor: white,
             color: primary,
           },
         },
       },
       nav: {
         item: {
-          color: 'white',
+          color: white,
           _hover: {
             color: 'lightgrey',
           },
@@ -83,18 +84,18 @@ export const theme: Record<string, any> = {
         backgroundColor: primary,
         borderColor: primary,
         iconButton: {
-          color: 'white',
+          color: white,
           _hover: {
-            color: 'white',
+            color: white,
           },
         },
         input: {
-          color: 'white',
+          color: white,
           borderColor: '#AC2222',
           iconColor: '#6566c1',
           //backgroundColor: '#0c0d77',
           _focus: {
-            borderColor: '#6163d3',
+            borderColor: '#cd2625',
           },
           _placeholder: {
             color: '#C16565',
