@@ -119,16 +119,6 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
                   state: selectedState ?? -1,
                   city: Number(values.city),
                 });
-                console.log({
-                  firstName: values.firstName,
-                  lastName: values.lastName,
-                  email: values.email,
-                  password: password,
-                  phone: values.phone,
-                  address: values.address,
-                  state: Number(selectedState) ?? -1,
-                  city: Number(values.city),
-                });
               }}
               validateOnChange={false}
               validateOnBlur={false}
