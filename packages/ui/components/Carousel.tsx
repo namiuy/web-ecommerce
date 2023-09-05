@@ -32,7 +32,7 @@ const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onCli
       w={_buttonSize}
       mt={{
         base: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.base}) / 2)`,
-        lg: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2)`,
+        lg: `calc((((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2) - 2rem)`,
       }}
       left={!isBefore ? undefined : left}
       right={isBefore ? undefined : right}

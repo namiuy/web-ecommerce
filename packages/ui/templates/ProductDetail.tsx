@@ -21,7 +21,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
 import { product as productConf } from 'shared';
-import { IconButtonEdit } from '../components/IconButtonEdit';
+import { ButtonEdit } from '../components/ButtonEdit';
 import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
 
@@ -121,7 +121,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           </Flex>
           {isUserAdmin && (
             <Box>
-              <IconButtonEdit onClick={onOpen} aria-label="" />
+              <ButtonEdit onClick={onOpen} />
               <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
             </Box>
           )}

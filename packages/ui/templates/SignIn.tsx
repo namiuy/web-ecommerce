@@ -74,14 +74,14 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
 
   return (
     <Box height={'100vh'} bg={_backgroundColorTwo}>
-      <Box bgGradient={_backgroundGradient} h={'40rem'}>
+      <Box bgGradient={_backgroundGradient} h={'46rem'}>
         <Box p={'1.5rem'} display={'flex'} justifyContent={_logoPosition}>
           <Logo />
         </Box>
         <Container
           maxW={_containerW}
           color={'white'}
-          mt={'5rem'}
+          mt={'4rem'}
           mb={'1rem'}
           px={0}
           display={'flex'}

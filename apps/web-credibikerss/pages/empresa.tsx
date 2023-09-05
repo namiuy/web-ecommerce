@@ -14,7 +14,7 @@ const Historia = () => {
       <Center>
         <Container maxW="2xl">
           <Card size="md">
-            <CardBody>
+            <CardBody p="2rem 1.5rem 4rem 1.5rem">
               <Stack divider={<StackDivider />} gap="2rem">
                 <div>
                   <Heading as="h4" size="md">
