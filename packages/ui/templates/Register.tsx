@@ -1,8 +1,9 @@
-import { Box, Container, Heading, Button, Grid, GridItem } from 'ui';
-import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Link, FormControl, FormLabel, Input, Select, FormErrorMessage, Progress, Icon } from '@chakra-ui/react';
+import { Box, Container, Heading, Button, Grid, GridItem, Text } from 'ui';
 import { Formik, Field } from 'formik';
-import { Link, FormControl, FormLabel, Input, Select, FormErrorMessage, Progress } from '@chakra-ui/react';
 import { useState, FC } from 'react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 
 import { useStateList } from 'shared/hooks/request/state';
 import { useCityList } from 'shared/hooks/request/city';
@@ -93,261 +94,267 @@ export const Register: FC<RegisterProps> = ({ Logo }) => {
           </Heading>
           <Box width={'2rem'}> &nbsp;</Box>
         </Container>
-        <Container
-          maxW={_containerW}
-          minH={'20rem'}
-          bg={'white'}
-          boxShadow={'lg'}
-          borderRadius={'0.5rem'}
-          p={'2rem 2rem 1rem 2rem'}
-        >
-          <Formik
-            initialValues={{
-              firstName: '',
-              lastName: '',
-              email: '',
-              password: '',
-              passwordConfirm: '',
-              phone: '',
-              address: '',
-              state: '',
-              city: '',
-            }}
-            onSubmit={values => {
-              setRegisterProps({
-                firstName: values.firstName,
-                lastName: values.lastName,
-                email: values.email,
-                password: password,
-                phone: values.phone,
-                address: values.address,
-                state: selectedState ?? -1,
-                city: Number(values.city),
-              });
-              console.log({
-                firstName: values.firstName,
-                lastName: values.lastName,
-                email: values.email,
-                password: password,
-                phone: values.phone,
-                address: values.address,
-                state: Number(selectedState) ?? -1,
-                city: Number(values.city),
-              });
-            }}
-            validateOnChange={false}
-            validateOnBlur={false}
-          >
-            {({ handleSubmit, errors }) => (
-              <form onSubmit={handleSubmit}>
-                <Grid gridTemplateAreas={_gridTemplateAreas} gap={'1rem'}>
-                  <GridItem gridArea={'firstName'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.firstName}>
-                      <FormLabel htmlFor="firstName">Nombre</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        dis
-                        id="firstName"
-                        name="firstName"
-                        type="text"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateEmpty(value);
-                        }}
-                      />
-                      <FormErrorMessage>{errors.firstName}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'lastName'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.lastName}>
-                      <FormLabel htmlFor="lastName">Apellido</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        id="lastName"
-                        name="lastName"
-                        type="text"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateEmpty(value);
-                        }}
-                      />
-                      <FormErrorMessage>{errors.lastName}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'email'}>
-                    <FormControl isInvalid={!!errors.email || emailInUseError}>
-                      <FormLabel htmlFor="email">Correo electrónico</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        id="email"
-                        name="email"
-                        type="text"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateEmail(value);
-                        }}
-                      />
-                      <FormErrorMessage>
-                        {emailInUseError ? 'El email ya se encuentra en uso' : errors.email}
-                      </FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'password'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.password}>
-                      <FormLabel htmlFor="password">Contraseña</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        id="password"
-                        name="password"
-                        type="password"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        onChange={(e: any) => {
-                          setPassword(e.target.value);
-                        }}
-                        value={password}
-                        validate={() => {
-                          return validatePassword(password);
-                        }}
-                      />
-                      <FormErrorMessage>{errors.password}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'passwordConfirm'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.passwordConfirm}>
-                      <FormLabel htmlFor="passwordConfirm">Confirme su contraseña</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        id="passwordConfirm"
-                        name="passwordConfirm"
-                        type="password"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateRepeatPassword(value, password);
-                        }}
-                      />
-                      <FormErrorMessage>{errors.passwordConfirm}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'phone'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.phone}>
-                      <FormLabel htmlFor="phone">Teléfono</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        id="phone"
-                        name="phone"
-                        type="text"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateEmpty(value);
-                        }}
-                      />
-                      <FormErrorMessage>{errors.phone}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'address'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.address}>
-                      <FormLabel htmlFor="address">Dirección</FormLabel>
-                      <Field
-                        as={Input}
-                        disabled={isLoading}
-                        id="address"
-                        name="address"
-                        type="text"
-                        variant="filled"
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateEmpty(value);
-                        }}
-                      />
-                      <FormErrorMessage>{errors.address}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'state'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.state}>
-                      <FormLabel htmlFor="state">Departamento</FormLabel>
-                      <Field
-                        as={Select}
-                        disabled={isLoading}
-                        onChange={(e: any) => {
-                          setSelectedState(e.target.value);
-                        }}
-                        value={selectedState}
-                        id="state"
-                        name="state"
-                        type="text"
-                        variant="filled"
-                        isDisabled={states.isLoading}
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={() => {
-                          return validateEmptySelect(selectedState);
-                        }}
-                      >
-                        <option value="-1">Seleccione un departamento...</option>
-                        {statesSelect()}
-                      </Field>
-                      <FormErrorMessage>{errors.state}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem gridArea={'city'}>
-                    <FormControl width={_formControlW} isInvalid={!!errors.city}>
-                      <FormLabel htmlFor="city">Localidad</FormLabel>
-                      <Field
-                        as={Select}
-                        id="city"
-                        name="city"
-                        type="text"
-                        variant="filled"
-                        isDisabled={cities.isLoading || !selectedState || selectedState === '-1'}
-                        _focus={{ borderColor: 'primary.main' }}
-                        validate={(value: any) => {
-                          return validateEmptySelect(value) || validateEmptySelect(selectedState);
-                        }}
-                      >
-                        <option value="-1">Seleccione una localidad...</option>
-                        {citiesSelect(selectedState)}
-                      </Field>
-                      <FormErrorMessage>{errors.city}</FormErrorMessage>
-                    </FormControl>
-                  </GridItem>
+        <Container maxW={_containerW} minH={'30rem'} bg={'white'} boxShadow={'lg'} borderRadius={'0.5rem'} p={'2rem'}>
+          {!data && (
+            <Formik
+              initialValues={{
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                passwordConfirm: '',
+                phone: '',
+                address: '',
+                state: '',
+                city: '',
+              }}
+              onSubmit={values => {
+                setRegisterProps({
+                  firstName: values.firstName,
+                  lastName: values.lastName,
+                  email: values.email,
+                  password: password,
+                  phone: values.phone,
+                  address: values.address,
+                  state: selectedState ?? -1,
+                  city: Number(values.city),
+                });
+                console.log({
+                  firstName: values.firstName,
+                  lastName: values.lastName,
+                  email: values.email,
+                  password: password,
+                  phone: values.phone,
+                  address: values.address,
+                  state: Number(selectedState) ?? -1,
+                  city: Number(values.city),
+                });
+              }}
+              validateOnChange={false}
+              validateOnBlur={false}
+            >
+              {({ handleSubmit, errors }) => (
+                <form onSubmit={handleSubmit}>
+                  <Grid gridTemplateAreas={_gridTemplateAreas} gap={'1rem'}>
+                    <GridItem gridArea={'firstName'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.firstName}>
+                        <FormLabel htmlFor="firstName">Nombre</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          dis
+                          id="firstName"
+                          name="firstName"
+                          type="text"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormErrorMessage>{errors.firstName}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'lastName'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.lastName}>
+                        <FormLabel htmlFor="lastName">Apellido</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          id="lastName"
+                          name="lastName"
+                          type="text"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormErrorMessage>{errors.lastName}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'email'}>
+                      <FormControl isInvalid={!!errors.email || emailInUseError}>
+                        <FormLabel htmlFor="email">Correo electrónico</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          id="email"
+                          name="email"
+                          type="text"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateEmail(value);
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {emailInUseError ? 'El email ya se encuentra en uso' : errors.email}
+                        </FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'password'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.password}>
+                        <FormLabel htmlFor="password">Contraseña</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          id="password"
+                          name="password"
+                          type="password"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          onChange={(e: any) => {
+                            setPassword(e.target.value);
+                          }}
+                          value={password}
+                          validate={() => {
+                            return validatePassword(password);
+                          }}
+                        />
+                        <FormErrorMessage>{errors.password}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'passwordConfirm'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.passwordConfirm}>
+                        <FormLabel htmlFor="passwordConfirm">Confirme su contraseña</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          id="passwordConfirm"
+                          name="passwordConfirm"
+                          type="password"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateRepeatPassword(value, password);
+                          }}
+                        />
+                        <FormErrorMessage>{errors.passwordConfirm}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'phone'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.phone}>
+                        <FormLabel htmlFor="phone">Teléfono</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          id="phone"
+                          name="phone"
+                          type="text"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormErrorMessage>{errors.phone}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'address'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.address}>
+                        <FormLabel htmlFor="address">Dirección</FormLabel>
+                        <Field
+                          as={Input}
+                          disabled={isLoading}
+                          id="address"
+                          name="address"
+                          type="text"
+                          variant="filled"
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormErrorMessage>{errors.address}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'state'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.state}>
+                        <FormLabel htmlFor="state">Departamento</FormLabel>
+                        <Field
+                          as={Select}
+                          disabled={isLoading}
+                          onChange={(e: any) => {
+                            setSelectedState(e.target.value);
+                          }}
+                          value={selectedState}
+                          id="state"
+                          name="state"
+                          type="text"
+                          variant="filled"
+                          isDisabled={states.isLoading}
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={() => {
+                            return validateEmptySelect(selectedState);
+                          }}
+                        >
+                          <option value="-1">Seleccione un departamento...</option>
+                          {statesSelect()}
+                        </Field>
+                        <FormErrorMessage>{errors.state}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
+                    <GridItem gridArea={'city'}>
+                      <FormControl width={_formControlW} isInvalid={!!errors.city}>
+                        <FormLabel htmlFor="city">Localidad</FormLabel>
+                        <Field
+                          as={Select}
+                          id="city"
+                          name="city"
+                          type="text"
+                          variant="filled"
+                          isDisabled={cities.isLoading || !selectedState || selectedState === '-1'}
+                          _focus={{ borderColor: 'primary.main' }}
+                          validate={(value: any) => {
+                            return validateEmptySelect(value) || validateEmptySelect(selectedState);
+                          }}
+                        >
+                          <option value="-1">Seleccione una localidad...</option>
+                          {citiesSelect(selectedState)}
+                        </Field>
+                        <FormErrorMessage>{errors.city}</FormErrorMessage>
+                      </FormControl>
+                    </GridItem>
 
-                  <GridItem gridArea={'progress'}>
-                    <Progress
-                      h={isLoading ? '4px' : '1px'}
-                      m="1rem 0"
-                      size="xs"
-                      isIndeterminate={isLoading}
-                      colorScheme="primary"
-                    />
-                  </GridItem>
+                    <GridItem gridArea={'progress'}>
+                      <Progress
+                        h={isLoading ? '4px' : '1px'}
+                        m="1rem 0"
+                        size="xs"
+                        isIndeterminate={isLoading}
+                        colorScheme="primary"
+                      />
+                    </GridItem>
 
-                  <GridItem gridArea={'submit'} mt={'1rem'}>
-                    <Button
-                      disabled={isLoading}
-                      type="submit"
-                      bg={_loginButtonBg}
-                      color={'white'}
-                      width="100%"
-                      mb={'0.75rem'}
-                    >
-                      Registrarse
-                    </Button>
-                  </GridItem>
-                </Grid>
-              </form>
-            )}
-          </Formik>
+                    <GridItem gridArea={'submit'} mt={'1rem'}>
+                      <Button
+                        disabled={isLoading}
+                        type="submit"
+                        bg={_loginButtonBg}
+                        color={'white'}
+                        width="100%"
+                        mb={'0.75rem'}
+                      >
+                        Registrarse
+                      </Button>
+                    </GridItem>
+                  </Grid>
+                </form>
+              )}
+            </Formik>
+          )}
+          {data && (
+            <>
+              <Box textAlign={'center'} pt={'9rem'}>
+                <Icon as={BsFillCheckCircleFill} color={'green.500'} w={'2.5rem'} h={'2.5rem'}></Icon>
+                <Text fontSize={'1.5rem'} fontWeight={'bold'}>
+                  ¡Registro realizado con éxito!
+                </Text>
+                <Text fontSize={'1.375rem'}>Comprueba tu email para activar tu cuenta.</Text>
+              </Box>
+            </>
+          )}
         </Container>
         <Box py={'2rem'}></Box>
       </Box>
