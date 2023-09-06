@@ -2,7 +2,7 @@
 
 import type { AppProps } from 'next/app';
 import { AppContextProvider } from 'shared';
-import { ThemeProvider } from 'ui';
+import { ThemeProvider, WhatsApp } from 'ui';
 import { theme } from '../theme';
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -10,6 +10,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <AppContextProvider>
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
+        <WhatsApp />
       </ThemeProvider>
     </AppContextProvider>
   );

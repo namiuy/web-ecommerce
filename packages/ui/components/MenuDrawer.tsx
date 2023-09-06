@@ -93,7 +93,7 @@ export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems }: 
         </Box>
         <Box p="2rem 0">
           <Center>
-            <SocialNeworks dark={dark} color={_menuItemColor} size="2rem" />
+            <SocialNeworks dark={dark} color={_menuItemColor} size="2rem" hide={['whatsapp']} />
           </Center>
         </Box>
       </DrawerBody>

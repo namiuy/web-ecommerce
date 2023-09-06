@@ -47,6 +47,7 @@ export * from './components/ResultsFor';
 export * from './components/ProductSortBy';
 export * from './components/ImageModal';
 export * from './components/QuoteRequestButton';
+export * from './components/WhatsApp';
 
 export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetail';
 export { Products as ProductsTemplate } from './templates/Products';

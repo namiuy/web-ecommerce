@@ -17,7 +17,7 @@ const icons: Record<string, Icon> = {
   facebook: { icon: MdFacebook, hoverColor: '#4167b1' },
   instagram: { icon: AiFillInstagram, hoverColor: '#ed1d67' },
   tiktok: { icon: IoLogoTiktok, hoverColor: '#111111', hoverColorDark: 'white' },
-  whatsapp: { icon: IoLogoWhatsapp, hoverColor: '#00ea81' },
+  whatsapp: { icon: IoLogoWhatsapp, hoverColor: '#25D366' },
   // youtube #c4302b
   // twitter #33b3e6
 };

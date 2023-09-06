@@ -54,7 +54,7 @@ const NavBarDesktop = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
       </GridItem>
       <GridItem />
       <GridItem>
-        <SocialNeworks dark={dark} color={_navItemColor} size="1.2rem" />
+        <SocialNeworks dark={dark} color={_navItemColor} size="1.2rem" hide={['whatsapp']} />
       </GridItem>
       <GridItem />
       {isUserAdmin && (

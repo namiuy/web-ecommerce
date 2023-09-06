@@ -41,8 +41,9 @@ const socialNeworksItems = [
 
 const branches = [
   {
-    loaction: 'Montevideo',
+    location: 'Montevideo',
     address: 'Mercedes 1789, esq. Tristán Narvaja',
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
     whatsApp: {
       number: 598097530690,
       text: '097 530 690',
@@ -50,8 +51,9 @@ const branches = [
     position: { lat: -34.900745, lng: -56.178579 },
   },
   {
-    loaction: 'Las Piedras',
+    location: 'Las Piedras',
     address: 'Av. Dr. Enrique Pouey 711, esq. Aparicio Saravia',
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
     whatsApp: {
       number: 598092555609,
       text: '092 555 609',

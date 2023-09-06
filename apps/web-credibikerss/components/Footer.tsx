@@ -18,7 +18,7 @@ const _wspSize = { base: '1rem', sm: '1.2rem', lg: '1.6rem' };
 const _wspIconSize = { base: '1rem', sm: '1rem' };
 
 type FooterMapProps = {
-  loaction: string;
+  location: string;
   address: string;
   whatsApp: {
     number: number;
@@ -27,11 +27,11 @@ type FooterMapProps = {
   position: { lat: number; lng: number };
 };
 
-const FooterMap: FC<FooterMapProps> = ({ loaction, address, whatsApp, position }) => (
+const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position }) => (
   <div>
     <Flex justifyContent="space-between" alignItems="center">
       <Heading as="h4" fontSize={_branchNameSize} textTransform="uppercase" fontWeight="bolder">
-        {loaction}
+        {location}
       </Heading>
       <AnimationWrapper tag="a">
         <Link
