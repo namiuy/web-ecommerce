@@ -23,6 +23,16 @@ const menuItems = [
     text: 'Empresa',
     href: '/empresa',
   },
+  {
+    id: 'blog',
+    text: 'Blog',
+    href: '/blog',
+  },
+  {
+    id: 'contact',
+    text: 'Contacto',
+    href: '/contacto',
+  },
 ];
 
 const socialNeworksItems = [
@@ -40,6 +50,14 @@ const socialNeworksItems = [
   },
   {
     id: 'whatsapp',
+    href: '/',
+  },
+  {
+    id: 'youtube',
+    href: '/',
+  },
+  {
+    id: 'linkedin',
     href: '/',
   },
 ];

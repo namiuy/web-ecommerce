@@ -30,7 +30,7 @@ export * from './components/AddToCartButton';
 export * from './components/AnimationWrapper';
 export * from './components/Banner';
 export * from './components/Brands';
-export * from './components/Categories';
+export * from './components/CategoriesPopover';
 export * from './components/Carousel';
 export * from './components/Container';
 export * from './components/DesignDebug';

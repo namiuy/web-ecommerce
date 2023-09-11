@@ -13,18 +13,17 @@ import {
   DrawerProps,
   Flex,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { MenuItem } from './NavBar';
 import Link from 'next/link';
 import { NavItem } from './Nav';
 import SocialNeworks from './SocialNeworks';
-import { Categories } from './Categories';
+import { CategoriesAccordion } from './CategoriesAccordion';
 import { Center } from '..';
 import MenuAdmin from './MenuAdmin';
 
 const _backgroundColor = 'brand.drawerMenu.backgroundColor';
-const _backdropFilter = 'saturate(180%) blur(20px)';
+const _backdropFilter = 'brand.drawerMenu.backdropFilter';
 const _menuItemColor = 'brand.drawerMenu.item.color';
 const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor';
 
@@ -48,7 +47,12 @@ const AccordionProducts = ({ onClick }: AccordionProductsProps) => {
           <AccordionIcon color={_menuItemColor} />
         </AccordionButton>
         <AccordionPanel p="0">
-          <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
+          <CategoriesAccordion
+            removeParams
+            onClick={onClick}
+            color={_menuItemColor}
+            borderColor={_menuItemBorderColor}
+          />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
@@ -84,7 +88,7 @@ type MenuDrawerProps = Omit<DrawerProps, 'children'> & {
 export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems }: MenuDrawerProps) => (
   <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={finalFocusRef}>
     <DrawerOverlay />
-    <DrawerContent bg={_backgroundColor} backdropFilter={_backdropFilter}>
+    <DrawerContent bg={_backgroundColor} backdropFilter="saturate(180%) blur(20px)">
       <DrawerCloseButton color={_menuItemColor} />
       <DrawerBody p=".5rem 0">
         <MenuDrawerItems items={menuItems} onClick={onClose} />

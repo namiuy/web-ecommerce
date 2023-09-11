@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Flex, Menu, MenuButton, MenuList, Button, useDisclosure } from '@chakra-ui/react';
+import { Flex, Button, Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow } from '@chakra-ui/react';
 import { FunctionComponent, ReactElement } from 'react';
 import { MdExpandMore } from 'react-icons/md';
 import { Text } from '..';
@@ -32,34 +32,37 @@ const NavItem = ({ children }: NavItemProps) => (
 );
 
 const Nav = ({ items = [] }: NavProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <nav>
       <Flex as="ol" listStyleType="none" gap="2rem" alignItems="center">
         {items.map(({ id, text, href, menuContent: Content }) => (
           <Flex as="li" key={id}>
             {Content ? (
-              <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-                <MenuButton
-                  as={Button}
-                  bg="transparent"
-                  h="auto"
-                  p="0"
-                  color={_itemColor}
-                  fontSize={_fontSize}
-                  fontWeight={_fontWeight}
-                  rightIcon={<MdExpandMore />}
-                  _hover={{ color: _itemHoverColor }}
-                  _active={{ bg: 'transparent', color: _itemHoverColor }}
-                  _focus={{ bg: 'transparent', color: _itemHoverColor }}
-                >
-                  {text}
-                </MenuButton>
-                <MenuList p="0">
-                  {/* @ts-ignore */}
-                  <Content onClick={onClose} />
-                </MenuList>
-              </Menu>
+              <Popover placement="bottom-start" trigger="hover" gutter={10}>
+                <PopoverTrigger>
+                  <Button
+                    bg="transparent"
+                    h="auto"
+                    p="0"
+                    color={_itemColor}
+                    fontSize={_fontSize}
+                    fontWeight={_fontWeight}
+                    rightIcon={<MdExpandMore />}
+                    _hover={{ color: _itemHoverColor }}
+                    _active={{ bg: 'transparent', color: _itemHoverColor }}
+                    _focus={{ bg: 'transparent', color: _itemHoverColor }}
+                    borderRadius="0"
+                  >
+                    {text}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverBody p="0">
+                    <Content />
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
             ) : (
               <Link href={href}>
                 <NavItem>{text}</NavItem>

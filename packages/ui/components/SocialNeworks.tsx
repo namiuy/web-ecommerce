@@ -4,6 +4,7 @@ import { IconType } from 'react-icons';
 import { AiFillInstagram } from 'react-icons/ai';
 import { IoLogoTiktok, IoLogoWhatsapp } from 'react-icons/io5';
 import { MdFacebook } from 'react-icons/md';
+import { FaYoutube, FaLinkedin } from 'react-icons/fa';
 import { socialNeworksItems } from 'shared/env';
 import { AnimationWrapper } from './AnimationWrapper';
 
@@ -18,8 +19,8 @@ const icons: Record<string, Icon> = {
   instagram: { icon: AiFillInstagram, hoverColor: '#ed1d67' },
   tiktok: { icon: IoLogoTiktok, hoverColor: '#111111', hoverColorDark: 'white' },
   whatsapp: { icon: IoLogoWhatsapp, hoverColor: '#25D366' },
-  // youtube #c4302b
-  // twitter #33b3e6
+  youtube: { icon: FaYoutube, hoverColor: '#c4302b' },
+  linkedin: { icon: FaLinkedin, hoverColor: '#0a66c2' },
 };
 
 type SocialNeworksProps = {
