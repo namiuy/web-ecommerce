@@ -15,7 +15,7 @@ export type ProductFiltersProps = {
 };
 
 const loadBrands = (data: Array<Brand>, filtersBrandIds?: Array<number>): Array<Brand> => {
-  return data.filter(b => (filtersBrandIds ? filtersBrandIds.includes(b.id) : b));
+  return data.filter(b => (filtersBrandIds?.length ? filtersBrandIds.includes(b.id) : b));
 };
 
 const loadCategories = (data: Array<Category>, filtersCategoryIds?: Array<string>): Array<Category> => {
@@ -29,7 +29,7 @@ const loadCategories = (data: Array<Category>, filtersCategoryIds?: Array<string
       ...c,
       is_sub_category: c.id.indexOf('.') !== -1,
     }))
-    .filter(c => (filtersCategoryIds ? filtersCategoryIds.includes(c.id) : c));
+    .filter(c => (filtersCategoryIds?.length ? filtersCategoryIds.includes(c.id) : c));
 };
 
 export const ProductFilters = (props: ProductFiltersProps) => {
@@ -41,9 +41,6 @@ export const ProductFilters = (props: ProductFiltersProps) => {
 
   if (brandsError) console.log(brandsError);
   if (categoriesError) console.log(categoriesError);
-
-  // const brandsIsLoading = bIsLoading || !sf?.brandIds; // TODO:!
-  // const categoriesIsLoading = cIsLoading || !sf?.categoryIds; // TODO:!
 
   const brandsIsLoading = bIsLoading;
   const categoriesIsLoading = cIsLoading;

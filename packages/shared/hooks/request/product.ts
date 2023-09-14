@@ -53,7 +53,7 @@ export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductS
       setProductSearchResult(data?.products);
       setProductSearchResultFilters(data?.filters);
     }
-  }, [isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isLoading, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => setProductSearchSortBy(sortBy), [sortBy]); // eslint-disable-line react-hooks/exhaustive-deps
 

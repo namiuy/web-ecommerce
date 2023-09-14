@@ -1,7 +1,7 @@
 'use client';
 
 import lscache from 'lscache';
-import { Tooltip, Link, useDisclosure, Flex } from '@chakra-ui/react';
+import { Tooltip, Link, useDisclosure, Flex, AspectRatio } from '@chakra-ui/react';
 import {
   Container,
   Grid,
@@ -139,13 +139,15 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
             borderRight={_gridItemImageBorderRight}
             borderColor={_griditemImageBorderColor}
           >
-            {isLoading ? (
-              <Skeleton w="100%" h="26rem" mb={_imageSkeletonMarginBottom} />
-            ) : data ? (
-              <ImageModal image={data?.image_url} title={data?.brand.name} />
-            ) : (
-              <></>
-            )}
+            <AspectRatio ratio={4 / 3}>
+              {isLoading ? (
+                <Skeleton w="100%" h="100%" mb={_imageSkeletonMarginBottom} />
+              ) : data ? (
+                <ImageModal image={data?.image_url} title={data?.brand.name} />
+              ) : (
+                <></>
+              )}
+            </AspectRatio>
           </GridItem>
           <GridItem area="details" pl={_gridIemDetailsPaddingLeft}>
             <Box>
@@ -222,10 +224,10 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               ) : (
                 <Text lineHeight="2rem">
                   {data?.description?.split('\n').map((linea, i) => (
-                    <>
+                    <span key={i}>
                       {linea}
                       <br />
-                    </>
+                    </span>
                   ))}
                 </Text>
               )}

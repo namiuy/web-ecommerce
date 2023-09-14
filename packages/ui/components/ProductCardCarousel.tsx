@@ -3,7 +3,7 @@ import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
-const _minH = { base: '16rem', lg: '21rem' };
+const _minH = { base: '17rem', lg: '21rem' };
 
 type ProductCardCarouselProps = { editMode?: boolean; productListId: number; productsLength: number };
 
@@ -29,7 +29,7 @@ export const ProductCardCarousel = ({ editMode = false, productListId, productsL
     return <></>;
   }
 
-  const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products;
+  const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products.filter(p => p.id);
 
   return (
     <Carousel

@@ -20,5 +20,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@8.19.3"
+  "packageManager": "npm@8.19.3",
+  "dependencies": {
+    "react-ga4": "^2.1.0"
+  }
 }

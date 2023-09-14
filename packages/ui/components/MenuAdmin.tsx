@@ -7,7 +7,8 @@ import { useRouter } from 'next/router';
 import { isBrowser } from 'shared';
 import { useEffect, useState } from 'react';
 
-const _secondaryColor = '#d7fc00'; // TODO: fix
+const _avatarBg = 'brand.avatar.backgroundColor';
+const _avatarColor = 'brand.avatar.color';
 const _borderRadious = '0.375rem';
 
 const MenuAdmin = () => {
@@ -37,7 +38,7 @@ const MenuAdmin = () => {
   return (
     <Menu>
       <MenuButton>
-        <Avatar w="2rem" h="2rem" size="sm" bg={_secondaryColor} name={userName} />
+        <Avatar w="2rem" h="2rem" size="sm" bg={_avatarBg} color={_avatarColor} name={userName} />
       </MenuButton>
       <MenuList p="0">
         <MenuGroup title={userName}>

@@ -76,7 +76,7 @@ export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0,
     <Accordion allowToggle>
       {categories.map(({ id, name, sub_categories }, i) =>
         isLoading ? (
-          <Skeleton h="2rem" mb="1rem" />
+          <Skeleton key={i} h="2rem" mb="1rem" />
         ) : (
           <AccordionItem key={i} borderColor={i > 0 && i < categories.length ? borderColor : 'transparent'}>
             {!!sub_categories?.length ? (

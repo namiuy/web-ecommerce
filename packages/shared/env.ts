@@ -4,6 +4,7 @@ const { publicRuntimeConfig: prc } = getConfig();
 
 type Keys = {
   googleMapsApiKey: string;
+  googleGaMeasurementId: string;
 };
 
 type Branch = {

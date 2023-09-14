@@ -34,6 +34,7 @@ export * from './components/Categories';
 export * from './components/Carousel';
 export * from './components/Container';
 export * from './components/DesignDebug';
+export * from './components/GaPage';
 export * from './components/Head';
 export * from './components/NavBar';
 export * from './components/Map';

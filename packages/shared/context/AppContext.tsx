@@ -41,7 +41,6 @@ export const AppContextProvider = ({
     setProductSearchOptions({ ...productSearchOptions, filters });
   };
   const setProductSearchSortBy = (sortBy?: ProductSearchSortBy) => {
-    console.log('setProductSearchOptions', sortBy);
     setProductSearchOptions({ ...productSearchOptions, sortBy });
   };
 

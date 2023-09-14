@@ -99,17 +99,12 @@ export const ModalQuote: FC<ModalQuoteProps> = ({ isOpen, product, onClose }) =>
 
   const handleSubmit = (values: Record<string, any>) => {
     if (isLoading) return;
-    if (!attachment) {
-      setAttachmentError('Debe subir un recibo');
-      return;
-    }
-    setAttachmentError(undefined);
 
     const body = {
       ...values,
       product: product.id,
       user_id: '-1',
-      attachment: attachment.name,
+      attachment: attachment?.name ?? '',
     };
 
     setRequestBody(body as Quote);
