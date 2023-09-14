@@ -1,6 +1,7 @@
+import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
-import { Categories, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
+import { Categories, Brands, Head, Container, Box, ProductsTemplate, GaPage } from 'ui';
 import { NavBar } from '../../components';
 
 type ProductsPageProps = {
@@ -19,14 +20,18 @@ const CategoriesAndBrands = () => (
 );
 
 const ProductsPage: NextPage<ProductsPageProps> = props => {
+  const router = useRouter();
   const { brandId, categoryId, text } = props;
   const hasQueryParams = !!brandId || !!categoryId || !!text;
+
   return (
-    <>
-      <Head />
-      <NavBar />
-      {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
-    </>
+    <GaPage page="Products">
+      <>
+        <Head />
+        <NavBar />
+        {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
+      </>
+    </GaPage>
   );
 };
 

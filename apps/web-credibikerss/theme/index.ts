@@ -79,6 +79,10 @@ export const theme: Record<string, any> = {
           },
         },
       },
+      avatar: {
+        backgroundColor: secondary,
+        color: grey3,
+      },
       drawerMenu: {
         backgroundColor: 'rgba(0, 0, 0, .85)',
         item: {

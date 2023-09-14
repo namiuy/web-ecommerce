@@ -1,12 +1,12 @@
-import { Head, Container, Heading, Box, Card, Center, Stack, StackDivider, Text } from 'ui';
+import { Head, Container, Heading, Box, Card, Center, Stack, StackDivider, Text, GaPage } from 'ui';
 import { NavBar } from '../components';
 import { Footer } from '../components/Footer';
 import { CardBody } from '@chakra-ui/react';
 
 const _grey0 = 'brand.grey.0';
 
-const Historia = () => {
-  return (
+const Company = () => (
+  <GaPage page="Company">
     <Box bg={_grey0}>
       <Head />
       <NavBar />
@@ -61,7 +61,6 @@ const Historia = () => {
       <Box h="6rem" />
       <Footer />
     </Box>
-  );
-};
-
-export default Historia;
+  </GaPage>
+);
+export default Company;

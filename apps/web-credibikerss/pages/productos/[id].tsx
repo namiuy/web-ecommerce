@@ -1,7 +1,7 @@
 'use client';
 
 import { NextPage } from 'next';
-import { Box, Head, ProductDetailTemplate } from 'ui';
+import { Box, Head, ProductDetailTemplate, GaPage } from 'ui';
 import { NavBar } from '../../components';
 import { useRouter } from 'next/router';
 import { Footer } from '../../components/Footer';
@@ -21,13 +21,15 @@ const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
   }
 
   return (
-    <Box minHeight="100vh" bg={_backgroundColor}>
-      <Head />
-      <NavBar />
-      <ProductDetailTemplate id={id} actions={['quote_request']} />
-      <Box h="6rem" />
-      <Footer />
-    </Box>
+    <GaPage page="ProductDetail">
+      <Box minHeight="100vh" bg={_backgroundColor}>
+        <Head />
+        <NavBar />
+        <ProductDetailTemplate id={id} actions={['quote_request']} />
+        <Box h="6rem" />
+        <Footer />
+      </Box>
+    </GaPage>
   );
 };
 
