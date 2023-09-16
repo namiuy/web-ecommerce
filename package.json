@@ -13,6 +13,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.4",
     "eslint-config-custom": "*",
     "prettier": "latest",
     "turbo": "^1.10.12"
@@ -22,6 +23,7 @@
   },
   "packageManager": "npm@8.19.3",
   "dependencies": {
-    "react-ga4": "^2.1.0"
+    "react-ga4": "^2.1.0",
+    "uuid": "^9.0.1"
   }
 }

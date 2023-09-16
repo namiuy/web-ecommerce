@@ -30,6 +30,8 @@ import { Category } from 'shared/entities/category';
 import { Product } from 'shared/entities/product';
 import { Box } from '..';
 import { Form, FormSchema } from './Form';
+import { FileUpload } from './FileUpload';
+import { v4 as uuidv4 } from 'uuid';
 
 const _grey0 = 'brand.grey.0';
 
@@ -86,6 +88,7 @@ const ModalDelete: FC<ModalDeleteProps> = ({ isOpen, name = '', onConfirm, onCan
 export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
   const isAdd = !product;
   const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(product?.image_url);
   const { isOpen: isModalDelOpen, onOpen: modalOpen, onClose: modalDelClose } = useDisclosure();
   const toast = useToast();
 
@@ -112,7 +115,7 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
 
   const add = (values: Record<string, any>) => {
     setIsLoading(true);
-    productAdd(values)
+    productAdd({ ...values, image_url: imageUrl ?? '' } as Product)
       .then(() => {
         showToast('Producto agregado correctamente');
         onSuccess();
@@ -123,7 +126,7 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
 
   const update = (values: Record<string, any>) => {
     setIsLoading(true);
-    const diff = getObjectDifference(data, values);
+    const diff = getObjectDifference(data, { ...values, image_url: imageUrl });
     if (Object.keys(diff).length) {
       diff.id = data?.id;
       productUpdate(values.id, diff)
@@ -154,7 +157,20 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
     <Grid alignItems="start" mt="1rem" gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }}>
       <Center p={{ base: '2rem 1rem', lg: '2rem' }}>
         <AspectRatio w="100%" ratio={4 / 3}>
-          <Image alt={data?.name} src={data?.image_url} fit="contain" fallback={<Box w="100%" bg={_grey0} />} />
+          <>
+            <Image alt={data?.name} src={imageUrl} fit="contain" fallback={<Box w="100%" bg={_grey0} />} />
+            <FileUpload
+              pos="absolute"
+              path="products"
+              fileName={product?.id ?? uuidv4()}
+              bg={imageUrl ? 'transparent' : _grey0}
+              border="none"
+              _hover={{ bg: 'rgba(0,0,0,0.2)' }}
+              onSuccess={result => setImageUrl(result?.url)}
+            >
+              {imageUrl ? 'Remplazar imagen' : 'Subir imagen'}
+            </FileUpload>
+          </>
         </AspectRatio>
       </Center>
       <Form

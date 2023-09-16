@@ -15,7 +15,7 @@ type ProductSearchProps = {
   sortBy?: ProductSearchSortBy;
 };
 
-export const productAdd = (data: any): Promise<Product> =>
+export const productAdd = (data: Product): Promise<Product> =>
   post<Product>(`${bff.url}/products`, { body: JSON.stringify(data) });
 
 export const productUpdate = (id: string, data: any): Promise<Product> =>

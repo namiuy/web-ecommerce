@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import lscache from 'lscache';
@@ -75,16 +76,20 @@ const getAction = (action: ProductAction, props: ProductActionProps) => {
 };
 
 export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
+  const router = useRouter();
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
   const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
-  const router = useRouter();
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
+
+  useEffect(() => {
+    if (!isLoading && !data?.id) router.replace('/productos'); // TODO: improve this
+  }, [data]);
 
   if (error) {
     console.log(error);
@@ -109,12 +114,12 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                 </Text>
 
                 <Link
-                  href={`/productos?c=${data?.category.id}`}
+                  href={`/productos?c=${data?.category?.id}`}
                   style={{ textDecoration: 'none' }}
                   _hover={_returnLinkHoverColor}
                 >
                   {' '}
-                  {data?.category.name}
+                  {data?.category?.name}
                 </Link>
               </Box>
             )}
@@ -143,7 +148,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               {isLoading ? (
                 <Skeleton w="100%" h="100%" mb={_imageSkeletonMarginBottom} />
               ) : data ? (
-                <ImageModal image={data?.image_url} title={data?.brand.name} />
+                <ImageModal image={data?.image_url} title={data?.brand?.name} />
               ) : (
                 <></>
               )}

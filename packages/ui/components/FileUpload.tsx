@@ -1,17 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useRef, useState, useEffect, ChangeEvent, DragEvent } from 'react';
 import { MdDelete } from 'react-icons/md';
-import { Button, Icon } from '@chakra-ui/react';
+import { Button, ButtonProps, Icon } from '@chakra-ui/react';
 import { Box } from '..';
-import { attachmentUpload } from 'shared';
+import { upload } from 'shared';
 import { File as FileEntity } from 'shared/entities/file';
+import { HiOutlineUpload } from 'react-icons/hi';
 
 type FileUploadProps = {
   disabled?: boolean;
   path: string;
+  fileName?: string;
   onSuccess: (result?: FileEntity) => void;
 };
 
-export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) => {
+export const FileUpload: FC<FileUploadProps & ButtonProps> = ({
+  disabled,
+  path,
+  fileName,
+  children,
+  onSuccess,
+  ...buttonProps
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +32,7 @@ export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) =
   useEffect(() => {
     if (file) {
       setIsLoading(true);
-      attachmentUpload(path, file)
+      upload(path, file, fileName)
         .then(data => {
           setResult(data);
           onSuccess(data);
@@ -33,7 +43,7 @@ export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) =
         })
         .finally(() => setIsLoading(false));
     }
-  }, [file, onSuccess, path]);
+  }, [file, path]);
 
   const handleDragOver = (event: DragEvent) => {
     event.preventDefault();
@@ -75,13 +85,14 @@ export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) =
 
   return result ? (
     <Button
-      disabled={disabled}
       w="100%"
       overflow="hidden"
       whiteSpace="nowrap"
       display="block"
       textOverflow="ellipsis"
-      leftIcon={<Icon transform="translateY(3px)" as={MdDelete} />}
+      leftIcon={<Icon /*transform="translateY(3px)"*/ as={MdDelete} />}
+      {...buttonProps}
+      disabled={disabled}
       onClick={disabled ? undefined : clear}
     >
       {result.originalname}
@@ -96,17 +107,19 @@ export const FileUpload: FC<FileUploadProps> = ({ disabled, path, onSuccess }) =
         style={{ display: 'none' }}
       />
       <Button
+        w="100%"
+        border={dragging ? '1px dashed' : '1px solid'}
+        cursor="pointer"
+        {...buttonProps}
         isLoading={isLoading}
         disabled={disabled}
-        w="100%"
-        cursor="pointer"
+        leftIcon={<Icon /*transform="translateY(3px)"*/ as={HiOutlineUpload} />}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleFileButtonClick}
-        border={dragging ? '1px dashed' : '1px solid'}
       >
-        Subir archivo
+        {children ?? 'Subir archivo'}
       </Button>
       {error && (
         <Box color="red" fontSize=".8rem">
