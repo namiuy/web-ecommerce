@@ -104,10 +104,11 @@ export const ProductFiltersDesktop = ({
 }: ProductFiltersDesktopProps) => (
   <Flex
     direction="column"
-    bg={_backgroundColor}
+    bg={'white'}
     borderRightColor={_borderColor}
-    p="0 2rem 2rem 2rem"
+    p="2rem"
     minH={{ base: 'calc(calc(100vh - 9rem) - 1px)', lg: 'calc(100vh - 6rem)' }}
+    borderRadius={{ base: '0', lg: '0.5rem' }}
   >
     {showCategories && (
       <>

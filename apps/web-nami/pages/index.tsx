@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, Banner, Container, Head, ProductListSection, Brands, Footer } from 'ui';
+import { Flex, Box, Banner, Container, Head, ProductListSection, Brands, Footer } from 'ui';
 import { NavBar } from '../components';
 import { Logo } from '../components/LogoWhite';
 
@@ -18,6 +18,9 @@ export default function Web() {
           <ProductListSection name="home_a" />
         </Flex>
       </Container>
+      <Box bg={_bg} minH="50vh" pb="3rem">
+        <ProductListSection name="home_a" />
+      </Box>
       <Footer logo={Logo} />
     </>
   );
