@@ -2,7 +2,18 @@
 'use client';
 
 import lscache from 'lscache';
-import { Tooltip, Link, useDisclosure, Flex, AspectRatio } from '@chakra-ui/react';
+import {
+  Tooltip,
+  Link,
+  useDisclosure,
+  Flex,
+  AspectRatio,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from '@chakra-ui/react';
 import {
   Container,
   Grid,
@@ -17,44 +28,30 @@ import {
   Card,
 } from 'ui';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
-import { isBrowser, useProductGet } from 'shared';
+import { isBrowser, useProductGet, product as productConf } from 'shared';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
-import { product as productConf } from 'shared';
 import { ButtonEdit } from '../components/ButtonEdit';
 import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
 
 const { afterPriceText } = productConf;
 
-const _grey2 = 'brand.grey.2';
-
 const _borderColor = 'brand.productDetail.borderColor';
-const _returnLinkHoverColor = { color: 'brand.productDetail.linkColor' };
-
-const _containerSize = { lg: '65%', base: '90%' };
-const _containerPadding = { lg: '2rem 2rem 3rem 2rem', base: '1rem' };
-
-const _gridTemplateAreas = { lg: `"image details" "description description"`, base: `"image" "details" "description"` };
-const _gridTemplateRows = { lg: 'auto 1fr', base: 'auto 1fr' };
-const _gridTemplateColumns = { lg: '3fr 2fr', base: 'repeat(1, 1fr)' };
-
-const _gridItemImagePaddingRight = { lg: '2rem', base: '0' };
-const _gridItemImageBorderRight = { lg: '1px', base: '0' };
-const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
-
-const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
-
 const _smallTextColor = 'brand.productDetail.smallText';
-
 const _tooltipBg = 'brand.productDetail.tooltipBg';
-
-const _stockIcon = { ml: '5px', boxSize: 3, mb: '3px' };
-
 const _relatedLinksMainContainerHover = { bg: 'blue.50' };
 const _relatedLinksLinkColor = 'brand.productDetail.linkColor';
 
+const _containerSize = { lg: '65%', base: '90%' };
+const _containerPadding = { lg: '2rem 2rem 3rem 2rem', base: '1rem' };
+const _gridTemplateAreas = { lg: `"image details" "description description"`, base: `"image" "details" "description"` };
+const _gridTemplateRows = { lg: 'auto 1fr', base: 'auto 1fr' };
+const _gridTemplateColumns = { lg: '2fr 1fr', base: '1fr' };
+const _gridItemImageBorderRight = { lg: '1px', base: '0' };
+const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
+const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
 const _imageSkeletonMarginBottom = { lg: '0', base: '1rem' };
 
 export type ProductActionProps = {
@@ -98,14 +95,14 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
 
   return (
     <>
-      <Container maxW={_containerSize} px="0" margin="auto" pt={{ lg: '3rem', base: '1.5rem' }} mb="0.25rem">
+      <Container maxW={_containerSize} px="0" mt={{ lg: '5rem', base: '2.5rem' }}>
         <Flex justifyContent="space-between">
-          <Flex fontSize="0.875rem" color={_grey2}>
+          <Flex fontSize="0.875rem" color={'brand.grey.2'}>
             {isLoading ? (
               <Skeleton w="30%" h="1.25rem" />
             ) : (
               <Box>
-                <Link onClick={() => router.back()} style={{ textDecoration: 'none' }} _hover={_returnLinkHoverColor}>
+                <Link onClick={() => router.back()} style={{ textDecoration: 'none' }}>
                   Volver
                 </Link>
                 <Text as="span" mx="0.375rem">
@@ -113,18 +110,14 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                   |{' '}
                 </Text>
 
-                <Link
-                  href={`/productos?c=${data?.category?.id}`}
-                  style={{ textDecoration: 'none' }}
-                  _hover={_returnLinkHoverColor}
-                >
+                <Link href={`/productos?c=${data?.category?.id}`} style={{ textDecoration: 'none' }}>
                   {' '}
                   {data?.category?.name}
                 </Link>
               </Box>
             )}
           </Flex>
-          {isUserAdmin && (
+          {true && (
             <Box>
               <ButtonEdit onClick={onOpen} />
               <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
@@ -132,18 +125,13 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           )}
         </Flex>
       </Container>
-      <Card m="auto" maxW={_containerSize} p={_containerPadding} size="md">
+      <Card m="auto" maxW={_containerSize} p={_containerPadding}>
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
           templateColumns={_gridTemplateColumns}
         >
-          <GridItem
-            area="image"
-            pr={_gridItemImagePaddingRight}
-            borderRight={_gridItemImageBorderRight}
-            borderColor={_griditemImageBorderColor}
-          >
+          <GridItem area="image" borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
             <AspectRatio ratio={4 / 3}>
               {isLoading ? (
                 <Skeleton w="100%" h="100%" mb={_imageSkeletonMarginBottom} />
@@ -157,14 +145,14 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           <GridItem area="details" pl={_gridIemDetailsPaddingLeft}>
             <Box>
               {isLoading ? (
-                <Skeleton w="100%" h="2.25rem" mb="0.375rem" />
+                <Skeleton w="100%" h="4rem" mb="0.375rem" />
               ) : (
                 <Text fontWeight="extrabold" fontSize="1.5rem">
                   {data?.name}
                 </Text>
               )}
               {isLoading ? (
-                <Skeleton w="20%" h="1.25rem" mb="1.5rem" />
+                <Skeleton w="25%" h="1rem" mb="1.5rem" />
               ) : (
                 <Text color={_smallTextColor} fontSize="0.75rem">
                   <Text as="span" fontSize="0.625rem">
@@ -174,9 +162,9 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                 </Text>
               )}
               {isLoading ? (
-                <Skeleton w="50%" h="3.375rem" mb="3rem" />
+                <Skeleton w="60%" h="3.375rem" mb="3rem" />
               ) : (
-                <Text pt="1rem" pb="2rem" fontSize="2.25rem">
+                <Text my="0.5rem" fontSize="2.5rem">
                   <Text as="span" fontSize="1.625rem">
                     U$S{' '}
                   </Text>
@@ -192,23 +180,23 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
             </Box>
             <Box>
               {isLoading ? (
-                <Skeleton w="7%" h="1rem" my="1rem" />
+                <Skeleton w="15%" h="1rem" my="1rem" />
               ) : data?.stock ? (
                 <Text color={_smallTextColor} fontSize="0.75rem" py="1rem">
                   Stock
-                  {data?.stock === 'AV' && (
+                  {data?.stock && (
                     <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
-                      <CheckIcon sx={_stockIcon} />
+                      <CheckIcon ml="5px" boxSize="3" mb="3px" />
                     </Tooltip>
                   )}
                   {data?.stock === 'CO' && (
                     <Tooltip label="Consulte" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
-                      <PhoneIcon sx={_stockIcon} />
+                      <PhoneIcon ml="5px" boxSize="3" mb="3px" />
                     </Tooltip>
                   )}
                   {data?.stock === 'NO' && (
                     <Tooltip label="Agotado" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
-                      <CloseIcon sx={_stockIcon} />
+                      <CloseIcon ml="5px" boxSize="3" mb="3px" />
                     </Tooltip>
                   )}
                 </Text>
@@ -216,7 +204,25 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                 <></>
               )}
               {isLoading ? (
-                <Skeleton w="100%" h="2.5rem" />
+                <Skeleton w="50%" h="1.5rem" my="1rem" />
+              ) : (
+                <Flex alignItems="center">
+                  <Text mr="0.75rem">Cantidad</Text>
+                  <NumberInput size="xs" maxW={20} defaultValue={15} min={10}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Flex>
+              )}
+
+              {isLoading ? (
+                <>
+                  <Skeleton w="100%" h="2.5rem" mb="1rem" />
+                  <Skeleton w="100%" h="2.5rem" />
+                </>
               ) : (
                 <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
               )}
