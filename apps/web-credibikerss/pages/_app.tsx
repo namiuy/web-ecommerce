@@ -1,17 +1,24 @@
+'use client';
+
 import type { AppProps } from 'next/app';
-import { AppContext } from 'shared';
-import { DesignDebug, ThemeProvider } from 'ui';
-import initalValues from '../context';
-import theme from '../theme';
+import { AppContextProvider } from 'shared';
+import { ThemeProvider, WhatsApp } from 'ui';
+import { theme } from '../theme';
+import ReactGA from 'react-ga4';
+import { keys } from 'shared';
+
+const { googleGaMeasurementId } = keys;
+
+ReactGA.initialize(googleGaMeasurementId);
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <AppContext.Provider value={initalValues}>
+    <AppContextProvider>
       <ThemeProvider theme={theme}>
-        <DesignDebug />
         <Component {...pageProps} />
+        <WhatsApp />
       </ThemeProvider>
-    </AppContext.Provider>
+    </AppContextProvider>
   );
 };
 

@@ -1,24 +1,13 @@
-import useSWRImmutable from 'swr/immutable';
+import { useRequestWithCache } from '.';
 import { ProductList } from '../../entities/product-list';
-import { fetcher } from './fetcher';
-import { Response } from './response';
+import { bff } from '../../env';
+import { Result } from './result';
 
-export const useProductListGet = (id: number): Response<ProductList> => {
-  const { isLoading, error, data } = useSWRImmutable(`http://localhost:3001/product-list/${id}`, fetcher);
+const oneHour = 60 * 1;
+const sixHours = 60 * 6;
 
-  // if (cache) {
-  //   return { isLoading: false, data: cache };
-  // }
+export const useProductListGet = (id: number): Result<ProductList> =>
+  useRequestWithCache(`${bff.url}/product-lists/${id}`, oneHour);
 
-  return { isLoading, error, data };
-};
-
-export const useProductListList = (): Response<Array<ProductList>> => {
-  const { isLoading, error, data } = useSWRImmutable('http://localhost:3001/product-list', fetcher);
-
-  // if (cache) {
-  //   return { isLoading: false, data: cache };
-  // }
-
-  return { isLoading, error, data };
-};
+export const useProductListList = (): Result<Array<ProductList>> =>
+  useRequestWithCache(`${bff.url}/product-lists`, sixHours);

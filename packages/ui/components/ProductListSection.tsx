@@ -1,32 +1,83 @@
-import { Flex } from '@chakra-ui/react';
-import { useProductListList } from 'shared';
-import { Text } from 'ui';
+import lscache from 'lscache';
+import { Flex /*, IconButton, useDisclosure*/ } from '@chakra-ui/react';
+import { Box, Container } from 'ui';
+import { FC, useEffect, useState } from 'react';
+// import { MdEdit } from 'react-icons/md';
+import { sort, useProductListList } from 'shared';
+import { ProductList } from 'shared/entities/product-list';
+import { Heading } from 'ui';
+// import { ModalEdit } from './ModalEdit';
 import { ProductCardCarousel } from './ProductCardCarousel';
+// import { ProductListSectionEdit } from './ProductListSectionEdit';
+import { User } from 'shared/entities/user';
+import { isBrowser } from 'shared';
 
 const _grey3 = 'brand.grey.3';
+const _bg = 'brand.background';
 
-export const ProductListSection = ({ name }: { name: string }) => {
+type ProductListSectionProps = { name: string };
+// type EditProps = {
+//   data: Array<ProductList>;
+// };
+
+// const Edit: FC<EditProps> = ({ data }) => {
+//   const { isOpen, onOpen, onClose } = useDisclosure();
+//   return (
+//     <>
+//       <IconButton
+//         w="3rem"
+//         h="3rem"
+//         aria-label=""
+//         bg="none"
+//         color="grey"
+//         icon={<MdEdit />}
+//         onClick={onOpen}
+//         _hover={{ color: 'black' }}
+//       />
+//       <ModalEdit title="Listas de productos" isOpen={isOpen} scrollBehavior="inside" onOpen={onOpen} onClose={onClose}>
+//         <ProductListSectionEdit data={data} />
+//       </ModalEdit>
+//     </>
+//   );
+// };
+
+export const ProductListSection: FC<ProductListSectionProps> = ({ name }) => {
   const { isLoading, error, data = [] } = useProductListList();
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
+  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
 
   if (error) {
     console.log(error);
     return <></>;
   }
 
-  if (isLoading) return <></>; // TODO:!
+  const dataFilter = data.filter((productList: ProductList) => productList.section === name);
+  const dataSort = sort<ProductList>(dataFilter, 'indx');
 
   return (
-    <Flex direction="column" gap="2rem" pt="0.375rem" pl={{ base: '1rem', xl: 0 }}>
-      {data
-        .filter(productList => productList.section === name)
-        .map(({ id, name, product_ids }, i) => (
-          <Flex key={i} direction="column" w="100%" gap="0.375rem">
-            <Text fontSize="1.5rem" color={_grey3} fontWeight="semibold">
-              {name}
-            </Text>
-            <ProductCardCarousel key={i} productListId={id} productsLength={product_ids.length} />
-          </Flex>
-        ))}
-    </Flex>
+    <Box bg={_bg}>
+      <Container p="0">
+        <Flex direction="column">
+          {dataSort.map(({ id, name, product_ids }, i) => (
+            <Flex key={i} direction="column" w="100%" p={{ base: '1rem 1rem 0', sm: '2rem 1rem 0' }}>
+              <Heading as="h3" size="lg" color={_grey3} pb=".5rem">
+                {name} {/* <Edit data={data} /> */}
+              </Heading>
+              <ProductCardCarousel
+                key={i}
+                productListId={id}
+                editMode={isUserAdmin}
+                productsLength={product_ids.length}
+              />
+            </Flex>
+          ))}
+        </Flex>
+      </Container>
+    </Box>
   );
 };

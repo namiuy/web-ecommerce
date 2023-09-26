@@ -1,5 +1,6 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react';
 import { ElementType } from 'react';
+import { menuItems } from 'shared/env';
 import NavBarDesktop from './NavBarDesktop';
 import NavBarMobile from './NavBarMobile';
 
@@ -9,15 +10,11 @@ export type MenuItem = {
   href: string;
 };
 
-export type SocialNeworkItem = {
-  id: string;
-  href: string;
-};
-
 export type NavBarProps = {
+  dark?: boolean;
   logo?: ElementType;
-  menuItems: Array<MenuItem>;
-  socialNeworksItems: Array<SocialNeworkItem>;
+  fontWeight?: number;
+  menuItems?: Array<MenuItem>;
 };
 
 export const NavBar = (props: NavBarProps) => {
@@ -27,8 +24,11 @@ export const NavBar = (props: NavBarProps) => {
   });
   const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
   return (
-    <Box position="sticky" top="0" w="100%" zIndex="99">
-      <NavBarDisplay {...props} />
-    </Box>
+    <>
+      <Box h="5rem" bg="black" />
+      <Box position="fixed" top="0" w="100%" zIndex="999">
+        <NavBarDisplay {...props} menuItems={menuItems} />
+      </Box>
+    </>
   );
 };

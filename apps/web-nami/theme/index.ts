@@ -1,44 +1,104 @@
-import { extendTheme } from '@chakra-ui/react';
+const primary = '#6A0000';
+const secondary = '#e53e3e';
 
-const grey0 = '#F7F7F7';
-const grey1 = '#C9C9C9';
-const grey2 = '#7D7D7D';
-const grey3 = '#3E4448';
+const white = '#ffffff';
+const greyBg = '#fafafa';
+const borderColor = '#eeeeee';
+const smallText = '#909090';
+const tooltipBg = '#676767';
+const buyButtonHoverBg = '#e53e3e';
+const relatedLinksColor = '#4195db';
 
-const primary = '#000066';
-
-export default extendTheme({
-  fonts: {
-    heading: `'Roboto', sans-serif`,
-    body: `'Roboto', sans-serif`,
-  },
+export const theme: Record<string, any> = {
   colors: {
+    primary: {
+      main: primary,
+      50: primary,
+      100: primary,
+      200: primary,
+      300: primary,
+      400: primary,
+      500: primary,
+      600: primary,
+      700: primary,
+      800: primary,
+      900: primary,
+    },
+    secondary: {
+      main: secondary,
+      50: secondary,
+      100: secondary,
+      200: secondary,
+      300: secondary,
+      400: secondary,
+      500: secondary,
+      600: secondary,
+      700: secondary,
+      800: secondary,
+      900: secondary,
+    },
     brand: {
-      grey: { '0': grey0, '1': grey1, '2': grey2, '3': grey3 },
-      input: {
-        borderColor: grey1,
-        _focus: {
-          borderColor: grey2,
+      login: {
+        backgroundColorOne: primary,
+        backgroundColorTwo: greyBg,
+      },
+      productDetail: {
+        backgroundColor: greyBg,
+        borderColor: borderColor,
+        smallText: smallText,
+        tooltipBg: tooltipBg,
+        buyButton: {
+          backgroundColor: secondary,
+          color: white,
+          _hover: {
+            backgroundColor: buyButtonHoverBg,
+          },
         },
-        _placeholder: {
-          color: grey2,
+        relatedLinks: {
+          linkColor: relatedLinksColor,
+          _hover: {
+            backgroundColor: relatedLinksColor,
+          },
+        },
+      },
+      profile: {
+        subtitlesColor: primary,
+        backgroundColorOne: primary,
+        backgroundColorTwo: greyBg,
+        backButton: {
+          _hover: {
+            backgroundColor: white,
+            color: primary,
+          },
         },
       },
       nav: {
         item: {
-          color: 'white',
+          color: white,
           _hover: {
-            color: grey3,
+            color: 'lightgrey',
           },
         },
       },
       navBar: {
         backgroundColor: primary,
-        borderColor: grey1,
+        borderColor: primary,
         iconButton: {
-          color: 'white',
+          color: white,
           _hover: {
-            color: 'black',
+            color: white,
+          },
+        },
+        input: {
+          color: white,
+          borderColor: '#AC2222',
+          iconColor: '#6566c1',
+          //backgroundColor: '#0c0d77',
+          _focus: {
+            borderColor: '#cd2625',
+          },
+          _placeholder: {
+            color: '#C16565',
           },
         },
       },
@@ -50,11 +110,6 @@ export default extendTheme({
           },
         },
       },
-      drawerMenu: {
-        item: {
-          color: grey3,
-        },
-      },
     },
   },
-});
+};

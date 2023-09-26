@@ -1,26 +1,31 @@
 import {
-  Box,
-  Collapse,
   Grid,
   GridItem,
   Icon,
   IconButton as IconButtonChakra,
   IconButtonProps as IconButtonChakraProps,
   useDisclosure,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
 } from '@chakra-ui/react';
-import SearchInput from '../SearchInput';
-import { useEffect, useState, useRef, MutableRefObject } from 'react';
+import { useRef, MutableRefObject } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
-import { MdOutlineShoppingCart } from 'react-icons/md';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { NavBarProps } from '.';
 import { IconType } from 'react-icons';
-import Link from 'next/link';
 import { MenuDrawer } from '../MenuDrawer';
+import Link from 'next/link';
+import SearchInput from '../SearchInput';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
 const _backgroundColor = 'brand.navBar.backgroundColor';
+const _backdropFilter = 'saturate(180%) blur(20px)';
 const _borderColor = 'brand.navBar.borderColor';
+const _color = 'brand.navBar.color';
 
 type IconButtonProps = {
   buttonProps: IconButtonChakraProps & { ref?: MutableRefObject<null> };
@@ -45,31 +50,37 @@ const IconButton = ({ buttonProps, icon }: IconButtonProps) => (
   />
 );
 
-const useScroll = () => {
-  const [y, setY] = useState(0);
+const SearchButton = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  useEffect(() => {
-    const onScroll = () => setY(window.scrollY);
-    window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  return [y];
+  return (
+    <>
+      <IconButton icon={AiOutlineSearch} buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen }} />
+      <Modal isOpen={isOpen} size="5xl" onClose={onClose}>
+        <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
+        <ModalContent m=".5rem 0 0" bg="transparent">
+          <ModalCloseButton color="white" />
+          <ModalBody pt="3.5rem">
+            <SearchInput onSearch={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
 };
 
-const NavBarMobile = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProps) => {
+const NavBarMobile = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
-  const [scrollY] = useScroll();
-  const showSearchInput = scrollY === 0;
 
   return (
     <>
       <Grid
         bg={_backgroundColor}
-        borderBottom={showSearchInput ? 'solid 0' : 'solid 1px'}
-        borderBottomColor={showSearchInput ? 'transparent' : _borderColor}
+        backdropFilter={_backdropFilter}
+        borderBottom="solid 1px"
+        color={_color}
+        borderBottomColor={_borderColor}
         gridTemplateColumns="auto 1rem 1fr 1rem auto"
         pt="1rem"
         pb="1rem"
@@ -97,22 +108,10 @@ const NavBarMobile = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProps
         </GridItem>
         <GridItem />
         <GridItem>
-          <IconButton buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito' }} icon={MdOutlineShoppingCart} />
-        </GridItem>
-        <GridItem gridColumn="1 / 6" pl="1rem" pr="1rem">
-          <Collapse in={showSearchInput}>
-            <Box h="1rem" />
-            <SearchInput />
-          </Collapse>
+          <SearchButton />
         </GridItem>
       </Grid>
-      <MenuDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        menuItems={menuItems}
-        socialNeworksItems={socialNeworksItems}
-      />
+      <MenuDrawer dark={dark} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} menuItems={menuItems} />
     </>
   );
 };

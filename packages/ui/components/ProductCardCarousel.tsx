@@ -1,28 +1,13 @@
 import { useBreakpointValue } from '@chakra-ui/react';
-import { useProductListGet } from 'shared';
+import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
-// ProductCard
-const _maxW = { base: '9rem', lg: '13rem' };
-const _minH = { base: '15rem', lg: '21rem' }; // ['13rem', '18rem'];
+const _minH = { base: '17rem', lg: '21rem' };
 
-const baseSizes = { slideWidth: _maxW.base, slideHeight: _minH.base, navigationLeft: '-1rem' };
-const lgSizes = {
-  slideWidth: _maxW.lg,
-  slideHeight: _minH.lg,
-  navigationLeft: undefined,
-};
+type ProductCardCarouselProps = { editMode?: boolean; productListId: number; productsLength: number };
 
-type ProductCardCarouselProps = { productListId: number; productsLength: number };
-
-const getEmptyArray = <T,>(length: number) => {
-  let arr = [];
-  for (let i = 0; i < length; i++) arr.push({} as T);
-  return arr;
-};
-
-export const ProductCardCarousel = ({ productListId, productsLength }: ProductCardCarouselProps) => {
+export const ProductCardCarousel = ({ editMode = false, productListId, productsLength }: ProductCardCarouselProps) => {
   const { isLoading, error, data } = useProductListGet(productListId);
 
   const isLg = useBreakpointValue({
@@ -30,16 +15,32 @@ export const ProductCardCarousel = ({ productListId, productsLength }: ProductCa
     lg: true,
   });
 
-  const { slideWidth, slideHeight, navigationLeft } = isLg ? lgSizes : baseSizes;
+  const slidesPerView =
+    useBreakpointValue({
+      base: 2,
+      sm: 3,
+      lg: 4,
+    }) || 2;
 
-  if (error) console.log(error);
+  const slideHeight = isLg ? _minH.lg : _minH.base;
 
-  const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products;
+  if (error) {
+    console.log(error);
+    return <></>;
+  }
+
+  const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products.filter(p => p.id);
 
   return (
-    <Carousel slideWidth={slideWidth} slideHeight={slideHeight} navigationLeft={navigationLeft} spaceBetween={16}>
-      {products?.map((product, i) => (
-        <ProductCard key={i} isLoading={isLoading} product={product} href={'/'} />
+    <Carousel
+      slideHeight={slideHeight}
+      navigationLeft="-1rem"
+      navigationRight="-1rem"
+      slidesPerView={slidesPerView}
+      spaceBetween={32}
+    >
+      {products?.map((product: Product, i: number) => (
+        <ProductCard key={i} isLoading={isLoading} editMode={editMode} product={product} />
       ))}
     </Carousel>
   );

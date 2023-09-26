@@ -8,19 +8,24 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
+    "@types/deep-extend": "^0.6.0",
     "@types/react": "^18.0.22",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "react": "^18.2.0",
     "tsconfig": "*",
-    "typescript": "^4.5.2"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.5.1",
+    "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^5.0.5",
+    "@googlemaps/react-wrapper": "^1.1.35",
+    "deep-extend": "^0.6.0",
+    "formik": "^2.4.2",
     "framer-motion": "^10.2.4",
-    "next": "^13.2.4",
+    "next": "^13.4.19",
     "react-icons": "^4.8.0",
     "shared": "*",
     "swiper": "^9.1.0"

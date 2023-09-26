@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionItem,
+  AccordionIcon,
+  AccordionButton,
+  AccordionPanel,
   Box,
   Drawer,
   DrawerBody,
@@ -8,29 +13,63 @@ import {
   DrawerProps,
   Flex,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { MenuItem, SocialNeworkItem } from './NavBar';
+import { MenuItem } from './NavBar';
 import Link from 'next/link';
 import { NavItem } from './Nav';
 import SocialNeworks from './SocialNeworks';
+import { Categories } from './Categories';
+import { Center } from '..';
+import MenuAdmin from './MenuAdmin';
 
-const menuItemColor = 'brand.drawerMenu.item.color';
+const _backgroundColor = 'brand.drawerMenu.backgroundColor';
+const _backdropFilter = 'saturate(180%) blur(20px)';
+const _menuItemColor = 'brand.drawerMenu.item.color';
+const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor';
 
 type MenuDrawerItemsProps = {
   items: NavItem[];
+  onClick(): void;
 };
 
-const MenuDrawerItems = ({ items = [] }: MenuDrawerItemsProps) => (
+type AccordionProductsProps = {
+  onClick(): void;
+};
+
+const AccordionProducts = ({ onClick }: AccordionProductsProps) => {
+  return (
+    <Accordion allowToggle borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
+      <AccordionItem borderColor={'transparent'}>
+        <AccordionButton p="1rem">
+          <Text flex="1" textAlign="left" color={_menuItemColor}>
+            Productos
+          </Text>
+          <AccordionIcon color={_menuItemColor} />
+        </AccordionButton>
+        <AccordionPanel p="0">
+          <Categories removeParams onClick={onClick} color={_menuItemColor} borderColor={_menuItemBorderColor} />
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
+const MenuDrawerItems = ({ items, onClick }: MenuDrawerItemsProps) => (
   <nav>
     <Flex direction="column" as="ol" listStyleType="none">
       <Box h="2rem" />
       {items.map(({ id, text, href }) => (
         <li key={id}>
-          <Link href={href}>
-            <Text pt="1rem" pb="1rem" fontSize="0.875rem" color={menuItemColor}>
-              {text}
-            </Text>
-          </Link>
+          {id === 'products' ? (
+            <AccordionProducts onClick={onClick} />
+          ) : (
+            <Link href={href}>
+              <Text p="1rem" color={_menuItemColor} borderBottom="solid 1px" borderColor={_menuItemBorderColor}>
+                {text}
+              </Text>
+            </Link>
+          )}
         </li>
       ))}
     </Flex>
@@ -38,18 +77,25 @@ const MenuDrawerItems = ({ items = [] }: MenuDrawerItemsProps) => (
 );
 
 type MenuDrawerProps = Omit<DrawerProps, 'children'> & {
+  dark?: boolean;
   menuItems: Array<MenuItem>;
-  socialNeworksItems: Array<SocialNeworkItem>;
 };
 
-export const MenuDrawer = ({ isOpen, onClose, finalFocusRef, menuItems, socialNeworksItems }: MenuDrawerProps) => (
+export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems }: MenuDrawerProps) => (
   <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={finalFocusRef}>
     <DrawerOverlay />
-    <DrawerContent>
-      <DrawerCloseButton />
-      <DrawerBody>
-        <MenuDrawerItems items={menuItems} />
-        <SocialNeworks color={menuItemColor} items={socialNeworksItems} />
+    <DrawerContent bg={_backgroundColor} backdropFilter={_backdropFilter}>
+      <DrawerCloseButton color={_menuItemColor} />
+      <DrawerBody p=".5rem 0">
+        <MenuDrawerItems items={menuItems} onClick={onClose} />
+        <Box m="1rem">
+          <MenuAdmin />
+        </Box>
+        <Box p="2rem 0">
+          <Center>
+            <SocialNeworks dark={dark} color={_menuItemColor} size="2rem" hide={['whatsapp']} />
+          </Center>
+        </Box>
       </DrawerBody>
     </DrawerContent>
   </Drawer>

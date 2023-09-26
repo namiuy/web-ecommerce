@@ -1,14 +1,19 @@
+import { Brand } from './brand';
 import { Category } from './category';
+import { RelatedLink } from './related-link';
 
 export type Product = {
-  id: number;
+  id: string;
   is_original: boolean;
   is_public: boolean;
   created_at: Date;
   category: Category;
-  brand: number;
+  brand: Brand;
   name: string;
   description: string;
   price: number;
   image_url: string;
+  path: string;
+  stock: 'NO' | 'CO' | 'AV';
+  relatedLinks: RelatedLink[];
 };

@@ -1,43 +1,70 @@
+import lscache from 'lscache';
 import { Grid, GridItem } from '@chakra-ui/react';
-import Link from 'next/link';
 import { NavBarProps } from '.';
 import Nav from '../Nav';
 import SearchInput from '../SearchInput';
 import SocialNeworks from '../SocialNeworks';
+import Link from 'next/link';
+import { Categories } from '../Categories';
+import MenuAdmin from '../MenuAdmin';
+import { User } from 'shared/entities/user';
+import { isBrowser } from 'shared';
+import { useEffect, useState } from 'react';
 
-const navItemColor = 'brand.nav.item.color';
+const _navItemColor = 'brand.nav.item.color';
 const _backgroundColor = 'brand.navBar.backgroundColor';
+const _backdropFilter = 'saturate(180%) blur(20px)';
 const _borderColor = 'brand.navBar.borderColor';
+// const _menuItemColor = 'brand.drawerMenu.item.color'; // TODO: fix
+// const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor'; // TODO: fix
 
-const NavBarDesktop = ({ logo: Logo, menuItems, socialNeworksItems }: NavBarProps) => (
-  <Grid
-    height="6rem"
-    borderBottom="solid 1px"
-    gridTemplateColumns="16rem 1fr 2rem auto 2rem auto 2rem"
-    alignItems="center"
-    bg={_backgroundColor}
-    borderBottomColor={_borderColor}
-  >
-    <GridItem justifySelf="center">
-      {Logo && (
-        <Link href="/">
-          <Logo />
-        </Link>
+const NavBarDesktop = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
+  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
+  const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: Categories } : i));
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
+
+  return (
+    <Grid
+      p="1.5rem 0"
+      borderBottom="solid 1px"
+      gridTemplateColumns="16rem 1fr 2rem auto 2rem auto 2rem auto 1rem"
+      alignItems="center"
+      bg={_backgroundColor}
+      backdropFilter={_backdropFilter}
+      borderBottomColor={_borderColor}
+    >
+      <GridItem justifySelf="center">
+        {Logo && (
+          <Link href="/">
+            <Logo />
+          </Link>
+        )}
+      </GridItem>
+      <GridItem>
+        <SearchInput />
+      </GridItem>
+      <GridItem />
+      <GridItem>
+        <Nav items={menuItemsWithOnClick} />
+      </GridItem>
+      <GridItem />
+      <GridItem>
+        <SocialNeworks dark={dark} color={_navItemColor} size="1.2rem" hide={['whatsapp']} />
+      </GridItem>
+      <GridItem />
+      {isUserAdmin && (
+        <GridItem>
+          <MenuAdmin />
+        </GridItem>
       )}
-    </GridItem>
-    <GridItem>
-      <SearchInput />
-    </GridItem>
-    <GridItem />
-    <GridItem>
-      <Nav items={menuItems} />
-    </GridItem>
-    <GridItem />
-    <GridItem>
-      <SocialNeworks color={navItemColor} items={socialNeworksItems} />
-    </GridItem>
-    <GridItem />
-  </Grid>
-);
+      <GridItem />
+    </Grid>
+  );
+};
 
 export default NavBarDesktop;
