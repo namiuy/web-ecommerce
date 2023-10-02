@@ -156,9 +156,13 @@ export const ModalQuote: FC<ModalQuoteProps> = ({ isOpen, product, onClose }) =>
 
                 <div>
                   <FormLabel>Requisitos</FormLabel>
-                  <Text>
-                    Cédula vigente (residencia legal), últimos 3 recibos de sueldo, constancia de domicilio, mínimo 6
-                    meses de antigüedad laboral y no estar en el Clearing.
+                  <Text fontSize="0.875rem">
+                    Presentar cédula vigente, últimos 3 recibos de sueldo, constancia de domicilio y no estar en el
+                    Clearing.
+                    <br />
+                    Residencia legal: 6 meses de antigüedad laboral.
+                    <br />
+                    Residencia en trámite: 1 año de antigüedad laboral.
                   </Text>
                 </div>
 
