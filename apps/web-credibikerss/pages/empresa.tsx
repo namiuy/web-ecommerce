@@ -22,12 +22,10 @@ const Company = () => (
                   </Heading>
                   <Box h="1rem" />
                   <Text>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-                    leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    Credibikerss es una empresa familiar que nace en Montevideo, Uruguay, desde hace más de diez años
+                    con el anhelo de extender la marca en todo el Uruguay. Con el paso del tiempo nos extendimos,
+                    actualmente Credibikerss cuenta con dos sucursales, una en Cordón, Montevideo y otra en Las Piedras,
+                    Canelones. Nos dedicamos a la venta de motocicletas y accesorios.
                   </Text>
                 </div>
 
