@@ -16,6 +16,7 @@ const HomePage: NextPage = () => (
         <Flex direction="column" gap="4rem">
           <Banner section="home_a" />
           <Brands />
+          <ProductListSection name="home_a" />
         </Flex>
       </Container>
       <Box bg={_bg} minH="50vh" pb="3rem">
