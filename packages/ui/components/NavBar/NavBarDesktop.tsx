@@ -3,7 +3,7 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import { NavBarProps } from '.';
 import Nav from '../Nav';
 import SearchInput from '../SearchInput';
-import SocialNeworks from '../SocialNeworks';
+import SocialNetworks from '../SocialNetworks';
 import Link from 'next/link';
 import { CategoriesPopover } from '../CategoriesPopover';
 import MenuAdmin from '../MenuAdmin';
@@ -25,7 +25,7 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktop = ({ dark, logo: Logo, menuItems = [], simple }: NavBarProps) => {
+const NavBarDesktop = ({ dark, logo: Logo, menuItems = [], simple, hover }: NavBarProps) => {
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
   const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
@@ -63,7 +63,7 @@ const NavBarDesktop = ({ dark, logo: Logo, menuItems = [], simple }: NavBarProps
           </GridItem>
         )}
         <GridItem>
-          <SocialNeworks dark={dark} color={_navItemColor} size="1.2rem" hide={['tiktok', 'whatsapp']} />
+          <SocialNetworks dark={dark} color={_navItemColor} size="1.2rem" hover={hover} />
         </GridItem>
         {isUserAdmin && (
           <GridItem>

@@ -14,11 +14,6 @@ const menuItems = [
     href: '/productos',
   },
   {
-    id: 'services',
-    text: 'Servicios',
-    href: '/servicios',
-  },
-  {
     id: 'company',
     text: 'Empresa',
     href: '/empresa',
@@ -38,27 +33,19 @@ const menuItems = [
 const socialNeworksItems = [
   {
     id: 'facebook',
-    href: '/',
+    href: 'https://www.facebook.com/nami.ltda/',
   },
   {
     id: 'instagram',
-    href: '/',
-  },
-  {
-    id: 'tiktok',
-    href: '/',
-  },
-  {
-    id: 'whatsapp',
-    href: '/',
+    href: 'https://www.instagram.com/namiuruguay',
   },
   {
     id: 'youtube',
-    href: '/',
+    href: 'https://www.youtube.com/channel/UCj-bqgJxFs0rhqB02jhxQ0g',
   },
   {
     id: 'linkedin',
-    href: '/',
+    href: 'https://www.linkedin.com/company/namiuy',
   },
 ];
 
