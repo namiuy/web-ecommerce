@@ -24,7 +24,11 @@ export const Contact = () => {
       <Container px="0" minW="100%">
         <Flex position="relative">
           <Box w="100%">
-            <Map position={[data[0].ubicacion, data[1].ubicacion]} h="91vh" zoom={16} />
+            <Map
+              position={[data[0].ubicacion, data[1].ubicacion]}
+              h="91vh"
+              center={{ lat: -34.89054118139598, lng: -56.17411952377538 }}
+            />
           </Box>
           {data.map((item, index) => (
             <Grid

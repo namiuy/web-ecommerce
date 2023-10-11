@@ -78,6 +78,7 @@ type MapProps = {
   w?: string | number;
   h?: string | number;
   zoom?: number;
+  center: Position;
   position: Position[];
 };
 
@@ -141,7 +142,7 @@ const MyMapComponent: React.FC<MapComponentProps> = ({ w, h, children, ...option
   );
 };
 
-export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 0, position }) => {
+export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 13, center, position }) => {
   const render = (status: Status) => {
     if (status === Status.LOADING) return <Skeleton w={w} h={h} />;
     if (status === Status.FAILURE) console.log(status);
@@ -151,7 +152,7 @@ export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 0, position }
   return (
     <Wrapper apiKey={googleMapsApiKey} render={render}>
       <StyleWrapper>
-        <MyMapComponent w={w} h={h} center={position[0]} zoom={zoom}>
+        <MyMapComponent w={w} h={h} center={center} zoom={zoom}>
           {position.map((pos, i) => (
             <Marker key={i} position={pos} />
           ))}
