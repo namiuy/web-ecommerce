@@ -142,7 +142,7 @@ const MyMapComponent: React.FC<MapComponentProps> = ({ w, h, children, ...option
   );
 };
 
-export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 13, center, position }) => {
+export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 16, center, position }) => {
   const render = (status: Status) => {
     if (status === Status.LOADING) return <Skeleton w={w} h={h} />;
     if (status === Status.FAILURE) console.log(status);
