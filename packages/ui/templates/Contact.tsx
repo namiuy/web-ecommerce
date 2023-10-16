@@ -7,6 +7,14 @@ import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 
+const _firstBoxWidth = { base: '100%', lg: '20rem' };
+const _secondBoxWidth = { base: '100%', lg: '25rem' };
+const _left = { base: '0', lg: '12' };
+const _right = { base: '0', lg: '12' };
+const _top = { base: '0', lg: '50%' };
+const _transform = { base: 'none', lg: 'translateY(-50%)' };
+const _mb = { base: '8', lg: 'none' };
+
 const data = [
   {
     direccion: 'Bvar. Artigas 3397',
@@ -40,17 +48,17 @@ export const Contact = () => {
     },
   });
 
-  const md = useBreakpointValue({ base: false, lg: true });
+  const lg = useBreakpointValue({ base: false, lg: true });
 
   return (
     <>
       <Container px="0" minW="100%">
-        <Box position={md ? 'relative' : 'static'}>
+        <Box position={lg ? 'relative' : 'static'}>
           <Box w="100%">
             <Map
               position={[data[0].ubicacion, data[1].ubicacion]}
-              zoom={md ? 13 : 12}
-              h={md ? '91vh' : '50vh'}
+              zoom={lg ? 13 : 12}
+              h={lg ? '92vh' : '50vh'}
               center={{ lat: -34.89054118139598, lng: -56.17411952377538 }}
             />
           </Box>
@@ -63,12 +71,12 @@ export const Contact = () => {
             p={6}
             borderRadius={16}
             boxShadow="2xl"
-            w={md ? '20rem' : '100%'}
-            position={md ? 'absolute' : 'static'}
-            left={md ? '12' : '0'}
-            top={md ? '50%' : '0'}
-            transform={md ? 'translateY(-50%)' : 'none'}
-            mb={md ? 'none' : '8'}
+            w={_firstBoxWidth}
+            position={lg ? 'absolute' : 'static'}
+            left={_left}
+            top={_top}
+            transform={_transform}
+            mb={_mb}
           >
             {data.map((item, index) => (
               <>
@@ -114,14 +122,15 @@ export const Contact = () => {
             bg="white"
             color="blackAlpha.700"
             p={6}
+            pt={4}
             borderRadius={16}
             boxShadow="2xl"
-            w={md ? '25rem' : '100%'}
-            position={md ? 'absolute' : 'static'}
-            right={md ? '12' : '0'}
-            top={md ? '50%' : '0'}
-            transform={md ? 'translateY(-50%)' : 'none'}
-            mb={md ? 'none' : '8'}
+            w={_secondBoxWidth}
+            position={lg ? 'absolute' : 'static'}
+            right={_right}
+            top={_top}
+            transform={_transform}
+            mb={_mb}
           >
             <Text fontSize="1.375rem" fontWeight="bold" mb="0.75rem">
               Contáctese con nosotros
@@ -188,7 +197,7 @@ export const Contact = () => {
                     variant="filled"
                     resize="none"
                     bg="blackAlpha.100"
-                    height={24}
+                    height={22}
                     onChange={formik.handleChange}
                     value={formik.values.mensaje}
                     _hover={{ backgroundColor: 'blackAlpha.300' }}
