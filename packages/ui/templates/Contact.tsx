@@ -58,7 +58,7 @@ export const Contact = () => {
             <Map
               position={branches.map(item => item.position)}
               zoom={lg ? 13 : 12}
-              h={lg ? '92vh' : '50vh'}
+              h={lg ? '75vh' : '50vh'}
               center={{ lat: -34.89054118139598, lng: -56.17411952377538 }}
             />
           </Box>
