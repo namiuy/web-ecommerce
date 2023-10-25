@@ -1,11 +1,16 @@
-import { Link, Icon, Textarea, useBreakpointValue } from '@chakra-ui/react';
+import { Link, Icon, Textarea, useBreakpointValue, FormErrorMessage } from '@chakra-ui/react';
 import { Box, Container, Text, Map, Grid, GridItem, Button } from 'ui';
-import { useFormik } from 'formik';
+import { Field, Formik, useFormik } from 'formik';
 import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
 import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
 import { MdOutlineNavigateNext } from 'react-icons/md';
+
+import { validateEmpty, validateEmail } from 'shared';
+import { useContactRequest } from 'shared/hooks/request/contact';
+import { Contact as contact } from 'shared/entities/contact';
+import { useState } from 'react';
 
 const _firstBoxWidth = { base: '100%', lg: '20rem' };
 const _secondBoxWidth = { base: '100%', lg: '25rem' };
@@ -15,40 +20,33 @@ const _top = { base: '0', lg: '50%' };
 const _transform = { base: 'none', lg: 'translateY(-50%)' };
 const _mb = { base: '8', lg: 'none' };
 
-const data = [
+const info = [
   {
-    direccion: 'Bvar. Artigas 3397',
-    detalle: 'Casi Gral. Flores',
-    direccionLink: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
-    horario: 'Lunes a Viernes: de 8:00 a 12:00hs y de 13:30 a 18:30hs',
-    telefono: '2402 1350 - 2203 4381',
-    ubicacion: { lat: -34.8704995, lng: -56.17636 },
+    direccion: 'Bvar Artgias 3397',
+    detalle: 'Casi Gral Flores',
+    direccionLink: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
+    horario: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
+    telefono: '2200 1350 - 2203 4381',
+    ubicacion: { lat: -34.88954118139598, lng: -56.17411952377538 },
   },
   {
     direccion: 'Cerro Largo 1518',
-    detalle: 'Esq. Piedra Alta',
-    direccionLink: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
-    horario: 'Lunes a Viernes: de 8:00 a 12:30hs y de 13:30 a 18:00hs',
+    detalle: 'Esq. Piedra Alta.',
+    direccionLink: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
+    horario: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
     telefono: '2402 0922 - 2402 0031',
-    ubicacion: { lat: -34.9001314, lng: -56.1847301 },
+    ubicacion: { lat: -34.89054118139598, lng: -56.17411952377538 },
   },
 ];
 
 export const Contact = () => {
-  const formik = useFormik({
-    initialValues: {
-      nombre: '',
-      email: '',
-      telefono: '',
-      asunto: '',
-      mensaje: '',
-    },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-
   const lg = useBreakpointValue({ base: false, lg: true });
+  const [contactProps, setContactProps] = useState<contact>();
+  const { isLoading, data, error } = useContactRequest(contactProps);
+
+  {
+    data && console.log('Se ha registrado exitosamente!');
+  }
 
   return (
     <>
@@ -56,7 +54,7 @@ export const Contact = () => {
         <Box position={lg ? 'relative' : 'static'}>
           <Box w="100%">
             <Map
-              position={[data[0].ubicacion, data[1].ubicacion]}
+              position={[info[0].ubicacion, info[1].ubicacion]}
               zoom={lg ? 13 : 12}
               h={lg ? '92vh' : '50vh'}
               center={{ lat: -34.89054118139598, lng: -56.17411952377538 }}
@@ -78,7 +76,7 @@ export const Contact = () => {
             transform={_transform}
             mb={_mb}
           >
-            {data.map((item, index) => (
+            {info.map((item, index) => (
               <>
                 <GridItem>
                   <Link
@@ -135,86 +133,117 @@ export const Contact = () => {
             <Text fontSize="1.375rem" fontWeight="bold" mb="0.75rem">
               Contáctese con nosotros
             </Text>
-            <form onSubmit={formik.handleSubmit}>
-              <VStack spacing={4} align="flex-start">
-                <FormControl>
-                  <FormLabel>Nombre</FormLabel>
-                  <Input
-                    id="nombre"
-                    name="nombre"
-                    type="text"
-                    variant="filled"
-                    bg="blackAlpha.100"
-                    onChange={formik.handleChange}
-                    value={formik.values.nombre}
-                    _hover={{ backgroundColor: 'blackAlpha.300' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Correo electrónico</FormLabel>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    variant="filled"
-                    bg="blackAlpha.100"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    _hover={{ backgroundColor: 'blackAlpha.300' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Teléfono</FormLabel>
-                  <Input
-                    id="telefono"
-                    name="telefono"
-                    type="number"
-                    variant="filled"
-                    bg="blackAlpha.100"
-                    onChange={formik.handleChange}
-                    value={formik.values.telefono}
-                    _hover={{ backgroundColor: 'blackAlpha.300' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Asunto</FormLabel>
-                  <Input
-                    id="asunto"
-                    name="asunto"
-                    type="text"
-                    variant="filled"
-                    bg="blackAlpha.100"
-                    onChange={formik.handleChange}
-                    value={formik.values.asunto}
-                    _hover={{ backgroundColor: 'blackAlpha.300' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Mensaje</FormLabel>
-                  <Textarea
-                    id="mensaje"
-                    name="mensaje"
-                    variant="filled"
-                    resize="none"
-                    bg="blackAlpha.100"
-                    height={22}
-                    onChange={formik.handleChange}
-                    value={formik.values.mensaje}
-                    _hover={{ backgroundColor: 'blackAlpha.300' }}
-                  />
-                </FormControl>
-                <Button
-                  type="submit"
-                  bg="primary.main"
-                  color="white"
-                  width="100%"
-                  mt={2}
-                  _hover={{ backgroundColor: 'primary.main' }}
-                >
-                  ENVIAR
-                </Button>
-              </VStack>
-            </form>
+            <Formik
+              initialValues={{
+                name: '',
+                email: '',
+                phone: '',
+                subject: '',
+                message: '',
+              }}
+              onSubmit={values => {
+                setContactProps(values);
+              }}
+              validateOnChange={false}
+              validateOnBlur={false}
+            >
+              {({ handleSubmit, errors }) => (
+                <form onSubmit={handleSubmit}>
+                  <VStack spacing={3} align="flex-start">
+                    <FormControl isInvalid={!!errors.name}>
+                      <FormLabel htmlFor="name">Nombre</FormLabel>
+                      <Field
+                        as={Input}
+                        id="name"
+                        name="name"
+                        type="text"
+                        variant="filled"
+                        _focus={{ borderColor: 'primary.main' }}
+                        disabled={isLoading}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
+                      />
+                      <FormErrorMessage>{errors.name}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!!errors.email}>
+                      <FormLabel htmlFor="email">Correo electrónico</FormLabel>
+                      <Field
+                        as={Input}
+                        id="email"
+                        name="email"
+                        type=""
+                        variant="filled"
+                        _focus={{ borderColor: 'primary.main' }}
+                        disabled={isLoading}
+                        validate={(value: any) => {
+                          return validateEmail(value);
+                        }}
+                      />
+                      <FormErrorMessage>{errors.email}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!!errors.phone}>
+                      <FormLabel htmlFor="phone">Teléfono</FormLabel>
+                      <Field
+                        as={Input}
+                        id="phone"
+                        name="phone"
+                        type="number"
+                        variant="filled"
+                        _focus={{ borderColor: 'primary.main' }}
+                        disabled={isLoading}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
+                      />
+                      <FormErrorMessage>{errors.phone}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!!errors.subject}>
+                      <FormLabel htmlFor="subject">Asunto</FormLabel>
+                      <Field
+                        as={Input}
+                        id="subject"
+                        name="subject"
+                        type="text"
+                        variant="filled"
+                        _focus={{ borderColor: 'primary.main' }}
+                        disabled={isLoading}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
+                      />
+                      <FormErrorMessage>{errors.subject}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!!errors.message}>
+                      <FormLabel htmlFor="message">Mensaje</FormLabel>
+                      <Field
+                        as={Textarea}
+                        resize="none"
+                        id="message"
+                        name="message"
+                        type="text"
+                        variant="filled"
+                        _focus={{ borderColor: 'primary.main' }}
+                        validate={(value: any) => {
+                          return validateEmpty(value);
+                        }}
+                      />
+                      <FormErrorMessage>{errors.message}</FormErrorMessage>
+                    </FormControl>
+                    <Button
+                      type="submit"
+                      bg="primary.main"
+                      color="white"
+                      width="100%"
+                      mt={2}
+                      _hover={{ backgroundColor: 'primary.main' }}
+                    >
+                      ENVIAR
+                    </Button>
+                  </VStack>
+                </form>
+              )}
+            </Formik>
           </Box>
         </Box>
       </Container>
