@@ -12,6 +12,8 @@ import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as contact } from 'shared/entities/contact';
 import { useState } from 'react';
 
+import { branches } from 'shared/env';
+
 const _firstBoxWidth = { base: '100%', lg: '20rem' };
 const _secondBoxWidth = { base: '100%', lg: '25rem' };
 const _left = { base: '0', lg: '12' };
@@ -22,20 +24,20 @@ const _mb = { base: '8', lg: 'none' };
 
 const info = [
   {
-    direccion: 'Bvar Artgias 3397',
+    address: 'Bvar Artgias 3397',
     detalle: 'Casi Gral Flores',
-    direccionLink: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
-    horario: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
-    telefono: '2200 1350 - 2203 4381',
-    ubicacion: { lat: -34.88954118139598, lng: -56.17411952377538 },
+    location: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
+    schedule: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
+    phone: '2200 1350 - 2203 4381',
+    position: { lat: -34.8704995, lng: -56.17636 },
   },
   {
-    direccion: 'Cerro Largo 1518',
+    address: 'Cerro Largo 1518',
     detalle: 'Esq. Piedra Alta.',
-    direccionLink: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
-    horario: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
-    telefono: '2402 0922 - 2402 0031',
-    ubicacion: { lat: -34.89054118139598, lng: -56.17411952377538 },
+    location: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
+    schedule: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
+    phone: '2402 0922 - 2402 0031',
+    position: { lat: -34.9001314, lng: -56.1847301 },
   },
 ];
 
@@ -54,7 +56,7 @@ export const Contact = () => {
         <Box position={lg ? 'relative' : 'static'}>
           <Box w="100%">
             <Map
-              position={[info[0].ubicacion, info[1].ubicacion]}
+              position={branches.map(item => item.position)}
               zoom={lg ? 13 : 12}
               h={lg ? '92vh' : '50vh'}
               center={{ lat: -34.89054118139598, lng: -56.17411952377538 }}
@@ -76,11 +78,11 @@ export const Contact = () => {
             transform={_transform}
             mb={_mb}
           >
-            {info.map((item, index) => (
+            {branches.map((branch, index) => (
               <>
                 <GridItem>
                   <Link
-                    href={item.direccionLink}
+                    href={branch.location}
                     target="_blank"
                     display="flex"
                     justifyContent="space-between"
@@ -91,8 +93,8 @@ export const Contact = () => {
                     <Box display="flex" alignItems="center">
                       <Icon as={MdLocationOn} boxSize={8} mr="1rem" color="primary.main" />
                       <Box>
-                        <Text>{item.direccion}</Text>
-                        <Text fontSize={14}>{item.detalle}</Text>
+                        <Text>{branch.address}</Text>
+                        {/* <Text fontSize={14}>{branch.location}</Text> */}
                       </Box>
                     </Box>
                     <Icon as={MdOutlineNavigateNext} boxSize={8} color="primary.main" />
@@ -100,7 +102,7 @@ export const Contact = () => {
                 </GridItem>
                 <GridItem display="flex" alignItems="center">
                   <Icon as={BiSolidTime} boxSize={7} mr="1rem" color="primary.main" />
-                  <Text fontSize={17}>{item.horario}</Text>
+                  <Text fontSize={17}>{branch.schedule}</Text>
                 </GridItem>
                 <GridItem
                   key={index}
@@ -111,7 +113,7 @@ export const Contact = () => {
                   borderColor="blackAlpha.300"
                 >
                   <Icon as={FaPhoneAlt} boxSize={6} mr="1rem" color="primary.main" />
-                  <Text>{item.telefono}</Text>
+                  <Text>{branch.whatsApp.text}</Text>
                 </GridItem>
               </>
             ))}

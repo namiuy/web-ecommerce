@@ -9,7 +9,9 @@ type Keys = {
 
 type Branch = {
   address: string;
+  // detail: string; falta la direccion detallada
   schedule: string;
+  // phone: string; falta el telefono fijo
   whatsApp: {
     number: number;
     text: string;
