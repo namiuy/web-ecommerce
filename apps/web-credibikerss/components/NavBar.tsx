@@ -7,4 +7,4 @@ const AnimatedLogo = () => (
   </AnimationWrapper>
 );
 
-export const NavBar = () => <NavBarUI dark logo={AnimatedLogo} />;
+export const NavBar = () => <NavBarUI dark logo={AnimatedLogo} fixed simple />;

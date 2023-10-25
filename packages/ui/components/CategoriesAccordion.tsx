@@ -8,14 +8,12 @@ const LOADING_LENGTH = 6;
 
 const _grey0 = 'brand.grey.0';
 const _grey3 = 'brand.grey.3';
-
 type CategoriesProps = {
   removeParams?: boolean;
   color?: string;
   borderColor?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
-
 type ItemProps = {
   id: string;
   name: string;
@@ -61,15 +59,18 @@ const AccordionItemCustom = ({ name, color, showIcon }: AccordionItemProps) => (
   </AccordionButton>
 );
 
-export const Categories = ({ removeParams, color = _grey3, borderColor = _grey0, onClick }: CategoriesProps) => {
+export const CategoriesAccordion = ({
+  removeParams,
+  color = _grey3,
+  borderColor = _grey0,
+  onClick,
+}: CategoriesProps) => {
   const { isLoading, error, data = [] } = useCategoryList();
   // TODO: removeParams
-
   if (error) {
     console.log(error);
     return <></>;
   }
-
   const categories = isLoading ? getEmptyArray<Category>(LOADING_LENGTH) : data;
 
   return (

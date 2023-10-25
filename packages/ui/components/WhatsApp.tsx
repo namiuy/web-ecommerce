@@ -67,13 +67,10 @@ export const WhatsApp = () => {
                       </Flex>
                     </Heading>
                   </Link>
-                  <Text pt="2" fontSize="lg" color={_grey3}>
-                    {branch.location}
-                  </Text>
-                  <Text fontSize="xs" color={_grey3}>
+                  <Text pt="2" fontSize="sm" color={_grey3}>
                     {branch.address}
                   </Text>
-                  <Text fontSize="xs" color={_grey3}>
+                  <Text pt="2" fontSize="sm" color={_grey3}>
                     {branch.schedule}
                   </Text>
                 </Box>
