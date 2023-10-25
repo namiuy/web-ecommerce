@@ -3,10 +3,8 @@ import { NavBar } from '../components';
 
 const _backgroundColor = 'brand.productDetail.backgroundColor';
 const _borderColor = 'brand.productDetail.borderColor';
-
 const _containerSize = { lg: '65%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
-const _emptyBoxPadding = { lg: '2rem', base: '0.5rem' };
 
 const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
 
@@ -15,10 +13,9 @@ const Historia = () => {
     <Box minHeight={'100vh'} bg={_backgroundColor}>
       <Head />
       <NavBar />
-      <Box py={_emptyBoxPadding}></Box>
-      <Container maxW={_containerSize} p={_containerPadding} boxShadow={_boxShadow} mt={'5rem'} bg={'white'}>
+      <Container maxW={_containerSize} p={_containerPadding} mt="3rem" boxShadow={_boxShadow} bg={'white'}>
         <Heading pb={'0.5rem'} mb={'1rem'} borderBottom={'1px'} borderColor={_borderColor}>
-          Historia
+          Nuestra historia
         </Heading>
         <Box>
           <Text pb={'1.25rem'} style={{ textAlign: 'justify' }}>
