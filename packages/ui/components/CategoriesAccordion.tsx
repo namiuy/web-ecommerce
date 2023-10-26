@@ -30,7 +30,7 @@ type AccordionItemProps = {
 
 const getUrl = (categoryId: string) => (!isBrowser() ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: categoryId }));
 
-export const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }: ItemProps) => {
+const Item = ({ id, name, color = _grey3, borderColor = _grey0, onClick }: ItemProps) => {
   return (
     <Link href={getUrl(id)} onClick={onClick}>
       <Flex

@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
-import { Categories, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
+import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
 import { NavBar } from '../../components';
 
 type ProductsPageProps = {
@@ -12,7 +12,7 @@ type ProductsPageProps = {
 
 const CategoriesAndBrands = () => (
   <Container pt="4rem">
-    <Categories />
+    <CategoriesAccordion />
     <Box h="4rem" />
     <Brands />
   </Container>
