@@ -1,5 +1,5 @@
-const primary = '#6A0000';
-const secondary = '#800a0b';
+const primary = '#1d7531';
+const secondary = '#238a3a';
 
 const white = '#ffffff';
 const black = '#000000';
@@ -45,7 +45,7 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
-      background: '#fafafa',
+      background: greyBg,
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
@@ -170,12 +170,6 @@ export const theme: Record<string, any> = {
             },
           },
         },
-      },
-      contact: {
-        input : {
-          borderColor: primary,
-
-        }
       },
     },
   },

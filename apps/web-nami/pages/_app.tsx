@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
 import { ThemeProvider, WhatsApp } from 'ui';
-import { theme } from '../theme';
+import { theme } from '../theme/index';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
