@@ -23,10 +23,11 @@ import {
   Box,
   Skeleton,
   ImageModal,
+  Card,
   AddToCartButton,
   QuoteRequestButton,
-  Card,
 } from 'ui';
+import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 import { isBrowser, useProductGet, product as productConf } from 'shared';
 import { useRouter } from 'next/router';
@@ -59,7 +60,7 @@ export type ProductActionProps = {
   product?: Product;
 };
 
-type ProductAction = 'add_to_cart' | 'quote_request';
+type ProductAction = 'add_to_cart' | 'quote_request' | 'whatsapp_request';
 
 type ProductDetailProps = {
   id: string;
@@ -69,6 +70,7 @@ type ProductDetailProps = {
 const getAction = (action: ProductAction, props: ProductActionProps) => {
   if (action === 'add_to_cart') return <AddToCartButton key={action} {...props} />;
   if (action === 'quote_request') return <QuoteRequestButton key={action} {...props} />;
+  if (action === 'whatsapp_request') return <WhatsAppRequestButton key={action} {...props} />; // TODO: implement
   return <></>;
 };
 
@@ -95,7 +97,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
 
   return (
     <>
-      <Container maxW={_containerSize} px="0" mt={{ lg: '5rem', base: '2.5rem' }}>
+      <Container maxW={_containerSize} px="0" mt="2.75rem">
         <Flex justifyContent="space-between">
           <Flex fontSize="0.875rem" color={'brand.grey.2'}>
             {isLoading ? (
@@ -117,7 +119,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               </Box>
             )}
           </Flex>
-          {true && (
+          {true && ( //fix: isUserAdmin
             <Box>
               <ButtonEdit onClick={onOpen} />
               <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
@@ -125,7 +127,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           )}
         </Flex>
       </Container>
-      <Card m="auto" maxW={_containerSize} p={_containerPadding}>
+      <Card maxW={_containerSize} p={_containerPadding} m="0 auto 3rem auto">
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
@@ -184,7 +186,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               ) : data?.stock ? (
                 <Text color={_smallTextColor} fontSize="0.75rem" py="1rem">
                   Stock
-                  {data?.stock && (
+                  {data?.stock === 'AV' && (
                     <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
                       <CheckIcon ml="5px" boxSize="3" mb="3px" />
                     </Tooltip>
@@ -203,12 +205,12 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               ) : (
                 <></>
               )}
-              {isLoading ? (
+              {/* {isLoading ? (
                 <Skeleton w="50%" h="1.5rem" my="1rem" />
               ) : (
                 <Flex alignItems="center">
                   <Text mr="0.75rem">Cantidad</Text>
-                  <NumberInput size="xs" maxW={20} defaultValue={15} min={10}>
+                  <NumberInput size="xs" maxW={20} defaultValue={1} min={1}>
                     <NumberInputField />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -216,11 +218,10 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                     </NumberInputStepper>
                   </NumberInput>
                 </Flex>
-              )}
-
+              )} */}
               {isLoading ? (
                 <>
-                  <Skeleton w="100%" h="2.5rem" mb="1rem" />
+                  {/* <Skeleton w="100%" h="2.5rem" mb="1rem" /> */}
                   <Skeleton w="100%" h="2.5rem" />
                 </>
               ) : (
