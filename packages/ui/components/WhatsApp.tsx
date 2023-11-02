@@ -45,7 +45,9 @@ export const WhatsApp = () => {
       <Modal isOpen={isOpen} onClose={onClose} size={'xl'} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color={_grey3}>Contáctese con nosotros</ModalHeader>
+          <ModalHeader color={_grey3} fontSize="2xl" pb="0.25rem">
+            Contáctese con nosotros
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody
             pb="1.5rem"
@@ -67,10 +69,10 @@ export const WhatsApp = () => {
                       </Flex>
                     </Heading>
                   </Link>
-                  <Text pt="2" fontSize="sm" color={_grey3}>
+                  <Text pt="2" fontSize="lg" color={_grey3}>
                     {branch.address}
                   </Text>
-                  <Text pt="2" fontSize="sm" color={_grey3}>
+                  <Text pt="2" fontSize="lg" color={_grey3}>
                     {branch.schedule}
                   </Text>
                 </Box>
