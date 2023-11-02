@@ -219,14 +219,8 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                   </NumberInput>
                 </Flex>
               )} */}
-              {isLoading ? (
-                <>
-                  {/* <Skeleton w="100%" h="2.5rem" mb="1rem" /> */}
-                  <Skeleton w="100%" h="2.5rem" />
-                </>
-              ) : (
-                <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
-              )}
+
+              <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
             </Box>
           </GridItem>
           {(isLoading || (data && data?.description)) && (

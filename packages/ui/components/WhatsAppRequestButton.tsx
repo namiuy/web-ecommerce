@@ -1,5 +1,5 @@
-import { Icon, Link, Skeleton } from '@chakra-ui/react';
-import { Button } from 'ui';
+import { Icon, Link } from '@chakra-ui/react';
+import { Button, Skeleton } from 'ui';
 import { FC } from 'react';
 import { ProductActionProps } from '../templates/ProductDetail';
 import { BiLogoWhatsapp } from 'react-icons/bi';
