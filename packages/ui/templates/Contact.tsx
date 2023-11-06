@@ -94,7 +94,7 @@ export const Contact = () => {
                       <Icon as={MdLocationOn} boxSize={8} mr="1rem" color="primary.main" />
                       <Box>
                         <Text>{branch.address}</Text>
-                        {/* <Text fontSize={14}>{branch.location}</Text> */}
+                        <Text fontSize={14}>{branch.addressDetail}</Text>
                       </Box>
                     </Box>
                     <Icon as={MdOutlineNavigateNext} boxSize={8} color="primary.main" />
@@ -113,7 +113,22 @@ export const Contact = () => {
                   borderColor="blackAlpha.300"
                 >
                   <Icon as={FaPhoneAlt} boxSize={6} mr="1rem" color="primary.main" />
-                  <Text>{branch.whatsApp.text}</Text>
+
+                  {branch.phone.map((phone, index) => (
+                    <Box display="flex">
+                      {index != 0 && <Text px="0.375rem"> - </Text>}
+                      <Link
+                        key={index}
+                        href={`tel:${phone.number}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        style={{ textDecoration: 'none' }}
+                        _hover={{ color: 'blackAlpha.900' }}
+                      >
+                        {phone.text}
+                      </Link>
+                    </Box>
+                  ))}
                 </GridItem>
               </>
             ))}

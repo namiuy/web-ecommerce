@@ -65,7 +65,16 @@ const socialNeworksItems = [
 const branches = [
   {
     address: 'Bvr. Artigas 3397',
+    adressDetail: 'Casi Gral. Flores',
     schedule: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
+    phone: [{
+      number: 59822001350,
+      text: '2200 1350',
+      }, 
+      {
+      number: 59822034381,
+      text: '2203 4381', }
+    ],
     whatsApp: {
       number: 598098000600,
       text: '098 000 600',
@@ -74,7 +83,16 @@ const branches = [
   },
   {
     address: 'Cerro Largo 1518',
+    adressDetail: 'Esq. Piedra Alta',
     schedule: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
+    phone: [{
+      number: 59824020922,
+      text: '2402 0922',
+      }, 
+      {
+      number: 59824020031,
+      text: '2402 0031', }
+    ],
     whatsApp: {
       number: 598091033282,
       text: '091 033 282',
