@@ -1,6 +1,14 @@
-import { Link, Icon, Textarea, useBreakpointValue, FormErrorMessage } from '@chakra-ui/react';
+import {
+  Link,
+  Icon,
+  Textarea,
+  useBreakpointValue,
+  FormErrorMessage,
+  extendTheme,
+  ChakraProvider,
+} from '@chakra-ui/react';
 import { Box, Container, Text, Map, Grid, GridItem, Button } from 'ui';
-import { Field, Formik, useFormik } from 'formik';
+import { Field, Formik } from 'formik';
 import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
 import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
@@ -22,24 +30,46 @@ const _top = { base: '0', lg: '50%' };
 const _transform = { base: 'none', lg: 'translateY(-50%)' };
 const _mb = { base: '8', lg: 'none' };
 
-const info = [
-  {
-    address: 'Bvar Artgias 3397',
-    detalle: 'Casi Gral Flores',
-    location: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
-    schedule: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
-    phone: '2200 1350 - 2203 4381',
-    position: { lat: -34.8704995, lng: -56.17636 },
+const _borderColor = 'brand.navBar.input.borderColor';
+// const _focusBorderColor = 'brand.contact.input.borderColor';
+
+const activeLabelStyles = {
+  transform: 'scale(0.85) translateY(-24px)',
+};
+export const theme = extendTheme({
+  components: {
+    Form: {
+      variants: {
+        floating: {
+          container: {
+            _focusWithin: {
+              label: {
+                ...activeLabelStyles,
+              },
+            },
+            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label':
+              {
+                ...activeLabelStyles,
+              },
+            label: {
+              top: 0,
+              left: 0,
+              zIndex: 2,
+              position: 'absolute',
+
+              backgroundColor: 'white',
+              pointerEvents: 'none',
+              mx: 3,
+              px: 1,
+              my: 2,
+              transformOrigin: 'left top',
+            },
+          },
+        },
+      },
+    },
   },
-  {
-    address: 'Cerro Largo 1518',
-    detalle: 'Esq. Piedra Alta.',
-    location: 'https://goo.gl/maps/8XcU2MwL8H1Z6j8N8',
-    schedule: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
-    phone: '2402 0922 - 2402 0031',
-    position: { lat: -34.9001314, lng: -56.1847301 },
-  },
-];
+});
 
 export const Contact = () => {
   const lg = useBreakpointValue({ base: false, lg: true });
@@ -92,7 +122,7 @@ export const Contact = () => {
                   >
                     <Box display="flex" alignItems="center">
                       <Icon as={MdLocationOn} boxSize={8} mr="1rem" color="primary.main" />
-                      <Box>
+                      <Box w="100%">
                         <Text>{branch.address}</Text>
                         <Text fontSize={14}>{branch.addressDetail}</Text>
                       </Box>
@@ -147,7 +177,7 @@ export const Contact = () => {
             transform={_transform}
             mb={_mb}
           >
-            <Text fontSize="1.375rem" fontWeight="bold" mb="0.75rem">
+            <Text fontSize="1.375rem" fontWeight="bold" mb="1.25rem">
               Contáctese con nosotros
             </Text>
             <Formik
@@ -166,9 +196,109 @@ export const Contact = () => {
             >
               {({ handleSubmit, errors }) => (
                 <form onSubmit={handleSubmit}>
-                  <VStack spacing={3} align="flex-start">
-                    <FormControl isInvalid={!!errors.name}>
-                      <FormLabel htmlFor="name">Nombre</FormLabel>
+                  <VStack spacing={5} align="flex-start">
+                    <ChakraProvider theme={theme}>
+                      <Box w="100%">
+                        <FormControl isInvalid={!!errors.name} variant="floating">
+                          <Field
+                            as={Input}
+                            id="name"
+                            placeholder=" "
+                            name="name"
+                            type="text"
+                            _focus={{ borderColor: 'primary.main' }}
+                            disabled={isLoading}
+                            validate={(value: any) => {
+                              return validateEmpty(value);
+                            }}
+                          />
+                          <FormLabel>Nombre</FormLabel>
+                          <FormErrorMessage>{errors.name}</FormErrorMessage>
+                        </FormControl>
+                      </Box>
+                    </ChakraProvider>
+                    <ChakraProvider theme={theme}>
+                      <Box w="100%">
+                        <FormControl isInvalid={!!errors.email} variant="floating">
+                          <Field
+                            as={Input}
+                            id="email"
+                            placeholder=" "
+                            name="email"
+                            type="text"
+                            _focus={{ borderColor: 'primary.main' }}
+                            disabled={isLoading}
+                            validate={(value: any) => {
+                              return validateEmail(value);
+                            }}
+                          />
+                          <FormLabel>Correo electrónico</FormLabel>
+                          <FormErrorMessage>{errors.email}</FormErrorMessage>
+                        </FormControl>
+                      </Box>
+                    </ChakraProvider>
+                    <ChakraProvider theme={theme}>
+                      <Box w="100%">
+                        <FormControl isInvalid={!!errors.phone} variant="floating">
+                          <Field
+                            as={Input}
+                            id="phone"
+                            placeholder=" "
+                            name="phone"
+                            type="number"
+                            _focus={{ borderColor: 'primary.main' }}
+                            disabled={isLoading}
+                            validate={(value: any) => {
+                              return validateEmpty(value);
+                            }}
+                          />
+                          <FormLabel>Telefono</FormLabel>
+                          <FormErrorMessage>{errors.phone}</FormErrorMessage>
+                        </FormControl>
+                      </Box>
+                    </ChakraProvider>
+                    <ChakraProvider theme={theme}>
+                      <Box w="100%">
+                        <FormControl isInvalid={!!errors.subject} variant="floating">
+                          <Field
+                            as={Input}
+                            id="subject"
+                            placeholder=" "
+                            name="subject"
+                            type="text"
+                            _focus={{ borderColor: 'primary.main' }}
+                            disabled={isLoading}
+                            validate={(value: any) => {
+                              return validateEmpty(value);
+                            }}
+                          />
+                          <FormLabel>Asunto</FormLabel>
+                          <FormErrorMessage>{errors.subject}</FormErrorMessage>
+                        </FormControl>
+                      </Box>
+                    </ChakraProvider>
+                    <ChakraProvider theme={theme}>
+                      <Box w="100%">
+                        <FormControl isInvalid={!!errors.message} variant="floating">
+                          <Field
+                            as={Textarea}
+                            placeholder=" "
+                            resize="none"
+                            id="message"
+                            name="message"
+                            type="text"
+                            _focus={{ borderColor: 'primary.main' }}
+                            validate={(value: any) => {
+                              return validateEmpty(value);
+                            }}
+                          />
+                          <FormLabel>Mensaje</FormLabel>
+                          <FormErrorMessage>{errors.message}</FormErrorMessage>
+                        </FormControl>
+                      </Box>
+                    </ChakraProvider>
+
+                    {/* <FormControl isInvalid={!!errors.name} variant="floating">
                       <Field
                         as={Input}
                         id="name"
@@ -181,6 +311,7 @@ export const Contact = () => {
                           return validateEmpty(value);
                         }}
                       />
+                      <FormLabel>Nombre</FormLabel>
                       <FormErrorMessage>{errors.name}</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!!errors.email}>
@@ -246,7 +377,7 @@ export const Contact = () => {
                         }}
                       />
                       <FormErrorMessage>{errors.message}</FormErrorMessage>
-                    </FormControl>
+                    </FormControl> */}
                     <Button
                       type="submit"
                       bg="primary.main"

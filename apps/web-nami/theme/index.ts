@@ -115,7 +115,6 @@ export const theme: Record<string, any> = {
         backgroundColor: secondary,
         color: white,
       },
-
       drawerMenu: {
         backgroundColor: white,
         backdropFilter: 'none',
@@ -123,6 +122,12 @@ export const theme: Record<string, any> = {
           color: black,
           borderColor: white,
         },
+      },
+      contact: {
+        input : {
+          borderColor: primary,
+
+        }
       },
     },
   },
