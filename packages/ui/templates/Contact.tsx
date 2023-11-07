@@ -6,11 +6,12 @@ import {
   FormErrorMessage,
   extendTheme,
   ChakraProvider,
+  Flex,
 } from '@chakra-ui/react';
 import { Box, Container, Text, Map, Grid, GridItem, Button } from 'ui';
 import { Field, Formik } from 'formik';
 import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
-import { MdLocationOn } from 'react-icons/md';
+import { MdCheckCircle, MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
 import { MdOutlineNavigateNext } from 'react-icons/md';
@@ -75,10 +76,6 @@ export const Contact = () => {
   const lg = useBreakpointValue({ base: false, lg: true });
   const [contactProps, setContactProps] = useState<contact>();
   const { isLoading, data, error } = useContactRequest(contactProps);
-
-  {
-    data && console.log('Se ha registrado exitosamente!');
-  }
 
   return (
     <>
@@ -189,7 +186,8 @@ export const Contact = () => {
                 message: '',
               }}
               onSubmit={values => {
-                setContactProps(values);
+                // setContactProps(values);
+                alert('Exito');
               }}
               validateOnChange={false}
               validateOnBlur={false}
@@ -392,6 +390,13 @@ export const Contact = () => {
                 </form>
               )}
             </Formik>
+
+            {data && (
+              <Flex gap="1rem" justifyContent="center" alignItems="center" mt="1rem">
+                <Icon as={MdCheckCircle} boxSize={5} color="green.400" />
+                <Text>El mensaje fue enviado correctamente.</Text>
+              </Flex>
+            )}
           </Box>
         </Box>
       </Container>
