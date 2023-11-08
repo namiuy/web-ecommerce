@@ -34,44 +34,6 @@ const _mb = { base: '8', lg: 'none' };
 const _borderColor = 'brand.navBar.input.borderColor';
 // const _focusBorderColor = 'brand.contact.input.borderColor';
 
-const activeLabelStyles = {
-  transform: 'scale(0.85) translateY(-24px)',
-};
-export const theme = extendTheme({
-  components: {
-    Form: {
-      variants: {
-        floating: {
-          container: {
-            _focusWithin: {
-              label: {
-                ...activeLabelStyles,
-              },
-            },
-            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label':
-              {
-                ...activeLabelStyles,
-              },
-            label: {
-              top: 0,
-              left: 0,
-              zIndex: 2,
-              position: 'absolute',
-
-              backgroundColor: 'white',
-              pointerEvents: 'none',
-              mx: 3,
-              px: 1,
-              my: 2,
-              transformOrigin: 'left top',
-            },
-          },
-        },
-      },
-    },
-  },
-});
-
 export const Contact = () => {
   const lg = useBreakpointValue({ base: false, lg: true });
   const [contactProps, setContactProps] = useState<contact>();
@@ -106,7 +68,7 @@ export const Contact = () => {
             mb={_mb}
           >
             {branches.map((branch, index) => (
-              <>
+              <div key={index}>
                 <GridItem>
                   <Link
                     href={branch.location}
@@ -157,7 +119,7 @@ export const Contact = () => {
                     </Box>
                   ))}
                 </GridItem>
-              </>
+              </div>
             ))}
           </Grid>
           <Box
@@ -186,8 +148,7 @@ export const Contact = () => {
                 message: '',
               }}
               onSubmit={values => {
-                // setContactProps(values);
-                alert('Exito');
+                setContactProps(values);
               }}
               validateOnChange={false}
               validateOnBlur={false}
@@ -195,106 +156,101 @@ export const Contact = () => {
               {({ handleSubmit, errors }) => (
                 <form onSubmit={handleSubmit}>
                   <VStack spacing={5} align="flex-start">
-                    <ChakraProvider theme={theme}>
-                      <Box w="100%">
-                        <FormControl isInvalid={!!errors.name} variant="floating">
-                          <Field
-                            as={Input}
-                            id="name"
-                            placeholder=" "
-                            name="name"
-                            type="text"
-                            _focus={{ borderColor: 'primary.main' }}
-                            disabled={isLoading}
-                            validate={(value: any) => {
-                              return validateEmpty(value);
-                            }}
-                          />
-                          <FormLabel>Nombre</FormLabel>
-                          <FormErrorMessage>{errors.name}</FormErrorMessage>
-                        </FormControl>
-                      </Box>
-                    </ChakraProvider>
-                    <ChakraProvider theme={theme}>
-                      <Box w="100%">
-                        <FormControl isInvalid={!!errors.email} variant="floating">
-                          <Field
-                            as={Input}
-                            id="email"
-                            placeholder=" "
-                            name="email"
-                            type="text"
-                            _focus={{ borderColor: 'primary.main' }}
-                            disabled={isLoading}
-                            validate={(value: any) => {
-                              return validateEmail(value);
-                            }}
-                          />
-                          <FormLabel>Correo electrónico</FormLabel>
-                          <FormErrorMessage>{errors.email}</FormErrorMessage>
-                        </FormControl>
-                      </Box>
-                    </ChakraProvider>
-                    <ChakraProvider theme={theme}>
-                      <Box w="100%">
-                        <FormControl isInvalid={!!errors.phone} variant="floating">
-                          <Field
-                            as={Input}
-                            id="phone"
-                            placeholder=" "
-                            name="phone"
-                            type="number"
-                            _focus={{ borderColor: 'primary.main' }}
-                            disabled={isLoading}
-                            validate={(value: any) => {
-                              return validateEmpty(value);
-                            }}
-                          />
-                          <FormLabel>Telefono</FormLabel>
-                          <FormErrorMessage>{errors.phone}</FormErrorMessage>
-                        </FormControl>
-                      </Box>
-                    </ChakraProvider>
-                    <ChakraProvider theme={theme}>
-                      <Box w="100%">
-                        <FormControl isInvalid={!!errors.subject} variant="floating">
-                          <Field
-                            as={Input}
-                            id="subject"
-                            placeholder=" "
-                            name="subject"
-                            type="text"
-                            _focus={{ borderColor: 'primary.main' }}
-                            disabled={isLoading}
-                            validate={(value: any) => {
-                              return validateEmpty(value);
-                            }}
-                          />
-                          <FormLabel>Asunto</FormLabel>
-                          <FormErrorMessage>{errors.subject}</FormErrorMessage>
-                        </FormControl>
-                      </Box>
-                    </ChakraProvider>
-                    <ChakraProvider theme={theme}>
-                      <Box w="100%">
-                        <FormControl isInvalid={!!errors.message} variant="floating">
-                          <Field
-                            as={Textarea}
-                            placeholder=" "
-                            resize="none"
-                            id="message"
-                            name="message"
-                            type="text"
-                            _focus={{ borderColor: 'primary.main' }}
-                            validate={(value: any) => {
-                              return validateEmpty(value);
-                            }}
-                          />
-                          <FormLabel>Mensaje</FormLabel>
-                          <FormErrorMessage>{errors.message}</FormErrorMessage>
-                        </FormControl>
-                      </Box>
-                    </ChakraProvider>
+                    <Box w="100%">
+                      <FormControl isInvalid={!!errors.name} variant="floating">
+                        <Field
+                          as={Input}
+                          id="name"
+                          placeholder=" "
+                          name="name"
+                          type="text"
+                          _focus={{ borderColor: 'primary.main' }}
+                          disabled={isLoading}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormLabel>Nombre</FormLabel>
+                        <FormErrorMessage>{errors.name}</FormErrorMessage>
+                      </FormControl>
+                    </Box>
+
+                    <Box w="100%">
+                      <FormControl isInvalid={!!errors.email} variant="floating">
+                        <Field
+                          as={Input}
+                          id="email"
+                          placeholder=" "
+                          name="email"
+                          type="text"
+                          _focus={{ borderColor: 'primary.main' }}
+                          disabled={isLoading}
+                          validate={(value: any) => {
+                            return validateEmail(value);
+                          }}
+                        />
+                        <FormLabel>Correo electrónico</FormLabel>
+                        <FormErrorMessage>{errors.email}</FormErrorMessage>
+                      </FormControl>
+                    </Box>
+
+                    <Box w="100%">
+                      <FormControl isInvalid={!!errors.phone} variant="floating">
+                        <Field
+                          as={Input}
+                          id="phone"
+                          placeholder=" "
+                          name="phone"
+                          type="number"
+                          _focus={{ borderColor: 'primary.main' }}
+                          disabled={isLoading}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormLabel>Telefono</FormLabel>
+                        <FormErrorMessage>{errors.phone}</FormErrorMessage>
+                      </FormControl>
+                    </Box>
+
+                    <Box w="100%">
+                      <FormControl isInvalid={!!errors.subject} variant="floating">
+                        <Field
+                          as={Input}
+                          id="subject"
+                          placeholder=" "
+                          name="subject"
+                          type="text"
+                          _focus={{ borderColor: 'primary.main' }}
+                          disabled={isLoading}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormLabel>Asunto</FormLabel>
+                        <FormErrorMessage>{errors.subject}</FormErrorMessage>
+                      </FormControl>
+                    </Box>
+
+                    <Box w="100%">
+                      <FormControl isInvalid={!!errors.message} variant="floating">
+                        <Field
+                          as={Textarea}
+                          placeholder=" "
+                          resize="none"
+                          id="message"
+                          name="message"
+                          type="text"
+                          _focus={{ borderColor: 'primary.main' }}
+                          disabled={isLoading}
+                          validate={(value: any) => {
+                            return validateEmpty(value);
+                          }}
+                        />
+                        <FormLabel>Mensaje</FormLabel>
+                        <FormErrorMessage>{errors.message}</FormErrorMessage>
+                      </FormControl>
+                    </Box>
 
                     {/* <FormControl isInvalid={!!errors.name} variant="floating">
                       <Field
