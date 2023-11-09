@@ -146,10 +146,7 @@ export const theme: Record<string, any> = {
                 ...activeLabelStyles,
               },
             },
-            _focusVisible: {
-              borderColor: 'primary.main',
-              boxShadow: 'none',
-            },
+            
             'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label':
               {
                 ...activeLabelStyles,
@@ -166,6 +163,7 @@ export const theme: Record<string, any> = {
               my: 2,
               transformOrigin: 'left top',
             },
+            
           },
         },
       },
