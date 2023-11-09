@@ -226,11 +226,11 @@ export const ModalQuote: FC<ModalQuoteProps> = ({ isOpen, product, onClose }) =>
                           <Field as={Textarea} disabled={isLoading} name="comments" value={values.comments} />
                         </FormControl>
 
-                        <FormControl isInvalid={Boolean(attachmentError)}>
+                        {/* <FormControl isInvalid={Boolean(attachmentError)}>
                           <FormLabel>Adjuntar ultimo recibo de sueldo</FormLabel>
                           <FileUpload disabled={isLoading} path="attachments" onSuccess={setAttachment} />
                           <FormErrorMessage fontSize={_formErrorMessageFontSize}>{attachmentError}</FormErrorMessage>
-                        </FormControl>
+                        </FormControl> */}
 
                         <Progress
                           h={isLoading ? '4px' : '1px'}
