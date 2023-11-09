@@ -15,6 +15,8 @@ export type NavBarProps = {
   logo?: ElementType;
   fontWeight?: number;
   menuItems?: Array<MenuItem>;
+  fixed?: boolean;
+  simple?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {
@@ -22,13 +24,15 @@ export const NavBar = (props: NavBarProps) => {
     base: false,
     lg: true,
   });
+  const { fixed } = props;
   const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
+
   return (
     <>
-      <Box h="5rem" bg="black" />
-      <Box position="fixed" top="0" w="100%" zIndex="999">
+      <Box w="100%" zIndex="999" position={fixed ? 'fixed' : 'static'}>
         <NavBarDisplay {...props} menuItems={menuItems} />
       </Box>
+      {fixed && <Box h="5.5rem" bg="black" />}
     </>
   );
 };

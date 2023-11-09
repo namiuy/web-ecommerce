@@ -1,5 +1,5 @@
 import lscache from 'lscache';
-import { Menu, MenuButton, MenuList, useDisclosure, Avatar, MenuItem, MenuGroup, Center } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList, useDisclosure, Avatar, MenuItem, MenuGroup } from '@chakra-ui/react';
 import { MdAdd, MdLogout } from 'react-icons/md';
 import { ProductAddModal } from './ProductCard/ProductAddModal';
 import { User } from 'shared/entities/user';

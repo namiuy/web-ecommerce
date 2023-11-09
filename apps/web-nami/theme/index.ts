@@ -2,6 +2,7 @@ const primary = '#6A0000';
 const secondary = '#e53e3e';
 
 const white = '#ffffff';
+const black = '#000000';
 const greyBg = '#fafafa';
 const borderColor = '#eeeeee';
 const smallText = '#909090';
@@ -108,6 +109,19 @@ export const theme: Record<string, any> = {
           _hover: {
             color: 'rgb(201, 201, 201)',
           },
+        },
+      },
+      avatar: {
+        backgroundColor: secondary,
+        color: white,
+      },
+
+      drawerMenu: {
+        backgroundColor: white,
+        backdropFilter: 'none',
+        item: {
+          color: black,
+          borderColor: white,
         },
       },
     },

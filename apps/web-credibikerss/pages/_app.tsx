@@ -9,7 +9,9 @@ import { keys } from 'shared';
 
 const { googleGaMeasurementId } = keys;
 
-ReactGA.initialize(googleGaMeasurementId);
+if (googleGaMeasurementId) {
+  ReactGA.initialize(googleGaMeasurementId);
+}
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
