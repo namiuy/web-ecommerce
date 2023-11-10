@@ -83,6 +83,11 @@ const branches = [
       text: '098 000 600',
     },
     mapUrl: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
+    location: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
+    position: {
+      lat: -34.87058963647513, 
+      lng : -56.17624398650627
+    },
   },
   {
     location : 'Montevideo',
@@ -104,6 +109,11 @@ const branches = [
       text: '091 033 282',
     },
     mapUrl: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
+    location: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
+    position: {
+      lat: -34.9003072728495, 
+      lng : -56.18455037487027
+    },
   },
 ];
 

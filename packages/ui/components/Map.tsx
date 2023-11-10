@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 
 const { googleMapsApiKey } = keys;
 
-const styles = [
+const stylesDark = [
   {
     featureType: 'all',
     elementType: 'all',
@@ -58,6 +58,27 @@ const styles = [
   },
 ];
 
+const stylesLight = [
+  {
+    featureType: 'poi',
+    elementType: 'all',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'transit',
+    elementType: 'all',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+];
+
 const StyleWrapper = styled.div`
   .gm-style-cc {
     display: none;
@@ -70,6 +91,7 @@ type MapComponentProps = {
   w: string | number;
   h: string | number;
   center: Position;
+  dark: boolean;
   zoom: number;
   children: ReactNode;
 };
@@ -77,10 +99,10 @@ type MapComponentProps = {
 type MapProps = {
   w?: string | number;
   h?: string | number;
+  center: Position;
+  dark?: boolean;
   zoom?: number;
-  // center: Position;
-  // position: Position[];
-  position: Position;
+  position: Position[];
 };
 
 // @ts-ignore
@@ -111,7 +133,7 @@ const Marker: React.FC<window.google.maps.MarkerOptions> = options => {
   return null;
 };
 
-const MyMapComponent: React.FC<MapComponentProps> = ({ w, h, children, ...options }) => {
+const MyMapComponent: React.FC<MapComponentProps> = ({ w, h, dark, children, ...options }) => {
   const ref = useRef<HTMLDivElement>(null);
   // @ts-ignore
   const [map, setMap] = useState<window.google.maps.Map>();
@@ -123,7 +145,7 @@ const MyMapComponent: React.FC<MapComponentProps> = ({ w, h, children, ...option
       map.setOptions({
         ...options,
         disableDefaultUI: true,
-        styles,
+        styles: dark ? stylesDark : stylesLight,
       });
       setMap(map);
     }
@@ -143,7 +165,7 @@ const MyMapComponent: React.FC<MapComponentProps> = ({ w, h, children, ...option
   );
 };
 
-export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 16, /*center,*/ position }) => {
+export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 16, dark = false, center, position }) => {
   const render = (status: Status) => {
     if (status === Status.LOADING) return <Skeleton w={w} h={h} />;
     if (status === Status.FAILURE) console.log(status);
@@ -153,10 +175,10 @@ export const Map: FC<MapProps> = ({ w = '100%', h = '100%', zoom = 16, /*center,
   return (
     <Wrapper apiKey={googleMapsApiKey} render={render}>
       <StyleWrapper>
-        <MyMapComponent w={w} h={h} center={position} zoom={zoom}>
-          {/* {position.map((pos, i) => ( */}
-          <Marker position={position} />
-          {/* ))} */}
+        <MyMapComponent w={w} h={h} center={center} zoom={zoom} dark={dark}>
+          {position.map((pos, i) => (
+            <Marker key={i} position={pos} />
+          ))}
         </MyMapComponent>
       </StyleWrapper>
     </Wrapper>
