@@ -17,9 +17,9 @@ export const Products: FC<ProductsProps> = props => {
   return (
     <Box minH="calc(100vh - 5rem)" bg={_bg} pt={{ base: 0, lg: '3rem' }}>
       <Container>
-        <Grid gridTemplateColumns={{ /*base: 'auto',lg: showFilters ? '1fr 3fr' : 'auto' */ lg: '1fr 3fr' }}>
+        <Grid gridTemplateColumns={{ /*base: 'auto',lg: showFilters ? '1fr 3fr' : 'auto' */ lg: '2fr 5fr' }}>
           {/* {showFilters && ( */}
-          <Box pt={{ base: 0, lg: '2rem' }}>
+          <Box pt={{ base: 0, lg: '2.125rem' }} mr={{ base: 0, lg: '3rem' }}>
             <ProductFilters {...props} />
           </Box>
           {/* )} */}

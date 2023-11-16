@@ -12,6 +12,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import {
   Container,
@@ -38,6 +39,7 @@ import { User } from 'shared/entities/user';
 
 const { afterPriceText } = productConf;
 
+const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
 const _smallTextColor = 'brand.productDetail.smallText';
 const _tooltipBg = 'brand.productDetail.tooltipBg';
@@ -92,6 +94,8 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
   // const { error, data } = useProductGet(id);
   // const [isLoading, setIsLoading] = useState(true);
 
+  const isMobile = useBreakpointValue({ base: true, sm: false });
+
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
@@ -106,7 +110,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
   }
 
   return (
-    <Box bg="rgb(237 237 237)" py={_mainBoxPaddingY}>
+    <Box bg={_background} py={_mainBoxPaddingY}>
       <Container maxW={_containerSize} px="0">
         {data && (
           <Flex justifyContent="space-between" alignItems="center">
@@ -143,7 +147,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           <GridItem area="image" placeSelf="center" pb={_gridItemImagePaddingBottom} pr={_gridItemImagePaddingRight}>
             <Box>
               <Skeleton isLoaded={!isLoading}>
-                {data && <ImageModal image={data?.image_url} title={data?.brand?.name} />}
+                {data && <ImageModal image={data?.image_url} title={data?.brand?.name} isMobile={!!isMobile} />}
               </Skeleton>
             </Box>
           </GridItem>
@@ -232,13 +236,13 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
               pt="2rem"
             >
               <Skeleton isLoaded={!isLoading}>
-                <Text lineHeight="1.375rem" textAlign="justify">
+                <Text lineHeight="1.5rem" textAlign="justify">
                   {data?.description.split('. ').map((linea, i) => (
-                    <span key={i}>
+                    <Text as="span" key={i}>
                       {'-'}
                       {linea}
                       <br />
-                    </span>
+                    </Text>
                   ))}
                 </Text>
               </Skeleton>

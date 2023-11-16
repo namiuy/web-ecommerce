@@ -43,6 +43,7 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
+      background: "rgb(237 237 237)",
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
