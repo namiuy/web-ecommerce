@@ -7,7 +7,6 @@ import {
   Link,
   useDisclosure,
   Flex,
-  AspectRatio,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -42,18 +41,27 @@ const { afterPriceText } = productConf;
 const _borderColor = 'brand.productDetail.borderColor';
 const _smallTextColor = 'brand.productDetail.smallText';
 const _tooltipBg = 'brand.productDetail.tooltipBg';
-const _relatedLinksMainContainerHover = { bg: 'blue.50' };
 const _relatedLinksLinkColor = 'brand.productDetail.linkColor';
+const _relatedLinksMainContainerHover = { bg: 'blue.50' };
 
-const _containerSize = { lg: '65%', base: '90%' };
-const _containerPadding = { lg: '2rem 2rem 3rem 2rem', base: '1rem' };
+const _mainBoxPaddingY = { lg: '3rem', base: '2rem' };
+
+const _containerSize = { lg: '75%', base: '90%' };
+const _containerPadding = { lg: '2rem', base: '1rem' };
+
 const _gridTemplateAreas = { lg: `"image details" "description description"`, base: `"image" "details" "description"` };
 const _gridTemplateRows = { lg: 'auto 1fr', base: 'auto 1fr' };
-const _gridTemplateColumns = { lg: '2fr 1fr', base: '1fr' };
-const _gridItemImageBorderRight = { lg: '1px', base: '0' };
-const _griditemImageBorderColor = { lg: _borderColor, base: 'transparent' };
+const _gridTemplateColumns = { lg: '3fr 2fr', base: '1fr' };
+const _gridItemBorderColor = { lg: _borderColor, base: 'transparent' };
+
+const _gridItemImagePaddingBottom = { lg: '0', base: '1rem' };
+const _gridItemImagePaddingRight = { lg: '1.5rem', base: '0' };
+const _gridItemImageSkeletonMarginBottom = { lg: '0', base: '1rem' };
+
+const _gridItemDetailsBorderLeft = { lg: '1px', base: '0' };
 const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
-const _imageSkeletonMarginBottom = { lg: '0', base: '1rem' };
+
+const _descriptionMarginTop = { lg: '2rem', base: '0' };
 
 export type ProductActionProps = {
   isLoading: boolean;
@@ -70,7 +78,7 @@ type ProductDetailProps = {
 const getAction = (action: ProductAction, props: ProductActionProps) => {
   if (action === 'add_to_cart') return <AddToCartButton key={action} {...props} />;
   if (action === 'quote_request') return <QuoteRequestButton key={action} {...props} />;
-  if (action === 'whatsapp_request') return <WhatsAppRequestButton key={action} {...props} />; // TODO: implement
+  if (action === 'whatsapp_request') return <WhatsAppRequestButton key={action} {...props} />;
   return <></>;
 };
 
@@ -81,6 +89,8 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
   const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
+  // const { error, data } = useProductGet(id);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -96,78 +106,71 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
   }
 
   return (
-    <>
-      <Container maxW={_containerSize} px="0" mt="2.75rem">
-        <Flex justifyContent="space-between">
-          <Flex fontSize="0.875rem" color={'brand.grey.2'}>
-            {isLoading ? (
-              <Skeleton w="30%" h="1.25rem" />
-            ) : (
-              <Box>
-                <Link onClick={() => router.back()} style={{ textDecoration: 'none' }}>
+    <Box bg="rgb(237 237 237)" py={_mainBoxPaddingY}>
+      <Container maxW={_containerSize} px="0">
+        {data && (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Skeleton isLoaded={!isLoading}>
+              <Box color={'brand.grey.2'} fontSize="0.875rem" fontWeight="medium">
+                <Link onClick={() => router.back()} _hover={{ textDecoration: 'none' }}>
                   Volver
                 </Link>
-                <Text as="span" mx="0.375rem">
+                <Text as="span" px="0.375rem">
                   {' '}
                   |{' '}
                 </Text>
-
-                <Link href={`/productos?c=${data?.category?.id}`} style={{ textDecoration: 'none' }}>
+                <Link href={`/productos?c=${data?.category.id}`} _hover={{ textDecoration: 'none' }}>
                   {' '}
-                  {data?.category?.name}
+                  {data?.category.name}
                 </Link>
+              </Box>
+            </Skeleton>
+            {true && ( //fix: isUserAdmin
+              <Box>
+                <ButtonEdit onClick={onOpen} />
+                <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
               </Box>
             )}
           </Flex>
-          {true && ( //fix: isUserAdmin
-            <Box>
-              <ButtonEdit onClick={onOpen} />
-              <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
-            </Box>
-          )}
-        </Flex>
+        )}
       </Container>
-      <Card maxW={_containerSize} p={_containerPadding} m="0 auto 3rem auto">
+      <Card maxW={_containerSize} p={_containerPadding} m="0 auto">
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
           templateColumns={_gridTemplateColumns}
         >
-          <GridItem area="image" borderRight={_gridItemImageBorderRight} borderColor={_griditemImageBorderColor}>
-            <AspectRatio ratio={4 / 3}>
-              {isLoading ? (
-                <Skeleton w="100%" h="100%" mb={_imageSkeletonMarginBottom} />
-              ) : data ? (
-                <ImageModal image={data?.image_url} title={data?.brand?.name} />
-              ) : (
-                <></>
-              )}
-            </AspectRatio>
-          </GridItem>
-          <GridItem area="details" pl={_gridIemDetailsPaddingLeft}>
+          <GridItem area="image" placeSelf="center" pb={_gridItemImagePaddingBottom} pr={_gridItemImagePaddingRight}>
             <Box>
-              {isLoading ? (
-                <Skeleton w="100%" h="4rem" mb="0.375rem" />
-              ) : (
-                <Text fontWeight="extrabold" fontSize="1.5rem">
+              <Skeleton isLoaded={!isLoading}>
+                {data && <ImageModal image={data?.image_url} title={data?.brand?.name} />}
+              </Skeleton>
+            </Box>
+          </GridItem>
+          <GridItem
+            area="details"
+            pl={_gridIemDetailsPaddingLeft}
+            borderLeft={_gridItemDetailsBorderLeft}
+            borderColor={_gridItemBorderColor}
+          >
+            <Box borderBottom="1px" borderColor={_borderColor} pb="1rem">
+              <Skeleton isLoaded={!isLoading} w="100%" mb="0.375rem">
+                <Text fontWeight="bold" fontSize="1.5rem">
                   {data?.name}
                 </Text>
-              )}
-              {isLoading ? (
-                <Skeleton w="25%" h="1rem" mb="1.5rem" />
-              ) : (
+              </Skeleton>
+
+              <Skeleton isLoaded={!isLoading} w="35%" mb="1.25rem">
                 <Text color={_smallTextColor} fontSize="0.75rem">
                   <Text as="span" fontSize="0.625rem">
                     Codigo{' '}
                   </Text>
                   {data?.id}
                 </Text>
-              )}
-              {isLoading ? (
-                <Skeleton w="60%" h="3.375rem" mb="3rem" />
-              ) : (
-                <Text my="0.5rem" fontSize="2.5rem">
-                  <Text as="span" fontSize="1.625rem">
+              </Skeleton>
+              <Skeleton isLoaded={!isLoading} w="15rem" mb="0.75rem">
+                <Text fontSize="2.5rem" fontWeight="medium">
+                  <Text as="span" fontSize="1.875rem">
                     U$S{' '}
                   </Text>
                   {data?.price}
@@ -178,38 +181,36 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                     </Text>
                   )}
                 </Text>
-              )}
+              </Skeleton>
             </Box>
-            <Box>
-              {isLoading ? (
-                <Skeleton w="15%" h="1rem" my="1rem" />
-              ) : data?.stock ? (
-                <Text color={_smallTextColor} fontSize="0.75rem" py="1rem">
-                  Stock
-                  {data?.stock === 'AV' && (
-                    <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
-                      <CheckIcon ml="5px" boxSize="3" mb="3px" />
-                    </Tooltip>
-                  )}
-                  {data?.stock === 'CO' && (
-                    <Tooltip label="Consulte" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
-                      <PhoneIcon ml="5px" boxSize="3" mb="3px" />
-                    </Tooltip>
-                  )}
-                  {data?.stock === 'NO' && (
-                    <Tooltip label="Agotado" bg={_tooltipBg} fontSize="0.75rem" borderRadius="0.25rem">
-                      <CloseIcon ml="5px" boxSize="3" mb="3px" />
-                    </Tooltip>
-                  )}
-                </Text>
-              ) : (
-                <></>
-              )}
-              {/* {isLoading ? (
-                <Skeleton w="50%" h="1.5rem" my="1rem" />
-              ) : (
+            <Box py="1.5rem">
+              <Skeleton isLoaded={!isLoading} w="20%" mb={'1.5rem'}>
+                {data?.stock && (
+                  <Text color={_smallTextColor} fontSize="0.875rem">
+                    Stock
+                    {data?.stock == 'AV' && (
+                      <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem">
+                        <CheckIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
+                      </Tooltip>
+                    )}
+                    {data?.stock === 'CO' && (
+                      <Tooltip label="Consulte" bg={_tooltipBg} fontSize="0.75rem">
+                        <PhoneIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
+                      </Tooltip>
+                    )}
+                    {data?.stock === 'NO' && (
+                      <Tooltip label="Agotado" bg={_tooltipBg} fontSize="0.75rem">
+                        <CloseIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
+                      </Tooltip>
+                    )}
+                  </Text>
+                )}
+              </Skeleton>
+              {/* <Skeleton isLoaded={!isLoading} w="50%" mb="1.75rem">
                 <Flex alignItems="center">
-                  <Text mr="0.75rem">Cantidad</Text>
+                  <Text mr="0.75rem" color={_smallTextColor}>
+                    Cantidad
+                  </Text>
                   <NumberInput size="xs" maxW={20} defaultValue={1} min={1}>
                     <NumberInputField />
                     <NumberInputStepper>
@@ -218,54 +219,56 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                     </NumberInputStepper>
                   </NumberInput>
                 </Flex>
-              )} */}
-
+              </Skeleton> */}
               <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
             </Box>
           </GridItem>
-          {(isLoading || (data && data?.description)) && (
-            <GridItem area="description" borderTop="1px" borderColor={_borderColor} mt="2rem" pt="2rem">
-              {isLoading ? (
-                <Skeleton w="70%" h="2rem" />
-              ) : (
-                <Text lineHeight="2rem">
-                  {data?.description?.split('\n').map((linea, i) => (
+          {data?.description && (
+            <GridItem
+              area="description"
+              borderTop="1px"
+              borderColor={_borderColor}
+              mt={_descriptionMarginTop}
+              pt="2rem"
+            >
+              <Skeleton isLoaded={!isLoading}>
+                <Text lineHeight="1.375rem" textAlign="justify">
+                  {data?.description.split('. ').map((linea, i) => (
                     <span key={i}>
+                      {'-'}
                       {linea}
                       <br />
                     </span>
                   ))}
                 </Text>
-              )}
+              </Skeleton>
             </GridItem>
           )}
         </Grid>
       </Card>
-      {data && data?.relatedLinks && (
+      {data && data.relatedLinks && (
         <Box my="4rem" py="3rem" borderY="1px" borderColor={_borderColor}>
           <Container maxW={_containerSize} px={0} mb="2rem">
             <Heading size="lg">LINKS</Heading>
           </Container>
-          {isLoading ? (
-            <Skeleton w="100%" h="5rem" />
-          ) : (
+          <Skeleton isLoaded={!isLoading}>
             <Card maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} size="md">
-              {data?.relatedLinks.map((link, i) => (
+              {data.relatedLinks.map((link, i) => (
                 <Link
                   href={link.url}
                   display="block"
                   p="1rem"
                   color={_relatedLinksLinkColor}
                   key={i}
-                  style={{ textDecoration: 'none' }}
+                  _hover={{ textDecoration: 'none' }}
                 >
                   <Box>{link.name}</Box>
                 </Link>
               ))}
             </Card>
-          )}
+          </Skeleton>
         </Box>
       )}
-    </>
+    </Box>
   );
 };

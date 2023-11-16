@@ -8,11 +8,14 @@ type ImageModalProps = {
   title: string;
 };
 
+const OverlayOne = () => <Box position="absolute" top="0" left="0" w="100%" h="100%" bg="blackAlpha.700" />;
+
 export const ImageModal = (props: ImageModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Image
+        w={'100%'}
         onClick={onOpen}
         src={props.image}
         alt={props.title}
@@ -20,7 +23,8 @@ export const ImageModal = (props: ImageModalProps) => {
         fallback={<Box w="100%" h="100%" bg={_grey0} />}
       />
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <OverlayOne />
+
         <ModalContent maxW={'70%'}>
           <ModalCloseButton />
           <ModalBody mx={'auto'}>

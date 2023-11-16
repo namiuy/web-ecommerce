@@ -6,21 +6,28 @@ import { ProductActionProps } from '../templates/ProductDetail';
 
 export const AddToCartButton: FC<ProductActionProps> = ({ isLoading, product }) =>
   isLoading ? (
-    <Skeleton w="100%" h="2.5rem" />
+    <>
+      <Skeleton w="100%" h="2.75rem" my="1rem" />
+      <Skeleton w="100%" h="2.75rem" />
+    </>
   ) : (
     <>
       <Button
         width="100%"
+        height={'2.75rem'}
+        borderRadius="0.5rem"
         bg="primary.main"
         color="white"
         my="1rem"
-        isDisabled={!product || product?.stock !== 'AV'}
         _hover={{ backgroundColor: 'primary.main' }}
+        isDisabled={!product || product?.stock !== 'AV'}
       >
         COMPRAR <Icon as={BiSolidShoppingBag} ml="5px" boxSize="4" mb="3px" />
       </Button>
       <Button
         width="100%"
+        height={'2.75rem'}
+        borderRadius="0.5rem"
         bg="white"
         color="primary.main"
         border="2px"
