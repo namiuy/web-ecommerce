@@ -100,44 +100,64 @@ export const WhatsApp = () => {
               {branches.map((branch, index) => (
                 <Box key={index}>
           <ModalHeader pb="0.25rem" fontSize="1.375rem">
+          <ModalHeader color={_grey3} pb="0.375rem" fontSize="1.5rem">
             Contáctese con nosotros
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            {branches.map((branch, index) => (
-              <Box
-                key={index}
-                pb={'1rem'}
-                borderTop={index !== 0 ? '1px' : 'none'}
-                borderColor={'blackAlpha.400'}
-                paddingTop={index !== 0 ? '1rem' : '0'}
-              >
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  _hover={{ color: 'red.600' }}
-                  width={'fit-content'}
-                  pb={'0.5rem'}
-                >
-                  <Icon as={IoLocationSharp} boxSize={6} mr={'0.5rem'} />
+          <ModalBody
+            pb="1.5rem"
+            paddingInlineStart={{ base: '0.75rem', sm: '1.5rem' }}
+            paddingInlineEnd={{ base: '0.75rem', sm: '1.5rem' }}
+          >
+            <Stack divider={<StackDivider />} spacing="4">
+              {branches.map((branch, index) => (
+                <Box key={index}>
                   <Link
-                    href={branch.location}
+                    href={`https://wa.me/${branch.whatsApp.number}`}
                     target="_blank"
-                    style={{ textDecoration: 'none' }}
-                    display={'inline-block'}
-                    fontSize={'1.375rem'}
+                    _hover={{ color: _backgroundColor }}
                   >
-                    {branch.address}{' '}
+                    <Heading size="lg" textTransform="uppercase">
+                      <Flex align="center" gap="0.5rem">
+                        <Icon as={BiLogoWhatsapp} />
+                        {branch.whatsApp.text}
+                      </Flex>
+                    </Heading>
                   </Link>
-                </Box>
-                <Box display={'flex'} alignItems={'center'} pb={'0.5rem'}>
-                  <Icon as={BiTimeFive} boxSize={6} mr={'0.5rem'} />
-                  <Text display={'inline-block'} fontSize={'1.25rem'}>
+                  <Text pt="2" fontSize="lg" color={_grey3}>
+                    {branch.location}
+                  </Text>
+                  <Text fontSize="xs" color={_grey3}>
+                    {branch.address}
+                  </Text>
+                  <Text fontSize="xs" color={_grey3}>
+                  <Text pt="2" fontSize="lg" color={_grey3} fontWeight="medium">
+                    {branch.address}
+                  </Text>
+                  <Text pt="2" fontSize="lg" color={_grey3} fontWeight="medium">
                     {branch.schedule}
                   </Text>
                 </Box>
-                <Box display={'flex'} alignItems={'center'} _hover={{ color: '#339b11' }} width={'fit-content'}>
-                  <Icon as={BiLogoWhatsapp} boxSize={6} mr={'0.5rem'} />
+              ))}
+            </Stack>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+
+        <Modal isOpen={isOpen} onClose={onClose} size={'xl'} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader color={_grey3}>Contáctese con nosotros</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody
+            pb="1.5rem"
+            paddingInlineStart={{ base: '0.75rem', sm: '1.5rem' }}
+            paddingInlineEnd={{ base: '0.75rem', sm: '1.5rem' }}
+          >
+            <Stack divider={<StackDivider />} spacing="4">
+              {branches.map((branch, index) => (
+                <Box key={index}>
                   <Link
                     href={`https://wa.me/${branch.whatsApp.number}`}
                     target="_blank"
@@ -165,4 +185,5 @@ export const WhatsApp = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+
 */
