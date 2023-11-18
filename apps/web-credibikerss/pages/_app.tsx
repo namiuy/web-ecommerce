@@ -10,6 +10,7 @@ import { keys } from 'shared';
 const { googleGaMeasurementId } = keys;
 
 if (googleGaMeasurementId) {
+  console.log('ReactGA initialized');
   ReactGA.initialize(googleGaMeasurementId);
 }
 
