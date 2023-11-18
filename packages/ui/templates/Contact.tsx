@@ -35,12 +35,12 @@ export const Contact = () => {
       <Container px="0" minW="100%">
         <Box position={lg ? 'relative' : 'static'}>
           <Box w="100%">
-            <Map
+            {/* <Map
               position={branches.map(item => item.position)}
               zoom={lg ? 13 : 12}
               h={lg ? '85vh' : '50vh'}
               center={{ lat: -34.89054118139598, lng: -56.17411952377538 }}
-            />
+            /> */}
           </Box>
           <Flex
             flexDir={'column'}
