@@ -9,13 +9,13 @@ export const validateEmptySelect = (value: any) => {
 };
 
 export const validateEmail = (value: string) => {
-  if (!value.toString().length) return 'El campo no puede estar vacio';
+  if (!value.toString().length) return 'Este campo es obligatorio';
   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return 'El correo electrónico no es válido';
   return undefined;
 };
 
 export const validatePassword = (value: string) => {
-  if (!value.toString().length) return 'El campo no puede estar vacio';
+  if (!value.toString().length) return 'Este campo es obligatorio';
   if (value.length < 8 || !/\d/.test(value) || !/[A-Z]/.test(value)) {
     return 'La contraseña debe tener al menos 8 caracteres, un número y una letra mayúscula';
   }
@@ -23,7 +23,7 @@ export const validatePassword = (value: string) => {
 };
 
 export const validateRepeatPassword = (value: string, password: string) => {
-  if (!value.toString().length) return 'El campo no puede estar vacio';
+  if (!value.toString().length) return 'Este campo es obligatorio';
   if (value !== password) return 'Las contraseñas no coinciden';
   return undefined;
 };

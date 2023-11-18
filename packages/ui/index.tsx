@@ -55,3 +55,4 @@ export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetai
 export { Products as ProductsTemplate } from './templates/Products';
 export { SignIn as SignInTemplate } from './templates/SignIn';
 export { Register as RegisterTemplate } from './templates/Register';
+export { Contact as ContactTemplate} from './templates/Contact'
