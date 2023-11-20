@@ -13,6 +13,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   useBreakpointValue,
+  Divider,
 } from '@chakra-ui/react';
 import {
   Container,
@@ -26,6 +27,9 @@ import {
   Card,
   AddToCartButton,
   QuoteRequestButton,
+  ProductListSection,
+  Carousel,
+  ProductCard,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
@@ -36,6 +40,10 @@ import { Product } from 'shared/entities/product';
 import { ButtonEdit } from '../components/ButtonEdit';
 import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
+import { ProductCardCarousel } from '../components/ProductCardCarousel';
+import { Brand } from 'shared/entities/brand';
+import { Category } from 'shared/entities/category';
+import { RelatedLink } from 'shared/entities/related-link';
 
 const { afterPriceText } = productConf;
 
@@ -43,8 +51,8 @@ const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
 const _smallTextColor = 'brand.productDetail.smallText';
 const _tooltipBg = 'brand.productDetail.tooltipBg';
-const _relatedLinksLinkColor = 'brand.productDetail.linkColor';
-const _relatedLinksMainContainerHover = { bg: 'blue.50' };
+const _relatedLinksLinkColor = 'brand.productDetail.relatedLinks.linkColor';
+const _relatedLinksMainContainerHover = 'blue.50';
 
 const _mainBoxPaddingY = { lg: '3rem', base: '2rem' };
 
@@ -65,6 +73,129 @@ const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
 
 const _descriptionMarginTop = { lg: '2rem', base: '0' };
 
+const specifications = [
+  { name: 'Marca', value: 'Samsung' },
+  { name: 'Modelo', value: 'A30' },
+  { name: 'Pantalla', value: '6.4"' },
+  { name: 'Memoria', value: '64GB' },
+  { name: 'RAM', value: '4GB' },
+  { name: 'Procesador', value: 'Octa Core' },
+  { name: 'Cámara', value: '16MP' },
+  { name: 'Batería', value: '4000mAh' },
+];
+
+const relatedLinks = [
+  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+];
+
+const relatedProducts = [
+  {
+    id: '1',
+    is_original: true,
+    is_public: true,
+    created_at: new Date(),
+    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
+    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
+    name: 'Samsung Galaxy A30 64GB',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
+    price: 300,
+    image_url:
+      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
+    path: 'samsung-galaxy-a30-64gb',
+    stock: 'AV',
+    relatedLinks: [
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+    ],
+  } as Product,
+  {
+    id: '2',
+    is_original: true,
+    is_public: true,
+    created_at: new Date(),
+    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
+    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
+    name: 'Samsung Galaxy A30 64GB',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
+    price: 300,
+    image_url:
+      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
+    path: 'samsung-galaxy-a30-64gb',
+    stock: 'AV',
+    relatedLinks: [
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+    ],
+  } as Product,
+  {
+    id: '3',
+    is_original: true,
+    is_public: true,
+    created_at: new Date(),
+    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
+    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
+    name: 'Samsung Galaxy A30 64GB',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
+    price: 300,
+    image_url:
+      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
+    path: 'samsung-galaxy-a30-64gb',
+    stock: 'AV',
+    relatedLinks: [
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+    ],
+  } as Product,
+  {
+    id: '4',
+    is_original: true,
+    is_public: true,
+    created_at: new Date(),
+    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
+    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
+    name: 'Samsung Galaxy A30 64GB',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
+    price: 300,
+    image_url:
+      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
+    path: 'samsung-galaxy-a30-64gb',
+    stock: 'AV',
+    relatedLinks: [
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+    ],
+  } as Product,
+  {
+    id: '5',
+    is_original: true,
+    is_public: true,
+    created_at: new Date(),
+    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
+    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
+    name: 'Samsung Galaxy A30 64GB',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
+    price: 300,
+    image_url:
+      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
+    path: 'samsung-galaxy-a30-64gb',
+    stock: 'AV',
+    relatedLinks: [
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+    ],
+  } as Product,
+];
+
 export type ProductActionProps = {
   isLoading: boolean;
   product?: Product;
@@ -84,7 +215,7 @@ const getAction = (action: ProductAction, props: ProductActionProps) => {
   return <></>;
 };
 
-export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
+export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const router = useRouter();
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
@@ -95,6 +226,16 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
   // const [isLoading, setIsLoading] = useState(true);
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
+
+  const slidesPerView =
+    useBreakpointValue({
+      base: 2,
+      sm: 3,
+      md: 4,
+      lg: 3,
+      xl: 4,
+      '2xl': 5,
+    }) || 2;
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -138,7 +279,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           </Flex>
         )}
       </Container>
-      <Card maxW={_containerSize} p={_containerPadding} m="0 auto">
+      <Card maxW={_containerSize} p={_containerPadding} m="0 auto 3.5rem auto">
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
@@ -146,8 +287,12 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
         >
           <GridItem area="image" placeSelf="center" pb={_gridItemImagePaddingBottom} pr={_gridItemImagePaddingRight}>
             <Box>
-              <Skeleton isLoaded={!isLoading}>
-                {data && <ImageModal image={data?.image_url} title={data?.brand?.name} isMobile={!!isMobile} />}
+              <Skeleton isLoaded={!isLoading} minW="100%" minH="100%">
+                <ImageModal
+                  image={data ? data.image_url : 'undefined'}
+                  title={data ? data.brand.name : 'undefined'}
+                  isMobile={!!isMobile}
+                />
               </Skeleton>
             </Box>
           </GridItem>
@@ -158,7 +303,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
             borderColor={_gridItemBorderColor}
           >
             <Box borderBottom="1px" borderColor={_borderColor} pb="1rem">
-              <Skeleton isLoaded={!isLoading} w="100%" mb="0.375rem">
+              <Skeleton isLoaded={!isLoading} mb="0.375rem">
                 <Text fontWeight="bold" fontSize="1.5rem">
                   {data?.name}
                 </Text>
@@ -172,7 +317,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                   {data?.id}
                 </Text>
               </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="15rem" mb="0.75rem">
+              <Skeleton isLoaded={!isLoading} w="15rem" mb="0.5rem">
                 <Text fontSize="2.5rem" fontWeight="medium">
                   <Text as="span" fontSize="1.875rem">
                     U$S{' '}
@@ -187,12 +332,12 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
                 </Text>
               </Skeleton>
             </Box>
-            <Box py="1.5rem">
-              <Skeleton isLoaded={!isLoading} w="20%" mb={'1.5rem'}>
-                {data?.stock && (
+            <Box pb="1.5rem" pt="1rem">
+              <Skeleton isLoaded={!isLoading} w="20%" mb={'1rem'}>
+                {true && (
                   <Text color={_smallTextColor} fontSize="0.875rem">
                     Stock
-                    {data?.stock == 'AV' && (
+                    {true && (
                       <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem">
                         <CheckIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
                       </Tooltip>
@@ -237,7 +382,7 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
             >
               <Skeleton isLoaded={!isLoading}>
                 <Text lineHeight="1.5rem" textAlign="justify">
-                  {data?.description.split('. ').map((linea, i) => (
+                  {data.description.split('. ').map((linea, i) => (
                     <Text as="span" key={i}>
                       {'-'}
                       {linea}
@@ -250,27 +395,78 @@ export const ProductDetail: FC<ProductDetailProps> = ({ id, actions = [] }) => {
           )}
         </Grid>
       </Card>
-      {data && data.relatedLinks && (
-        <Box my="4rem" py="3rem" borderY="1px" borderColor={_borderColor}>
-          <Container maxW={_containerSize} px={0} mb="2rem">
+      <Divider color={'black'} />
+      {specifications && (
+        <Box mt="2.5rem" mb="3.5rem">
+          <Container maxW={_containerSize} px="0" mb="1.5rem">
+            <Heading size="lg">ESPECIFICACIONES</Heading>
+          </Container>
+          <Card maxW={_containerSize} mx="auto">
+            <Skeleton isLoaded={!isLoading}>
+              <Box>
+                {specifications.map((spec, i) => (
+                  <Box key={i}>
+                    {i != 0 && <Divider />}
+                    <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>
+                      <Text w={{ base: '100%', md: '50%' }} pb={{ base: '0.25rem', md: '0' }} fontWeight="medium">
+                        {spec.name}
+                      </Text>
+                      <Text w={{ base: '100%', md: '50%' }}>{spec.value}</Text>
+                    </Flex>
+                  </Box>
+                ))}
+              </Box>
+            </Skeleton>
+          </Card>
+        </Box>
+      )}
+      <Divider />
+      {relatedLinks && (
+        <Box mt="2.5rem" mb="3.5rem">
+          <Container maxW={_containerSize} px={0} mb="1.5rem">
             <Heading size="lg">LINKS</Heading>
           </Container>
-          <Skeleton isLoaded={!isLoading}>
-            <Card maxW={_containerSize} px={0} _hover={_relatedLinksMainContainerHover} size="md">
-              {data.relatedLinks.map((link, i) => (
-                <Link
-                  href={link.url}
-                  display="block"
-                  p="1rem"
-                  color={_relatedLinksLinkColor}
-                  key={i}
-                  _hover={{ textDecoration: 'none' }}
-                >
-                  <Box>{link.name}</Box>
-                </Link>
+          <Card maxW={_containerSize} mx="auto">
+            <Skeleton isLoaded={!isLoading}>
+              {relatedLinks.map((link, i) => (
+                <Box key={i}>
+                  {i != 0 && <Divider />}
+                  <Link
+                    href={link.url}
+                    target="_blank"
+                    display="block"
+                    py="0.75rem"
+                    pl="1rem"
+                    color={_relatedLinksLinkColor}
+                    _hover={{ textDecoration: 'none', bg: _relatedLinksMainContainerHover }}
+                  >
+                    <Box>{link.name}</Box>
+                  </Link>
+                </Box>
               ))}
-            </Card>
-          </Skeleton>
+            </Skeleton>
+          </Card>
+        </Box>
+      )}
+      <Divider />
+      {relatedProducts && (
+        <Box mt="2.5rem" mb="3.5rem">
+          <Container maxW={_containerSize} px={0} mb="0.75rem">
+            <Heading size="lg">TAMBIÉN TE PUEDE INTERESAR</Heading>
+          </Container>
+          <Container maxW={_containerSize} px={0}>
+            <Carousel
+              slideHeight="24rem"
+              navigationLeft="-1rem"
+              navigationRight="-1rem"
+              slidesPerView={slidesPerView}
+              spaceBetween={32}
+            >
+              {relatedProducts.map((product, i) => (
+                <ProductCard key={i} isLoading={isLoading} editMode={true} product={product} />
+              ))}
+            </Carousel>
+          </Container>
         </Box>
       )}
     </Box>

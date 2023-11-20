@@ -19,7 +19,7 @@ export const ProductCardCarousel = ({ editMode = false, productListId, productsL
     useBreakpointValue({
       base: 2,
       sm: 3,
-      lg: 4,
+      xl: 5,
     }) || 2;
 
   const slideHeight = isLg ? _minH.lg : _minH.base;

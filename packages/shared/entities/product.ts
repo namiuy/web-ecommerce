@@ -1,6 +1,7 @@
 import { Brand } from './brand';
 import { Category } from './category';
 import { RelatedLink } from './related-link';
+import { Specification } from './specification';
 
 export type Product = {
   id: string;
@@ -15,5 +16,6 @@ export type Product = {
   image_url: string;
   path: string;
   stock: 'NO' | 'CO' | 'AV';
+  specifications: Specification[];
   relatedLinks: RelatedLink[];
 };
