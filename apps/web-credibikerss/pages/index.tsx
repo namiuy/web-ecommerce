@@ -5,6 +5,7 @@ import { Banner, Brands, Container, Head, ProductListSection, Box, GaPage } from
 import { NavBar } from '../components';
 //import { BannerFinancing } from '../components/BannerFinancing';
 import { Footer } from '../components/Footer';
+import { WhatsApp } from '../../../packages/ui/components/WhatsApp';
 
 const _bg = 'brand.background';
 

@@ -132,9 +132,15 @@ export const WhatsApp = () => {
                   </Text>
                   <Text fontSize="xs" color={_grey3}>
                   <Text pt="2" fontSize="lg" color={_grey3} fontWeight="medium">
+                  {branch.location && (
+                    <Text pt="2" fontSize="md" color={_grey3} fontWeight="medium">
+                      {branch.location}
+                    </Text>
+                  )}
+                  <Text pt="2" fontSize="md" color={_grey3} fontWeight="medium">
                     {branch.address}
                   </Text>
-                  <Text pt="2" fontSize="lg" color={_grey3} fontWeight="medium">
+                  <Text pt="2" fontSize="md" color={_grey3} fontWeight="medium">
                     {branch.schedule}
                   </Text>
                 </Box>
