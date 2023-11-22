@@ -17,5 +17,5 @@ export type Product = {
   path: string;
   stock: 'NO' | 'CO' | 'AV';
   specifications: Specification[];
-  relatedLinks: RelatedLink[];
+  related_links: RelatedLink[];
 };

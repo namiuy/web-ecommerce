@@ -84,117 +84,14 @@ const specifications = [
   { name: 'Batería', value: '4000mAh' },
 ];
 
-const relatedLinks = [
-  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-  { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-];
-
-const relatedProducts = [
-  {
-    id: '1',
-    is_original: true,
-    is_public: true,
-    created_at: new Date(),
-    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
-    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
-    name: 'Samsung Galaxy A30 64GB',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
-    price: 300,
-    image_url:
-      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
-    path: 'samsung-galaxy-a30-64gb',
-    stock: 'AV',
-    relatedLinks: [
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-    ],
-  } as Product,
-  {
-    id: '2',
-    is_original: true,
-    is_public: true,
-    created_at: new Date(),
-    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
-    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
-    name: 'Samsung Galaxy A30 64GB',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
-    price: 300,
-    image_url:
-      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
-    path: 'samsung-galaxy-a30-64gb',
-    stock: 'AV',
-    relatedLinks: [
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-    ],
-  } as Product,
-  {
-    id: '3',
-    is_original: true,
-    is_public: true,
-    created_at: new Date(),
-    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
-    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
-    name: 'Samsung Galaxy A30 64GB',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
-    price: 300,
-    image_url:
-      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
-    path: 'samsung-galaxy-a30-64gb',
-    stock: 'AV',
-    relatedLinks: [
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-    ],
-  } as Product,
-  {
-    id: '4',
-    is_original: true,
-    is_public: true,
-    created_at: new Date(),
-    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
-    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
-    name: 'Samsung Galaxy A30 64GB',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
-    price: 300,
-    image_url:
-      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
-    path: 'samsung-galaxy-a30-64gb',
-    stock: 'AV',
-    relatedLinks: [
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-    ],
-  } as Product,
-  {
-    id: '5',
-    is_original: true,
-    is_public: true,
-    created_at: new Date(),
-    category: { id: '1', name: 'Celulares', path: 'celulares', image_url: '', is_sub_category: false },
-    brand: { id: 1, name: 'Samsung', path: 'samsung', logo_url: '' },
-    name: 'Samsung Galaxy A30 64GB',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies.',
-    price: 300,
-    image_url:
-      'https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a30-a305/SM-A305GZKJARO/gallery/SM-A305GZKJARO_1.jpg',
-    path: 'samsung-galaxy-a30-64gb',
-    stock: 'AV',
-    relatedLinks: [
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-      { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-    ],
-  } as Product,
-];
+// const relatedLinks = [
+//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
+// ];
 
 export type ProductActionProps = {
   isLoading: boolean;
@@ -421,14 +318,14 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
         </Box>
       )}
       <Divider />
-      {relatedLinks && (
+      {data?.related_links && (
         <Box mt="2.5rem" mb="3.5rem">
           <Container maxW={_containerSize} px={0} mb="1.5rem">
             <Heading size="lg">LINKS</Heading>
           </Container>
           <Card maxW={_containerSize} mx="auto">
             <Skeleton isLoaded={!isLoading}>
-              {relatedLinks.map((link, i) => (
+              {data.related_links.map((link, i) => (
                 <Box key={i}>
                   {i != 0 && <Divider />}
                   <Link
@@ -449,7 +346,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
         </Box>
       )}
       <Divider />
-      {relatedProducts && (
+      {/* {data?.relatedProducts && (
         <Box mt="2.5rem" mb="3.5rem">
           <Container maxW={_containerSize} px={0} mb="0.75rem">
             <Heading size="lg">TAMBIÉN TE PUEDE INTERESAR</Heading>
@@ -462,13 +359,13 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               slidesPerView={slidesPerView}
               spaceBetween={32}
             >
-              {relatedProducts.map((product, i) => (
+              {data.relatedProducts.map((product, i) => (
                 <ProductCard key={i} isLoading={isLoading} editMode={true} product={product} />
               ))}
             </Carousel>
           </Container>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };
