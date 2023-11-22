@@ -396,7 +396,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
         </Grid>
       </Card>
       <Divider color={'black'} />
-      {specifications && (
+      {data?.specifications && (
         <Box mt="2.5rem" mb="3.5rem">
           <Container maxW={_containerSize} px="0" mb="1.5rem">
             <Heading size="lg">ESPECIFICACIONES</Heading>
@@ -404,7 +404,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           <Card maxW={_containerSize} mx="auto">
             <Skeleton isLoaded={!isLoading}>
               <Box>
-                {specifications.map((spec, i) => (
+                {data.specifications.map((spec, i) => (
                   <Box key={i}>
                     {i != 0 && <Divider />}
                     <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>

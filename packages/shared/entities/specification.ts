@@ -1,6 +1,5 @@
 export type Specification = {
-    key: string;
+    name: string;
     value: string;
-    key_z: string;
-    bcmode: string;
+
 };
