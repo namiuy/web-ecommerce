@@ -292,61 +292,65 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           )}
         </Grid>
       </Card>
-      <Divider color={'black'} />
       {data?.specifications && (
-        <Box mt="2.5rem" mb="3.5rem">
-          <Container maxW={_containerSize} px="0" mb="1.5rem">
-            <Heading size="lg">ESPECIFICACIONES</Heading>
-          </Container>
-          <Card maxW={_containerSize} mx="auto">
-            <Skeleton isLoaded={!isLoading}>
-              <Box>
-                {data.specifications.map((spec, i) => (
+        <>
+          <Divider />
+          <Box mt="2.5rem" mb="3.5rem">
+            <Container maxW={_containerSize} px="0" mb="1.5rem">
+              <Heading size="lg">ESPECIFICACIONES</Heading>
+            </Container>
+            <Card maxW={_containerSize} mx="auto">
+              <Skeleton isLoaded={!isLoading}>
+                <Box>
+                  {data.specifications.map((spec, i) => (
+                    <Box key={i}>
+                      {i != 0 && <Divider />}
+                      <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>
+                        <Text w={{ base: '100%', md: '50%' }} pb={{ base: '0.25rem', md: '0' }} fontWeight="medium">
+                          {spec.name}
+                        </Text>
+                        <Text w={{ base: '100%', md: '50%' }}>{spec.value}</Text>
+                      </Flex>
+                    </Box>
+                  ))}
+                </Box>
+              </Skeleton>
+            </Card>
+          </Box>
+          <Divider />
+        </>
+      )}
+      {data?.related_links && (
+        <>
+          <Box mt="2.5rem" mb="3.5rem">
+            <Container maxW={_containerSize} px={0} mb="1.5rem">
+              <Heading size="lg">LINKS</Heading>
+            </Container>
+            <Card maxW={_containerSize} mx="auto">
+              <Skeleton isLoaded={!isLoading}>
+                {data.related_links.map((link, i) => (
                   <Box key={i}>
                     {i != 0 && <Divider />}
-                    <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>
-                      <Text w={{ base: '100%', md: '50%' }} pb={{ base: '0.25rem', md: '0' }} fontWeight="medium">
-                        {spec.name}
-                      </Text>
-                      <Text w={{ base: '100%', md: '50%' }}>{spec.value}</Text>
-                    </Flex>
+                    <Link
+                      href={link.url}
+                      target="_blank"
+                      display="block"
+                      py="0.75rem"
+                      pl="1rem"
+                      color={_relatedLinksLinkColor}
+                      _hover={{ textDecoration: 'none', bg: _relatedLinksMainContainerHover }}
+                    >
+                      <Box>{link.name}</Box>
+                    </Link>
                   </Box>
                 ))}
-              </Box>
-            </Skeleton>
-          </Card>
-        </Box>
+              </Skeleton>
+            </Card>
+          </Box>
+        </>
       )}
-      <Divider />
-      {data?.related_links && (
-        <Box mt="2.5rem" mb="3.5rem">
-          <Container maxW={_containerSize} px={0} mb="1.5rem">
-            <Heading size="lg">LINKS</Heading>
-          </Container>
-          <Card maxW={_containerSize} mx="auto">
-            <Skeleton isLoaded={!isLoading}>
-              {data.related_links.map((link, i) => (
-                <Box key={i}>
-                  {i != 0 && <Divider />}
-                  <Link
-                    href={link.url}
-                    target="_blank"
-                    display="block"
-                    py="0.75rem"
-                    pl="1rem"
-                    color={_relatedLinksLinkColor}
-                    _hover={{ textDecoration: 'none', bg: _relatedLinksMainContainerHover }}
-                  >
-                    <Box>{link.name}</Box>
-                  </Link>
-                </Box>
-              ))}
-            </Skeleton>
-          </Card>
-        </Box>
-      )}
-      <Divider />
       {/* {data?.relatedProducts && (
+      <Divider />
         <Box mt="2.5rem" mb="3.5rem">
           <Container maxW={_containerSize} px={0} mb="0.75rem">
             <Heading size="lg">TAMBIÉN TE PUEDE INTERESAR</Heading>
@@ -366,6 +370,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           </Container>
         </Box>
       )} */}
+      {/* <ProductListSection name="home_b" /> */} {/* Preguntarle a nacho como se hace esto */}
     </Box>
   );
 };
