@@ -23,6 +23,7 @@
   },
   "packageManager": "npm@8.19.3",
   "dependencies": {
+    "react-dnd": "^16.0.1",
     "react-ga4": "^2.1.0",
     "uuid": "^9.0.1"
   }

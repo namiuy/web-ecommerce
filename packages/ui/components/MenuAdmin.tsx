@@ -52,7 +52,7 @@ const MenuAdmin = () => {
             <MenuItem icon={<MdAdd />} borderRadius={_borderRadious} onClick={onOpen}>
               Agregar producto
             </MenuItem>
-            <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />{' '}
+            <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
           </MenuGroup>
         )}
       </MenuList>

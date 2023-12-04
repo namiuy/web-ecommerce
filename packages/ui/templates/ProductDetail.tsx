@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import lscache from 'lscache';
-import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
+import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio, Image } from '@chakra-ui/react';
 import {
   Flex,
   Container,
@@ -55,6 +55,8 @@ const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
 
 const _descriptionMarginTop = { lg: '2rem', base: '0' };
 
+const _grey0 = 'brand.grey.0';
+
 export type ProductActionProps = {
   isLoading: boolean;
   product?: Product;
@@ -82,7 +84,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
 
-  // const isLoading = true;
+  const imageDisclosure = useDisclosure();
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
 
@@ -148,9 +150,19 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           >
             <Skeleton isLoaded={!isLoading}>
               <AspectRatio ratio={{ base: 4 / 3, lg: 1, xl: 4 / 3 }}>
+                <Image
+                  w={'100%'}
+                  onClick={imageDisclosure.onOpen}
+                  src={data?.image_url}
+                  alt={data?.brand.name}
+                  cursor={'pointer'}
+                  style={{ objectFit: 'contain' }}
+                  fallback={<Box w="100%" h="100%" bg={_grey0} />}
+                />
                 <ImageModal
-                  image={data ? data.image_url : 'undefined'}
-                  title={data ? data.brand.name : 'undefined'}
+                  disclosure={imageDisclosure}
+                  image={data?.image_url}
+                  title={data?.brand.name}
                   isMobile={!!isMobile}
                 />
               </AspectRatio>

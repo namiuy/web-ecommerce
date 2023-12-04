@@ -81,11 +81,24 @@ export const Form: FC<FromProps> = ({ isLoading, schema, data, selectors, onSubm
               {onDelete && (
                 <IconButton disabled={isLoading} icon={<MdDelete />} aria-label="" variant="ghost" onClick={onDelete} />
               )}
+              {/* <Button
+                disabled={isLoading}
+                isLoading={isLoading}
+                type="submit"
+                // colorScheme="primary"
+                bg="red.800"
+                color="white"
+                width="full"
+                _hover={{ opacity: 0.8 }}
+              >
+                Cancelar
+              </Button> */}
               <Button
                 disabled={isLoading}
                 isLoading={isLoading}
                 type="submit"
-                colorScheme="primary"
+                // colorScheme="primary"
+                bg="lightgrey"
                 width="full"
                 _hover={{ opacity: 0.8 }}
               >

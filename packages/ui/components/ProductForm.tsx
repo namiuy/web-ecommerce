@@ -60,7 +60,9 @@ type ProductFormProps = {
 };
 
 const mapCategoryOptions = (data: Category[]) => {
-  return data.flatMap(c => (c?.sub_categories ? [c, ...c.sub_categories] : [c])).map(({ id, name }) => ({ id, name }));
+  return data
+    .flatMap(c => (c?.sub_categories ? [c, ...c.sub_categories] : [c]))
+    .map(({ id, name, parent }) => ({ id, name, parent }));
 };
 
 const mapBrandOptions = (data: Brand[]) => {
@@ -102,8 +104,13 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   const selectCategoryOptions = useMemo(() => mapCategoryOptions(categories), [categories]);
   const selectBrandOptions = useMemo(() => mapBrandOptions(brands), [brands]);
 
+  const selectCategoryOptions2 = selectCategoryOptions.map(option => ({
+    ...option,
+    name: option?.parent ? `${option.parent} | ${option.name}` : option.name,
+  }));
+
   const handleError = (error: Error) => {
-    console.log(error);
+    console.log('Error de prueba', error);
   };
 
   const showToast = (message: string) => {
@@ -186,7 +193,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
         schema={schema}
         data={data}
         selectors={{
-          category: selectCategoryOptions,
+          category: selectCategoryOptions2,
           brand: selectBrandOptions,
         }}
         onSubmit={isAdd ? add : update}

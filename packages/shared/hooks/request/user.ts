@@ -20,8 +20,8 @@ type AccessToken = {
 const getAccessToken = (username: string, password: string): Promise<AccessToken> =>
   post<AccessToken>(`${bff.url}/oauth/access_token`, { body: JSON.stringify({ username, password }) });
 
-const getUser = (access_token: string, user_id: string): Promise<User> => {
-  return get<User>(`${bff.url}/users/${user_id}`, { headers: { Authorization: `OAuth ${access_token}` } });
+const getUser = (user_id: string): Promise<User> => {
+  return get<User>(`${bff.url}/users/${user_id}`);
 };
 
 const addUser = (user: UserAdd): Promise<Result<boolean>> => {
@@ -46,6 +46,7 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
           } else {
             lscache.set('access_token', result);
             setAccessTokenResult(result);
+            lscache.set('access_token', result);
           }
           setIsLoading(false);
         }
@@ -59,7 +60,7 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
     if (accessTokenResult) {
       const fetchData = async () => {
         if (accessTokenResult) {
-          const result = await getUser(accessTokenResult.access_token, accessTokenResult.user_id);
+          const result = await getUser(accessTokenResult.user_id);
 
           if (result.error) {
             setError(result.error);
