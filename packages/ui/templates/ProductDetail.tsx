@@ -196,16 +196,13 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             >
               <Skeleton isLoaded={!isLoading}>
                 <Text lineHeight="1.5rem" textAlign="justify">
-                  {data.description
-                    .split('. ')
-
-                    .map((linea, i) => (
-                      <Text as="span" key={i}>
-                        {'- '}
-                        {linea}
-                        <br />
-                      </Text>
-                    ))}
+                  {data.description.split('. ').map((linea, i) => (
+                    <Text as="span" key={i}>
+                      {'- '}
+                      {linea}
+                      <br />
+                    </Text>
+                  ))}
                 </Text>
               </Skeleton>
             </GridItem>
