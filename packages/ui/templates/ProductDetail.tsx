@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
-
 import lscache from 'lscache';
 import {
   Link,
