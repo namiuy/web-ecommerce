@@ -11,6 +11,7 @@ import {
   NumberDecrementStepper,
   useBreakpointValue,
   Divider,
+  AspectRatio,
 } from '@chakra-ui/react';
 import {
   Container,
@@ -142,16 +143,20 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           templateRows={_gridTemplateRows}
           templateColumns={_gridTemplateColumns}
         >
-          <GridItem area="image" placeSelf="center" pb={_gridItemImagePaddingBottom} pr={_gridItemImagePaddingRight}>
-            <Box>
-              <Skeleton isLoaded={!isLoading} minW="100%" minH="100%">
-                <ImageModal
-                  image={data ? data.image_url : 'undefined'}
-                  title={data ? data.brand.name : 'undefined'}
-                  isMobile={!!isMobile}
-                />
-              </Skeleton>
-            </Box>
+          <GridItem
+            w="100%"
+            area="image"
+            placeSelf="center"
+            pb={_gridItemImagePaddingBottom}
+            pr={_gridItemImagePaddingRight}
+          >
+            <AspectRatio ratio={{ base: 4 / 3, md: 1, lg: 4 / 3 }}>
+              <ImageModal
+                image={data ? data.image_url : 'undefined'}
+                title={data ? data.brand.name : 'undefined'}
+                isMobile={!!isMobile}
+              />
+            </AspectRatio>
           </GridItem>
           <GridItem
             area="details"

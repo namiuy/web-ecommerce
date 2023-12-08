@@ -22,6 +22,7 @@ export const ImageModal = (props: ImageModalProps) => {
         src={props.image}
         alt={props.title}
         cursor={'pointer'}
+        style={{ objectFit: 'contain' }}
         fallback={<Box w="100%" h="100%" bg={_grey0} />}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
