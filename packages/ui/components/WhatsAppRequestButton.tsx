@@ -8,7 +8,7 @@ export const WhatsAppRequestButton: FC<ProductActionProps> = ({ isLoading, produ
   <Skeleton isLoaded={!isLoading}>
     <Button
       as={Link}
-      href={`https://wa.me/598091033282/?text=Buenas,%20estoy%20interesado%20en%20el%20siguiente%20producto:%20${product?.name}`}
+      href={`https://wa.me/598091033282/?text=Hola,%20estoy%20interesado%20en%20el%20siguiente%20producto:%20${product?.id}`}
       target="_blank"
       width="100%"
       height={'2.75rem'}

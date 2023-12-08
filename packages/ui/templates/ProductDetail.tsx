@@ -3,7 +3,6 @@
 
 import lscache from 'lscache';
 import {
-  Tooltip,
   Link,
   useDisclosure,
   Flex,
@@ -28,29 +27,22 @@ import {
   AddToCartButton,
   QuoteRequestButton,
   ProductListSection,
-  Carousel,
-  ProductCard,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
-import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 import { isBrowser, useProductGet, product as productConf } from 'shared';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
 import { ButtonEdit } from '../components/ButtonEdit';
 import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
-import { ProductCardCarousel } from '../components/ProductCardCarousel';
-import { Brand } from 'shared/entities/brand';
-import { Category } from 'shared/entities/category';
-import { RelatedLink } from 'shared/entities/related-link';
+import { ProductStock } from '../components/ProductStock';
 
 const { afterPriceText } = productConf;
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
 const _smallTextColor = 'brand.productDetail.smallText';
-const _tooltipBg = 'brand.productDetail.tooltipBg';
 const _relatedLinksLinkColor = 'brand.productDetail.relatedLinks.linkColor';
 const _relatedLinksMainContainerHover = 'blue.50';
 
@@ -72,26 +64,6 @@ const _gridItemDetailsBorderLeft = { lg: '1px', base: '0' };
 const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
 
 const _descriptionMarginTop = { lg: '2rem', base: '0' };
-
-const specifications = [
-  { name: 'Marca', value: 'Samsung' },
-  { name: 'Modelo', value: 'A30' },
-  { name: 'Pantalla', value: '6.4"' },
-  { name: 'Memoria', value: '64GB' },
-  { name: 'RAM', value: '4GB' },
-  { name: 'Procesador', value: 'Octa Core' },
-  { name: 'Cámara', value: '16MP' },
-  { name: 'Batería', value: '4000mAh' },
-];
-
-// const relatedLinks = [
-//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-//   { name: 'Samsung', url: 'https://www.samsung.com/ar/' },
-// ];
 
 export type ProductActionProps = {
   isLoading: boolean;
@@ -123,16 +95,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   // const [isLoading, setIsLoading] = useState(true);
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
-
-  const slidesPerView =
-    useBreakpointValue({
-      base: 2,
-      sm: 3,
-      md: 4,
-      lg: 3,
-      xl: 4,
-      '2xl': 5,
-    }) || 2;
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -230,27 +192,8 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Skeleton>
             </Box>
             <Box pb="1.5rem" pt="1rem">
-              <Skeleton isLoaded={!isLoading} w="20%" mb={'1rem'}>
-                {true && (
-                  <Text color={_smallTextColor} fontSize="0.875rem">
-                    Stock
-                    {true && (
-                      <Tooltip label="Disponible" bg={_tooltipBg} fontSize="0.75rem">
-                        <CheckIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
-                      </Tooltip>
-                    )}
-                    {data?.stock === 'CO' && (
-                      <Tooltip label="Consulte" bg={_tooltipBg} fontSize="0.75rem">
-                        <PhoneIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
-                      </Tooltip>
-                    )}
-                    {data?.stock === 'NO' && (
-                      <Tooltip label="Agotado" bg={_tooltipBg} fontSize="0.75rem">
-                        <CloseIcon boxSize="3" ml="0.5rem" mb="0.125rem" />
-                      </Tooltip>
-                    )}
-                  </Text>
-                )}
+              <Skeleton isLoaded={!isLoading}>
+                <ProductStock id={id} />
               </Skeleton>
               {/* <Skeleton isLoaded={!isLoading} w="50%" mb="1.75rem">
                 <Flex alignItems="center">
@@ -349,27 +292,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           </Box>
         </>
       )}
-      {/* {data?.relatedProducts && (
-      <Divider />
-        <Box mt="2.5rem" mb="3.5rem">
-          <Container maxW={_containerSize} px={0} mb="0.75rem">
-            <Heading size="lg">TAMBIÉN TE PUEDE INTERESAR</Heading>
-          </Container>
-          <Container maxW={_containerSize} px={0}>
-            <Carousel
-              slideHeight="24rem"
-              navigationLeft="-1rem"
-              navigationRight="-1rem"
-              slidesPerView={slidesPerView}
-              spaceBetween={32}
-            >
-              {data.relatedProducts.map((product, i) => (
-                <ProductCard key={i} isLoading={isLoading} editMode={true} product={product} />
-              ))}
-            </Carousel>
-          </Container>
-        </Box>
-      )} */}
       {/* <ProductListSection name="home_b" /> */} {/* Preguntarle a nacho como se hace esto */}
     </Box>
   );

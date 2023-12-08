@@ -22,3 +22,5 @@ export * from './request/user';
 export * from './request/file';
 export * from './request/quote';
 export * from './analytics';
+export * from './request/stock';
+
