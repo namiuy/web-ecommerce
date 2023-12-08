@@ -64,6 +64,7 @@ const socialNeworksItems = [
 
 const branches = [
   {
+    location : 'Montevideo',
     address: 'Bvr. Artigas 3397',
     addressDetail: 'Casi Gral. Flores',
     schedule: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
@@ -79,9 +80,10 @@ const branches = [
       number: 598098000600,
       text: '098 000 600',
     },
-    location: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
+    mapUrl: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
   },
   {
+    location : 'Montevideo',
     address: 'Cerro Largo 1518',
     addressDetail: 'Esq. Piedra Alta',
     schedule: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
@@ -97,7 +99,7 @@ const branches = [
       number: 598091033282,
       text: '091 033 282',
     },
-    location: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
+    mapUrl: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
   },
 ];
 
