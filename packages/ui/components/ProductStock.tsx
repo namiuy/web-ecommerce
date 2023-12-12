@@ -20,7 +20,7 @@ export const ProductStock = (props: StockProps) => {
     return <></>;
   }
   return (
-    <Flex py="1rem" alignItems="center" gap="0.5rem">
+    <Flex alignItems="center" gap="0.5rem">
       <Text color={_color} fontSize="0.75rem">
         Stock
       </Text>

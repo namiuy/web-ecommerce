@@ -7,10 +7,10 @@ import { sort, useProductListList } from 'shared';
 import { ProductList } from 'shared/entities/product-list';
 import { Heading } from 'ui';
 // import { ModalEdit } from './ModalEdit';
-import { ProductCardCarousel } from './ProductCardCarousel';
 // import { ProductListSectionEdit } from './ProductListSectionEdit';
 import { User } from 'shared/entities/user';
 import { isBrowser } from 'shared';
+import { ProductListCarousel } from './ProductListCarousel';
 
 const _grey3 = 'brand.grey.3';
 const _bg = 'brand.background';
@@ -68,7 +68,7 @@ export const ProductListSection: FC<ProductListSectionProps> = ({ name }) => {
               <Heading as="h3" size="lg" color={_grey3} pb=".5rem">
                 {name} {/* <Edit data={data} /> */}
               </Heading>
-              <ProductCardCarousel
+              <ProductListCarousel
                 key={i}
                 productListId={id}
                 editMode={isUserAdmin}

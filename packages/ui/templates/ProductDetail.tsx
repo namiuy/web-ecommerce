@@ -1,18 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import lscache from 'lscache';
-import {
-  Link,
-  useDisclosure,
-  Flex,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  useBreakpointValue,
-  Divider,
-  AspectRatio,
-} from '@chakra-ui/react';
+import { Link, useDisclosure, Flex, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
 import {
   Container,
   Grid,
@@ -36,6 +24,7 @@ import { ButtonEdit } from '../components/ButtonEdit';
 import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
 import { ProductStock } from '../components/ProductStock';
+import { RelatedProducts } from '../components/RelatedProducts';
 
 const { afterPriceText } = productConf;
 
@@ -57,7 +46,6 @@ const _gridItemBorderColor = { lg: _borderColor, base: 'transparent' };
 
 const _gridItemImagePaddingBottom = { lg: '0', base: '1rem' };
 const _gridItemImagePaddingRight = { lg: '1.5rem', base: '0' };
-const _gridItemImageSkeletonMarginBottom = { lg: '0', base: '1rem' };
 
 const _gridItemDetailsBorderLeft = { lg: '1px', base: '0' };
 const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
@@ -109,7 +97,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   }
 
   return (
-    <Box bg={_background} py={_mainBoxPaddingY}>
+    <Box bg={_background} py={_mainBoxPaddingY} minH="100vh">
       <Container maxW={_containerSize} px="0">
         {data && (
           <Flex justifyContent="space-between" alignItems="center">
@@ -129,15 +117,15 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Box>
             </Skeleton>
             {true && ( //fix: isUserAdmin
-              <Box>
+              <Skeleton isLoaded={!isLoading}>
                 <ButtonEdit onClick={onOpen} />
                 <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
-              </Box>
+              </Skeleton>
             )}
           </Flex>
         )}
       </Container>
-      <Card maxW={_containerSize} p={_containerPadding} m="0 auto 3.5rem auto">
+      <Card maxW={_containerSize} p={_containerPadding} m="0.5rem auto 3.5rem auto">
         <Grid
           templateAreas={_gridTemplateAreas}
           templateRows={_gridTemplateRows}
@@ -150,13 +138,15 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             pb={_gridItemImagePaddingBottom}
             pr={_gridItemImagePaddingRight}
           >
-            <AspectRatio ratio={{ base: 4 / 3, md: 1, lg: 4 / 3 }}>
-              <ImageModal
-                image={data ? data.image_url : 'undefined'}
-                title={data ? data.brand.name : 'undefined'}
-                isMobile={!!isMobile}
-              />
-            </AspectRatio>
+            <Skeleton isLoaded={!isLoading}>
+              <AspectRatio ratio={{ base: 4 / 3, lg: 1, xl: 4 / 3 }}>
+                <ImageModal
+                  image={data ? data.image_url : 'undefined'}
+                  title={data ? data.brand.name : 'undefined'}
+                  isMobile={!!isMobile}
+                />
+              </AspectRatio>
+            </Skeleton>
           </GridItem>
           <GridItem
             area="details"
@@ -170,8 +160,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   {data?.name}
                 </Text>
               </Skeleton>
-
-              <Skeleton isLoaded={!isLoading} w="35%" mb="1.25rem">
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1.25rem">
                 <Text color={_smallTextColor} fontSize="0.75rem">
                   <Text as="span" fontSize="0.625rem">
                     Codigo{' '}
@@ -179,7 +168,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   {data?.id}
                 </Text>
               </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="15rem" mb="0.5rem">
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.5rem">
                 <Text fontSize="2.5rem" fontWeight="medium">
                   <Text as="span" fontSize="1.875rem">
                     U$S{' '}
@@ -194,26 +183,10 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Text>
               </Skeleton>
             </Box>
-            <Box pb="1.5rem" pt="1rem">
-              <Skeleton isLoaded={!isLoading}>
-                <ProductStock id={id} />
-              </Skeleton>
-              {/* <Skeleton isLoaded={!isLoading} w="50%" mb="1.75rem">
-                <Flex alignItems="center">
-                  <Text mr="0.75rem" color={_smallTextColor}>
-                    Cantidad
-                  </Text>
-                  <NumberInput size="xs" maxW={20} defaultValue={1} min={1}>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </Flex>
-              </Skeleton> */}
-              <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
-            </Box>
+            <Skeleton isLoaded={!isLoading} w="fit-content" mt="1rem" mb="1rem">
+              <ProductStock id={id} />
+            </Skeleton>
+            <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
           </GridItem>
           {data?.description && (
             <GridItem
@@ -225,13 +198,16 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             >
               <Skeleton isLoaded={!isLoading}>
                 <Text lineHeight="1.5rem" textAlign="justify">
-                  {data.description.split('. ').map((linea, i) => (
-                    <Text as="span" key={i}>
-                      {'-'}
-                      {linea}
-                      <br />
-                    </Text>
-                  ))}
+                  {data.description
+                    .split('. ')
+
+                    .map((linea, i) => (
+                      <Text as="span" key={i}>
+                        {'- '}
+                        {linea}
+                        <br />
+                      </Text>
+                    ))}
                 </Text>
               </Skeleton>
             </GridItem>
@@ -266,36 +242,8 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           <Divider />
         </>
       )}
-      {data?.related_links && (
-        <>
-          <Box mt="2.5rem" mb="3.5rem">
-            <Container maxW={_containerSize} px={0} mb="1.5rem">
-              <Heading size="lg">LINKS</Heading>
-            </Container>
-            <Card maxW={_containerSize} mx="auto">
-              <Skeleton isLoaded={!isLoading}>
-                {data.related_links.map((link, i) => (
-                  <Box key={i}>
-                    {i != 0 && <Divider />}
-                    <Link
-                      href={link.url}
-                      target="_blank"
-                      display="block"
-                      py="0.75rem"
-                      pl="1rem"
-                      color={_relatedLinksLinkColor}
-                      _hover={{ textDecoration: 'none', bg: _relatedLinksMainContainerHover }}
-                    >
-                      <Box>{link.name}</Box>
-                    </Link>
-                  </Box>
-                ))}
-              </Skeleton>
-            </Card>
-          </Box>
-        </>
-      )}
-      {/* <ProductListSection name="home_b" /> */} {/* Preguntarle a nacho como se hace esto */}
+
+      <RelatedProducts id={id} />
     </Box>
   );
 };
