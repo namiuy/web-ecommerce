@@ -78,8 +78,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
-  // const { error, data } = useProductGet(id);
-  // const [isLoading, setIsLoading] = useState(true);
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
 
@@ -116,7 +114,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Link>
               </Box>
             </Skeleton>
-            {true && ( //fix: isUserAdmin
+            {false && ( //fix: isUserAdmin
               <Skeleton isLoaded={!isLoading}>
                 <ButtonEdit onClick={onOpen} />
                 <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
@@ -242,7 +240,35 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           <Divider />
         </>
       )}
-
+      {data?.related_links && (
+        <>
+          <Box mt="2.5rem" mb="3.5rem">
+            <Container maxW={_containerSize} px={0} mb="1.5rem">
+              <Heading size="lg">LINKS</Heading>
+            </Container>
+            <Card maxW={_containerSize} mx="auto">
+              <Skeleton isLoaded={!isLoading}>
+                {data.related_links.map((link, i) => (
+                  <Box key={i}>
+                    {i != 0 && <Divider />}
+                    <Link
+                      href={link.url}
+                      target="_blank"
+                      display="block"
+                      py="0.75rem"
+                      pl="1rem"
+                      color={_relatedLinksLinkColor}
+                      _hover={{ textDecoration: 'none', bg: _relatedLinksMainContainerHover }}
+                    >
+                      <Box>{link.name}</Box>
+                    </Link>
+                  </Box>
+                ))}
+              </Skeleton>
+            </Card>
+          </Box>
+        </>
+      )}
       <RelatedProducts id={id} />
     </Box>
   );
