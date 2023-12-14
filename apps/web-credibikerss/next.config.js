@@ -49,6 +49,7 @@ const branches = [
       text: '097 530 690',
     },
     position: { lat: -34.900745, lng: -56.178579 },
+    mapUrl: 'https://maps.app.goo.gl/HFfUmgWHC6NU8d2B6',
   },
   {
     location: 'Las Piedras',
@@ -59,6 +60,7 @@ const branches = [
       text: '092 555 609',
     },
     position: { lat: -34.7308552, lng: -56.2236266 },
+    mapUrl: 'https://maps.app.goo.gl/1zXx8qUZdsgGxNQv7',
   },
 ];
 

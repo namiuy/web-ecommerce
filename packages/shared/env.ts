@@ -21,6 +21,7 @@ type Branch = {
   };
   location: string;
   position: { lat: number; lng: number };
+  mapUrl: string;
 };
 
 type MenuItem = {

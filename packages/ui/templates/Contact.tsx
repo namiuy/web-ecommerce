@@ -63,7 +63,7 @@ export const Contact = () => {
                 {index != 0 && <Divider />}
                 <Box>
                   <Link
-                    href={branch.location}
+                    href={branch.mapUrl}
                     target="_blank"
                     display="flex"
                     justifyContent="space-between"

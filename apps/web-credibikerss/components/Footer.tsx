@@ -1,11 +1,12 @@
 import NextLink from 'next/link';
 import { FC } from 'react';
-import { AnimationWrapper, Box, Center, Container, Flex, Grid, Heading, Map } from 'ui';
+import { AnimationWrapper, Box, Center, Container, Flex, Grid, Heading } from 'ui';
 import SocialNeworks from 'ui/components/SocialNeworks';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import { Icon, Link } from '@chakra-ui/react';
 import { useBreakpointValue } from '@chakra-ui/react';
 import { branches } from 'shared';
+import { Map } from './Map';
 
 const _secondaryColor = '#d7fc00'; // TODO: fix
 
@@ -25,9 +26,10 @@ type FooterMapProps = {
     text: string;
   };
   position: { lat: number; lng: number };
+  mapUrl: string;
 };
 
-const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position }) => (
+const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position, mapUrl }) => (
   <div>
     <Flex justifyContent="space-between" alignItems="center">
       <Heading as="h4" fontSize={_branchNameSize} textTransform="uppercase" fontWeight="bolder">
@@ -52,7 +54,7 @@ const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position }
       </AnimationWrapper>
     </Flex>
     <Box h="1rem" />
-    <Map h={_mapH} position={position} zoom={16} />
+    <Map h={_mapH} img={location === 'Montevideo' ? 'MVD' : 'LPA'} position={position} url={mapUrl} />
     <Box h="1rem" />
     <Center color={_addressColor} fontSize=".8rem" letterSpacing=".05rem">
       {address}
