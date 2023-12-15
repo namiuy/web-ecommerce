@@ -1,11 +1,10 @@
 import { Link, Icon, Textarea, useBreakpointValue, FormErrorMessage, Flex, Divider } from '@chakra-ui/react';
-import { Box, Container, Text, Map, Grid, GridItem, Button } from 'ui';
+import { Box, Container, Text, Map, Button } from 'ui';
 import { Field, Formik } from 'formik';
 import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
 import { MdCheckCircle, MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
-import { MdOutlineNavigateNext } from 'react-icons/md';
 
 import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
@@ -36,6 +35,7 @@ export const Contact = () => {
   const lg = useBreakpointValue({ base: false, lg: true });
   const [contactProps, setContactProps] = useState<ContactValues>();
   const { isLoading, data, error } = useContactRequest(contactProps);
+  // TODO: Add error handling
 
   return (
     <>
@@ -85,7 +85,6 @@ export const Contact = () => {
                         <Text fontSize={14}>{branch.addressDetail}</Text>
                       </Box>
                     </Box>
-                    {/* <Icon as={MdOutlineNavigateNext} boxSize={8} color="primary.main" /> */}
                   </Link>
                 </Box>
                 <Box display="flex" alignItems="center">
