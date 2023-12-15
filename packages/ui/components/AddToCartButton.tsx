@@ -4,15 +4,38 @@ import { BiSolidShoppingBag } from 'react-icons/bi';
 import { FC } from 'react';
 import { ProductActionProps } from '../templates/ProductDetail';
 
-const _gridItemDetailsBuyButtonColors = { bg: 'red.500', color: 'white', _hover: { bg: 'red.700' } };
-
-const _shoppingBagIcon = { ml: '5px', boxSize: 4, mb: '3px' };
-
 export const AddToCartButton: FC<ProductActionProps> = ({ isLoading, product }) =>
   isLoading ? (
-    <Skeleton w="100%" h="2.5rem" />
+    <>
+      <Skeleton w="100%" h="2.75rem" my="1rem" />
+      <Skeleton w="100%" h="2.75rem" />
+    </>
   ) : (
-    <Button width="100%" sx={_gridItemDetailsBuyButtonColors} isDisabled={!product || product?.stock !== 'AV'}>
-      COMPRAR <Icon as={BiSolidShoppingBag} sx={_shoppingBagIcon} />
-    </Button>
+    <>
+      <Button
+        width="100%"
+        height={'2.75rem'}
+        borderRadius="0.5rem"
+        bg="primary.main"
+        color="white"
+        my="1rem"
+        _hover={{ backgroundColor: 'primary.main' }}
+        isDisabled={!product || product?.stock !== 'AV'}
+      >
+        COMPRAR <Icon as={BiSolidShoppingBag} ml="5px" boxSize="4" mb="3px" />
+      </Button>
+      <Button
+        width="100%"
+        height={'2.75rem'}
+        borderRadius="0.5rem"
+        bg="white"
+        color="primary.main"
+        border="2px"
+        borderColor="primary.main"
+        _hover={{ backgroundColor: 'primary.main', color: 'white', borderColor: 'primary.main' }}
+        isDisabled={!product || product?.stock !== 'AV'}
+      >
+        AGREGAR AL CARRITO <Icon as={BiSolidShoppingBag} ml="5px" boxSize="4" mb="3px" />
+      </Button>
+    </>
   );

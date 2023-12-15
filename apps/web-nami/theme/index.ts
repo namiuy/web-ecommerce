@@ -8,7 +8,9 @@ const borderColor = '#eeeeee';
 const smallText = '#909090';
 const tooltipBg = '#676767';
 const buyButtonHoverBg = '#e53e3e';
+
 const relatedLinksColor = '#4195db';
+const relatedLinksColorBg = '#e6f2ff';
 
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px)',
@@ -43,6 +45,7 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
+      background: "#fafafa",
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
@@ -62,7 +65,7 @@ export const theme: Record<string, any> = {
         relatedLinks: {
           linkColor: relatedLinksColor,
           _hover: {
-            backgroundColor: relatedLinksColor,
+            backgroundColor: relatedLinksColorBg,
           },
         },
       },
