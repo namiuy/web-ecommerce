@@ -161,8 +161,6 @@ export const ModalQuote: FC<ModalQuoteProps> = ({ isOpen, product, onClose }) =>
                     Clearing.
                     <br />
                     Residencia legal: 6 meses de antigüedad laboral.
-                    <br />
-                    Residencia en trámite: 1 año de antigüedad laboral.
                   </Text>
                 </div>
 
