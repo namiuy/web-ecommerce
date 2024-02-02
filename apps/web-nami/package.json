@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "shared": "*",
-    "ui": "*"
+    "ui": "*",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

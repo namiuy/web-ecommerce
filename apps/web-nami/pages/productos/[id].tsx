@@ -21,7 +21,8 @@ const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
     <>
       <Head />
       <NavBar />
-      <ProductDetailTemplate id={id} actions={['add_to_cart']} />
+      {/* <ProductDetailTemplate id={id} actions={['add_to_cart']} /> */}
+      <ProductDetailTemplate id={id} actions={['whatsapp_request']} />
     </>
   );
 };

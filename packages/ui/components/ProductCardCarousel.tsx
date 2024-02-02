@@ -5,11 +5,13 @@ import { Carousel, ProductCard } from 'ui';
 
 const _minH = { base: '17rem', lg: '21rem' };
 
-type ProductCardCarouselProps = { editMode?: boolean; productListId: number; productsLength: number };
+type ProductCardCarouselProps = {
+  isLoading: boolean;
+  editMode?: boolean;
+  products: Product[];
+};
 
-export const ProductCardCarousel = ({ editMode = false, productListId, productsLength }: ProductCardCarouselProps) => {
-  const { isLoading, error, data } = useProductListGet(productListId);
-
+export const ProductCardCarousel = ({ isLoading, editMode = false, products }: ProductCardCarouselProps) => {
   const isLg = useBreakpointValue({
     base: false,
     lg: true,
@@ -19,17 +21,10 @@ export const ProductCardCarousel = ({ editMode = false, productListId, productsL
     useBreakpointValue({
       base: 2,
       sm: 3,
-      lg: 4,
+      md: 4,
+      '2xl': 5,
     }) || 2;
-
   const slideHeight = isLg ? _minH.lg : _minH.base;
-
-  if (error) {
-    console.log(error);
-    return <></>;
-  }
-
-  const products = isLoading ? getEmptyArray<Product>(productsLength) : data?.products.filter(p => p.id);
 
   return (
     <Carousel

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { ProductList } from 'shared/entities/product-list';
 import { useProductListGet } from 'shared/hooks/request/product-list';
 import { groupBy, sort } from 'shared/utils/array';
-import { Box, Button, Grid, GridItem, ProductCard } from '..';
+import { Box, Button, Grid, GridItem, ProductCard } from '../..';
 
 type ProductListListProps = {
   productListId: number;

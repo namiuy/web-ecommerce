@@ -9,12 +9,14 @@ type Keys = {
 
 type Branch = {
   address: string;
-  addressDetail: string; 
+  addressDetail: string;
   schedule: string;
-  phone: [{
-    number: number;
-    text: string;
-  }];
+  phone: [
+    {
+      number: number;
+      text: string;
+    },
+  ];
   whatsApp: {
     number: number;
     text: string;
@@ -42,6 +44,8 @@ type Product = {
 export const bff = {
   url: prc.bffUrl,
 };
+
+export const siteHost = prc.siteHost;
 
 export const keys = prc.keys as Keys;
 
