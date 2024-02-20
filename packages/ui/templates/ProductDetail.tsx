@@ -114,7 +114,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Link>
               </Box>
             </Skeleton>
-            {false && ( //fix: isUserAdmin
+            {isUserAdmin && (
               <Skeleton isLoaded={!isLoading}>
                 <ButtonEdit onClick={onOpen} />
                 <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
@@ -181,9 +181,9 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Text>
               </Skeleton>
             </Box>
-            <Skeleton isLoaded={!isLoading} w="fit-content" mt="1rem" mb="1rem">
+            {/* <Skeleton isLoaded={!isLoading} w="fit-content" mt="1rem" mb="1rem">
               <ProductStock id={id} />
-            </Skeleton>
+            </Skeleton> */}
             <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
           </GridItem>
           {data?.description && (
@@ -195,13 +195,12 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               pt="2rem"
             >
               <Skeleton isLoaded={!isLoading}>
-                <Text lineHeight="1.5rem" textAlign="justify">
-                  {data.description.split('. ').map((linea, i) => (
-                    <Text as="span" key={i}>
-                      {'- '}
+                <Text lineHeight="2rem">
+                  {data?.description?.split('\n').map((linea, i) => (
+                    <>
                       {linea}
                       <br />
-                    </Text>
+                    </>
                   ))}
                 </Text>
               </Skeleton>
@@ -209,7 +208,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           )}
         </Grid>
       </Card>
-      {data?.specifications && (
+      {!!data?.specifications?.length && (
         <>
           <Divider />
           <Box mt="2.5rem" mb="3.5rem">
@@ -237,7 +236,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           <Divider />
         </>
       )}
-      {data?.related_links && (
+      {!!data?.related_links?.length && (
         <>
           <Box mt="2.5rem" mb="3.5rem">
             <Container maxW={_containerSize} px={0} mb="1.5rem">

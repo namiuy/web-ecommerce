@@ -18,10 +18,8 @@
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.10.1",
     "shared": "*",
-    "ui": "*",
-    "uuid": "^9.0.1"
+    "ui": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
