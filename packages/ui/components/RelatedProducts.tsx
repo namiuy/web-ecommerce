@@ -14,8 +14,8 @@ type RelatedProductsProps = {
 export const RelatedProducts = ({ id }: RelatedProductsProps) => {
   const { data, isLoading, error } = useProductRelatedGet(id);
 
-  if (error) {
-    console.log(error);
+  if (!data?.products?.length || error) {
+    if (error) console.log(error);
     return <></>;
   }
 

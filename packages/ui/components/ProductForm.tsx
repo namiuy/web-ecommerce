@@ -115,7 +115,12 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
 
   const add = (values: Record<string, any>) => {
     setIsLoading(true);
-    productAdd({ ...values, image_url: imageUrl ?? '' } as Product)
+    productAdd({
+      ...values,
+      image_url: imageUrl ?? '',
+      brand: { id: Number(values.brand) },
+      category: { id: values.category.toString() },
+    } as Product)
       .then(() => {
         showToast('Producto agregado correctamente');
         onSuccess();
@@ -129,6 +134,8 @@ export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
     const diff = getObjectDifference(data, { ...values, image_url: imageUrl });
     if (Object.keys(diff).length) {
       diff.id = data?.id;
+      if (diff.brand) diff.brand = { id: Number(values.brand) };
+      if (diff.category) diff.category = { id: values.category.toString() };
       productUpdate(values.id, diff)
         .then(() => {
           showToast('Producto modificado correctamente');
