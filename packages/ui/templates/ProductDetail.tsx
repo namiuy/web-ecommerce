@@ -208,10 +208,10 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           )}
         </Grid>
       </Card>
+      <Divider mb="3rem" />
       {!!data?.specifications?.length && (
         <>
-          <Divider />
-          <Box mt="2.5rem" mb="3.5rem">
+          <Box mb="3.5rem">
             <Container maxW={_containerSize} px="0" mb="1.5rem">
               <Heading size="lg">ESPECIFICACIONES</Heading>
             </Container>
@@ -233,7 +233,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Skeleton>
             </Card>
           </Box>
-          <Divider />
+          <Divider mb="3rem" />
         </>
       )}
       {!!data?.related_links?.length && (
@@ -263,6 +263,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Skeleton>
             </Card>
           </Box>
+          <Divider mb="3rem" />
         </>
       )}
       <RelatedProducts id={id} />
