@@ -44,7 +44,8 @@ type SocialNeworkItem = {
 };
 
 type Product = {
-  afterPriceText: string;
+  cardPriceType: string;
+  detailPriceType: string;
 };
 
 export const bff = {

@@ -1,5 +1,5 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_AFTER_PRICE_TEXT, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID } = process.env;
+const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_CARD_PRICE_TYPE, PRODUCT_DETAIL_PRICE_TYPE, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID } = process.env;
 
 const multiDomainItems = [
   {
@@ -147,7 +147,8 @@ module.exports = {
       googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,
     },
     product: {
-      afterPriceText: PRODUCT_AFTER_PRICE_TEXT,
+      cardPriceType: PRODUCT_CARD_PRICE_TYPE,
+      detailPriceType: PRODUCT_DETAIL_PRICE_TYPE,
     },
   },
 };
