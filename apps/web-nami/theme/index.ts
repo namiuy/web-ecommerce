@@ -170,6 +170,12 @@ export const theme: Record<string, any> = {
           },
         },
       },
+      contact: {
+        input : {
+          borderColor: primary,
+
+        }
+      },
     },
   },
 };

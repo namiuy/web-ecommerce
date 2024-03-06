@@ -17,6 +17,7 @@ export type NavBarProps = {
   menuItems?: Array<MenuItem>;
   fixed?: boolean;
   simple?: boolean;
+  hover?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {

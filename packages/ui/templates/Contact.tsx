@@ -130,7 +130,7 @@ export const Contact = () => {
             transform={_transform}
             mb={_mb}
           >
-            <Text fontSize="1.375rem" fontWeight="bold" mb="0.75rem">
+            <Text fontSize="1.375rem" fontWeight="bold" mb="1.25rem">
               Contáctese con nosotros
             </Text>
             <Formik

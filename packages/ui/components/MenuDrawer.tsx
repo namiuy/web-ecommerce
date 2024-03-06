@@ -17,7 +17,7 @@ import {
 import { MenuItem } from './NavBar';
 import Link from 'next/link';
 import { NavItem } from './Nav';
-import SocialNeworks from './SocialNeworks';
+import SocialNetworks from './SocialNetworks';
 import { CategoriesAccordion } from './CategoriesAccordion';
 import { Center } from '..';
 import MenuAdmin from './MenuAdmin';
@@ -97,7 +97,7 @@ export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems }: 
         </Box>
         <Box p="2rem 0">
           <Center>
-            <SocialNeworks dark={dark} color={_menuItemColor} size="2rem" hide={['whatsapp']} />
+            <SocialNetworks dark={dark} color={_menuItemColor} size="2rem" hide={['whatsapp']} />
           </Center>
         </Box>
       </DrawerBody>

@@ -1,7 +1,8 @@
 'use client';
 
-import { Flex, Box, Banner, Container, Head, ProductListSection, Brands } from 'ui';
+import { Flex, Banner, Container, Head, ProductListSection, Brands, Footer } from 'ui';
 import { NavBar } from '../components';
+import { Logo } from '../components/LogoWhite';
 
 const _bg = 'brand.background';
 
@@ -14,11 +15,10 @@ export default function Web() {
         <Flex direction="column" gap="4rem">
           <Banner section="home_a" />
           <Brands />
+          <ProductListSection name="home_a" />
         </Flex>
       </Container>
-      <Box bg={_bg} minH="50vh" pb="3rem">
-        <ProductListSection name="home_a" />
-      </Box>
+      <Footer logo={Logo} />
     </>
   );
 }

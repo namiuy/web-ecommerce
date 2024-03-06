@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { FC } from 'react';
 import { AnimationWrapper, Box, Center, Container, Flex, Grid, Heading } from 'ui';
-import SocialNeworks from 'ui/components/SocialNeworks';
+import SocialNetworks from 'ui/components/SocialNetworks';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import { Icon, Link } from '@chakra-ui/react';
 import { useBreakpointValue } from '@chakra-ui/react';
@@ -73,7 +73,7 @@ export const Footer = () => {
       <Container p="0">
         <Center p="4rem 0 3rem 0">
           <AnimationWrapper tag="a">
-            <SocialNeworks dark color={_color} size="2rem" gap="2rem" hide={['whatsapp']} />
+            <SocialNetworks dark color={_color} size="2rem" gap="2rem" hide={['whatsapp']} />
           </AnimationWrapper>
         </Center>
         <Grid
