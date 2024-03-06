@@ -19,11 +19,6 @@ const menuItems = [
     href: '/empresa',
   },
   {
-    id: 'blog',
-    text: 'Blog',
-    href: '/blog',
-  },
-  {
     id: 'contact',
     text: 'Contacto',
     href: '/contacto',

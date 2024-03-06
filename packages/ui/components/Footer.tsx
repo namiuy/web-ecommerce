@@ -44,7 +44,7 @@ export const Footer = ({ logo: Logo }: FooterProps) => {
           </GridItem>
 
           <GridItem gridArea="c" placeSelf={{ base: 'center left', md: 'center right' }}>
-            <SocialNetworks color="white" gap="2.25rem" size="1.25rem" />
+            <SocialNetworks color="white" gap="1.5rem" size="1.5rem" />
           </GridItem>
         </Grid>
       </Container>
