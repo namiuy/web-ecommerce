@@ -1,15 +1,28 @@
-import { Link, Icon, Textarea, useBreakpointValue, FormErrorMessage, Flex, Divider } from '@chakra-ui/react';
+import {
+  Link,
+  Icon,
+  Textarea,
+  useBreakpointValue,
+  FormErrorMessage,
+  Flex,
+  Divider,
+  Progress,
+  FormControl,
+  FormLabel,
+  Input,
+  VStack,
+} from '@chakra-ui/react';
 import { Box, Container, Text, Map, Button } from 'ui';
 import { Field, Formik } from 'formik';
-import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
 import { MdCheckCircle, MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
+import { useToast } from '@chakra-ui/react';
 
 import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as ContactValues } from 'shared/entities/contact';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 import { branches } from 'shared/env';
 
@@ -32,10 +45,31 @@ const calculateCenter = (branches: any) => {
 };
 
 export const Contact = () => {
+  const toast = useToast();
   const lg = useBreakpointValue({ base: false, lg: true });
   const [contactProps, setContactProps] = useState<ContactValues>();
   const { isLoading, data, error } = useContactRequest(contactProps);
   // TODO: Add error handling
+
+  useEffect(() => {
+    if (toast && data) {
+      const id = 'contact-message-sent';
+      if (!toast.isActive(id)) {
+        toast({
+          id,
+          title: 'Mensaje enviado',
+          description: 'El mensaje fue enviado correctamente.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+  }, [toast, data]);
+
+  const handleSubmit = async (values: ContactValues) => {
+    setContactProps(values);
+  };
 
   return (
     <>
@@ -141,9 +175,7 @@ export const Contact = () => {
                 subject: '',
                 message: '',
               }}
-              onSubmit={values => {
-                setContactProps(values);
-              }}
+              onSubmit={handleSubmit}
               validateOnChange={false}
               validateOnBlur={false}
             >
@@ -236,27 +268,29 @@ export const Contact = () => {
                         <FormErrorMessage>{errors.message}</FormErrorMessage>
                       </FormControl>
                     </Box>
-                    <Button
-                      type="submit"
-                      bg="primary.main"
-                      color="white"
-                      width="100%"
-                      mt={2}
-                      _hover={{ backgroundColor: 'primary.main' }}
-                    >
-                      ENVIAR
-                    </Button>
+                    <Box w="100%">
+                      <Progress
+                        h={isLoading ? '4px' : '1px'}
+                        m="1rem 0"
+                        size="xs"
+                        isIndeterminate={isLoading}
+                        colorScheme="primary"
+                      />
+                      <Button
+                        type="submit"
+                        bg="primary.main"
+                        color="white"
+                        width="100%"
+                        mt={2}
+                        _hover={{ backgroundColor: 'primary.main' }}
+                      >
+                        ENVIAR
+                      </Button>
+                    </Box>
                   </VStack>
                 </form>
               )}
             </Formik>
-
-            {data && (
-              <Flex gap="1rem" justifyContent="center" alignItems="center" mt="1rem">
-                <Icon as={MdCheckCircle} boxSize={5} color="green.400" />
-                <Text>El mensaje fue enviado correctamente.</Text>
-              </Flex>
-            )}
           </Box>
         </Box>
       </Container>
