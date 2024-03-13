@@ -5,7 +5,7 @@ import { NavBar } from '../components';
 const ContactPage: NextPage = () => (
   <GaPage page="Contact">
     <>
-      <NavBar />
+      <NavBar fixed />
       <ContactTemplate />
     </>
   </GaPage>

@@ -5,6 +5,8 @@ import { menuItems } from 'shared/env';
 import NavBarDesktop from './NavBarDesktop';
 import NavBarMobile from './NavBarMobile';
 
+const _backgroundColor = 'brand.navBar.backgroundColorSecondary';
+
 export type MultiDomainItem = {
   id: string;
   text: string;
@@ -26,7 +28,6 @@ export type NavBarProps = {
   fixed?: boolean;
   simple?: boolean;
   hover?: boolean;
-  multiDomain?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {
@@ -34,7 +35,7 @@ export const NavBar = (props: NavBarProps) => {
     base: false,
     lg: true,
   });
-  const { fixed } = props;
+  const { fixed, simple } = props;
   const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
 
   return (
@@ -42,7 +43,7 @@ export const NavBar = (props: NavBarProps) => {
       <Box w="100%" zIndex="999" position={fixed ? 'fixed' : 'static'}>
         <NavBarDisplay {...props} multiDomainItems={multiDomainItems} menuItems={menuItems} />
       </Box>
-      {fixed && <Box h="6rem" bg="black" />}
+      {simple && <Box h="6rem" bg="black" />}
     </>
   );
 };

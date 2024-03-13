@@ -1,4 +1,8 @@
 import { NavBar as NavBarUI } from 'ui';
 import { Logo } from './LogoWhite';
 
-export const NavBar = () => <NavBarUI logo={Logo} multiDomain />;
+type NavBarProps = {
+  fixed?: boolean;
+};
+
+export const NavBar = ({ fixed }: NavBarProps) => <NavBarUI logo={Logo} fixed={fixed} />;

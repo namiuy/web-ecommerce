@@ -5,6 +5,7 @@ import SearchInput from '../SearchInput';
 import Link from 'next/link';
 import { CategoriesPopover } from '../CategoriesPopover';
 import SocialNetworks from '../SocialNetworks';
+import NavMultiDomain from '../NavMultiDomain';
 
 const _navItemColor = 'brand.nav.item.color';
 const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
@@ -37,7 +38,7 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems, menuItems = [], sim
             w={_mainWidth}
             m="0 auto"
           >
-            <Nav items={multiDomainItems} multiDomain />
+            <NavMultiDomain items={multiDomainItems} />
           </Flex>
         </Box>
       )}
@@ -46,7 +47,6 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems, menuItems = [], sim
           p={simple ? '1.5rem 0 1.5rem 0' : '1rem 0 0.375rem 0'}
           gridTemplateColumns={simple ? '12rem 1fr auto auto' : '12rem 1fr auto'}
           alignItems="center"
-          bg={_backgroundColorSecondary}
           gap="2rem"
           w={_mainWidth}
           m="0 auto"

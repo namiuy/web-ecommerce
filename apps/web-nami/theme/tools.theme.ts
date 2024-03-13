@@ -139,6 +139,17 @@ export const theme: Record<string, any> = {
           borderColor: primary,
         },
       },
+      footer: {
+        backgroundColor: secondary,
+        color: white,
+        borderColor: white,
+        iconButton: {
+          color: white,
+          _hover: {
+            color: white,
+          },
+        },
+      },
     },
   },
 
@@ -172,10 +183,9 @@ export const theme: Record<string, any> = {
         },
       },
       contact: {
-        input : {
+        input: {
           borderColor: primary,
-
-        }
+        },
       },
     },
   },
