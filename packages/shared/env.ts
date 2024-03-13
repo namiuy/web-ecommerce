@@ -26,6 +26,12 @@ type Branch = {
   mapUrl: string;
 };
 
+type MultiDomainItem = {
+  id: string;
+  text: string;
+  href: string;
+};
+
 type MenuItem = {
   id: string;
   text: string;
@@ -50,6 +56,8 @@ export const siteHost = prc.siteHost;
 export const keys = prc.keys as Keys;
 
 export const branches = prc.branches as Branch[];
+
+export const multiDomainItems = prc.multiDomainItems as MultiDomainItem[];
 
 export const menuItems = prc.menuItems as MenuItem[];
 

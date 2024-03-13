@@ -1,7 +1,11 @@
 import { NextPage } from 'next';
-import { RegisterTemplate } from 'ui';
+import { GaPage, RegisterTemplate } from 'ui';
 import { Logo } from '../components/LogoWhite';
 
-const RegisterPage: NextPage = () => <RegisterTemplate Logo={Logo} />;
+const RegisterPage: NextPage = () => (
+  <GaPage page="Register">
+    <RegisterTemplate Logo={Logo} />
+  </GaPage>
+);
 
 export default RegisterPage;

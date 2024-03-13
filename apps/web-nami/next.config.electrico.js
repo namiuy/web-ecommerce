@@ -14,9 +14,9 @@ const multiDomainItems = [
     href: 'https://climatizadores.nami.com.uy',
   },
   {
-    id: 'electrico',
-    text: 'AUTO ELÉCTRICO',
-    href: 'https://electrico.nami.com.uy',
+    id: 'herramientas',
+    text: 'HERRAMIENTAS',
+    href: 'https://herramientas.nami.com.uy',
   },
 ];
 
@@ -46,19 +46,27 @@ const menuItems = [
 const socialNeworksItems = [
   {
     id: 'facebook',
-    href: 'https://www.facebook.com/nami.ltda/',
+    href: '/',
   },
   {
     id: 'instagram',
-    href: 'https://www.instagram.com/namiuruguay',
+    href: '/',
+  },
+  {
+    id: 'tiktok',
+    href: '/',
+  },
+  {
+    id: 'whatsapp',
+    href: '/',
   },
   {
     id: 'youtube',
-    href: 'https://www.youtube.com/channel/UCj-bqgJxFs0rhqB02jhxQ0g',
+    href: '/',
   },
   {
     id: 'linkedin',
-    href: 'https://www.linkedin.com/company/namiuy',
+    href: '/',
   },
 ];
 
@@ -68,23 +76,22 @@ const branches = [
     address: 'Bvr. Artigas 3397',
     addressDetail: 'Casi Gral. Flores',
     schedule: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
-    phone: [{
-      number: 59822001350,
-      text: '2200 1350',
-      }, 
+    phone: [
       {
-      number: 59822034381,
-      text: '2203 4381', }
+        number: 59822001350,
+        text: '2200 1350',
+      },
+      {
+        number: 59822034381,
+        text: '2203 4381',
+      },
     ],
     whatsApp: {
       number: 598098000600,
       text: '098 000 600',
     },
-    position: {
-      lat: -34.87058963647513, 
-      lng : -56.17624398650627
-    },
     mapUrl: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
+    location: 'https://goo.gl/maps/8EZqjv8GDNFBBoAM9',
     position: {
       lat: -34.87058963647513, 
       lng : -56.17624398650627
@@ -95,23 +102,22 @@ const branches = [
     address: 'Cerro Largo 1518',
     addressDetail: 'Esq. Piedra Alta',
     schedule: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
-    phone: [{
-      number: 59824020922,
-      text: '2402 0922',
-      }, 
+    phone: [
       {
-      number: 59824020031,
-      text: '2402 0031', }
+        number: 59824020922,
+        text: '2402 0922',
+      },
+      {
+        number: 59824020031,
+        text: '2402 0031',
+      },
     ],
     whatsApp: {
       number: 598091033282,
       text: '091 033 282',
     },
-    position: {
-      lat: -34.9003072728495, 
-      lng : -56.18455037487027
-    },
     mapUrl: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
+    location: 'https://goo.gl/maps/9Uhq6dWkB9FrVQmp6',
     position: {
       lat: -34.9003072728495, 
       lng : -56.18455037487027

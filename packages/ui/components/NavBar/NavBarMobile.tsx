@@ -22,7 +22,7 @@ import SearchInput from '../SearchInput';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
-const _backgroundColor = 'brand.navBar.backgroundColor';
+const _backgroundColor = 'brand.navBar.backgroundColorPrimary';
 const _backdropFilter = 'saturate(180%) blur(20px)';
 const _borderColor = 'brand.navBar.borderColor';
 const _color = 'brand.navBar.color';
