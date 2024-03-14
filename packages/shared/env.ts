@@ -51,6 +51,8 @@ export const bff = {
   url: prc.bffUrl,
 };
 
+export const envId = prc.envId;
+
 export const siteHost = prc.siteHost;
 
 export const keys = prc.keys as Keys;
