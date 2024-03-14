@@ -22,7 +22,8 @@ export const productAdd = (data: Product): Promise<Product> =>
 export const productUpdate = (id: string, data: any): Promise<Product> =>
   put<Product>(`${bff.url}/products/${id}`, { body: JSON.stringify(data) });
 
-export const useProductRelatedGet = (id: string): Result<ProductRelated> => useRequest(`${bff.url}/products/related/${id}`)
+export const useProductRelatedGet = (id: string): Result<ProductRelated> =>
+  useRequest(`${bff.url}/products/related/${id}`);
 
 export const productDelete = (id: string): Promise<Product> => del<Product>(`${bff.url}/products/${id}`);
 

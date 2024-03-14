@@ -28,9 +28,9 @@ const Message = ({ content }: { content: string }) => (
 );
 
 export const ProductSearch = (props: ProductSearchProps) => {
-  const {
-    productSearchOptions: { filters },
-  } = useContext(AppContext);
+  // const {
+  //   productSearchOptions: { filters },
+  // } = useContext(AppContext);
 
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();

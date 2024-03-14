@@ -1,19 +1,12 @@
-'use client';
-
-import { NextPage } from 'next';
-import { AddToCartButton, Head, ProductDetailTemplate } from 'ui';
+import { Head, ProductDetailTemplate } from 'ui';
 import { NavBar } from '../../components';
 import { useRouter } from 'next/router';
 
-type ProductDetailPageProps = {
-  id?: string;
-};
-
-const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
+const ProductDetailPage = () => {
   const router = useRouter();
+  const id = router.query?.id?.toString();
 
   if (!id) {
-    router.replace('/productos');
     return <></>;
   }
 
@@ -26,9 +19,5 @@ const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
     </>
   );
 };
-
-ProductDetailPage.getInitialProps = async ({ query }) => ({
-  id: query.id?.toString(),
-});
 
 export default ProductDetailPage;

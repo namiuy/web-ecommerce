@@ -1,14 +1,7 @@
-import { NextPage } from 'next';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
 import { NavBar } from '../../components';
-
-type ProductsPageProps = {
-  brandId?: number;
-  categoryId?: string;
-  text?: string;
-  sortBy?: ProductSearchSortBy;
-};
+import { useSearchParams } from 'next/navigation';
 
 const CategoriesAndBrands = () => (
   <Container pt="4rem">
@@ -18,9 +11,16 @@ const CategoriesAndBrands = () => (
   </Container>
 );
 
-const ProductsPage: NextPage<ProductsPageProps> = props => {
-  const { brandId, categoryId, text } = props;
-  const hasQueryParams = !!brandId || !!categoryId || !!text;
+const ProductsPage = () => {
+  const searchParams = useSearchParams();
+  const b = searchParams.get('b');
+  const props = {
+    brandId: typeof b === 'string' ? Number(b) : undefined,
+    categoryId: searchParams.get('c') ?? undefined,
+    text: searchParams.get('t') ?? undefined,
+    sortBy: (searchParams.get('s') as ProductSearchSortBy) ?? undefined,
+  };
+  const hasQueryParams = !!props.brandId || !!props.categoryId || !!props.text;
   return (
     <>
       <Head />
@@ -28,16 +28,6 @@ const ProductsPage: NextPage<ProductsPageProps> = props => {
       {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
     </>
   );
-};
-
-ProductsPage.getInitialProps = async ({ query }) => {
-  const { b, c, t, s } = query;
-  return {
-    brandId: typeof b === 'string' ? Number(b) : undefined,
-    categoryId: c?.toString(),
-    text: t?.toString(),
-    sortBy: s?.toString() as ProductSearchSortBy,
-  };
 };
 
 export default ProductsPage;

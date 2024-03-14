@@ -11,9 +11,8 @@ type ProductsProps = {
 };
 
 export const Products: FC<ProductsProps> = props => {
-  const { productSearchResultIsLoading: isLoading = true, productSearchResult } = useContext(AppContext);
+  //const { productSearchResultIsLoading: isLoading = true, productSearchResult } = useContext(AppContext);
   //const showFilters = isLoading || !!productSearchResult?.length;
-
   return (
     <Box minH="calc(100vh - 5rem)" bg={_bg} pt={{ base: 0, lg: '3rem' }}>
       <Container>
