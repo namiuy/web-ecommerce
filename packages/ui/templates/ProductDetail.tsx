@@ -171,7 +171,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   <Text as="span" fontSize="1.875rem">
                     U$S{' '}
                   </Text>
-                  {data?.price}
+                  {data?.price && (afterPriceText ? (data?.price / 1.22).toFixed(2) : data?.price)}
                   {afterPriceText && (
                     <Text as="span" color={_smallTextColor} fontSize="0.75rem">
                       {' '}
