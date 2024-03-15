@@ -10,17 +10,20 @@ const multiDomainItems = [
   {
     id: 'CLIMA',
     text: 'CLIMATIZACIÓN',
-    href: 'https://climatizacion.nami.com.uy',
+    //href: 'https://climatizacion.nami.com.uy',
+    href: 'https://develop.d1uaun1tjxdfo9.amplifyapp.com/',
   },
   {
     id: 'TOOLS',
     text: 'HERRAMIENTAS',
-    href: 'https://herramientas.nami.com.uy',
+    //href: 'https://herramientas.nami.com.uy',
+    href: 'https://develop.dvqh13e4phd11.amplifyapp.com/',
   },
   {
     id: 'ELELCTRO',
     text: 'AUTO ELÉCTRICO',
-    href: 'https://electrico.nami.com.uy',
+    //href: 'https://electrico.nami.com.uy',
+    href: 'https://develop.d2s9qf1omvguuy.amplifyapp.com/',
   },
 ].filter(item => item.id !== ID);
 
