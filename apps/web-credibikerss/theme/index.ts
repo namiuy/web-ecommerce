@@ -90,7 +90,7 @@ export const theme: Record<string, any> = {
       },
       drawerMenu: {
         backgroundColor: 'rgba(0, 0, 0, .85)',
-        backdropFilter : 'saturate(180%) blur(20px)',
+        backdropFilter: 'saturate(180%) blur(20px)',
         item: {
           color: grey1,
           borderColor: 'rgba(255, 255, 255, .05)',

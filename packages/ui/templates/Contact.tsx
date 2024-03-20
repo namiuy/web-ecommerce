@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { Box, Container, Text, Map, Button } from 'ui';
 import { Field, Formik } from 'formik';
-import { MdCheckCircle, MdLocationOn } from 'react-icons/md';
+import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
 import { useToast } from '@chakra-ui/react';
@@ -22,7 +22,7 @@ import { useToast } from '@chakra-ui/react';
 import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as ContactValues } from 'shared/entities/contact';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { branches } from 'shared/env';
 
@@ -30,7 +30,7 @@ const _firstBoxWidth = { base: '100%', lg: '20rem' };
 const _secondBoxWidth = { base: '100%', lg: '25rem' };
 const _left = { base: '0', lg: '12' };
 const _right = { base: '0', lg: '12' };
-const _top = { base: '0', lg: '50%' };
+const _top = { base: '0', lg: '60%' };
 const _transform = { base: 'none', lg: 'translateY(-50%)' };
 const _mb = { base: '8', lg: 'none' };
 
@@ -79,7 +79,7 @@ export const Contact = () => {
             <Map
               position={branches.map(branch => branch.position)}
               zoom={lg ? 13 : 12}
-              h={lg ? '85vh' : '50vh'}
+              h={lg ? '100vh' : '50vh'}
               center={calculateCenter(branches)}
             />
           </Box>
@@ -181,7 +181,7 @@ export const Contact = () => {
             >
               {({ handleSubmit, errors }) => (
                 <form onSubmit={handleSubmit}>
-                  <VStack spacing={5} align="flex-start">
+                  <VStack spacing="1rem" align="flex-start">
                     <Box w="100%">
                       <FormControl isInvalid={!!errors.name} variant="floating">
                         <Field

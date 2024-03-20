@@ -2,8 +2,10 @@ import { Stack, Input, IconButton, Heading, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BiMailSend } from 'react-icons/bi';
 import { newsletterSubscribe, validateEmail } from 'shared';
+
 const _placeholderColor = 'brand.navBar.input._placeholder.color';
 const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
+const _bgColor = 'brand.footer.backgroundColor';
 
 export const Newsletter = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +51,7 @@ export const Newsletter = () => {
             border={0}
           />
           <IconButton
-            bg="red.800"
+            bg={_bgColor}
             color="white"
             _hover={{
               bg: 'red.700',
