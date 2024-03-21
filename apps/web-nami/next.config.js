@@ -1,5 +1,5 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_AFTER_PRICE_TEXT, SITE_HOST } = process.env;
+const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_AFTER_PRICE_TEXT, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID } = process.env;
 
 const multiDomainItems = [
   {
@@ -144,6 +144,7 @@ module.exports = {
     branches,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
+      googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,
     },
     product: {
       afterPriceText: PRODUCT_AFTER_PRICE_TEXT,

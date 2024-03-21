@@ -7,4 +7,5 @@ const SignInPage: NextPage = () => (
     <SignInTemplate Logo={Logo} />
   </GaPage>
 );
+
 export default SignInPage;
