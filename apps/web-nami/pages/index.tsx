@@ -2,7 +2,7 @@
 
 import { Flex, Box, Banner, Container, Head, ProductListSection, Brands, GaPage, Footer } from 'ui';
 import { NavBar } from '../components';
-import { Logo } from '../components/LogoWhite';
+import { Logo } from '../components/LogoTools';
 import { NextPage } from 'next';
 
 const _bg = 'brand.background';
