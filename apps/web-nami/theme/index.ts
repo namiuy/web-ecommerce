@@ -6,10 +6,10 @@ import { theme as themeTools } from './tools.theme';
 import { envId } from 'shared';
 
 const themes: Record<string, Record<string, any>> = {
-  AUTPARTS: themeNami,
+  AUTOPARTS: themeNami,
   CLIMA: themeClima,
   TOOLS: themeTools,
-  ELELCTRO: themeElectric,
+  ELECTRIC: themeElectric,
 };
 
 export const theme = themes[envId];
