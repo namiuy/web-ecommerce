@@ -1,5 +1,5 @@
-const primary = '#1d7531';
-const secondary = '#238a3a';
+const primary = '#095b77';
+const secondary = '#0a6e8f';
 
 const white = '#ffffff';
 const black = '#000000';
