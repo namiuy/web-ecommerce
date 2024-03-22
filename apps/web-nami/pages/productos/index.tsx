@@ -1,7 +1,8 @@
 import { ProductSearchSortBy } from 'shared/entities/product-search';
-import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
+import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate, GaPage } from 'ui';
 import { NavBar } from '../../components';
 import { useSearchParams } from 'next/navigation';
+import { NextPage } from 'next';
 
 const CategoriesAndBrands = () => (
   <Container pt="4rem">
@@ -11,7 +12,7 @@ const CategoriesAndBrands = () => (
   </Container>
 );
 
-const ProductsPage = () => {
+const ProductsPage: NextPage = () => {
   const searchParams = useSearchParams();
   const b = searchParams.get('b');
   const props = {
@@ -22,11 +23,13 @@ const ProductsPage = () => {
   };
   const hasQueryParams = !!props.brandId || !!props.categoryId || !!props.text;
   return (
-    <>
-      <Head />
-      <NavBar />
-      {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
-    </>
+    <GaPage page="Products">
+      <>
+        <Head />
+        <NavBar />
+        {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
+      </>
+    </GaPage>
   );
 };
 
