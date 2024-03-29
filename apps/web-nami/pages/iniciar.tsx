@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Logo } from '../components/LogoElectric';
+import { Logo } from '../components/Logo';
 import { GaPage, SignInTemplate } from 'ui';
 
 const SignInPage: NextPage = () => (

@@ -1,6 +1,4 @@
-import { Box, Image } from 'ui';
-
-export const Logo = (props: any) => (
+export const Logo = () => (
   <svg width="144" height="56" viewBox="0 0 144 48" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
     <rect x="40.8643" width="103.135" height="47.7001" fill="url(#pattern0)" />
     <rect y="1.7998" width="38.919" height="45.9001" fill="url(#pattern1)" />

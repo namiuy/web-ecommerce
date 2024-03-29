@@ -1,8 +1,7 @@
 'use client';
 
-import { Flex, Box, Banner, Container, Head, ProductListSection, Brands, GaPage, Footer } from 'ui';
-import { NavBar } from '../components';
-import { Logo } from '../components/LogoTools';
+import { Flex, Box, Banner, Container, Head, ProductListSection, Brands, GaPage } from 'ui';
+import { NavBar, Footer } from '../components';
 import { NextPage } from 'next';
 
 const _bg = 'brand.background';
@@ -21,7 +20,7 @@ const HomePage: NextPage = () => (
       <Box bg={_bg} minH="50vh" pb="3rem">
         <ProductListSection name="home_a" />
       </Box>
-      <Footer logo={Logo} />
+      <Footer />
     </>
   </GaPage>
 );

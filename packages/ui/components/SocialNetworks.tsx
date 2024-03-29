@@ -7,6 +7,7 @@ import { MdFacebook } from 'react-icons/md';
 import { FaYoutube, FaLinkedin } from 'react-icons/fa';
 import { socialNeworksItems } from 'shared/env';
 import { AnimationWrapper } from './AnimationWrapper';
+import { BiBorderRadius } from 'react-icons/bi';
 
 const _backgroundColor = 'brand.footer.backgroundColor';
 
@@ -26,10 +27,13 @@ const icons: Record<string, Icon> = {
 };
 
 type SocialNetworksProps = {
+  bg?: string;
   dark?: boolean;
   color?: string;
   size?: string;
+  padding?: string;
   gap?: string;
+  borderRadius?: string;
   hide?: string[];
   hover?: boolean;
 };

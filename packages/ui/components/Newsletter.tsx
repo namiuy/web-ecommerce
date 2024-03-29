@@ -5,7 +5,7 @@ import { newsletterSubscribe, validateEmail } from 'shared';
 
 const _placeholderColor = 'brand.navBar.input._placeholder.color';
 const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
-const _bgColor = 'brand.footer.backgroundColor';
+const _backgroundColor = 'brand.footer.iconButton.backgroundColor';
 
 export const Newsletter = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,7 @@ export const Newsletter = () => {
 
   return (
     <Stack>
-      <Stack spacing={4}>
+      <Stack spacing={3}>
         <Heading size="md">Suscribirse a noticias</Heading>
         <Stack direction={'row'}>
           <Input
@@ -51,10 +51,10 @@ export const Newsletter = () => {
             border={0}
           />
           <IconButton
-            bg={_bgColor}
+            bg={_backgroundColor}
             color="white"
             _hover={{
-              bg: 'red.700',
+              bg: { _backgroundColor },
             }}
             aria-label="Subscribe"
             disabled={isLoading || isSuccess}
