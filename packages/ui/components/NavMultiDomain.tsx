@@ -46,7 +46,7 @@ const NavMultiDomain = ({ items = [] }: NavProps) => {
       <Flex as="ol" listStyleType="none" gap="2.5rem" alignItems="center">
         {items.map(({ id, text, href }) => (
           <li key={id}>
-            <Link href={href}>
+            <Link href={href} target="_blank">
               <NavItem>{text}</NavItem>
             </Link>
           </li>
