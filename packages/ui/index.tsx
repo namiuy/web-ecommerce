@@ -33,6 +33,7 @@ export * from './components/Brands';
 export * from './components/CategoriesAccordion';
 export * from './components/CategoriesPopover';
 export * from './components/Carousel';
+export * from './components/BannerCarousel';
 export * from './components/Container';
 export * from './components/DesignDebug';
 export * from './components/GaPage';
