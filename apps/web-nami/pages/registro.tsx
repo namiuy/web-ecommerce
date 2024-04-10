@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { GaPage, RegisterTemplate } from 'ui';
-import { Logo } from '../components/LogoElectric';
+import { Logo } from '../components/Logo';
 
 const RegisterPage: NextPage = () => (
   <GaPage page="Register">

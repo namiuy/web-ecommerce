@@ -1,5 +1,5 @@
 import { NavBar as NavBarUI } from 'ui';
-import { Logo } from './LogoTools';
+import { Logo } from './Logo';
 
 type NavBarProps = {
   fixed?: boolean;

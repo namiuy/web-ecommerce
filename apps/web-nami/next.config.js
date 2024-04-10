@@ -3,7 +3,7 @@ const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_AFTER_PRICE_TEXT, SIT
 
 const multiDomainItems = [
   {
-    id: 'AUTPARTS',
+    id: 'AUTOPARTS',
     text: 'AUTOPARTES',
     href: 'https://nami.com.uy',
   },
@@ -20,7 +20,7 @@ const multiDomainItems = [
     href: 'https://develop.dvqh13e4phd11.amplifyapp.com/',
   },
   {
-    id: 'ELELCTRO',
+    id: 'ELECTRIC',
     text: 'AUTO ELÉCTRICO',
     //href: 'https://electrico.nami.com.uy',
     href: 'https://develop.d2s9qf1omvguuy.amplifyapp.com/',

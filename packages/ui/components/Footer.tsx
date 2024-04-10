@@ -3,21 +3,15 @@ import { ReactNode, ElementType } from 'react';
 import SocialNetworks from 'ui/components/SocialNetworks';
 import { Newsletter } from './Newsletter';
 
-// const ListHeader = ({ children }: { children: ReactNode }) => {
-//   return (
-//     <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
-//       {children}
-//     </Text>
-//   );
-// };
+const _backgroundColor = 'brand.footer.backgroundColor';
 
 type FooterProps = {
-  logo: ElementType;
+  Logo: ElementType;
 };
 
-export const Footer = ({ logo: Logo }: FooterProps) => {
+export const Footer = ({ Logo }: FooterProps) => {
   return (
-    <Box bg="primary.main" color="white">
+    <Box bg={_backgroundColor} color="white">
       <Container
         as={Stack}
         maxW={'6xl'}
@@ -30,21 +24,14 @@ export const Footer = ({ logo: Logo }: FooterProps) => {
           templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '1fr 1.5fr 1fr' }}
           gap={12}
         >
-          <GridItem gridArea="a">
-            <Stack spacing={1}>
-              <Box>
-                <Logo />
-              </Box>
-              <Text fontSize={'sm'}>© 2024 Nami Herramientas</Text>
-            </Stack>
+          <GridItem gridArea="a" placeSelf="center start" w="10rem">
+            <Logo />
           </GridItem>
-
           <GridItem gridArea="b" placeSelf="center stretch">
             <Newsletter />
           </GridItem>
-
-          <GridItem gridArea="c" placeSelf={{ base: 'center left', md: 'center right' }}>
-            <SocialNetworks color="white" gap="1.5rem" size="1.5rem" />
+          <GridItem gridArea="c" placeSelf={{ base: 'center start', md: 'center end' }}>
+            <SocialNetworks color="white" gap="1.5rem" size="1.75rem" />
           </GridItem>
         </Grid>
       </Container>

@@ -144,10 +144,8 @@ export const theme: Record<string, any> = {
         color: white,
         borderColor: white,
         iconButton: {
+          backgroundColor: primary,
           color: white,
-          _hover: {
-            color: white,
-          },
         },
       },
     },
