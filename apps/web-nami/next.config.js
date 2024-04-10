@@ -1,5 +1,5 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_CARD_PRICE_TYPE, PRODUCT_DETAIL_PRICE_TYPE, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID, NODE_ENV_VALUE } = process.env;
+const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_CARD_PRICE_TYPE, PRODUCT_DETAIL_PRICE_TYPE, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID, NODE_ENV } = process.env;
 
 const multiDomainItemsHrefProd = {
   AUTOPARTS: 'https://nami.com.uy',
@@ -15,7 +15,7 @@ const multiDomainItemsHrefDev = {
   ELECTRIC: 'https://develop.d2s9qf1omvguuy.amplifyapp.com/',
 };
 
-const multiDomainItemsHref = NODE_ENV_VALUE == 'PRODUCTION' ? multiDomainItemsHrefProd : multiDomainItemsHrefDev;
+const multiDomainItemsHref = NODE_ENV == 'development' ? multiDomainItemsHrefDev : multiDomainItemsHrefProd;
 
 const multiDomainItems = [
   {
