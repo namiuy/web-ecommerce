@@ -13,7 +13,6 @@ import {
   Card,
   AddToCartButton,
   QuoteRequestButton,
-  ProductListSection,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
 import { isBrowser, useProductGet, product as productConf } from 'shared';
@@ -25,8 +24,9 @@ import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
 import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
+import { formatPrice } from 'shared/utils/product';
 
-const { afterPriceText } = productConf;
+const { detailPriceType } = productConf;
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -80,6 +80,10 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const { isLoading, error, data } = useProductGet(id);
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
+
+  const isPriceWithTax = detailPriceType === 'WITH_TAX';
+  const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
+  const isPriceBoth = detailPriceType === 'BOTH';
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -152,36 +156,56 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             borderLeft={_gridItemDetailsBorderLeft}
             borderColor={_gridItemBorderColor}
           >
-            <Box borderBottom="1px" borderColor={_borderColor} pb="1rem">
-              <Skeleton isLoaded={!isLoading} mb="0.375rem">
+            <Box borderBottom="1px" borderColor={_borderColor} pb="1rem" mb="1rem">
+              <Skeleton isLoaded={!isLoading}>
                 <Text fontWeight="bold" fontSize="1.5rem">
                   {data?.name}
                 </Text>
               </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1.25rem">
-                <Text color={_smallTextColor} fontSize="0.75rem">
-                  <Text as="span" fontSize="0.625rem">
-                    Codigo{' '}
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.25rem">
+                <Text color={_smallTextColor} fontSize="0.875rem">
+                  <Text as="span" fontSize="0.75rem">
+                    Cod{' '}
                   </Text>
                   {data?.id}
                 </Text>
               </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.5rem">
+              <Skeleton isLoaded={!isLoading} w="fit-content">
                 <Text fontSize="2.5rem" fontWeight="medium">
                   <Text as="span" fontSize="1.875rem">
                     U$S{' '}
                   </Text>
-                  {data?.price && (afterPriceText ? (data?.price / 1.22).toFixed(2) : data?.price)}
-                  {afterPriceText && (
-                    <Text as="span" color={_smallTextColor} fontSize="1.125rem">
-                      {' '}
-                      {afterPriceText}
-                    </Text>
+                  {(isPriceWithoutTax || isPriceBoth) && (
+                    <>
+                      {formatPrice(data?.price_without_tax)}
+                      <Text as="span" color={_smallTextColor} fontSize="0.875rem">
+                        {' '}
+                        + IVA
+                      </Text>
+                    </>
                   )}
                 </Text>
               </Skeleton>
+              {(isPriceWithTax || isPriceBoth) && (
+                <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.5rem">
+                  <Text
+                    fontSize={isPriceWithTax ? '2.5rem' : '1.375rem'}
+                    fontWeight="medium"
+                    color={isPriceWithTax ? 'black' : _smallTextColor}
+                  >
+                    <Text as="span" fontSize={isPriceWithTax ? '1.875rem' : '1.125rem'}>
+                      U$S{' '}
+                    </Text>
+                    {formatPrice(data?.price)}
+                    <Text as="span" color={_smallTextColor} fontSize={isPriceWithTax ? '0.875rem' : '0.75rem'}>
+                      {' '}
+                      IVA inc.
+                    </Text>
+                  </Text>
+                </Skeleton>
+              )}
             </Box>
-            {/* <Skeleton isLoaded={!isLoading} w="fit-content" mt="1rem" mb="1rem">
+            {/* <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
               <ProductStock id={id} />
             </Skeleton> */}
             <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
@@ -238,7 +262,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
       )}
       {!!data?.related_links?.length && (
         <>
-          <Box mt="2.5rem" mb="3.5rem">
+          <Box mb="3.5rem">
             <Container maxW={_containerSize} px={0} mb="1.5rem">
               <Heading size="lg">LINKS</Heading>
             </Container>
