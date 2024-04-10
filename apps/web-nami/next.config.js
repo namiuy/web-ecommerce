@@ -1,29 +1,42 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_CARD_PRICE_TYPE, PRODUCT_DETAIL_PRICE_TYPE, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID } = process.env;
+const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_CARD_PRICE_TYPE, PRODUCT_DETAIL_PRICE_TYPE, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID, NODE_ENV_VALUE } = process.env;
+
+const multiDomainItemsHrefProd = {
+  AUTOPARTS: 'https://nami.com.uy',
+  CLIMA: 'https://climatizadores.nami.com.uy',
+  TOOLS: 'https://herramientas.nami.com.uy',
+  ELECTRIC: 'https://electrico.nami.com.uy',
+}
+
+const multiDomainItemsHrefDev = {
+  AUTOPARTS: 'https://develop.nami.com.uy',
+  CLIMA: 'https://develop.d1uaun1tjxdfo9.amplifyapp.com/',
+  TOOLS: 'https://develop.dvqh13e4phd11.amplifyapp.com/',
+  ELECTRIC: 'https://develop.d2s9qf1omvguuy.amplifyapp.com/',
+};
+
+const multiDomainItemsHref = NODE_ENV_VALUE == 'PRODUCTION' ? multiDomainItemsHrefProd : multiDomainItemsHrefDev;
 
 const multiDomainItems = [
   {
     id: 'AUTOPARTS',
     text: 'AUTOPARTES',
-    href: 'https://nami.com.uy',
+    href: multiDomainItemsHref['AUTOPARTS'],
   },
   {
     id: 'CLIMA',
     text: 'CLIMATIZACIÓN',
-    //href: 'https://climatizacion.nami.com.uy',
-    href: 'https://develop.d1uaun1tjxdfo9.amplifyapp.com/',
+    href: multiDomainItemsHref['CLIMA'],
   },
   {
     id: 'TOOLS',
     text: 'HERRAMIENTAS',
-    //href: 'https://herramientas.nami.com.uy',
-    href: 'https://develop.dvqh13e4phd11.amplifyapp.com/',
+    href: multiDomainItemsHref['TOOLS'],
   },
   {
     id: 'ELECTRIC',
     text: 'AUTO ELÉCTRICO',
-    //href: 'https://electrico.nami.com.uy',
-    href: 'https://develop.d2s9qf1omvguuy.amplifyapp.com/',
+    href: multiDomainItemsHref['ELECTRIC'],
   },
 ].filter(item => item.id !== ID);
 
