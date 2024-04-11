@@ -46,6 +46,8 @@ type SocialNeworkItem = {
 type Product = {
   cardPriceType: string;
   detailPriceType: string;
+  showCod: boolean;
+  showRelatedProducts: boolean;
 };
 
 export const bff = {

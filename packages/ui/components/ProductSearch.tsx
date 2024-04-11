@@ -51,7 +51,7 @@ export const ProductSearch = (props: ProductSearchProps) => {
 
   if (!isLoading && products) {
     // if (!filters) return <Message content="Debes seleccionar un filtro." />;
-    if (!products?.length) return <Message content="No se encontro ningun resultado." />;
+    if (!products?.length) return <Message content="No se encontró ningún resultado." />;
   }
 
   return (
@@ -63,11 +63,7 @@ export const ProductSearch = (props: ProductSearchProps) => {
           {products?.length} resultados
         </Text>
       )}
-      <Grid
-        gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']}
-        gap={{ base: '1rem', sm: '2rem', lg: '2rem' }}
-        pb="6rem"
-      >
+      <Grid gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={{ base: '1rem', sm: '2rem', lg: '2rem' }}>
         {products?.map((product, i) => (
           <GridItem key={i}>
             <ProductCard isLoading={isLoading} editMode={isUserAdmin} product={product} />

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
-import { NavBar } from '../../components';
+import { Footer, NavBar } from '../../components';
 
 type ProductsPageProps = {
   brandId?: number;
@@ -26,6 +26,7 @@ const ProductsPage: NextPage<ProductsPageProps> = props => {
       <Head />
       <NavBar />
       {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
+      <Footer />
     </>
   );
 };
