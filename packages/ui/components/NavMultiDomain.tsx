@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { Flex, Button } from '@chakra-ui/react';
+import { Flex, Button, useBreakpointValue } from '@chakra-ui/react';
 import { ReactElement } from 'react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 
-const _itemColor = 'brand.nav.item.color';
+const _mobileItemColor = 'brand.nav.item.mobile.color';
+const _desktopItemColor = 'brand.nav.item.desktop.color';
 const _itemHoverColor = 'brand.nav.item._hover.color';
 const _fontSize = '0.8125rem';
 const _fontWeight = '500';
@@ -20,15 +21,16 @@ type NavProps = {
 
 type NavItemProps = {
   children: ReactElement | string;
+  color: string;
 };
 
-const NavItem = ({ children }: NavItemProps) => (
+const NavItem = ({ children, color }: NavItemProps) => (
   <Button
     bg="transparent"
     h="auto"
     p="0"
     borderRadius="0"
-    color={_itemColor}
+    color={color}
     fontSize={_fontSize}
     fontWeight={_fontWeight}
     _hover={{ color: _itemHoverColor }}
@@ -41,13 +43,17 @@ const NavItem = ({ children }: NavItemProps) => (
 );
 
 const NavMultiDomain = ({ items = [] }: NavProps) => {
+  const isMobile = useBreakpointValue({ base: true, lg: false });
+
+  const _itemColor = isMobile ? _mobileItemColor : _desktopItemColor;
+
   return (
     <nav>
       <Flex as="ol" listStyleType="none" gap="2.5rem" alignItems="center">
         {items.map(({ id, text, href }) => (
           <li key={id}>
             <Link href={href} target="_blank">
-              <NavItem>{text}</NavItem>
+              <NavItem color={_itemColor}>{text}</NavItem>
             </Link>
           </li>
         ))}

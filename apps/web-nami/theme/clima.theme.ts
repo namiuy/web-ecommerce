@@ -82,9 +82,17 @@ export const theme: Record<string, any> = {
       },
       nav: {
         item: {
-          color: white,
-          _hover: {
-            color: 'lightgrey',
+          mobile: {
+            color: black,
+            _hover: {
+              color: 'lightgrey',
+            },
+          },
+          desktop: {
+            color: white,
+            _hover: {
+              color: 'lightgrey',
+            },
           },
         },
       },

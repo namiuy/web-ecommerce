@@ -69,7 +69,7 @@ const SearchButton = () => {
   );
 };
 
-const NavBarMobile = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
+const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: NavBarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
 
@@ -111,7 +111,14 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
           <SearchButton />
         </GridItem>
       </Grid>
-      <MenuDrawer dark={dark} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} menuItems={menuItems} />
+      <MenuDrawer
+        dark={dark}
+        isOpen={isOpen}
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        menuItems={menuItems}
+        multiDomainItems={multiDomainItems}
+      />
     </>
   );
 };
