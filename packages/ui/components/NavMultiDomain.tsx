@@ -3,8 +3,7 @@ import { Flex, Button, useBreakpointValue } from '@chakra-ui/react';
 import { ReactElement } from 'react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 
-const _mobileItemColor = 'brand.nav.item.mobile.color';
-const _desktopItemColor = 'brand.nav.item.desktop.color';
+const _navItemColor = 'brand.nav.item.color';
 const _itemHoverColor = 'brand.nav.item._hover.color';
 const _fontSize = '0.8125rem';
 const _fontWeight = '500';
@@ -43,17 +42,13 @@ const NavItem = ({ children, color }: NavItemProps) => (
 );
 
 const NavMultiDomain = ({ items = [] }: NavProps) => {
-  const isMobile = useBreakpointValue({ base: true, lg: false });
-
-  const _itemColor = isMobile ? _mobileItemColor : _desktopItemColor;
-
   return (
     <nav>
       <Flex as="ol" listStyleType="none" gap="2.5rem" alignItems="center">
         {items.map(({ id, text, href }) => (
           <li key={id}>
             <Link href={href} target="_blank">
-              <NavItem color={_itemColor}>{text}</NavItem>
+              <NavItem color={_navItemColor}>{text}</NavItem>
             </Link>
           </li>
         ))}
