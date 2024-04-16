@@ -1,6 +1,6 @@
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate, GaPage } from 'ui';
-import { NavBar } from '../../components';
+import { NavBar, Footer } from '../../components';
 import { NextPage } from 'next';
 import { isBrowser } from 'shared';
 import { useEffect, useState } from 'react';
@@ -41,6 +41,7 @@ const ProductsPage: NextPage = () => {
         <Head />
         <NavBar />
         {!isBrowserReady || hasProps ? <ProductsTemplate {...props} /> : <CategoriesAndBrands />}
+        <Footer />
       </>
     </GaPage>
   );

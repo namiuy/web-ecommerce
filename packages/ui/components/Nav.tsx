@@ -65,6 +65,7 @@ const Nav = ({ items = [] }: NavProps) => {
                     _active={{ bg: 'transparent', color: _itemHoverColor }}
                     _focus={{ bg: 'transparent', color: _itemHoverColor }}
                     rightIcon={<MdExpandMore />}
+                    iconSpacing="0.125rem"
                   >
                     {text}
                   </Button>
