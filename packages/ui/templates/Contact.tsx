@@ -196,7 +196,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Nombre</FormLabel>
-                        <FormErrorMessage>{errors.name}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.name}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -213,7 +213,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Correo electrónico</FormLabel>
-                        <FormErrorMessage>{errors.email}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.email}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -230,7 +230,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Telefono</FormLabel>
-                        <FormErrorMessage>{errors.phone}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.phone}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -247,7 +247,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Asunto</FormLabel>
-                        <FormErrorMessage>{errors.subject}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.subject}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -265,29 +265,34 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Mensaje</FormLabel>
-                        <FormErrorMessage>{errors.message}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.message}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
-                    <Box w="100%">
-                      <Progress
-                        h={isLoading ? '4px' : '1px'}
-                        m="1rem 0"
-                        size="xs"
-                        isIndeterminate={isLoading}
-                        colorScheme="primary"
-                      />
-                      <Button
-                        type="submit"
-                        bg="primary.main"
-                        color="white"
-                        width="100%"
-                        mt={2}
-                        _hover={{ backgroundColor: 'primary.main' }}
-                      >
-                        ENVIAR
-                      </Button>
-                    </Box>
                   </VStack>
+                  {errors.message && (
+                    <Text color="red.500" pt="0.75rem">
+                      Debe completar todos los campos
+                    </Text>
+                  )}
+                  <Box w="100%">
+                    <Progress
+                      h={isLoading ? '4px' : '1px'}
+                      m="1rem 0"
+                      size="xs"
+                      isIndeterminate={isLoading}
+                      colorScheme="primary"
+                    />
+                    <Button
+                      type="submit"
+                      bg="primary.main"
+                      color="white"
+                      width="100%"
+                      mt={2}
+                      _hover={{ backgroundColor: 'primary.main' }}
+                    >
+                      ENVIAR
+                    </Button>
+                  </Box>
                 </form>
               )}
             </Formik>
