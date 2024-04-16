@@ -44,7 +44,7 @@ const IconButton = ({ buttonProps, icon }: IconButtonProps) => (
         h="1.75rem"
         display="block"
         color={iconButtonColor}
-        _hover={{ color: iconButtonHoverColor }}
+        _hover={{ bg: iconButtonHoverColor }}
       />
     }
   />
@@ -55,7 +55,10 @@ const SearchButton = () => {
 
   return (
     <>
-      <IconButton icon={AiOutlineSearch} buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen }} />
+      <IconButton
+        icon={AiOutlineSearch}
+        buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen, _hover: { bg: iconButtonHoverColor } }}
+      />
       <Modal isOpen={isOpen} size="5xl" onClose={onClose}>
         <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
         <ModalContent m=".5rem 0 0" bg="transparent">
@@ -94,6 +97,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
               'aria-label': 'Menu',
               ref: btnRef,
               onClick: onOpen,
+              _hover: { bg: iconButtonHoverColor },
             }}
             icon={HiMenuAlt2}
           />

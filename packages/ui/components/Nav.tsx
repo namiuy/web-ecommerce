@@ -51,7 +51,7 @@ const Nav = ({ items = [] }: NavProps) => {
         {items.map(({ id, text, href, menuContent: Content }) => (
           <Flex as="li" key={id}>
             {Content ? (
-              <Popover placement="bottom-start" trigger="hover" gutter={10}>
+              <Popover placement="bottom-start" trigger="hover" gutter={13}>
                 <PopoverTrigger>
                   <Button
                     bg="transparent"

@@ -83,7 +83,7 @@ export const CategoriesPopover = ({ removeParams, color = _grey3, borderColor = 
                   />
                 </Box>
               </PopoverTrigger>
-              <PopoverContent borderRadius="0" w="max-content">
+              <PopoverContent w="max-content">
                 <PopoverBody padding="0">
                   {sub_categories?.map(({ id, name }, ii) => (
                     <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onClick} />

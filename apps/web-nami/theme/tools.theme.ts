@@ -95,7 +95,7 @@ export const theme: Record<string, any> = {
         iconButton: {
           color: white,
           _hover: {
-            color: white,
+            color: secondary,
           },
         },
         input: {
