@@ -5,7 +5,7 @@ import { useBannerList } from 'shared';
 import { BannerCarousel } from './BannerCarousel';
 import { useEffect, useState } from 'react';
 
-const _ratio = { base: 164 / 75, md: 25 / 7 };
+// const _ratio = { base: 164 / 75, md: 25 / 7 };
 
 type BannerProps = {
   section: string;
@@ -35,22 +35,22 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
 
   return (
     <Box bg={bg}>
-      <AspectRatio ratio={_ratio}>
-        <Skeleton isLoaded={!isLoading}>
-          <BannerCarousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation}>
-            {banners.map(({ name, url, url_mobile, link }, i) => {
-              const Img = <Image key={i} alt={name} src={isMd ? url : url_mobile} objectFit="cover" />;
-              return link ? (
-                <Link key={i} href={link}>
-                  {Img}
-                </Link>
-              ) : (
-                Img
-              );
-            })}
-          </BannerCarousel>
-        </Skeleton>
-      </AspectRatio>
+      {/* <AspectRatio ratio={_ratio}> */}
+      <Skeleton isLoaded={!isLoading}>
+        <BannerCarousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation}>
+          {banners.map(({ name, url, url_mobile, link }, i) => {
+            const Img = <Image key={i} alt={name} src={isMd ? url : url_mobile} objectFit="cover" />;
+            return link ? (
+              <Link key={i} href={link}>
+                {Img}
+              </Link>
+            ) : (
+              Img
+            );
+          })}
+        </BannerCarousel>
+      </Skeleton>
+      {/* </AspectRatio> */}
     </Box>
   );
 };
