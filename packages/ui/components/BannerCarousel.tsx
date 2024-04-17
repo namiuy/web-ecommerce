@@ -1,15 +1,18 @@
-import { Swiper as SwiperType, Grid, Navigation } from 'swiper';
+import { Swiper as SwiperType, Grid, Navigation, Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Children, ReactNode, useRef } from 'react';
+import { Children, ReactNode, useEffect, useRef, useState } from 'react';
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';
 import { Box, Icon, IconButton } from '@chakra-ui/react';
 
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 import { boxShadowLg, boxShadowMd } from './ThemeProvider/colors';
 
 const _buttonSize = { base: '2rem', lg: '3rem' };
+
 type NavigationButtonProps = {
   slideHeight: number | string;
   rows: number;
@@ -18,27 +21,27 @@ type NavigationButtonProps = {
   right?: number | string;
   onClick: VoidFunction;
 };
+
 const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onClick }: NavigationButtonProps) => {
   const isBefore = direction === 'before';
   const ariaLabel = isBefore ? 'Atras' : 'Siguiente';
   const icon = isBefore ? MdOutlineNavigateBefore : MdOutlineNavigateNext;
   return (
     <IconButton
+      as="button"
       aria-label={ariaLabel}
       pos="absolute"
       h={_buttonSize}
       w={_buttonSize}
-      mt={{
+      top={{
         base: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.base}) / 2)`,
-        lg: `calc((((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2) - 2rem)`,
+        lg: `calc((((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2))`,
       }}
       left={!isBefore ? undefined : left}
       right={isBefore ? undefined : right}
-      minW="unset"
       zIndex="99"
-      as="button"
       bg="white"
-      borderRadius="50%"
+      borderRadius={isBefore ? '0 2rem 2rem 0' : '2rem 0 0 2rem'}
       boxShadow={boxShadowMd}
       icon={
         <Icon as={icon} w={_buttonSize} h={_buttonSize} color={'brand.grey.2'} _hover={{ color: 'brand.grey.3' }} />
@@ -48,6 +51,7 @@ const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onCli
     />
   );
 };
+
 type CarouselProps = {
   rows?: number;
   navigationLeft?: number | string;
@@ -59,7 +63,8 @@ type CarouselProps = {
   children: ReactNode;
   onChange?: () => void;
 };
-export const Carousel = ({
+
+export const BannerCarousel = ({
   rows = 1,
   slideHeight,
   slidesPerView,
@@ -71,32 +76,43 @@ export const Carousel = ({
   onChange,
 }: CarouselProps) => {
   const swiperRef = useRef<SwiperType>();
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
-    <Box pos="relative">
-      {showNavigation && (
-        <>
+    <Box
+      pos="relative"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      // sx={{
+      //   '.swiper-pagination-bullet-active"': {
+      //     background: 'red',
+      //   },
+      // }}
+    >
+      {showNavigation && isHovering && (
+        <Box>
           <NavigationButton
             rows={rows}
             direction="before"
             slideHeight={slideHeight}
             left={navigationLeft}
-            onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex - slidesPerView)}
+            onClick={() => swiperRef.current?.slidePrev()}
           />
           <NavigationButton
             rows={rows}
             direction="next"
             slideHeight={slideHeight}
             right={navigationRight}
-            onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex + slidesPerView)}
+            onClick={() => swiperRef.current?.slideNext()}
           />
-        </>
+        </Box>
       )}
       <Swiper
         slidesPerView={slidesPerView}
         grid={{
           rows,
         }}
-        modules={[Grid, Navigation]}
+        modules={[Grid, Navigation, Pagination, Autoplay]}
         style={{ height: `calc(${slideHeight} * ${rows}` }}
         grabCursor={true}
         onBeforeInit={swiper => {
@@ -104,6 +120,11 @@ export const Carousel = ({
         }}
         spaceBetween={spaceBetween}
         onChange={onChange}
+        loop={true}
+        pagination={{ clickable: true }}
+        autoplay={{
+          delay: 5000,
+        }}
       >
         {Children.map(children, (child, i) => (
           <SwiperSlide key={i} style={{ height: slideHeight }}>
