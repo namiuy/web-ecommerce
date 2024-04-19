@@ -1,9 +1,14 @@
-import { ProductSearchSortBy } from 'shared/entities/product-search';
-import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate, GaPage } from 'ui';
-import { NavBar, Footer } from '../../components';
 import { NextPage } from 'next';
-import { isBrowser } from 'shared';
-import { useEffect, useState } from 'react';
+import { ProductSearchSortBy } from 'shared/entities/product-search';
+import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
+import { NavBar } from '../../components';
+
+type ProductsPageProps = {
+  brandId?: number;
+  categoryId?: string;
+  text?: string;
+  sortBy?: ProductSearchSortBy;
+};
 
 const CategoriesAndBrands = () => (
   <Container pt="4rem">
@@ -13,38 +18,26 @@ const CategoriesAndBrands = () => (
   </Container>
 );
 
-const ProductsPage: NextPage = () => {
-  const browserState = isBrowser();
-  const [isBrowserReady, setIsBrowserReady] = useState(false);
-  const [props, setProps] = useState<any>({});
-  const hasProps = props && (!!props?.brandId || !!props?.categoryId || !!props?.text);
-
-  useEffect(() => {
-    if (browserState) {
-      const searchParams = new URL(document.location.toString()).searchParams;
-      const b = searchParams.get('b');
-
-      setProps({
-        brandId: typeof b === 'string' ? Number(b) : undefined,
-        categoryId: searchParams.get('c') ?? undefined,
-        text: searchParams.get('t') ?? undefined,
-        sortBy: (searchParams.get('s') as ProductSearchSortBy) ?? undefined,
-      });
-    }
-
-    setIsBrowserReady(browserState);
-  }, [browserState]);
-
+const ProductsPage: NextPage<ProductsPageProps> = props => {
+  const { brandId, categoryId, text } = props;
+  const hasQueryParams = !!brandId || !!categoryId || !!text;
   return (
-    <GaPage page="Products">
-      <>
-        <Head />
-        <NavBar />
-        {!isBrowserReady || hasProps ? <ProductsTemplate {...props} /> : <CategoriesAndBrands />}
-        <Footer />
-      </>
-    </GaPage>
+    <>
+      <Head />
+      <NavBar />
+      {!hasQueryParams ? <CategoriesAndBrands /> : <ProductsTemplate {...props} />}
+    </>
   );
+};
+
+ProductsPage.getInitialProps = async ({ query }) => {
+  const { b, c, t, s } = query;
+  return {
+    brandId: typeof b === 'string' ? Number(b) : undefined,
+    categoryId: c?.toString(),
+    text: t?.toString(),
+    sortBy: s?.toString() as ProductSearchSortBy,
+  };
 };
 
 export default ProductsPage;
