@@ -64,10 +64,10 @@ export const ProductFilters = (props: ProductFiltersProps) => {
     lg: true,
   });
 
-  const NavBarDisplay = isLg ? ProductFiltersDesktop : ProductFiltersMobile;
+  const ProductFiltersDisplay = isLg ? ProductFiltersDesktop : ProductFiltersMobile;
 
   return (
-    <NavBarDisplay
+    <ProductFiltersDisplay
       {...{
         originalProps: props,
         showBrands,

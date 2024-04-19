@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { Input, InputGroup, InputLeftElement, Icon, InputRightElement, Button } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { KeyboardEvent, ChangeEvent, useState } from 'react';
+import { KeyboardEvent, ChangeEvent, useState, useEffect } from 'react';
 
 const _color = 'brand.navBar.input.color';
 const _iconColor = 'brand.navBar.input.iconColor';
@@ -36,6 +36,12 @@ const SearchInput = ({ placeholder = 'Buscar un producto...', onSearch }: Search
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') search();
   };
+
+  useEffect(() => {
+    if (!router.query?.t) {
+      setValue('');
+    }
+  }, [router.query]);
 
   return (
     <InputGroup>
