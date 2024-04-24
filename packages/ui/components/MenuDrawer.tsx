@@ -98,24 +98,26 @@ export const MenuDrawer = ({ dark, isOpen, onClose, finalFocusRef, menuItems, mu
         <Box m="1rem">
           <MenuAdmin />
         </Box>
-        <Box mx="1rem" py="1rem" borderY="1px solid" borderColor="blackAlpha.200">
-          {multiDomainItems?.map(({ id, text, href }) => (
-            <Link key={id} href={href}>
-              <Flex alignItems="center" gap="0.5rem">
-                <Text
-                  py="1rem"
-                  color={_menuItemColor}
-                  borderBottom="solid 1px"
-                  borderColor={_menuItemBorderColor}
-                  fontWeight="bold"
-                >
-                  {text}
-                </Text>
-                <HiOutlineExternalLink />
-              </Flex>
-            </Link>
-          ))}
-        </Box>
+        {multiDomainItems && (
+          <Box mx="1rem" py="1rem" borderY="1px solid" borderColor="blackAlpha.200">
+            {multiDomainItems.map(({ id, text, href }) => (
+              <Link key={id} href={href} target="_blank">
+                <Flex alignItems="center" gap="0.5rem">
+                  <Text
+                    py="1rem"
+                    color={_menuItemColor}
+                    borderBottom="solid 1px"
+                    borderColor={_menuItemBorderColor}
+                    fontWeight="bold"
+                  >
+                    {text}
+                  </Text>
+                  <HiOutlineExternalLink />
+                </Flex>
+              </Link>
+            ))}
+          </Box>
+        )}
         <Flex justifyContent="center" pt="2rem">
           <SocialNetworks dark={dark} color={_menuItemColor} size="2rem" hide={['whatsapp']} />
         </Flex>

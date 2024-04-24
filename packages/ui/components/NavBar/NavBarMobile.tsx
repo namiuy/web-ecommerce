@@ -22,7 +22,8 @@ import SearchInput from '../SearchInput';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
-const _backgroundColor = 'brand.navBar.backgroundColorPrimary';
+const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
+const _backgroundColorSecondary = 'brand.navBar.backgroundColorSecondary';
 const _backdropFilter = 'saturate(180%) blur(20px)';
 const _borderColor = 'brand.navBar.borderColor';
 const _color = 'brand.navBar.color';
@@ -60,7 +61,7 @@ const SearchButton = () => {
         buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen, _hover: { bg: iconButtonHoverColor } }}
       />
       <Modal isOpen={isOpen} size="5xl" onClose={onClose}>
-        <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
+        <ModalOverlay bg={_backgroundColorSecondary} backdropFilter={_backdropFilter} />
         <ModalContent m=".5rem 0 0" bg="transparent">
           <ModalCloseButton color="white" />
           <ModalBody pt="3.5rem">
@@ -79,7 +80,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
   return (
     <>
       <Grid
-        bg={_backgroundColor}
+        bg={_backgroundColorPrimary}
         backdropFilter={_backdropFilter}
         borderBottom="solid 1px"
         color={_color}
