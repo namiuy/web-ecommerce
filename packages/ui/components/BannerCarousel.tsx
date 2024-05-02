@@ -13,6 +13,9 @@ import { boxShadowLg, boxShadowMd } from './ThemeProvider/colors';
 
 const _buttonSize = { base: '2rem', lg: '3rem' };
 
+const _paginationColor = 'brand.banner.paginationColor';
+const _arrowsColor = 'brand.banner.arrowsColor';
+
 type NavigationButtonProps = {
   slideHeight: number | string;
   rows: number;
@@ -43,9 +46,7 @@ const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onCli
       bg="white"
       borderRadius={isBefore ? '0 2rem 2rem 0' : '2rem 0 0 2rem'}
       boxShadow={boxShadowMd}
-      icon={
-        <Icon as={icon} w={_buttonSize} h={_buttonSize} color={'brand.grey.2'} _hover={{ color: 'brand.grey.3' }} />
-      }
+      icon={<Icon as={icon} w={_buttonSize} h={_buttonSize} color={_arrowsColor} />}
       _hover={{ bg: 'wihte', boxShadow: boxShadowLg }}
       onClick={onClick}
     />
@@ -83,11 +84,11 @@ export const BannerCarousel = ({
       pos="relative"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      // sx={{
-      //   '.swiper-pagination-bullet-active"': {
-      //     background: 'red',
-      //   },
-      // }}
+      sx={{
+        '.swiper-pagination .swiper-pagination-bullet-active': {
+          backgroundColor: _paginationColor,
+        },
+      }}
     >
       {showNavigation && isHovering && (
         <Box>

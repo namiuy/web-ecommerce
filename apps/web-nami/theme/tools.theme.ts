@@ -50,6 +50,10 @@ export const theme: Record<string, any> = {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
       },
+      banner: {
+        paginationColor: secondary,
+        arrowsColor: secondary,
+      },
       productDetail: {
         backgroundColor: greyBg,
         borderColor: borderColor,
