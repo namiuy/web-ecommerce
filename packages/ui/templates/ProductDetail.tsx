@@ -26,7 +26,7 @@ import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
 import { formatPrice } from 'shared/utils/product';
 
-const { detailPriceType } = productConf;
+const { detailPriceType, showRelatedProducts } = productConf;
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -78,6 +78,8 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
+
+  // const isLoading = true;
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
 
@@ -157,37 +159,66 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             borderColor={_gridItemBorderColor}
           >
             <Box borderBottom="1px" borderColor={_borderColor} pb="1rem" mb="1rem">
-              <Skeleton isLoaded={!isLoading}>
-                <Text fontWeight="bold" fontSize="1.5rem">
-                  {data?.name}
-                </Text>
-              </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.25rem">
-                <Text color={_smallTextColor} fontSize="0.875rem">
-                  <Text as="span" fontSize="0.75rem">
-                    Cod{' '}
+              {isLoading ? (
+                <Skeleton w="25%" h="1.5rem" mb="0.5rem" />
+              ) : (
+                <Box>
+                  <Link
+                    href={`/productos?b=${data?.brand.id}`}
+                    _hover={{ textDecoration: 'none' }}
+                    fontSize="0.875rem"
+                    color={_smallTextColor}
+                  >
+                    {' '}
+                    {data?.brand.name}
+                  </Link>
+                </Box>
+              )}
+              {isLoading ? (
+                <Skeleton w="100%" h="5rem" mb="0.5rem" />
+              ) : (
+                <Box mb="0.25rem">
+                  <Text fontWeight="bold" fontSize="1.5rem">
+                    {data?.name}
                   </Text>
-                  {data?.id}
-                </Text>
-              </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="fit-content">
-                <Text fontSize="2.5rem" fontWeight="medium">
-                  <Text as="span" fontSize="1.875rem">
-                    U$S{' '}
+                </Box>
+              )}
+              {isLoading ? (
+                <Skeleton w="25%" h="1.5rem" mb="1rem" />
+              ) : (
+                <Box mb="0.75rem">
+                  <Text color={_smallTextColor} fontSize="0.875rem">
+                    <Text as="span" fontSize="0.75rem">
+                      Cod{' '}
+                    </Text>
+                    {data?.id}
                   </Text>
-                  {(isPriceWithoutTax || isPriceBoth) && (
-                    <>
-                      {formatPrice(data?.price_without_tax)}
-                      <Text as="span" color={_smallTextColor} fontSize="0.875rem">
-                        {' '}
-                        + IVA
-                      </Text>
-                    </>
-                  )}
-                </Text>
-              </Skeleton>
-              {(isPriceWithTax || isPriceBoth) && (
-                <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.5rem">
+                </Box>
+              )}
+              {isLoading ? (
+                <Skeleton w="50%" h="4rem" mb="0.5rem" />
+              ) : (
+                <Box>
+                  <Text fontSize="2.5rem" fontWeight="medium">
+                    <Text as="span" fontSize="1.875rem">
+                      U$S{' '}
+                    </Text>
+                    {(isPriceWithoutTax || isPriceBoth) && (
+                      <>
+                        {formatPrice(data?.price_without_tax)}
+                        <Text as="span" color={_smallTextColor} fontSize="0.875rem">
+                          {' '}
+                          + IVA
+                        </Text>
+                      </>
+                    )}
+                  </Text>
+                </Box>
+              )}
+              {(isPriceWithTax || isPriceBoth) && isLoading ? (
+                <Skeleton w="35%" h="2rem" mb="0.5rem" />
+              ) : (
+                <Box>
                   <Text
                     fontSize={isPriceWithTax ? '2.5rem' : '1.375rem'}
                     fontWeight="medium"
@@ -202,7 +233,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                       IVA inc.
                     </Text>
                   </Text>
-                </Skeleton>
+                </Box>
               )}
             </Box>
             {/* <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
@@ -232,9 +263,10 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           )}
         </Grid>
       </Card>
-      <Divider mb="3rem" />
+
       {!!data?.specifications?.length && (
         <>
+          <Divider mb="3.5rem" />
           <Box mb="3.5rem">
             <Container maxW={_containerSize} px="0" mb="1.5rem">
               <Heading size="lg">ESPECIFICACIONES</Heading>
@@ -257,11 +289,11 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Skeleton>
             </Card>
           </Box>
-          <Divider mb="3rem" />
         </>
       )}
       {!!data?.related_links?.length && (
         <>
+          <Divider mb="3.5rem" />
           <Box mb="3.5rem">
             <Container maxW={_containerSize} px={0} mb="1.5rem">
               <Heading size="lg">LINKS</Heading>
@@ -287,10 +319,14 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Skeleton>
             </Card>
           </Box>
-          <Divider mb="3rem" />
         </>
       )}
-      <RelatedProducts id={id} />
+      {showRelatedProducts && (
+        <>
+          <Divider mb="3.5rem" />
+          <RelatedProducts id={id} />
+        </>
+      )}
     </Box>
   );
 };
