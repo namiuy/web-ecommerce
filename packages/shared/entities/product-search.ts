@@ -9,6 +9,7 @@ export type ProductSearchFilters = {
 
 export type ProductSearch = {
   products: Array<Product>;
+  count: number;
   filters: ProductSearchFilters;
 };
 
