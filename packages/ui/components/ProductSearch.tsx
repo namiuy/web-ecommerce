@@ -55,10 +55,12 @@ export const ProductSearch = (props: ProductSearchProps) => {
     <>
       {isLoading ? (
         <Skeleton />
-      ) : (
+      ) : data?.count ? (
         <Text fontSize=".85rem" pr="1rem" color={_grey2}>
-          {products?.length} resultados
+          {data.count} resultados
         </Text>
+      ) : (
+        <></>
       )}
       <Grid gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={{ base: '1rem', sm: '2rem', lg: '2rem' }}>
         {products?.map((product, i) => (
