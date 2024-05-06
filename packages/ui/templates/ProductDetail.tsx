@@ -236,9 +236,9 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Box>
               )}
             </Box>
-            {/* <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+            <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
               <ProductStock id={id} />
-            </Skeleton> */}
+            </Skeleton>
             <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
           </GridItem>
           {data?.description && (
