@@ -14,6 +14,7 @@ type ProductSearchProps = {
   categoryId?: string;
   text?: string;
   sortBy?: ProductSearchSortBy;
+  index?: number;
 };
 
 export const productAdd = (data: Product): Promise<Product> =>
@@ -29,7 +30,13 @@ export const productDelete = (id: string): Promise<Product> => del<Product>(`${b
 
 export const useProductGet = (id: string): Result<Product> => useRequest(`${bff.url}/products/${id}`);
 
-export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductSearchProps): Result<ProductSearch> => {
+export const useProductSearch = ({
+  brandId,
+  categoryId,
+  text,
+  sortBy,
+  index = 0,
+}: ProductSearchProps): Result<ProductSearch> => {
   const filters = {
     b: brandId?.toString(),
     c: categoryId?.toString(),
@@ -38,6 +45,7 @@ export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductS
 
   const url = addSearchParamsToUrl(`${bff.url}/products/search`, {
     ...filters,
+    index: index.toString(),
     sortBy,
   });
 

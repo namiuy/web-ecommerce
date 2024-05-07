@@ -7,6 +7,7 @@ type ProductsPageProps = {
   brandId?: number;
   categoryId?: string;
   text?: string;
+  pag?: number;
   sortBy?: ProductSearchSortBy;
 };
 
@@ -32,12 +33,13 @@ const ProductsPage: NextPage<ProductsPageProps> = props => {
 };
 
 ProductsPage.getInitialProps = async ({ query }) => {
-  const { b, c, t, s } = query;
+  const { b, c, t, s, pag } = query;
   return {
     brandId: typeof b === 'string' ? Number(b) : undefined,
     categoryId: c?.toString(),
     text: t?.toString(),
     sortBy: s?.toString() as ProductSearchSortBy,
+    pag: typeof pag === 'string' ? Number(pag) : undefined,
   };
 };
 
