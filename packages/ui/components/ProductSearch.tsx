@@ -62,7 +62,11 @@ export const ProductSearch = (props: ProductSearchProps) => {
       ) : (
         <></>
       )}
-      <Grid gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={{ base: '1rem', sm: '2rem', lg: '2rem' }}>
+      <Grid
+        gridTemplateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']}
+        gap={{ base: '1rem', sm: '2rem', lg: '2rem' }}
+        mb="4rem"
+      >
         {products?.map((product, i) => (
           <GridItem key={i}>
             <ProductCard isLoading={isLoading} editMode={isUserAdmin} product={product} />
