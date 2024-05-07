@@ -122,7 +122,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                   </Text>
                   {isPriceWithTax ? (
                     <>
-                      {price}
+                      {formatPrice(price)}
                       <Text as="span" color={_smallTextColor} fontSize="0.875rem">
                         {' '}
                         IVA inc.

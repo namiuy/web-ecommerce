@@ -48,6 +48,7 @@ type Product = {
   detailPriceType: string;
   showCod: boolean;
   showRelatedProducts: boolean;
+  showStock: boolean;
 };
 
 export const bff = {
