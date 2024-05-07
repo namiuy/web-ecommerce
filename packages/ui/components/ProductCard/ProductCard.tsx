@@ -21,7 +21,8 @@ const _imageMinH = { base: '8rem', lg: '10rem' };
 const _imageMb = { base: '.5rem', lg: '1rem' };
 const _categorySize = { base: '0.625rem', lg: '0.75rem' };
 const _nameSize = { base: '1rem', lg: '1.375rem' };
-// const _nameHeight = { base: '2rem', lg: '2.75rem' };
+const _nameHeight = { base: '2.75rem', lg: '3.625rem' };
+const _nameLineHeight = { base: '1.375rem', lg: '1.75rem' };
 const _priceSize = { base: '0.875rem', lg: '1.25rem' };
 const _bodyP = { base: '0 .5rem', lg: 0 };
 const _bodyGap = '.5rem';
@@ -63,18 +64,29 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
               </>
             ) : (
               <>
-                <Text color={_grey2} fontSize={_categorySize} lineHeight={_categorySize}>
-                  {category?.name}
-                </Text>
+                <Box>
+                  <Text
+                    color={_grey2}
+                    fontSize={_categorySize}
+                    lineHeight={_categorySize}
+                    overflow="hidden"
+                    sx={{
+                      '-webkit-box-orient': 'vertical',
+                      '-webkit-line-clamp': '1',
+                      display: '-webkit-box',
+                    }}
+                  >
+                    {category?.name}
+                  </Text>
+                </Box>
                 <Box>
                   <Text
                     color={_black}
                     fontSize={_nameSize}
-                    lineHeight="1.75rem"
-                    // h={_nameHeight}
+                    lineHeight={_nameLineHeight}
+                    h={_nameHeight}
                     fontWeight="semibold"
                     overflow="hidden"
-                    textOverflow="ellipsis"
                     sx={{
                       '-webkit-box-orient': 'vertical',
                       '-webkit-line-clamp': '2',
@@ -84,7 +96,18 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                     {name}
                   </Text>
                   {showCod && (
-                    <Text fontSize="0.875rem" fontWeight="semibold" color={_smallTextColor} mt="0.125rem">
+                    <Text
+                      fontSize="0.75rem"
+                      fontWeight="semibold"
+                      color={_smallTextColor}
+                      mt="0.125rem"
+                      overflow="hidden"
+                      sx={{
+                        '-webkit-box-orient': 'vertical',
+                        '-webkit-line-clamp': '1',
+                        display: '-webkit-box',
+                      }}
+                    >
                       <Text as="span" fontSize="0.75rem" fontWeight="semibold">
                         Cod.
                       </Text>{' '}
