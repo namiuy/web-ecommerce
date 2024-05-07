@@ -37,18 +37,22 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
     <Box bg={bg}>
       {/* <AspectRatio ratio={_ratio}> */}
       <Skeleton isLoaded={!isLoading}>
-        <BannerCarousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation}>
-          {banners.map(({ name, url, url_mobile, link }, i) => {
-            const Img = <Image key={i} alt={name} src={isMd ? url : url_mobile} objectFit="cover" />;
-            return link ? (
-              <Link key={i} href={link}>
-                {Img}
-              </Link>
-            ) : (
-              Img
-            );
-          })}
-        </BannerCarousel>
+        {banners.length === 1 ? (
+          <Image alt={banners[0].name} src={isMd ? banners[0].url : banners[0].url_mobile} objectFit="cover" />
+        ) : (
+          <BannerCarousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation}>
+            {banners.map(({ name, url, url_mobile, link }, i) => {
+              const Img = <Image key={i} alt={name} src={isMd ? url : url_mobile} objectFit="cover" />;
+              return link ? (
+                <Link key={i} href={link}>
+                  {Img}
+                </Link>
+              ) : (
+                Img
+              );
+            })}
+          </BannerCarousel>
+        )}
       </Skeleton>
       {/* </AspectRatio> */}
     </Box>
