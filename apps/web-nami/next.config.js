@@ -1,12 +1,25 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, PRODUCT_CARD_PRICE_TYPE, PRODUCT_CARD_CODE, PRODUCT_DETAIL_PRICE_TYPE, PRODUCT_DETAIL_RELATED_PRODUCTS, PRODUCT_DETAIL_STOCK, SITE_HOST, GOOGLE_GA_MEASUREMENT_ID, NODE_ENV } = process.env;
+const {
+  ID,
+  APP_NAME,
+  BFF_URL,
+  GOOGLE_MAP_API_KEY,
+  PRODUCT_CARD_PRICE_TYPE,
+  PRODUCT_CARD_CODE,
+  PRODUCT_DETAIL_PRICE_TYPE,
+  PRODUCT_DETAIL_RELATED_PRODUCTS,
+  PRODUCT_DETAIL_STOCK,
+  SITE_HOST,
+  GOOGLE_GA_MEASUREMENT_ID,
+  NODE_ENV,
+} = process.env;
 
 const multiDomainItemsHrefProd = {
   AUTOPARTS: 'https://nami.com.uy',
   CLIMA: 'https://climatizadores.nami.com.uy',
   TOOLS: 'https://herramientas.nami.com.uy',
   ELECTRIC: 'https://electrico.nami.com.uy',
-}
+};
 
 const multiDomainItemsHrefDev = {
   AUTOPARTS: 'https://develop.nami.com.uy',
@@ -162,7 +175,7 @@ module.exports = {
     product: {
       cardPriceType: PRODUCT_CARD_PRICE_TYPE,
       detailPriceType: PRODUCT_DETAIL_PRICE_TYPE,
-      showCod : PRODUCT_CARD_CODE,
+      showCod: PRODUCT_CARD_CODE,
       showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS,
       showStock: PRODUCT_DETAIL_STOCK,
     },
