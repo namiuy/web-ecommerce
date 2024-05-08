@@ -26,7 +26,7 @@ import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
 import { formatPrice } from 'shared/utils/product';
 
-const { detailPriceType, showRelatedProducts } = productConf;
+const { detailPriceType, showRelatedProducts, showStock } = productConf;
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -195,26 +195,27 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   </Text>
                 </Box>
               )}
-              {isLoading ? (
-                <Skeleton w="50%" h="4rem" mb="0.5rem" />
-              ) : (
+              {(isPriceWithoutTax || isPriceBoth) && (
                 <Box>
-                  <Text fontSize="2.5rem" fontWeight="medium">
-                    <Text as="span" fontSize="1.875rem">
-                      U$S{' '}
-                    </Text>
-                    {(isPriceWithoutTax || isPriceBoth) && (
-                      <>
+                  {isLoading ? (
+                    <Skeleton w="50%" h="4rem" mb="0.5rem" />
+                  ) : (
+                    <Box>
+                      <Text fontSize="2.5rem" fontWeight="medium">
+                        <Text as="span" fontSize="1.875rem">
+                          U$S{' '}
+                        </Text>
                         {formatPrice(data?.price_without_tax)}
                         <Text as="span" color={_smallTextColor} fontSize="0.875rem">
                           {' '}
                           + IVA
                         </Text>
-                      </>
-                    )}
-                  </Text>
+                      </Text>
+                    </Box>
+                  )}
                 </Box>
               )}
+
               {(isPriceWithTax || isPriceBoth) && isLoading ? (
                 <Skeleton w="35%" h="2rem" mb="0.5rem" />
               ) : (
@@ -236,9 +237,11 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Box>
               )}
             </Box>
-            <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
-              <ProductStock id={id} />
-            </Skeleton>
+            {showStock && (
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                <ProductStock id={id} />
+              </Skeleton>
+            )}
             <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
           </GridItem>
           {data?.description && (
