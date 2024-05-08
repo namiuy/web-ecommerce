@@ -35,7 +35,6 @@ export type ProductCardProps = {
 
 export const ProductCard = ({ min = false, isLoading = false, product }: ProductCardProps) => {
   const isPriceWithTax = cardPriceType === 'WITH_TAX';
-  console.log({ cardPriceType });
   const { name, category, price, price_without_tax, id, image_url } = product || {};
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
