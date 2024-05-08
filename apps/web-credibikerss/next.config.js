@@ -96,9 +96,9 @@ module.exports = {
     product: {
       cardPriceType: PRODUCT_CARD_PRICE_TYPE,
       detailPriceType: PRODUCT_DETAIL_PRICE_TYPE,
-      showCod: PRODUCT_CARD_CODE,
-      showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS,
-      showStock: PRODUCT_DETAIL_STOCK,
+      showCod: PRODUCT_CARD_CODE === 'true',
+      showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS === 'true',
+      showStock: PRODUCT_DETAIL_STOCK === 'true',
     },
   },
 };
