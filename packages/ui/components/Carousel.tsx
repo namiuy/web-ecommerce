@@ -10,6 +10,7 @@ import 'swiper/css/navigation';
 import { boxShadowLg, boxShadowMd } from './ThemeProvider/colors';
 
 const _buttonSize = { base: '2rem', lg: '3rem' };
+
 type NavigationButtonProps = {
   slideHeight: number | string;
   rows: number;
@@ -24,19 +25,18 @@ const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onCli
   const icon = isBefore ? MdOutlineNavigateBefore : MdOutlineNavigateNext;
   return (
     <IconButton
+      as="button"
       aria-label={ariaLabel}
       pos="absolute"
       h={_buttonSize}
       w={_buttonSize}
-      mt={{
+      top={{
         base: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.base}) / 2)`,
-        lg: `calc((((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2) - 2rem)`,
+        lg: `calc((((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2))`,
       }}
       left={!isBefore ? undefined : left}
       right={isBefore ? undefined : right}
-      minW="unset"
       zIndex="99"
-      as="button"
       bg="white"
       borderRadius="50%"
       boxShadow={boxShadowMd}
@@ -74,22 +74,22 @@ export const Carousel = ({
   return (
     <Box pos="relative">
       {showNavigation && (
-        <>
+        <Box>
           <NavigationButton
             rows={rows}
             direction="before"
             slideHeight={slideHeight}
             left={navigationLeft}
-            onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex - slidesPerView)}
+            onClick={() => swiperRef.current?.slidePrev()}
           />
           <NavigationButton
             rows={rows}
             direction="next"
             slideHeight={slideHeight}
             right={navigationRight}
-            onClick={() => swiperRef.current?.slideTo(swiperRef.current?.realIndex + slidesPerView)}
+            onClick={() => swiperRef.current?.slideNext()}
           />
-        </>
+        </Box>
       )}
       <Swiper
         slidesPerView={slidesPerView}
