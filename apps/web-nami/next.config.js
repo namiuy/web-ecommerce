@@ -22,7 +22,7 @@ const multiDomainItemsHrefProd = {
 };
 
 const multiDomainItemsHrefDev = {
-  AUTOPARTS: 'https://develop.nami.com.uy',
+  AUTOPARTS: 'https://nami.com.uy',
   CLIMA: 'https://develop.d1uaun1tjxdfo9.amplifyapp.com/',
   TOOLS: 'https://develop.dvqh13e4phd11.amplifyapp.com/',
   ELECTRIC: 'https://develop.d2s9qf1omvguuy.amplifyapp.com/',
