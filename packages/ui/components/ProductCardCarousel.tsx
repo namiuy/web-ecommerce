@@ -8,7 +8,7 @@ const { showCod } = productConf;
 
 // const _minH = { base: '17rem', lg: '21rem' };
 
-const _minH = showCod ? { base: '20rem', lg: '23rem' } : { base: '18rem', lg: '22rem' };
+const _minH = showCod ? { base: '20rem', lg: '23.5rem' } : { base: '18rem', lg: '22rem' };
 
 type ProductCardCarouselProps = {
   isLoading: boolean;
