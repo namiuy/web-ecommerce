@@ -1,7 +1,7 @@
 import lscache from 'lscache';
 import { Flex /*, IconButton, useDisclosure*/ } from '@chakra-ui/react';
 import { Box, Container } from 'ui';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { MdEdit } from 'react-icons/md';
 import { sort, useProductListList } from 'shared';
 import { ProductList } from 'shared/entities/product-list';
@@ -41,7 +41,7 @@ type ProductListSectionProps = { name: string };
 //   );
 // };
 
-export const ProductListSection: FC<ProductListSectionProps> = ({ name }) => {
+export const ProductListSection = ({ name }: ProductListSectionProps) => {
   const { isLoading, error, data = [] } = useProductListList();
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
