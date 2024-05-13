@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import lscache from 'lscache';
-import { Link, useDisclosure, Flex, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
+import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
 import {
+  Flex,
   Container,
   Grid,
   GridItem,
