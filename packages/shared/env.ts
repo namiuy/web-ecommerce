@@ -26,6 +26,12 @@ type Branch = {
   mapUrl: string;
 };
 
+type MultiDomainItem = {
+  id: string;
+  text: string;
+  href: string;
+};
+
 type MenuItem = {
   id: string;
   text: string;
@@ -38,18 +44,26 @@ type SocialNeworkItem = {
 };
 
 type Product = {
-  afterPriceText: string;
+  cardPriceType: string;
+  detailPriceType: string;
+  showCod: boolean;
+  showRelatedProducts: boolean;
+  showStock: boolean;
 };
 
 export const bff = {
   url: prc.bffUrl,
 };
 
+export const envId = prc.envId;
+
 export const siteHost = prc.siteHost;
 
 export const keys = prc.keys as Keys;
 
 export const branches = prc.branches as Branch[];
+
+export const multiDomainItems = prc.multiDomainItems as MultiDomainItem[];
 
 export const menuItems = prc.menuItems as MenuItem[];
 

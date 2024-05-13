@@ -33,6 +33,7 @@ export * from './components/Brands';
 export * from './components/CategoriesAccordion';
 export * from './components/CategoriesPopover';
 export * from './components/Carousel';
+export * from './components/BannerCarousel';
 export * from './components/Container';
 export * from './components/DesignDebug';
 export * from './components/GaPage';
@@ -50,6 +51,7 @@ export * from './components/ProductSortBy';
 export * from './components/ImageModal';
 export * from './components/QuoteRequestButton';
 export * from './components/WhatsApp';
+export * from './components/Footer';
 
 export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetail';
 export { Products as ProductsTemplate } from './templates/Products';

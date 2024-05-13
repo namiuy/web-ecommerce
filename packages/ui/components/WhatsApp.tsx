@@ -60,7 +60,7 @@ export const WhatsApp = () => {
           >
             <Stack divider={<StackDivider />} spacing="4">
               {branches.map((branch, index) => (
-                <Box key={index}>
+                <Flex flexDirection="column" gap="0.25rem" key={index}>
                   <Link
                     href={`https://wa.me/${branch.whatsApp.number}`}
                     target="_blank"
@@ -73,16 +73,16 @@ export const WhatsApp = () => {
                       </Flex>
                     </Heading>
                   </Link>
-                  <Text pt="2" fontSize="lg" color={_grey3}>
+                  <Text fontSize="lg" color={_grey3}>
                     {branch.location}
                   </Text>
-                  <Text fontSize={{ base: 'xs', sm: 'sm' }} color={_grey3} pt="0.125rem">
+                  <Text fontSize={{ base: 'xs', sm: 'sm' }} color={_grey3}>
                     {branch.address}
                   </Text>
-                  <Text fontSize={{ base: 'xs', sm: 'sm' }} color={_grey3} pt="0.125rem">
+                  <Text fontSize={{ base: 'xs', sm: 'sm' }} color={_grey3}>
                     {branch.schedule}
                   </Text>
-                </Box>
+                </Flex>
               ))}
             </Stack>
           </ModalBody>

@@ -60,7 +60,8 @@ export const theme: Record<string, any> = {
         },
       },
       navBar: {
-        backgroundColor: 'rgba(0, 0, 0, .85)',
+        backgroundColorPrimary: 'rgba(0, 0, 0, .85)',
+        backgroundColorSecondary: 'rgba(0, 0, 0, .85)',
         borderColor: 'black',
         iconButton: {
           color: grey1,
@@ -74,9 +75,13 @@ export const theme: Record<string, any> = {
           _focus: {
             borderColor: grey1,
           },
+          _hover: {
+            borderColor: grey1,
+          },
           _placeholder: {
             color: grey2,
           },
+          iconColor: grey2,
         },
       },
       avatar: {
@@ -85,7 +90,7 @@ export const theme: Record<string, any> = {
       },
       drawerMenu: {
         backgroundColor: 'rgba(0, 0, 0, .85)',
-        backdropFilter : 'saturate(180%) blur(20px)',
+        backdropFilter: 'saturate(180%) blur(20px)',
         item: {
           color: grey1,
           borderColor: 'rgba(255, 255, 255, .05)',

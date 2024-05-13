@@ -1,23 +1,18 @@
-import lscache from 'lscache';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Container, Text, Flex } from '@chakra-ui/react';
 import { NavBarProps } from '.';
 import Nav from '../Nav';
 import SearchInput from '../SearchInput';
-import SocialNeworks from '../SocialNeworks';
 import Link from 'next/link';
 import { CategoriesPopover } from '../CategoriesPopover';
-import MenuAdmin from '../MenuAdmin';
-import { User } from 'shared/entities/user';
-import { isBrowser } from 'shared';
-import { useEffect, useState } from 'react';
-import { Container } from '../Container';
+import SocialNetworks from '../SocialNetworks';
+import NavMultiDomain from '../NavMultiDomain';
 
 const _navItemColor = 'brand.nav.item.color';
-const _backgroundColor = 'brand.navBar.backgroundColor';
+const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
+const _backgroundColorSecondary = 'brand.navBar.backgroundColorSecondary';
 const _backdropFilter = 'saturate(180%) blur(20px)';
 const _borderColor = 'brand.navBar.borderColor';
-// const _menuItemColor = 'brand.drawerMenu.item.color'; // TODO: fix
-// const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor'; // TODO: fix
+const _mainWidth = { base: '100%', lg: '80%' };
 
 const CategoriesWrapper = () => (
   <Container px="0">
@@ -25,67 +20,78 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktop = ({ dark, logo: Logo, menuItems = [], simple }: NavBarProps) => {
-  const issBrowser = isBrowser();
-  const [user, setUser] = useState<User>();
-  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
+const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems, menuItems = [], simple }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
-
-  useEffect(() => {
-    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
-  }, [issBrowser]);
 
   return (
     <>
-      <Grid
-        p="1.25rem 0"
-        borderBottom="solid 1px"
-        gridTemplateColumns="16rem 1fr auto auto auto "
-        alignItems="center"
-        bg={_backgroundColor}
-        backdropFilter={_backdropFilter}
-        borderBottomColor={_borderColor}
-        gap="2rem"
-      >
-        <GridItem justifySelf="center">
-          {Logo && (
-            <Link href="/">
-              <Logo />
-            </Link>
-          )}
-        </GridItem>
-        <GridItem>
-          <SearchInput />
-        </GridItem>
-        {simple && (
-          <GridItem>
-            <Nav items={menuItemsWithOnClick} />
-          </GridItem>
-        )}
-        <GridItem>
-          <SocialNeworks dark={dark} color={_navItemColor} size="1.2rem" hide={['tiktok', 'whatsapp']} />
-        </GridItem>
-        {isUserAdmin && (
-          <GridItem>
-            <MenuAdmin />
-          </GridItem>
-        )}
-      </Grid>
-      {!simple && (
+      {multiDomainItems && (
+        <Box bg={_backgroundColorPrimary}>
+          <Flex
+            py="0.375rem"
+            pl="1rem"
+            borderBottom="solid 1px"
+            justifyContent="center"
+            alignItems="center"
+            bg={_backgroundColorPrimary}
+            borderBottomColor={_borderColor}
+            w={_mainWidth}
+            m="0 auto"
+          >
+            <NavMultiDomain items={multiDomainItems} />
+          </Flex>
+        </Box>
+      )}
+      <Box bg={_backgroundColorSecondary} backdropFilter={simple ? _backdropFilter : 'none'}>
         <Grid
-          py="0.625rem"
-          pl="1rem"
-          borderBottom="solid 1px"
-          gridTemplateColumns="2rem 1fr"
+          p={simple ? '1.5rem 0 1.5rem 0' : '1rem 0 0.375rem 0'}
+          gridTemplateColumns={simple ? '12rem 1fr auto auto' : '12rem 1fr auto'}
           alignItems="center"
-          bg={'#800a0b'}
-          borderBottomColor={_borderColor}
+          gap="2rem"
+          w={_mainWidth}
+          m="0 auto"
         >
-          <GridItem ml="2rem">
-            <Nav items={menuItemsWithOnClick} />
+          <GridItem justifySelf="center">
+            {Logo && (
+              <Link href="/">
+                <Logo />
+              </Link>
+            )}
+          </GridItem>
+          <GridItem>
+            <SearchInput />
+          </GridItem>
+          {simple && (
+            <GridItem>
+              <Nav items={menuItemsWithOnClick} />
+            </GridItem>
+          )}
+          <GridItem>
+            <SocialNetworks dark={dark} color={_navItemColor} size="1.2rem" hide={['tiktok', 'whatsapp']} />
           </GridItem>
         </Grid>
-      )}
+
+        {!simple && (
+          <Grid
+            py="0.625rem"
+            pl="1rem"
+            bg={_backgroundColorSecondary}
+            borderBottomColor={_borderColor}
+            w={_mainWidth}
+            m="0 auto"
+            gridTemplateColumns={'1fr auto'}
+          >
+            <GridItem>
+              <Nav items={menuItemsWithOnClick} />
+            </GridItem>
+            <GridItem>
+              <Text color="white" fontWeight="semibold" fontSize="0.875rem">
+                Lideres en radiadores y aire acondicionado
+              </Text>
+            </GridItem>
+          </Grid>
+        )}
+      </Box>
     </>
   );
 };

@@ -7,6 +7,9 @@ import { MdFacebook } from 'react-icons/md';
 import { FaYoutube, FaLinkedin } from 'react-icons/fa';
 import { socialNeworksItems } from 'shared/env';
 import { AnimationWrapper } from './AnimationWrapper';
+import { BiBorderRadius } from 'react-icons/bi';
+
+const _backgroundColor = 'brand.footer.backgroundColor';
 
 type Icon = {
   icon: IconType;
@@ -17,29 +20,34 @@ type Icon = {
 const icons: Record<string, Icon> = {
   facebook: { icon: MdFacebook, hoverColor: '#4167b1' },
   instagram: { icon: AiFillInstagram, hoverColor: '#ed1d67' },
-  tiktok: { icon: IoLogoTiktok, hoverColor: '#111111', hoverColorDark: 'white' },
+  tiktok: { icon: IoLogoTiktok, hoverColor: '#111111' },
   whatsapp: { icon: IoLogoWhatsapp, hoverColor: '#25D366' },
   youtube: { icon: FaYoutube, hoverColor: '#c4302b' },
   linkedin: { icon: FaLinkedin, hoverColor: '#0a66c2' },
 };
 
-type SocialNeworksProps = {
+type SocialNetworksProps = {
+  bg?: string;
   dark?: boolean;
   color?: string;
   size?: string;
+  padding?: string;
   gap?: string;
+  borderRadius?: string;
   hide?: string[];
+  hover?: boolean;
 };
 
-const SocialNeworks = ({
+const SocialNetworks = ({
   dark = false,
   color = 'black',
   size = '1rem',
   gap = '1rem',
   hide = [],
-}: SocialNeworksProps) => (
+  hover = false,
+}: SocialNetworksProps) => (
   <nav>
-    <Flex as="ol" alignItems="center" listStyleType="none" gap={gap}>
+    <Flex as="ol" justifyContent="flex-start" alignItems="center" listStyleType="none" gap={gap}>
       {socialNeworksItems
         .filter(({ id }) => !hide.includes(id))
         .map(({ id, href }) => (
@@ -51,7 +59,11 @@ const SocialNeworks = ({
                 h={size}
                 display="block"
                 color={color}
-                _hover={{ color: dark ? icons[id].hoverColorDark || icons[id].hoverColor : icons[id].hoverColor }}
+                _hover={
+                  hover
+                    ? { color: dark ? icons[id].hoverColorDark || icons[id].hoverColor : icons[id].hoverColor }
+                    : undefined
+                }
               />
             </Link>
           </li>
@@ -60,4 +72,4 @@ const SocialNeworks = ({
   </nav>
 );
 
-export default SocialNeworks;
+export default SocialNetworks;

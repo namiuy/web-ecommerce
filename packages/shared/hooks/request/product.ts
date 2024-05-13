@@ -14,6 +14,7 @@ type ProductSearchProps = {
   categoryId?: string;
   text?: string;
   sortBy?: ProductSearchSortBy;
+  index?: number;
 };
 
 export const productAdd = (data: Product): Promise<Product> =>
@@ -22,13 +23,20 @@ export const productAdd = (data: Product): Promise<Product> =>
 export const productUpdate = (id: string, data: any): Promise<Product> =>
   put<Product>(`${bff.url}/products/${id}`, { body: JSON.stringify(data) });
 
-export const useProductRelatedGet = (id: string): Result<ProductRelated> => useRequest(`${bff.url}/products/related/${id}`)
+export const useProductRelatedGet = (id: string): Result<ProductRelated> =>
+  useRequest(`${bff.url}/products/related/${id}`);
 
 export const productDelete = (id: string): Promise<Product> => del<Product>(`${bff.url}/products/${id}`);
 
 export const useProductGet = (id: string): Result<Product> => useRequest(`${bff.url}/products/${id}`);
 
-export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductSearchProps): Result<ProductSearch> => {
+export const useProductSearch = ({
+  brandId,
+  categoryId,
+  text,
+  sortBy,
+  index = 0,
+}: ProductSearchProps): Result<ProductSearch> => {
   const filters = {
     b: brandId?.toString(),
     c: categoryId?.toString(),
@@ -37,6 +45,7 @@ export const useProductSearch = ({ brandId, categoryId, text, sortBy }: ProductS
 
   const url = addSearchParamsToUrl(`${bff.url}/products/search`, {
     ...filters,
+    index: index.toString(),
     sortBy,
   });
 

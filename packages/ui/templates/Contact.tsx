@@ -1,15 +1,28 @@
-import { Link, Icon, Textarea, useBreakpointValue, FormErrorMessage, Flex, Divider } from '@chakra-ui/react';
+import {
+  Link,
+  Icon,
+  Textarea,
+  useBreakpointValue,
+  FormErrorMessage,
+  Flex,
+  Divider,
+  Progress,
+  FormControl,
+  FormLabel,
+  Input,
+  VStack,
+} from '@chakra-ui/react';
 import { Box, Container, Text, Map, Button } from 'ui';
 import { Field, Formik } from 'formik';
-import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
-import { MdCheckCircle, MdLocationOn } from 'react-icons/md';
+import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
+import { useToast } from '@chakra-ui/react';
 
 import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as ContactValues } from 'shared/entities/contact';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { branches } from 'shared/env';
 
@@ -17,7 +30,7 @@ const _firstBoxWidth = { base: '100%', lg: '20rem' };
 const _secondBoxWidth = { base: '100%', lg: '25rem' };
 const _left = { base: '0', lg: '12' };
 const _right = { base: '0', lg: '12' };
-const _top = { base: '0', lg: '50%' };
+const _top = { base: '0', lg: '60%' };
 const _transform = { base: 'none', lg: 'translateY(-50%)' };
 const _mb = { base: '8', lg: 'none' };
 
@@ -32,10 +45,31 @@ const calculateCenter = (branches: any) => {
 };
 
 export const Contact = () => {
+  const toast = useToast();
   const lg = useBreakpointValue({ base: false, lg: true });
   const [contactProps, setContactProps] = useState<ContactValues>();
   const { isLoading, data, error } = useContactRequest(contactProps);
   // TODO: Add error handling
+
+  useEffect(() => {
+    if (toast && data) {
+      const id = 'contact-message-sent';
+      if (!toast.isActive(id)) {
+        toast({
+          id,
+          title: 'Mensaje enviado',
+          description: 'El mensaje fue enviado correctamente.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+  }, [toast, data]);
+
+  const handleSubmit = async (values: ContactValues) => {
+    setContactProps(values);
+  };
 
   return (
     <>
@@ -45,7 +79,7 @@ export const Contact = () => {
             <Map
               position={branches.map(branch => branch.position)}
               zoom={lg ? 13 : 12}
-              h={lg ? '85vh' : '50vh'}
+              h={lg ? '100vh' : '50vh'}
               center={calculateCenter(branches)}
             />
           </Box>
@@ -130,7 +164,7 @@ export const Contact = () => {
             transform={_transform}
             mb={_mb}
           >
-            <Text fontSize="1.375rem" fontWeight="bold" mb="0.75rem">
+            <Text fontSize="1.375rem" fontWeight="bold" mb="1.25rem">
               Contáctese con nosotros
             </Text>
             <Formik
@@ -141,15 +175,13 @@ export const Contact = () => {
                 subject: '',
                 message: '',
               }}
-              onSubmit={values => {
-                setContactProps(values);
-              }}
+              onSubmit={handleSubmit}
               validateOnChange={false}
               validateOnBlur={false}
             >
               {({ handleSubmit, errors }) => (
                 <form onSubmit={handleSubmit}>
-                  <VStack spacing={5} align="flex-start">
+                  <VStack spacing="1rem" align="flex-start">
                     <Box w="100%">
                       <FormControl isInvalid={!!errors.name} variant="floating">
                         <Field
@@ -164,7 +196,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Nombre</FormLabel>
-                        <FormErrorMessage>{errors.name}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.name}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -181,7 +213,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Correo electrónico</FormLabel>
-                        <FormErrorMessage>{errors.email}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.email}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -198,7 +230,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Telefono</FormLabel>
-                        <FormErrorMessage>{errors.phone}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.phone}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -215,7 +247,7 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Asunto</FormLabel>
-                        <FormErrorMessage>{errors.subject}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.subject}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -233,9 +265,23 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Mensaje</FormLabel>
-                        <FormErrorMessage>{errors.message}</FormErrorMessage>
+                        {/* <FormErrorMessage>{errors.message}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
+                  </VStack>
+                  {errors.message && (
+                    <Text color="red.500" pt="0.75rem">
+                      Debe completar todos los campos
+                    </Text>
+                  )}
+                  <Box w="100%">
+                    <Progress
+                      h={isLoading ? '4px' : '1px'}
+                      m="1rem 0"
+                      size="xs"
+                      isIndeterminate={isLoading}
+                      colorScheme="primary"
+                    />
                     <Button
                       type="submit"
                       bg="primary.main"
@@ -246,17 +292,10 @@ export const Contact = () => {
                     >
                       ENVIAR
                     </Button>
-                  </VStack>
+                  </Box>
                 </form>
               )}
             </Formik>
-
-            {data && (
-              <Flex gap="1rem" justifyContent="center" alignItems="center" mt="1rem">
-                <Icon as={MdCheckCircle} boxSize={5} color="green.400" />
-                <Text>El mensaje fue enviado correctamente.</Text>
-              </Flex>
-            )}
           </Box>
         </Box>
       </Container>

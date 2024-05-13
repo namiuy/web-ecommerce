@@ -1,4 +1,5 @@
-import { Box, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/react';
+import { MouseEvent, useState } from 'react';
+import { Box, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, useDisclosure } from '@chakra-ui/react';
 import { Category } from 'shared/entities/category';
 import { Skeleton } from 'ui';
 import { addSearchParamsToUrl, getEmptyArray, getProductsUrl, isBrowser, useCategoryList } from 'shared';
@@ -28,7 +29,8 @@ type ItemProps = {
   /* sub_categories?: boolean; */
 };
 
-const getUrl = (categoryId: string) => (!isBrowser() ? '/' : addSearchParamsToUrl(getProductsUrl(), { c: categoryId }));
+const getUrl = (categoryId: string) =>
+  !isBrowser() ? '/' : addSearchParamsToUrl(getProductsUrl({ clearSearch: true }), { c: categoryId });
 
 const Item = ({ id, name, color = _grey3, borderColor = _grey0, sub_categories = false, onClick }: ItemProps) => {
   return (
@@ -53,6 +55,8 @@ const Item = ({ id, name, color = _grey3, borderColor = _grey0, sub_categories =
 };
 
 export const CategoriesPopover = ({ removeParams, color = _grey3, borderColor = _grey0, onClick }: CategoriesProps) => {
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const [currentCategory, setCurrentCategory] = useState<string | null>(null);
   const { isLoading, error, data = [] } = useCategoryList();
   // TODO: removeParams
 
@@ -63,14 +67,27 @@ export const CategoriesPopover = ({ removeParams, color = _grey3, borderColor = 
 
   const categories = isLoading ? getEmptyArray<Category>(LOADING_LENGTH) : data;
 
+  const onItemClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) onClick(e);
+    onClose();
+  };
+
   return (
     <>
       {categories.map(({ id, name, sub_categories }, i) =>
         isLoading ? (
           <Skeleton key={i} h="2rem" mb="1rem" />
         ) : (
-          <Box>
-            <Popover key={i} placement="right-start" trigger="hover" gutter={0}>
+          <Box onMouseEnter={() => setCurrentCategory(id)} onMouseLeave={() => setCurrentCategory(null)}>
+            <Popover
+              key={i}
+              placement="right-start"
+              trigger="hover"
+              gutter={0}
+              isOpen={isOpen && currentCategory === id}
+              onOpen={onOpen}
+              onClose={onClose}
+            >
               <PopoverTrigger>
                 <Box>
                   <Item
@@ -78,15 +95,15 @@ export const CategoriesPopover = ({ removeParams, color = _grey3, borderColor = 
                     name={name}
                     color={color}
                     borderColor={borderColor}
-                    onClick={onClick}
+                    onClick={onItemClick}
                     sub_categories={sub_categories != null}
                   />
                 </Box>
               </PopoverTrigger>
-              <PopoverContent borderRadius="0" w="max-content">
+              <PopoverContent w="max-content">
                 <PopoverBody padding="0">
                   {sub_categories?.map(({ id, name }, ii) => (
-                    <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onClick} />
+                    <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onItemClick} />
                   ))}
                 </PopoverBody>
               </PopoverContent>

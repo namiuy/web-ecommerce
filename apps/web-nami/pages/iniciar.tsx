@@ -1,7 +1,11 @@
 import { NextPage } from 'next';
-import { Logo } from '../components/LogoWhite';
-import { SignInTemplate } from 'ui';
+import { Logo } from '../components/Logo';
+import { GaPage, SignInTemplate } from 'ui';
 
-const SignInPage: NextPage = () => <SignInTemplate Logo={Logo} />;
+const SignInPage: NextPage = () => (
+  <GaPage page="SignIn">
+    <SignInTemplate Logo={Logo} />
+  </GaPage>
+);
 
 export default SignInPage;

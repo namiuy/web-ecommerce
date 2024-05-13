@@ -3,7 +3,12 @@ import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
-const _minH = { base: '17rem', lg: '21rem' };
+import { product as productConf } from 'shared';
+const { showCod } = productConf;
+
+// const _minH = { base: '17rem', lg: '21rem' };
+
+const _minH = showCod ? { base: '20rem', lg: '23.5rem' } : { base: '18rem', lg: '22rem' };
 
 type ProductCardCarouselProps = {
   isLoading: boolean;
@@ -22,15 +27,15 @@ export const ProductCardCarousel = ({ isLoading, editMode = false, products }: P
       base: 2,
       sm: 3,
       md: 4,
-      '2xl': 5,
+      lg: 5,
     }) || 2;
   const slideHeight = isLg ? _minH.lg : _minH.base;
 
   return (
     <Carousel
       slideHeight={slideHeight}
-      navigationLeft="-1rem"
-      navigationRight="-1rem"
+      navigationLeft={isLg ? '-1.5rem' : '-1rem'}
+      navigationRight={isLg ? '-1.5rem' : '-1rem'}
       slidesPerView={slidesPerView}
       spaceBetween={32}
     >

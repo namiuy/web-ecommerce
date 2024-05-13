@@ -1,34 +1,29 @@
-'use client';
-
-import { NextPage } from 'next';
-import { AddToCartButton, Head, ProductDetailTemplate } from 'ui';
-import { NavBar } from '../../components';
+import { GaPage, Head, Box, ProductDetailTemplate } from 'ui';
+import { NavBar, Footer } from '../../components';
 import { useRouter } from 'next/router';
+import { NextPage } from 'next';
 
-type ProductDetailPageProps = {
-  id?: string;
-};
-
-const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ id }) => {
+const ProductDetailPage: NextPage = () => {
   const router = useRouter();
+  const id = router.query?.id?.toString();
 
   if (!id) {
-    router.replace('/productos');
     return <></>;
   }
 
   return (
-    <>
-      <Head />
-      <NavBar />
-      {/* <ProductDetailTemplate id={id} actions={['add_to_cart']} /> */}
-      <ProductDetailTemplate id={id} actions={['whatsapp_request']} />
-    </>
+    <GaPage page="ProductDetail">
+      <>
+        <Box>
+          <Head />
+          <NavBar />
+          {/* <ProductDetailTemplate id={id} actions={['add_to_cart']} /> */}
+          <ProductDetailTemplate id={id} actions={['whatsapp_request']} />
+        </Box>
+        <Footer />
+      </>
+    </GaPage>
   );
 };
-
-ProductDetailPage.getInitialProps = async ({ query }) => ({
-  id: query.id?.toString(),
-});
 
 export default ProductDetailPage;

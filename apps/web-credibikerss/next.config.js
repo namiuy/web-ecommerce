@@ -1,6 +1,17 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 
-const { APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, GOOGLE_GA_MEASUREMENT_ID } = process.env;
+const {
+  APP_NAME,
+  BFF_URL,
+  GOOGLE_MAP_API_KEY,
+  PRODUCT_CARD_PRICE_TYPE,
+  PRODUCT_CARD_CODE,
+  PRODUCT_DETAIL_PRICE_TYPE,
+  PRODUCT_DETAIL_RELATED_PRODUCTS,
+  PRODUCT_DETAIL_STOCK,
+  SITE_HOST,
+  GOOGLE_GA_MEASUREMENT_ID,
+} = process.env;
 
 const menuItems = [
   {
@@ -39,6 +50,8 @@ const socialNeworksItems = [
   },
 ];
 
+const multiDomainItems = [];
+
 const branches = [
   {
     location: 'Montevideo',
@@ -68,17 +81,24 @@ module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
   publicRuntimeConfig: {
+    envId: 'CREDI',
     appName: APP_NAME,
     bffUrl: BFF_URL,
+    siteHost: SITE_HOST,
     menuItems,
     socialNeworksItems,
+    multiDomainItems,
     branches,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
       googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,
     },
     product: {
-      afterPriceText: '',
+      cardPriceType: PRODUCT_CARD_PRICE_TYPE,
+      detailPriceType: PRODUCT_DETAIL_PRICE_TYPE,
+      showCod: PRODUCT_CARD_CODE === 'true',
+      showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS === 'true',
+      showStock: PRODUCT_DETAIL_STOCK === 'true',
     },
   },
 };

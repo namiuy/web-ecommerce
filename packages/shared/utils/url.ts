@@ -16,5 +16,5 @@ export const removeSearchParamFromUrl = (url: string, key: string): string => {
   return new URL(`${baseUrl.origin}${baseUrl.pathname}?${params.toString()}`).href;
 };
 
-export const getProductsUrl = () =>
-  `${window.location.protocol}//${window.location.host}/productos${window.location.search}`;
+export const getProductsUrl = (props?: { clearSearch?: boolean }) =>
+  `${window.location.protocol}//${window.location.host}/productos${props?.clearSearch ? '' : window.location.search}`;

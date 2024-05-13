@@ -22,7 +22,8 @@ import SearchInput from '../SearchInput';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
-const _backgroundColor = 'brand.navBar.backgroundColor';
+const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
+const _backgroundColorSecondary = 'brand.navBar.backgroundColorSecondary';
 const _backdropFilter = 'saturate(180%) blur(20px)';
 const _borderColor = 'brand.navBar.borderColor';
 const _color = 'brand.navBar.color';
@@ -44,7 +45,7 @@ const IconButton = ({ buttonProps, icon }: IconButtonProps) => (
         h="1.75rem"
         display="block"
         color={iconButtonColor}
-        _hover={{ color: iconButtonHoverColor }}
+        _hover={{ bg: iconButtonHoverColor }}
       />
     }
   />
@@ -55,9 +56,12 @@ const SearchButton = () => {
 
   return (
     <>
-      <IconButton icon={AiOutlineSearch} buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen }} />
+      <IconButton
+        icon={AiOutlineSearch}
+        buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen, _hover: { bg: iconButtonHoverColor } }}
+      />
       <Modal isOpen={isOpen} size="5xl" onClose={onClose}>
-        <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
+        <ModalOverlay bg={_backgroundColorSecondary} backdropFilter={_backdropFilter} />
         <ModalContent m=".5rem 0 0" bg="transparent">
           <ModalCloseButton color="white" />
           <ModalBody pt="3.5rem">
@@ -69,14 +73,14 @@ const SearchButton = () => {
   );
 };
 
-const NavBarMobile = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
+const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: NavBarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
 
   return (
     <>
       <Grid
-        bg={_backgroundColor}
+        bg={_backgroundColorPrimary}
         backdropFilter={_backdropFilter}
         borderBottom="solid 1px"
         color={_color}
@@ -94,6 +98,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
               'aria-label': 'Menu',
               ref: btnRef,
               onClick: onOpen,
+              _hover: { bg: iconButtonHoverColor },
             }}
             icon={HiMenuAlt2}
           />
@@ -111,7 +116,14 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [] }: NavBarProps) => {
           <SearchButton />
         </GridItem>
       </Grid>
-      <MenuDrawer dark={dark} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} menuItems={menuItems} />
+      <MenuDrawer
+        dark={dark}
+        isOpen={isOpen}
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        menuItems={menuItems}
+        multiDomainItems={multiDomainItems}
+      />
     </>
   );
 };

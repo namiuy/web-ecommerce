@@ -1,4 +1,8 @@
 import { NavBar as NavBarUI } from 'ui';
-import { Logo } from './LogoWhite';
+import { Logo } from './Logo';
 
-export const NavBar = () => <NavBarUI logo={Logo} />;
+type NavBarProps = {
+  fixed?: boolean;
+};
+
+export const NavBar = ({ fixed }: NavBarProps) => <NavBarUI logo={Logo} fixed={fixed} />;

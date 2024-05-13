@@ -1,8 +1,17 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react';
 import { ElementType } from 'react';
+import { multiDomainItems } from 'shared/env';
 import { menuItems } from 'shared/env';
 import NavBarDesktop from './NavBarDesktop';
 import NavBarMobile from './NavBarMobile';
+
+const _backgroundColor = 'brand.navBar.backgroundColorSecondary';
+
+export type MultiDomainItem = {
+  id: string;
+  text: string;
+  href: string;
+};
 
 export type MenuItem = {
   id: string;
@@ -14,9 +23,11 @@ export type NavBarProps = {
   dark?: boolean;
   logo?: ElementType;
   fontWeight?: number;
+  multiDomainItems?: Array<MultiDomainItem>;
   menuItems?: Array<MenuItem>;
   fixed?: boolean;
   simple?: boolean;
+  hover?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {
@@ -24,15 +35,15 @@ export const NavBar = (props: NavBarProps) => {
     base: false,
     lg: true,
   });
-  const { fixed } = props;
+  const { fixed, simple } = props;
   const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
 
   return (
     <>
       <Box w="100%" zIndex="999" position={fixed ? 'fixed' : 'static'}>
-        <NavBarDisplay {...props} menuItems={menuItems} />
+        <NavBarDisplay {...props} multiDomainItems={multiDomainItems} menuItems={menuItems} />
       </Box>
-      {fixed && <Box h="5.5rem" bg="black" />}
+      {simple && <Box h="6rem" bg="black" />}
     </>
   );
 };

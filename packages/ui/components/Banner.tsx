@@ -1,10 +1,11 @@
-import { AspectRatio, Box, Image, useBreakpointValue } from '@chakra-ui/react';
+import { AspectRatio, Image, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Skeleton } from 'ui';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useBannerList } from 'shared';
-//import { Carousel } from './Carousel';
+import { BannerCarousel } from './BannerCarousel';
+import { useEffect, useState } from 'react';
 
-const _ratio = { base: 164 / 75, md: 25 / 7 };
+// const _ratio = { base: 164 / 75, md: 25 / 7 };
 
 type BannerProps = {
   section: string;
@@ -12,17 +13,17 @@ type BannerProps = {
 };
 
 export const Banner = ({ section, showNavigation }: BannerProps) => {
-  const [bg, setBg] = useState('#383838');
   const { isLoading, error, data = [] } = useBannerList();
+  const [bg, setBg] = useState('#383838');
+
+  if (error) {
+    console.log(error);
+  }
 
   const isMd = useBreakpointValue({
     base: false,
     md: true,
   });
-
-  if (error) {
-    console.log(error);
-  }
 
   const banners = data.filter(b => b.section === section).sort((a, b) => a.indx - b.indx);
 
@@ -34,12 +35,13 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
 
   return (
     <Box bg={bg}>
-      <AspectRatio ratio={_ratio}>
-        {isLoading ? (
-          <Box />
+      {/* <AspectRatio ratio={_ratio}> */}
+      <Skeleton isLoaded={!isLoading}>
+        {banners.length === 1 ? (
+          <Image alt={banners[0].name} src={isMd ? banners[0].url : banners[0].url_mobile} objectFit="cover" />
         ) : (
-          <>
-            {banners.map(({ name, color, url, url_mobile, link }, i) => {
+          <BannerCarousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation}>
+            {banners.map(({ name, url, url_mobile, link }, i) => {
               const Img = <Image key={i} alt={name} src={isMd ? url : url_mobile} objectFit="cover" />;
               return link ? (
                 <Link key={i} href={link}>
@@ -49,15 +51,10 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
                 Img
               );
             })}
-          </>
+          </BannerCarousel>
         )}
-      </AspectRatio>
+      </Skeleton>
+      {/* </AspectRatio> */}
     </Box>
   );
 };
-{
-  /* <Carousel slideHeight="100%" slidesPerView={1} showNavigation={showNavigation} onChange={r => console.log(r)}>*/
-}
-{
-  /* </Carousel> */
-}

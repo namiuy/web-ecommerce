@@ -13,7 +13,6 @@ import {
   Card,
   AddToCartButton,
   QuoteRequestButton,
-  ProductListSection,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
 import { isBrowser, useProductGet, product as productConf } from 'shared';
@@ -25,8 +24,9 @@ import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
 import { User } from 'shared/entities/user';
 import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
+import { formatPrice } from 'shared/utils/product';
 
-const { afterPriceText } = productConf;
+const { detailPriceType, showRelatedProducts, showStock } = productConf;
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -79,7 +79,14 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
 
+  // const isLoading = true;
+
   const isMobile = useBreakpointValue({ base: true, sm: false });
+
+  const isPriceWithTax = detailPriceType === 'WITH_TAX';
+  const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
+  const isPriceBoth = detailPriceType === 'BOTH';
+  const isPriceSimple = detailPriceType === 'SIMPLE';
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -152,38 +159,109 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             borderLeft={_gridItemDetailsBorderLeft}
             borderColor={_gridItemBorderColor}
           >
-            <Box borderBottom="1px" borderColor={_borderColor} pb="1rem">
-              <Skeleton isLoaded={!isLoading} mb="0.375rem">
-                <Text fontWeight="bold" fontSize="1.5rem">
-                  {data?.name}
-                </Text>
-              </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1.25rem">
-                <Text color={_smallTextColor} fontSize="0.75rem">
-                  <Text as="span" fontSize="0.625rem">
-                    Codigo{' '}
+            <Box borderBottom="1px" borderColor={_borderColor} pb="1rem" mb="1rem">
+              {isLoading ? (
+                <Skeleton w="25%" h="1.5rem" mb="0.5rem" />
+              ) : (
+                <Box>
+                  <Link
+                    href={`/productos?b=${data?.brand.id}`}
+                    _hover={{ textDecoration: 'none' }}
+                    fontSize="0.875rem"
+                    color={_smallTextColor}
+                  >
+                    {' '}
+                    {data?.brand.name}
+                  </Link>
+                </Box>
+              )}
+              {isLoading ? (
+                <Skeleton w="100%" h="5rem" mb="0.5rem" />
+              ) : (
+                <Box mb="0.25rem">
+                  <Text fontWeight="bold" fontSize="1.5rem">
+                    {data?.name}
                   </Text>
-                  {data?.id}
-                </Text>
-              </Skeleton>
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="0.5rem">
-                <Text fontSize="2.5rem" fontWeight="medium">
-                  <Text as="span" fontSize="1.875rem">
-                    U$S{' '}
-                  </Text>
-                  {data?.price}
-                  {afterPriceText && (
-                    <Text as="span" color={_smallTextColor} fontSize="0.75rem">
-                      {' '}
-                      {afterPriceText}
+                </Box>
+              )}
+              {isLoading ? (
+                <Skeleton w="25%" h="1.5rem" mb="1rem" />
+              ) : (
+                <Box mb="0.75rem">
+                  <Text color={_smallTextColor} fontSize="0.875rem">
+                    <Text as="span" fontSize="0.75rem">
+                      Cod{' '}
                     </Text>
+                    {data?.id}
+                  </Text>
+                </Box>
+              )}
+              {isPriceSimple ? (
+                <Box>
+                  {isLoading ? (
+                    <Skeleton w="50%" h="4rem" mb="0.5rem" />
+                  ) : (
+                    <Box>
+                      <Text fontSize="2.5rem" fontWeight="medium">
+                        <Text as="span" fontSize="1.875rem">
+                          U$S{' '}
+                        </Text>
+                        {formatPrice(data?.price_without_tax)}
+                      </Text>
+                    </Box>
                   )}
-                </Text>
-              </Skeleton>
+                </Box>
+              ) : (
+                <>
+                  {(isPriceWithoutTax || isPriceBoth) && (
+                    <Box>
+                      {isLoading ? (
+                        <Skeleton w="50%" h="4rem" mb="0.5rem" />
+                      ) : (
+                        <Box>
+                          <Text fontSize="2.5rem" fontWeight="medium">
+                            <Text as="span" fontSize="1.875rem">
+                              U$S{' '}
+                            </Text>
+                            {formatPrice(data?.price_without_tax)}
+                            <Text as="span" color={_smallTextColor} fontSize="0.875rem">
+                              {' '}
+                              + IVA
+                            </Text>
+                          </Text>
+                        </Box>
+                      )}
+                    </Box>
+                  )}
+
+                  {(isPriceWithTax || isPriceBoth) && isLoading ? (
+                    <Skeleton w="35%" h="2rem" mb="0.5rem" />
+                  ) : (
+                    <Box>
+                      <Text
+                        fontSize={isPriceWithTax ? '2.5rem' : '1.375rem'}
+                        fontWeight="medium"
+                        color={isPriceWithTax ? 'black' : _smallTextColor}
+                      >
+                        <Text as="span" fontSize={isPriceWithTax ? '1.875rem' : '1.125rem'}>
+                          U$S{' '}
+                        </Text>
+                        {formatPrice(data?.price)}
+                        <Text as="span" color={_smallTextColor} fontSize={isPriceWithTax ? '0.875rem' : '0.75rem'}>
+                          {' '}
+                          IVA inc.
+                        </Text>
+                      </Text>
+                    </Box>
+                  )}
+                </>
+              )}
             </Box>
-            {/* <Skeleton isLoaded={!isLoading} w="fit-content" mt="1rem" mb="1rem">
-              <ProductStock id={id} />
-            </Skeleton> */}
+            {showStock && (
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                <ProductStock id={id} />
+              </Skeleton>
+            )}
             <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
           </GridItem>
           {data?.description && (
@@ -208,10 +286,11 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           )}
         </Grid>
       </Card>
+
       {!!data?.specifications?.length && (
         <>
-          <Divider />
-          <Box mt="2.5rem" mb="3.5rem">
+          <Divider mb="3.5rem" />
+          <Box mb="3.5rem">
             <Container maxW={_containerSize} px="0" mb="1.5rem">
               <Heading size="lg">ESPECIFICACIONES</Heading>
             </Container>
@@ -233,12 +312,12 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               </Skeleton>
             </Card>
           </Box>
-          <Divider />
         </>
       )}
       {!!data?.related_links?.length && (
         <>
-          <Box mt="2.5rem" mb="3.5rem">
+          <Divider mb="3.5rem" />
+          <Box mb="3.5rem">
             <Container maxW={_containerSize} px={0} mb="1.5rem">
               <Heading size="lg">LINKS</Heading>
             </Container>
@@ -265,7 +344,12 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           </Box>
         </>
       )}
-      <RelatedProducts id={id} />
+      {showRelatedProducts && (
+        <>
+          <Divider mb="3.5rem" />
+          <RelatedProducts id={id} />
+        </>
+      )}
     </Box>
   );
 };

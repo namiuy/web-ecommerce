@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
 import { Input, InputGroup, InputLeftElement, Icon, InputRightElement, Button } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { KeyboardEvent, ChangeEvent, useState } from 'react';
+import { KeyboardEvent, ChangeEvent, useState, useEffect } from 'react';
 
 const _color = 'brand.navBar.input.color';
+const _iconColor = 'brand.navBar.input.iconColor';
 const _borderColor = 'brand.navBar.input.borderColor';
 const _backgroundColor = 'brand.navBar.input.backgroundColor';
 const _placeholderColor = 'brand.navBar.input._placeholder.color';
+const _hoverBorderColor = 'brand.navBar.input._hover.borderColor';
 const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
 
 type SearchInputProps = {
@@ -16,7 +18,7 @@ type SearchInputProps = {
 
 const productsPath = '/productos';
 
-const SearchInput = ({ placeholder = 'Buscar un producto', onSearch }: SearchInputProps) => {
+const SearchInput = ({ placeholder = 'Buscar un producto...', onSearch }: SearchInputProps) => {
   const router = useRouter();
   const isProductsPath = router.pathname === productsPath;
   const { t } = router.query;
@@ -35,45 +37,32 @@ const SearchInput = ({ placeholder = 'Buscar un producto', onSearch }: SearchInp
     if (event.key === 'Enter') search();
   };
 
+  useEffect(() => {
+    if (!router.query?.t) {
+      setValue('');
+    }
+  }, [router.query]);
+
   return (
     <InputGroup>
-      <InputLeftElement w="3rem" h="3rem">
-        <Icon w="1.25rem" h="1.25rem" as={AiOutlineSearch} color={_borderColor} />
-      </InputLeftElement>
       <Input
         h="3rem"
-        pl="2.875rem"
-        pr="1rem"
         borderRadius="3rem"
         border="solid 1px"
         borderColor={_borderColor}
         color={_color}
         backgroundColor={_backgroundColor}
-        fontSize="0.813rem"
+        fontSize="0.938rem"
         placeholder={placeholder}
         _placeholder={{ color: _placeholderColor }}
         _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
-        _hover={{ borderColor: _focusBorderColor }}
+        _hover={{ borderColor: _hoverBorderColor }}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <InputRightElement w="auto" h="100%">
-        <Button
-          h="1.25rem"
-          variant="ghost"
-          color={_borderColor}
-          borderLeftWidth="1px"
-          borderColor={_borderColor}
-          fontWeight="400"
-          borderRadius="0"
-          fontSize="0.875rem"
-          onClick={search}
-          _focus={{ bg: 'transparent', color: _focusBorderColor }}
-          _hover={{ bg: 'transparent', color: _focusBorderColor }}
-        >
-          Buscar
-        </Button>
+      <InputRightElement w="auto" h="100%" onClick={search} cursor="pointer">
+        <Icon w="1.5rem" h="1.5rem" mr="1rem" as={AiOutlineSearch} color={_iconColor} />
       </InputRightElement>
     </InputGroup>
   );

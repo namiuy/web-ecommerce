@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useBrandList } from 'shared';
-import { Head, ProductsTemplate } from 'ui';
-import { NavBar } from '../../../components/NavBar';
+import { GaPage, Head, ProductsTemplate } from 'ui';
+import { NavBar, Footer } from '../../../components';
 import { Brand } from 'shared/entities/brand';
 
 const BrandPage: NextPage = () => {
@@ -12,11 +12,14 @@ const BrandPage: NextPage = () => {
   // TODO: when change storeBy this is broken
 
   return (
-    <>
-      <Head />
-      <NavBar />
-      {!isLoading && <ProductsTemplate brandId={brand && brand.id} />}
-    </>
+    <GaPage page="Brand">
+      <>
+        <Head />
+        <NavBar />
+        {!isLoading && <ProductsTemplate brandId={brand && brand.id} />}
+        <Footer />
+      </>
+    </GaPage>
   );
 };
 

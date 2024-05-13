@@ -1,12 +1,13 @@
 'use client';
 
-import { Flex, Box, Banner, Container, Head, ProductListSection, Brands } from 'ui';
-import { NavBar } from '../components';
+import { Flex, Box, Banner, Container, Head, ProductListSection, Brands, GaPage } from 'ui';
+import { NavBar, Footer } from '../components';
+import { NextPage } from 'next';
 
 const _bg = 'brand.background';
 
-export default function Web() {
-  return (
+const HomePage: NextPage = () => (
+  <GaPage page="Home">
     <>
       <Head />
       <NavBar />
@@ -16,9 +17,12 @@ export default function Web() {
           <Brands />
         </Flex>
       </Container>
-      <Box bg={_bg} minH="50vh" pb="3rem">
+      <Box bg={_bg} minH="50vh" pb="4rem">
         <ProductListSection name="home_a" />
       </Box>
+      <Footer />
     </>
-  );
-}
+  </GaPage>
+);
+
+export default HomePage;
