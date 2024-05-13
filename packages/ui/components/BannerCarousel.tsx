@@ -115,7 +115,6 @@ export const BannerCarousel = ({
         }}
         modules={[Grid, Navigation, Pagination, Autoplay]}
         style={{ height: `calc(${slideHeight} * ${rows}` }}
-        grabCursor={true}
         onBeforeInit={swiper => {
           swiperRef.current = swiper;
         }}
