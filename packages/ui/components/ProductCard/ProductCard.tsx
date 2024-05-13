@@ -27,6 +27,9 @@ const _priceSize = { base: '0.875rem', lg: '1.25rem' };
 const _bodyP = { base: '0 .5rem', lg: 0 };
 const _bodyGap = '.5rem';
 
+const isPriceWithTax = cardPriceType === 'WITH_TAX';
+const isPriceSimple = cardPriceType === 'SIMPLE';
+
 export type ProductCardProps = {
   min?: boolean;
   isLoading?: boolean;
@@ -34,7 +37,6 @@ export type ProductCardProps = {
 };
 
 export const ProductCard = ({ min = false, isLoading = false, product }: ProductCardProps) => {
-  const isPriceWithTax = cardPriceType === 'WITH_TAX';
   const { name, category, price, price_without_tax, id, image_url } = product || {};
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
@@ -119,7 +121,9 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                   <Text as="span" fontSize="1rem">
                     U$S{' '}
                   </Text>
-                  {isPriceWithTax ? (
+                  {isPriceSimple ? (
+                    <>{formatPrice(price)}</>
+                  ) : isPriceWithTax ? (
                     <>
                       {formatPrice(price)}
                       <Text as="span" color={_smallTextColor} fontSize="0.875rem">

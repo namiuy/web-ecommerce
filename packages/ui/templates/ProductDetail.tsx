@@ -86,6 +86,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isPriceWithTax = detailPriceType === 'WITH_TAX';
   const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
   const isPriceBoth = detailPriceType === 'BOTH';
+  const isPriceSimple = detailPriceType === 'SIMPLE';
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -195,7 +196,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   </Text>
                 </Box>
               )}
-              {(isPriceWithoutTax || isPriceBoth) && (
+              {isPriceSimple ? (
                 <Box>
                   {isLoading ? (
                     <Skeleton w="50%" h="4rem" mb="0.5rem" />
@@ -206,35 +207,54 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                           U$S{' '}
                         </Text>
                         {formatPrice(data?.price_without_tax)}
-                        <Text as="span" color={_smallTextColor} fontSize="0.875rem">
-                          {' '}
-                          + IVA
-                        </Text>
                       </Text>
                     </Box>
                   )}
                 </Box>
-              )}
-
-              {(isPriceWithTax || isPriceBoth) && isLoading ? (
-                <Skeleton w="35%" h="2rem" mb="0.5rem" />
               ) : (
-                <Box>
-                  <Text
-                    fontSize={isPriceWithTax ? '2.5rem' : '1.375rem'}
-                    fontWeight="medium"
-                    color={isPriceWithTax ? 'black' : _smallTextColor}
-                  >
-                    <Text as="span" fontSize={isPriceWithTax ? '1.875rem' : '1.125rem'}>
-                      U$S{' '}
-                    </Text>
-                    {formatPrice(data?.price)}
-                    <Text as="span" color={_smallTextColor} fontSize={isPriceWithTax ? '0.875rem' : '0.75rem'}>
-                      {' '}
-                      IVA inc.
-                    </Text>
-                  </Text>
-                </Box>
+                <>
+                  {(isPriceWithoutTax || isPriceBoth) && (
+                    <Box>
+                      {isLoading ? (
+                        <Skeleton w="50%" h="4rem" mb="0.5rem" />
+                      ) : (
+                        <Box>
+                          <Text fontSize="2.5rem" fontWeight="medium">
+                            <Text as="span" fontSize="1.875rem">
+                              U$S{' '}
+                            </Text>
+                            {formatPrice(data?.price_without_tax)}
+                            <Text as="span" color={_smallTextColor} fontSize="0.875rem">
+                              {' '}
+                              + IVA
+                            </Text>
+                          </Text>
+                        </Box>
+                      )}
+                    </Box>
+                  )}
+
+                  {(isPriceWithTax || isPriceBoth) && isLoading ? (
+                    <Skeleton w="35%" h="2rem" mb="0.5rem" />
+                  ) : (
+                    <Box>
+                      <Text
+                        fontSize={isPriceWithTax ? '2.5rem' : '1.375rem'}
+                        fontWeight="medium"
+                        color={isPriceWithTax ? 'black' : _smallTextColor}
+                      >
+                        <Text as="span" fontSize={isPriceWithTax ? '1.875rem' : '1.125rem'}>
+                          U$S{' '}
+                        </Text>
+                        {formatPrice(data?.price)}
+                        <Text as="span" color={_smallTextColor} fontSize={isPriceWithTax ? '0.875rem' : '0.75rem'}>
+                          {' '}
+                          IVA inc.
+                        </Text>
+                      </Text>
+                    </Box>
+                  )}
+                </>
               )}
             </Box>
             {showStock && (
