@@ -1,6 +1,5 @@
 import { Flex, Icon, Link } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { Box, Button } from 'ui';
 
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';
 

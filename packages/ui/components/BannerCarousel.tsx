@@ -1,6 +1,6 @@
 import { Swiper as SwiperType, Grid, Navigation, Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Children, ReactNode, useEffect, useRef, useState } from 'react';
+import { Children, ReactNode, useRef, useState } from 'react';
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';
 import { Box, Icon, IconButton } from '@chakra-ui/react';
 

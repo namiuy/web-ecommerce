@@ -1,11 +1,9 @@
-import { AspectRatio, Image, useBreakpointValue } from '@chakra-ui/react';
-import { Box, Skeleton } from 'ui';
 import Link from 'next/link';
+import { Image, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Skeleton } from 'ui';
 import { useBannerList } from 'shared';
 import { BannerCarousel } from './BannerCarousel';
 import { useEffect, useState } from 'react';
-
-// const _ratio = { base: 164 / 75, md: 25 / 7 };
 
 type BannerProps = {
   section: string;
@@ -35,7 +33,6 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
 
   return (
     <Box bg={bg}>
-      {/* <AspectRatio ratio={_ratio}> */}
       <Skeleton isLoaded={!isLoading}>
         {banners.length === 1 ? (
           <Image alt={banners[0].name} src={isMd ? banners[0].url : banners[0].url_mobile} objectFit="cover" />
@@ -54,7 +51,6 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
           </BannerCarousel>
         )}
       </Skeleton>
-      {/* </AspectRatio> */}
     </Box>
   );
 };

@@ -15,7 +15,7 @@ import {
   useToast,
   AspectRatio,
 } from '@chakra-ui/react';
-import { FC, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   getObjectDifference,
   productAdd,
@@ -66,7 +66,7 @@ const mapBrandOptions = (data: Brand[]) => {
   return data.map(({ id, name }) => ({ id, name })).map(({ id, name }) => ({ id, name }));
 };
 
-const ModalDelete: FC<ModalDeleteProps> = ({ isOpen, name = '', onConfirm, onCancel }) => (
+const ModalDelete = ({ isOpen, name = '', onConfirm, onCancel }: ModalDeleteProps) => (
   <Modal isOpen={isOpen} onClose={onCancel}>
     <ModalOverlay />
     <ModalContent>
@@ -85,7 +85,7 @@ const ModalDelete: FC<ModalDeleteProps> = ({ isOpen, name = '', onConfirm, onCan
   </Modal>
 );
 
-export const ProductForm: FC<ProductFormProps> = ({ product, onSuccess }) => {
+export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   const isAdd = !product;
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(product?.image_url);

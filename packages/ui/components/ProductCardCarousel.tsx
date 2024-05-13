@@ -1,12 +1,9 @@
 import { useBreakpointValue } from '@chakra-ui/react';
-import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { Carousel, ProductCard } from 'ui';
 
 import { product as productConf } from 'shared';
 const { showCod } = productConf;
-
-// const _minH = { base: '17rem', lg: '21rem' };
 
 const _minH = showCod ? { base: '20rem', lg: '23.5rem' } : { base: '18rem', lg: '22rem' };
 

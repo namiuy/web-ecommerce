@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Page, useAnalytics } from 'shared';
 
 type GaPageProps = {
@@ -7,7 +7,7 @@ type GaPageProps = {
   children: ReactElement;
 };
 
-export const GaPage: FC<GaPageProps> = ({ page, children }) => {
+export const GaPage = ({ page, children }: GaPageProps) => {
   const { trackPageView } = useAnalytics();
   useEffect(() => trackPageView(page), []);
   return children;

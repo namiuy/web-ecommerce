@@ -6,9 +6,7 @@ import { MdExpandMore } from 'react-icons/md';
 const _itemColor = 'brand.nav.item.color';
 const _itemHoverColor = 'brand.nav.item._hover.color';
 const _fontSize = '0.875rem';
-const _multiFontSize = '0.75rem';
 const _fontWeight = '600';
-const _multiFontWeight = '500';
 
 export type NavItem = {
   id: string;

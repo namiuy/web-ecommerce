@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Input, InputGroup, InputLeftElement, Icon, InputRightElement, Button } from '@chakra-ui/react';
+import { Input, InputGroup, Icon, InputRightElement } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { KeyboardEvent, ChangeEvent, useState, useEffect } from 'react';
 
