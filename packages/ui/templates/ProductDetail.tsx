@@ -206,7 +206,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                         <Text as="span" fontSize="1.875rem">
                           U$S{' '}
                         </Text>
-                        {formatPrice(data?.price_without_tax)}
+                        {formatPrice(data?.price)}
                       </Text>
                     </Box>
                   )}
