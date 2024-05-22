@@ -3,6 +3,7 @@ import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { NextPage } from 'next';
 import { CategoriesAccordion, Brands, Head, Container, Box, ProductsTemplate } from 'ui';
 import { Footer, NavBar } from '../../components';
+import { getProductPropsFromRouter } from 'shared';
 
 type ProductsPageProps = {
   brandId?: number;
@@ -21,18 +22,8 @@ const CategoriesAndBrands = () => (
 );
 
 const ProductsPage: NextPage<ProductsPageProps> = () => {
-  const router = useRouter();
-  const b = router.query?.b;
-  const pag = router.query?.pag;
-
-  const props = {
-    brandId: typeof b === 'string' ? Number(b) : undefined,
-    categoryId: router.query?.c?.toString(),
-    text: router.query?.t?.toString(),
-    sortBy: router.query?.s?.toString() as ProductSearchSortBy,
-    pag: typeof pag === 'string' ? Number(pag) : undefined,
-  };
-
+  const { query } = useRouter();
+  const props = getProductPropsFromRouter(query);
   const hasQueryParams = !!props?.brandId || !!props?.categoryId || !!props?.text;
 
   return (
