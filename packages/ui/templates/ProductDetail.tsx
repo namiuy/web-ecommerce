@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import lscache from 'lscache';
-import { Link, useDisclosure, Flex, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
+import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
 import {
+  Flex,
   Container,
   Grid,
   GridItem,
@@ -297,17 +298,21 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             <Card maxW={_containerSize} mx="auto">
               <Skeleton isLoaded={!isLoading}>
                 <Box>
-                  {data.specifications.map((spec, i) => (
-                    <Box key={i}>
-                      {i != 0 && <Divider />}
-                      <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>
-                        <Text w={{ base: '100%', md: '50%' }} pb={{ base: '0.25rem', md: '0' }} fontWeight="medium">
-                          {spec.name}
-                        </Text>
-                        <Text w={{ base: '100%', md: '50%' }}>{spec.value}</Text>
-                      </Flex>
-                    </Box>
-                  ))}
+                  {data.specifications.map(
+                    (spec, i) =>
+                      spec.name &&
+                      spec.value && (
+                        <Box key={i}>
+                          {i !== 0 && <Divider />}
+                          <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>
+                            <Text w={{ base: '100%', md: '50%' }} pb={{ base: '0.25rem', md: '0' }} fontWeight="medium">
+                              {spec.name}
+                            </Text>
+                            <Text w={{ base: '100%', md: '50%' }}>{spec.value}</Text>
+                          </Flex>
+                        </Box>
+                      ),
+                  )}
                 </Box>
               </Skeleton>
             </Card>

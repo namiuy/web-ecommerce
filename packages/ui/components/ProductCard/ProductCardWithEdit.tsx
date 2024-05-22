@@ -1,6 +1,5 @@
 import { Flex, useDisclosure, Button } from '@chakra-ui/react';
 import { FC } from 'react';
-import { MdEdit } from 'react-icons/md';
 import { ProductCard, ProductCardProps } from './ProductCard';
 import { ProductEditModal } from './ProductEditModal';
 import { ButtonEdit } from '../ButtonEdit';

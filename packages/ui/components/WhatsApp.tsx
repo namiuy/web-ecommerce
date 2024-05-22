@@ -1,4 +1,4 @@
-import { Box, Button, Text } from 'ui';
+import { Stack, Heading, Flex, Button, Text } from 'ui';
 import {
   Modal,
   ModalOverlay,
@@ -7,12 +7,9 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  StackDivider,
   Icon,
   Link,
-  Stack,
-  Heading,
-  StackDivider,
-  Flex,
 } from '@chakra-ui/react';
 import { BiLogoWhatsapp } from 'react-icons/bi';
 import { branches } from 'shared';
@@ -27,21 +24,21 @@ export const WhatsApp = () => {
     <>
       <Button
         onClick={onOpen}
-        pos={'fixed'}
-        right={'1rem'}
-        bottom={'1rem'}
-        width={'2rem'}
-        height={'2rem'}
+        pos="fixed"
+        right="1rem"
+        bottom="1rem"
+        width="2rem"
+        height="2rem"
+        p="1.75rem"
+        borderRadius="50%"
+        zIndex="999"
         backgroundColor={_backgroundColor}
-        p={'1.75rem'}
-        borderRadius={'50%'}
-        zIndex={999}
         _hover={{ backgroundColor: _hoverBackgroundColor }}
         _active={{ color: 'white' }}
       >
-        <Icon as={BiLogoWhatsapp} w={'2.5rem'} h={'2.5rem'} color={'white'} transition={'300ms'} />
+        <Icon as={BiLogoWhatsapp} w="2.5rem" h="2.5rem" color="white" transition="300ms" />
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size={'xl'} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader

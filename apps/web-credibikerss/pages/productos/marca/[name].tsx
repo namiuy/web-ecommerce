@@ -1,22 +1,22 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useBrandList } from 'shared';
-import { Head, ProductsTemplate, GaPage } from 'ui';
-import { NavBar } from '../../../components/NavBar';
+import { getProductPropsFromRouter, useBrandList } from 'shared';
+import { GaPage, Head, ProductsTemplate } from 'ui';
+import { NavBar } from '../../../components';
 import { Brand } from 'shared/entities/brand';
 
 const BrandPage: NextPage = () => {
-  const { asPath } = useRouter();
+  const { asPath, query } = useRouter();
   const { isLoading, data = [] } = useBrandList();
-  const brand = data.find((b: Brand) => b.path === asPath);
-  // TODO: when change storeBy this is broken
+  const props = getProductPropsFromRouter(query);
+  const brand = data.find((b: Brand) => asPath.includes(b.path));
 
   return (
     <GaPage page="Brand">
       <>
         <Head />
         <NavBar />
-        {!isLoading && <ProductsTemplate brandId={brand && brand.id} />}
+        {!isLoading && <ProductsTemplate {...props} brandId={brand && brand.id} />}
       </>
     </GaPage>
   );

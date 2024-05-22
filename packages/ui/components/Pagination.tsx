@@ -1,6 +1,5 @@
 import { Flex, Icon, Link } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { Box, Button } from 'ui';
 
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';
 
@@ -17,7 +16,7 @@ const Pagination = ({ currentPage, maxRowsPerPage, totalItems }: PaginationProps
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   const router = useRouter();
   const { query } = router;
-  const filteredQuery = Object.fromEntries(Object.entries(query).filter(([key]) => key !== 'pag'));
+  const filteredQuery = Object.fromEntries(Object.entries(query).filter(([key]) => key !== 'name' && key !== 'pag'));
   const and = Object.keys(filteredQuery).length === 0 ? '' : '&';
   const link = `?${new URLSearchParams(filteredQuery as Record<string, string>).toString()}${and}pag=`;
 
@@ -32,7 +31,7 @@ const Pagination = ({ currentPage, maxRowsPerPage, totalItems }: PaginationProps
           )}
           {pages.map(i => {
             const active = currentPage === i;
-            return i === 1 || (i <= currentPage + 2 && i >= currentPage - 2) || i === pageCount - 1 ? (
+            return i === 1 || (i <= currentPage + 2 && i >= currentPage - 2) || i === pageCount ? (
               <Link key={i} href={`${link}${i}`} style={{ textDecoration: 'none' }}>
                 <Flex
                   w="3rem"

@@ -77,7 +77,7 @@ const FormControlInput: FC<FormControlInputProps> = ({
   </FormControl>
 );
 
-export const ModalQuote: FC<ModalQuoteProps> = ({ isOpen, product, onClose }) => {
+export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
   const [attachment, setAttachment] = useState<FileEntity>();
   const [attachmentError, setAttachmentError] = useState<string>();
   const [requestBody, setRequestBody] = useState<Quote>();

@@ -7,7 +7,6 @@ import { addSearchParamsToUrl, getProductsUrl, removeSearchParamFromUrl } from '
 import { ProductFiltersProps } from '.';
 import { isBrowser } from 'shared';
 
-const _backgroundColor = 'brand.productFilters.backgroundColor';
 const _selectedBackgroundColor = 'brand.productFilters.selected.backgroundColor';
 const _selectedColor = 'brand.productFilters.selected.color';
 const _borderColor = 'brand.productFilters.borderColor !important';

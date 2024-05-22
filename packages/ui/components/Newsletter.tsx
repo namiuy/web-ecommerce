@@ -1,21 +1,29 @@
-import { Stack, Input, IconButton, Heading, Text } from '@chakra-ui/react';
+import { Stack, Input, IconButton, Heading, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BiMailSend } from 'react-icons/bi';
 import { newsletterSubscribe, validateEmail } from 'shared';
 
-const _placeholderColor = 'brand.navBar.input._placeholder.color';
-const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
-const _backgroundColor = 'brand.footer.iconButton.backgroundColor';
+const _placeholderColor = 'brand.footer.color';
+const _backgroundColor = 'brand.footer.input.backgroundColor';
+const _focusBorderColor = 'brand.footer.input.borderColor';
+const _buttonBackgroundColor = 'brand.footer.iconButton._active.backgroundColor';
 
 export const Newsletter = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [message, setMesssage] = useState('');
   const [email, setEmail] = useState('');
+
+  const toast = useToast();
 
   const add = () => {
     if (validateEmail(email)) {
-      setMesssage('Ingrese un email valido');
+      toast({
+        position: 'top',
+
+        description: 'Debe ingresar un correo electrónico válido',
+        status: 'error',
+        duration: 3000,
+      });
       return;
     }
     setIsLoading(true);
@@ -24,11 +32,21 @@ export const Newsletter = () => {
     })
       .then(() => {
         setIsSuccess(true);
-        setMesssage('Se ha suscrito correctamente');
+        toast({
+          position: 'top',
+          description: 'Se ha suscrito exitosamente',
+          status: 'success',
+          duration: 3000,
+        });
       })
       .catch(error => {
         console.log(error);
-        setMesssage('Ha ocurrido un error, intentelo mas tarde');
+        toast({
+          position: 'top',
+          description: 'Ha ocurrido un error, intentelo mas tarde',
+          status: 'error',
+          duration: 3000,
+        });
       })
       .finally(() => setIsLoading(false));
   };
@@ -41,20 +59,22 @@ export const Newsletter = () => {
           <Input
             w={{ base: '100%', sm: '75%', md: '100%' }}
             placeholder={'Correo electrónico'}
-            disabled={isLoading || isSuccess}
+            disabled={isLoading}
             value={email}
             onChange={e => setEmail(e.target.value)}
             _placeholder={{ color: _placeholderColor }}
             _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
-            _hover={{ borderColor: _focusBorderColor }}
-            bg="blackAlpha.300"
+            bg={_backgroundColor}
             border={0}
           />
           <IconButton
             bg={_backgroundColor}
             color="white"
             _hover={{
-              bg: { _backgroundColor },
+              bg: _backgroundColor,
+            }}
+            _active={{
+              bg: _buttonBackgroundColor,
             }}
             aria-label="Subscribe"
             disabled={isLoading || isSuccess}
@@ -63,9 +83,6 @@ export const Newsletter = () => {
           />
         </Stack>
       </Stack>
-      <Text color="white" fontSize={'sm'}>
-        {message}
-      </Text>
     </Stack>
   );
 };

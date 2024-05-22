@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getEmptyArray, useBrandList } from 'shared';
-import { Image, Flex, Skeleton, Box, Center } from 'ui';
+import { Image, Flex, Skeleton, Center } from 'ui';
 
 const LOADING_LENGTH = 14;
 

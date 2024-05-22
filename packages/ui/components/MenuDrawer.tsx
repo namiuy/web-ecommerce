@@ -19,13 +19,10 @@ import Link from 'next/link';
 import { NavItem } from './Nav';
 import SocialNetworks from './SocialNetworks';
 import { CategoriesAccordion } from './CategoriesAccordion';
-import { Center } from '..';
 import MenuAdmin from './MenuAdmin';
-import NavMultiDomain from './NavMultiDomain';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 
 const _backgroundColor = 'brand.drawerMenu.backgroundColor';
-const _backdropFilter = 'brand.drawerMenu.backdropFilter';
 const _menuItemColor = 'brand.drawerMenu.item.color';
 const _menuItemBorderColor = 'brand.drawerMenu.item.borderColor';
 
