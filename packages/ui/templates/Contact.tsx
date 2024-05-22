@@ -3,21 +3,19 @@ import {
   Icon,
   Textarea,
   useBreakpointValue,
-  FormErrorMessage,
-  Flex,
   Divider,
   Progress,
   FormControl,
   FormLabel,
   Input,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
-import { Box, Container, Text, Map, Button } from 'ui';
+import { Box, Flex, Container, Text, Map, Button } from 'ui';
 import { Field, Formik } from 'formik';
 import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
-import { useToast } from '@chakra-ui/react';
 
 import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
@@ -49,7 +47,6 @@ export const Contact = () => {
   const lg = useBreakpointValue({ base: false, lg: true });
   const [contactProps, setContactProps] = useState<ContactValues>();
   const { isLoading, data, error } = useContactRequest(contactProps);
-  // TODO: Add error handling
 
   useEffect(() => {
     if (toast && data) {
@@ -196,7 +193,6 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Nombre</FormLabel>
-                        {/* <FormErrorMessage>{errors.name}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -213,7 +209,6 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Correo electrónico</FormLabel>
-                        {/* <FormErrorMessage>{errors.email}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -230,7 +225,6 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Telefono</FormLabel>
-                        {/* <FormErrorMessage>{errors.phone}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -247,7 +241,6 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Asunto</FormLabel>
-                        {/* <FormErrorMessage>{errors.subject}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                     <Box w="100%">
@@ -265,7 +258,6 @@ export const Contact = () => {
                           }}
                         />
                         <FormLabel>Mensaje</FormLabel>
-                        {/* <FormErrorMessage>{errors.message}</FormErrorMessage> */}
                       </FormControl>
                     </Box>
                   </VStack>

@@ -1,10 +1,9 @@
 import { Icon, Skeleton } from '@chakra-ui/react';
 import { Button } from 'ui';
 import { BiSolidShoppingBag } from 'react-icons/bi';
-import { FC } from 'react';
 import { ProductActionProps } from '../templates/ProductDetail';
 
-export const AddToCartButton: FC<ProductActionProps> = ({ isLoading, product }) =>
+export const AddToCartButton = ({ isLoading, product }: ProductActionProps) =>
   isLoading ? (
     <>
       <Skeleton w="100%" h="2.75rem" my="1rem" />
@@ -14,7 +13,7 @@ export const AddToCartButton: FC<ProductActionProps> = ({ isLoading, product }) 
     <>
       <Button
         width="100%"
-        height={'2.75rem'}
+        height="2.75rem"
         borderRadius="0.5rem"
         bg="primary.main"
         color="white"

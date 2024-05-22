@@ -13,7 +13,7 @@ type ProductListSectionEditProps = {
   data: Array<ProductList>;
 };
 
-const ProductListList: FC<ProductListListProps> = ({ productListId }) => {
+const ProductListList = ({ productListId }: ProductListListProps) => {
   const { data } = useProductListGet(productListId);
   const { name, product_ids, products } = data || {};
   return (

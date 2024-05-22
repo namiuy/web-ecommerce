@@ -1,5 +1,5 @@
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const _backgroundColor = 'rgba(0, 0, 0, .6)';
 const _backdropFilter = 'saturate(180%) blur(6px)';
@@ -13,7 +13,7 @@ type ModalEditProps = {
   onClose: () => void;
 };
 
-export const ModalEdit: FC<ModalEditProps> = ({ isOpen, title, scrollBehavior = 'outside', children, onClose }) => (
+export const ModalEdit = ({ isOpen, title, scrollBehavior = 'outside', children, onClose }: ModalEditProps) => (
   <Modal isOpen={isOpen} scrollBehavior={scrollBehavior} size="5xl" onClose={onClose}>
     <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
     <ModalContent>

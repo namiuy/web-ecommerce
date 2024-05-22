@@ -1,9 +1,7 @@
 import { useRouter } from 'next/navigation';
-import { FC } from 'react';
 import { Product } from 'shared/entities/product';
 import { ModalEdit } from '../ModalEdit';
 import { ProductForm } from '../ProductForm';
-import lscache from 'lscache';
 
 export type ProductEditModalProps = {
   isOpen: boolean;
@@ -13,7 +11,7 @@ export type ProductEditModalProps = {
   onClose: () => void;
 };
 
-export const ProductEditModal: FC<ProductEditModalProps> = ({ isOpen, product, scrollBehavior, onOpen, onClose }) => {
+export const ProductEditModal = ({ isOpen, product, scrollBehavior, onOpen, onClose }: ProductEditModalProps) => {
   const router = useRouter();
   const handleSuccess = () => {
     onClose();

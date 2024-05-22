@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Flex, Button, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Button } from '@chakra-ui/react';
 import { ReactElement } from 'react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 

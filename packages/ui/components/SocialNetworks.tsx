@@ -1,15 +1,12 @@
-import { Flex, Icon as ChakraIcon } from '@chakra-ui/react';
 import Link from 'next/link';
+import { Flex, Icon as ChakraIcon } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import { AiFillInstagram } from 'react-icons/ai';
 import { IoLogoTiktok, IoLogoWhatsapp } from 'react-icons/io5';
 import { MdFacebook } from 'react-icons/md';
 import { FaYoutube, FaLinkedin } from 'react-icons/fa';
-import { socialNeworksItems } from 'shared/env';
-import { AnimationWrapper } from './AnimationWrapper';
-import { BiBorderRadius } from 'react-icons/bi';
 
-const _backgroundColor = 'brand.footer.backgroundColor';
+import { socialNeworksItems } from 'shared/env';
 
 type Icon = {
   icon: IconType;

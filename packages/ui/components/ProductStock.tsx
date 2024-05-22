@@ -1,9 +1,5 @@
-'use client';
-
 import { useStockGet } from 'shared';
-import { Box, Flex, Text, Tooltip } from '@chakra-ui/react';
-
-import { Spinner } from '@chakra-ui/react';
+import { Flex, Text, Tooltip, Spinner } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
 
 const _tooltipBg = 'brand.productDetail.tooltipBg';

@@ -22,7 +22,6 @@ import {
 import Link from 'next/link';
 import { MouseEventHandler } from 'react';
 import { IconType } from 'react-icons';
-//import { BiSortAlt2 } from 'react-icons/bi';
 import { MdTune } from 'react-icons/md';
 import { Brand } from 'shared/entities/brand';
 import { Category } from 'shared/entities/category';

@@ -5,8 +5,6 @@ import { menuItems } from 'shared/env';
 import NavBarDesktop from './NavBarDesktop';
 import NavBarMobile from './NavBarMobile';
 
-const _backgroundColor = 'brand.navBar.backgroundColorSecondary';
-
 export type MultiDomainItem = {
   id: string;
   text: string;

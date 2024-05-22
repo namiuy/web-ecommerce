@@ -39,7 +39,7 @@ type RegisterProps = {
   Logo: FC;
 };
 
-export const Register: FC<RegisterProps> = ({ Logo }) => {
+export const Register = ({ Logo }: RegisterProps) => {
   const states = useStateList();
   const cities = useCityList();
   const [password, setPassword] = useState('');
