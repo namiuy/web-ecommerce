@@ -145,11 +145,19 @@ export const theme: Record<string, any> = {
       },
       footer: {
         backgroundColor: secondary,
-        color: white,
+        color: "lightgrey",
         borderColor: white,
+        input : {
+          color: white,
+          borderColor: primary,
+          backgroundColor: primary,
+        },
         iconButton: {
           backgroundColor: primary,
           color: white,
+          _active: {
+            backgroundColor: primary,
+          },
         },
       },
     },
