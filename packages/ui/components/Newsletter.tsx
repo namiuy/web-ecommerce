@@ -5,6 +5,7 @@ import { newsletterSubscribe, validateEmail } from 'shared';
 
 const _placeholderColor = 'brand.footer.color';
 const _backgroundColor = 'brand.footer.input.backgroundColor';
+const _buttonColor = 'brand.footer.iconButton.color';
 const _focusBorderColor = 'brand.footer.input.borderColor';
 const _buttonBackgroundColor = 'brand.footer.iconButton._active.backgroundColor';
 
@@ -69,7 +70,7 @@ export const Newsletter = () => {
           />
           <IconButton
             bg={_backgroundColor}
-            color="white"
+            color={_buttonColor}
             _hover={{
               bg: _backgroundColor,
             }}

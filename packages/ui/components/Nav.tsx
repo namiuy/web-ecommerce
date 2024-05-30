@@ -45,7 +45,7 @@ const NavItem = ({ children }: NavItemProps) => (
 const Nav = ({ items = [] }: NavProps) => {
   return (
     <nav>
-      <Flex as="ol" listStyleType="none" gap="1.75rem" alignItems="center">
+      <Flex as="ol" listStyleType="none" gap="1.75rem" alignItems="baseline">
         {items.map(({ id, text, href, menuContent: Content }) => (
           <Flex as="li" key={id}>
             {Content ? (

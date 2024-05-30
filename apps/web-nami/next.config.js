@@ -30,7 +30,7 @@ const multiDomainItemsHrefDev = {
 
 const multiDomainItemsHref = NODE_ENV == 'development' ? multiDomainItemsHrefDev : multiDomainItemsHrefProd;
 
-const multiDomainItems = [
+const multiDomainItemsNami = [
   {
     id: 'AUTOPARTS',
     text: 'AUTOPARTES',
@@ -52,6 +52,10 @@ const multiDomainItems = [
     href: multiDomainItemsHref['ELECTRIC'],
   },
 ].filter(item => item.id !== ID);
+
+const multiDomainItemsRobotec = [];
+
+const multiDomainItems = ID === 'ROBOTEC' ? multiDomainItemsRobotec : multiDomainItemsNami;
 
 const menuItems = [
   {
