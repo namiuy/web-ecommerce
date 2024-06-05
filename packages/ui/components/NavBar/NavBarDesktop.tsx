@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { CategoriesPopover } from '../CategoriesPopover';
 import SocialNetworks from '../SocialNetworks';
 import NavMultiDomain from '../NavMultiDomain';
+import MenuAdmin from '../MenuAdmin';
 
 const _navItemColor = 'brand.nav.item.color';
 const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
@@ -20,12 +21,12 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems, menuItems = [], simple }: NavBarProps) => {
+const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], simple }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
   return (
     <>
-      {multiDomainItems && (
+      {multiDomainItems.length != 0 && (
         <Box bg={_backgroundColorPrimary}>
           <Flex
             py="0.375rem"
@@ -44,8 +45,8 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems, menuItems = [], sim
       )}
       <Box bg={_backgroundColorSecondary} backdropFilter={simple ? _backdropFilter : 'none'}>
         <Grid
-          p={simple ? '1.5rem 0 1.5rem 0' : '1rem 0 0.375rem 0'}
-          gridTemplateColumns={simple ? '12rem 1fr auto auto' : '12rem 1fr auto'}
+          p={simple ? '1.5rem 0 1.5rem 0 ' : '1rem 0 0.375rem 0'}
+          gridTemplateColumns={simple ? '12rem 1fr auto auto auto' : '12rem 1fr auto auto'}
           alignItems="center"
           gap="2rem"
           w={_mainWidth}
@@ -68,6 +69,9 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems, menuItems = [], sim
           )}
           <GridItem>
             <SocialNetworks dark={dark} color={_navItemColor} size="1.2rem" hide={['tiktok', 'whatsapp']} />
+          </GridItem>
+          <GridItem>
+            <MenuAdmin />
           </GridItem>
         </Grid>
 
