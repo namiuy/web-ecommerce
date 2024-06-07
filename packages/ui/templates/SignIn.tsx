@@ -1,4 +1,3 @@
-import lscache from 'lscache';
 import { Box, Container, Button, Text } from 'ui';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Formik, Field } from 'formik';
@@ -63,7 +62,6 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
 
   useEffect(() => {
     if (data) {
-      lscache.set('user', data);
       router.push('/');
     }
   }, [router, data]);

@@ -31,8 +31,9 @@ const MenuAdmin = () => {
   const userName = `${firstName} ${lastName}`;
 
   const handleSignOut = () => {
+    lscache.remove('access_token');
     lscache.remove('user');
-    router.push('/');
+    router.reload();
   };
 
   return (

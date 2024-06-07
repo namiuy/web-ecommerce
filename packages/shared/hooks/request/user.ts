@@ -4,6 +4,7 @@ import { Result } from './result';
 import { get, post } from '../../utils/fetcher';
 import { User } from '../../entities/user';
 import { UserAdd } from '../../entities/user-add';
+import lscache from 'lscache';
 
 type SignInProps = {
   email: string;
@@ -43,6 +44,7 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
           if (result.error) {
             setError(result.error);
           } else {
+            lscache.set('access_token', result);
             setAccessTokenResult(result);
           }
           setIsLoading(false);
@@ -62,6 +64,7 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
           if (result.error) {
             setError(result.error);
           } else {
+            lscache.set('user', result);
             setUser(result);
           }
           setIsLoading(false);

@@ -1,39 +1,44 @@
+import lscache from 'lscache';
+
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const getRequestInit = (method: Method, init?: RequestInit): RequestInit | undefined => {
+const getRequestInit = (
+  method: Method,
+  init: RequestInit = {} as RequestInit,
+  withAuth: boolean = false,
+): RequestInit | undefined => {
   const withContent = method === 'POST' || method === 'PUT';
   return {
     method,
-    headers: withContent
-      ? {
-          'Content-Type': 'application/json',
-        }
-      : {},
+    headers: {
+      ...(withContent ? { 'Content-Type': 'application/json' } : {}),
+      ...(withAuth && lscache.get('access_token') ? { Authorization: `OAuth ${lscache.get('access_token')}` } : {}),
+    },
     ...init,
   };
 };
 
-export const fetcher = async (url: string, init?: RequestInit): Promise<any> => {
+export const get = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
+  const res = await fetch(url, getRequestInit('GET', init, withAuth));
+  return await res.json();
+};
+
+export const post = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
+  const res = await fetch(url, getRequestInit('POST', init, withAuth));
+  return await res.json();
+};
+
+export const put = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
+  const res = await fetch(url, getRequestInit('PUT', init, withAuth));
+  return await res.json();
+};
+
+export const del = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
+  const res = await fetch(url, getRequestInit('DELETE', init, withAuth));
+  return await res.json();
+};
+
+export const fetcher = async (url: string, init?: RequestInit, withAuth?: boolean): Promise<any> => {
   const res = await fetch(url, init);
-  return await res.json();
-};
-
-export const get = async <T>(url: string, init?: RequestInit): Promise<T> => {
-  const res = await fetch(url, init ? { ...init, method: 'GET' } : { method: 'GET' });
-  return await res.json();
-};
-
-export const post = async <T>(url: string, init?: RequestInit): Promise<T> => {
-  const res = await fetch(url, getRequestInit('POST', init));
-  return await res.json();
-};
-
-export const put = async <T>(url: string, init?: RequestInit): Promise<T> => {
-  const res = await fetch(url, getRequestInit('PUT', init));
-  return await res.json();
-};
-
-export const del = async <T>(url: string, init?: RequestInit): Promise<T> => {
-  const res = await fetch(url, getRequestInit('DELETE', init));
   return await res.json();
 };
