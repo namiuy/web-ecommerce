@@ -16,7 +16,7 @@ const {
 
 const multiDomainItemsHrefProd = {
   AUTOPARTS: 'https://nami.com.uy',
-  CLIMA: 'https://climatizadores.nami.com.uy',
+  CLIMA: 'https://clima.nami.com.uy',
   TOOLS: 'https://herramientas.nami.com.uy',
   ELECTRIC: 'https://electrico.nami.com.uy',
 };
