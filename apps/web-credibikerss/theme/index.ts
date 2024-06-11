@@ -99,6 +99,7 @@ export const theme: Record<string, any> = {
       productDetail: {
         backgroundColor: grey0,
         borderColor: '#e2e2e2',
+        sale: '#999999'
         // smallText: smallText,
         // tooltipBg: tooltipBg,
         // buyButton: {

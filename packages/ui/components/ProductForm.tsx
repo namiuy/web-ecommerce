@@ -42,6 +42,7 @@ const schema: FormSchema[] = [
   { id: 'name', type: 'input', label: 'Nombre', validate: validateEmpty, defaultValue: '' },
   { id: 'description', type: 'textarea', label: 'Descripción', defaultValue: '' },
   { id: 'price', type: 'number', label: 'Precio', validate: validateEmpty, defaultValue: 0 },
+  { id: 'discount', type: 'number', label: 'Descuento', defaultValue: 0 },
   { id: 'is_original', type: 'checkbox', label: 'Original', defaultValue: false },
   { id: 'is_public', type: 'checkbox', label: 'Publico', defaultValue: false },
 ];
