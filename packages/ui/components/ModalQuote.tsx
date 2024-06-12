@@ -28,7 +28,7 @@ import { Quote } from 'shared/entities/quote';
 import { useQuoteRequest } from 'shared/hooks';
 import { Flex } from '..';
 import { Field, Formik } from 'formik';
-import { validateEmail, validateEmpty } from 'shared';
+import { formatPrice, validateEmail, validateEmpty } from 'shared';
 import styled from '@emotion/styled';
 import { MdCheckCircle } from 'react-icons/md';
 
@@ -36,6 +36,8 @@ const _grey0 = 'brand.grey.1';
 const _backgroundColor = 'rgba(0, 0, 0, .6)';
 const _backdropFilter = 'saturate(180%) blur(6px)';
 const _formErrorMessageFontSize = '.7rem';
+
+const _productSale = 'brand.productDetail.sale';
 
 const FormLabel = styled(FormLabelChalkra)`
   font-size: 0.75rem;
@@ -148,9 +150,20 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
                       <small>Cod</small> {product.id}
                     </Text>
 
-                    <Text fontSize="1.25rem">
-                      <small>U$S</small> {product.price}
-                    </Text>
+                    {!isLoading && product.discount != 0 ? (
+                      <Flex alignItems="baseline" gap="0.5rem">
+                        <Text fontSize="1.375rem" fontWeight="semibold">
+                          <small>U$S</small> {formatPrice(product.price - (product.price * product.discount) / 100)}
+                        </Text>
+                        <Text as="s" fontSize="1rem" color={_productSale}>
+                          U$S {product.price}
+                        </Text>
+                      </Flex>
+                    ) : (
+                      <Text fontSize="1.25rem">
+                        <small>U$S</small> {product.price}
+                      </Text>
+                    )}
                   </GridItem>
                 </Grid>
 
@@ -246,7 +259,7 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
                           size="lg"
                           _hover={{ opacity: 0.8 }}
                         >
-                          Enviar solicitar
+                          Enviar solicitud
                         </Button>
 
                         <FormControl isInvalid={Boolean(error)}>

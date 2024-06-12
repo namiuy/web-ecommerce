@@ -35,6 +35,8 @@ const _smallTextColor = 'brand.productDetail.smallText';
 const _relatedLinksLinkColor = 'brand.productDetail.relatedLinks.linkColor';
 const _relatedLinksMainContainerHover = 'blue.50';
 
+const _productSale = 'brand.productDetail.sale';
+
 const _mainBoxPaddingY = { lg: '3rem', base: '2rem' };
 
 const _containerSize = { lg: '75%', base: '90%' };
@@ -197,19 +199,48 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   </Text>
                 </Box>
               )}
+
               {isPriceSimple ? (
                 <Box>
                   {isLoading ? (
-                    <Skeleton w="50%" h="4rem" mb="0.5rem" />
+                    <Skeleton w="50%" h="4rem" mb="0.25rem" />
                   ) : (
-                    <Box>
-                      <Text fontSize="2.5rem" fontWeight="medium">
-                        <Text as="span" fontSize="1.875rem">
-                          U$S{' '}
-                        </Text>
-                        {formatPrice(data?.price)}
-                      </Text>
-                    </Box>
+                    <>
+                      {data?.discount != 0 ? (
+                        <>
+                          <Box>
+                            <Text fontSize="1.375rem" fontWeight="medium" as="s" color={_productSale}>
+                              U$S {formatPrice(data?.price)}
+                            </Text>
+                            <Flex alignItems="center" gap="0.75rem">
+                              <Flex alignItems="baseline" gap="0.25rem" fontWeight="medium">
+                                <Text fontSize="1.875rem">U$S</Text>
+                                <Text fontSize="2.5rem">
+                                  {formatPrice((data?.price || 0) - ((data?.price || 0) * (data?.discount || 0)) / 100)}
+                                </Text>
+                              </Flex>
+                              <Box
+                                bg="green"
+                                color="white"
+                                borderRadius="1rem"
+                                py="0.25rem"
+                                px="0.75rem"
+                                fontWeight="bold"
+                              >
+                                {data?.discount}% OFF
+                              </Box>
+                            </Flex>
+                          </Box>
+                        </>
+                      ) : (
+                        <Flex alignItems="baseline" gap="0.75rem">
+                          <Text fontSize="1.875rem">U$S</Text>
+                          <Text fontSize="2.5rem" fontWeight="medium">
+                            {formatPrice(data?.price)}
+                          </Text>
+                        </Flex>
+                      )}
+                    </>
                   )}
                 </Box>
               ) : (

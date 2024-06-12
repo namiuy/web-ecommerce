@@ -1,4 +1,6 @@
-export const formatPrice = (value?: number) => {
-  if (value || value == 0) return value.toFixed(2);
-  return undefined;
+export const formatPrice = (price?: number) => {
+  if (price || price == 0){
+      return price.toFixed(2);
+  } 
+  return 0;
 };
