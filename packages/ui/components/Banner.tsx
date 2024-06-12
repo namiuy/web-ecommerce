@@ -31,7 +31,7 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
     }
   }, [isLoading, banners]);
 
-  return (
+  return !isLoading ? (
     <Box bg={bg}>
       <Skeleton isLoaded={!isLoading}>
         {banners.length === 1 ? (
@@ -52,5 +52,7 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
         )}
       </Skeleton>
     </Box>
+  ) : (
+    <Skeleton w={{ base: '100%', md: '75rem' }} h={{ base: '11rem', md: '21rem' }} m="0 auto"></Skeleton>
   );
 };
