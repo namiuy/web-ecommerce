@@ -51,6 +51,10 @@ export const theme: Record<string, any> = {
         backgroundColorOne: primary,
         backgroundColorTwo: 'white',
       },
+      banner: {
+        paginationColor: secondary,
+        arrowsColor: primary,
+      },
       nav: {
         item: {
           color: grey1,
@@ -99,6 +103,7 @@ export const theme: Record<string, any> = {
       productDetail: {
         backgroundColor: grey0,
         borderColor: '#e2e2e2',
+        sale: '#999999'
         // smallText: smallText,
         // tooltipBg: tooltipBg,
         // buyButton: {

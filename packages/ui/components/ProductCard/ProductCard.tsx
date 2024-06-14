@@ -12,6 +12,8 @@ const _grey0 = 'brand.grey.0';
 const _grey2 = 'brand.grey.2';
 const _smallTextColor = 'brand.productDetail.smallText';
 
+const _productSale = 'brand.productDetail.sale';
+
 const _minW = { base: '8rem', lg: '13rem' };
 const _maxW = { base: '12rem', lg: '14rem' };
 const _mt = { base: '1rem', lg: '1rem' };
@@ -23,7 +25,9 @@ const _categorySize = { base: '0.625rem', lg: '0.75rem' };
 const _nameSize = { base: '1rem', lg: '1.375rem' };
 const _nameHeight = { base: '2.75rem', lg: '3.625rem' };
 const _nameLineHeight = { base: '1.375rem', lg: '1.75rem' };
-const _priceSize = { base: '0.875rem', lg: '1.25rem' };
+const _badgeSize = { base: '0.875rem', lg: '1rem' };
+const _priceSize = { base: '1rem', lg: '1.25rem' };
+const _previousPriceSize = { base: '0.75rem', lg: '1rem' };
 const _bodyP = { base: '0 .5rem', lg: 0 };
 const _bodyGap = '.5rem';
 
@@ -37,7 +41,7 @@ export type ProductCardProps = {
 };
 
 export const ProductCard = ({ min = false, isLoading = false, product }: ProductCardProps) => {
-  const { name, category, price, price_without_tax, id, image_url } = product || {};
+  const { name, category, price = 0, price_without_tax, id, image_url, discount = 0 } = product || {};
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card minW={_minW} maxW={_maxW} mt={_mt} p={_p} size="sm" _hover={{ boxShadow: boxShadowMd }}>
@@ -118,13 +122,32 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                 </Box>
 
                 <Text color={_black} fontSize={_priceSize} lineHeight={_priceSize} fontWeight="bold">
-                  <Text as="span" fontSize="1rem">
-                    U$S{' '}
-                  </Text>
                   {isPriceSimple ? (
-                    <>{formatPrice(price)}</>
+                    <>
+                      {discount != 0 ? (
+                        <Box>
+                          <Flex alignItems="baseline" gap="0.25rem" fontWeight="semibold">
+                            <Flex gap="0.25rem" alignItems="baseline">
+                              <Text fontSize={_badgeSize}>U$S</Text>
+                              <Text fontSize={_priceSize}>{formatPrice(price - (price * discount) / 100)}</Text>
+                            </Flex>
+                            <Text fontSize={_previousPriceSize} fontWeight="medium" as="s" color={_productSale}>
+                              {formatPrice(price)}
+                            </Text>
+                          </Flex>
+                        </Box>
+                      ) : (
+                        <Flex alignItems="baseline" gap="0.25rem">
+                          <Text fontSize={_badgeSize}>U$S</Text>
+                          <Text fontSize={_priceSize}>{formatPrice(price)}</Text>
+                        </Flex>
+                      )}
+                    </>
                   ) : isPriceWithTax ? (
                     <>
+                      <Text as="span" fontSize={_badgeSize}>
+                        U$S{' '}
+                      </Text>
                       {formatPrice(price)}
                       <Text as="span" color={_smallTextColor} fontSize="0.875rem">
                         {' '}
@@ -133,6 +156,9 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                     </>
                   ) : (
                     <>
+                      <Text as="span" fontSize={_badgeSize}>
+                        U$S{' '}
+                      </Text>
                       {formatPrice(price_without_tax)}
                       <Text as="span" color={_smallTextColor} fontSize="0.875rem">
                         {' '}
@@ -145,9 +171,24 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
             )}
           </Flex>
         </Flex>
+        {!isLoading && discount != 0 && (
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            position="absolute"
+            top="0.75rem"
+            left="0"
+            p="0.5rem"
+            bg="green"
+            color="white"
+            borderRadius="0 0.5rem 0.5rem 0"
+          >
+            <Text textAlign="center" fontWeight="bold" lineHeight="1.125rem">
+              {discount}% OFF
+            </Text>
+          </Flex>
+        )}
       </Card>
     </Link>
   );
 };
-
-//  TODO: button add to wish list

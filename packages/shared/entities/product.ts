@@ -19,4 +19,5 @@ export type Product = {
   specifications: Specification[];
   related_links: RelatedLink[];
   price_without_tax: number;
+  discount: number;
 };
