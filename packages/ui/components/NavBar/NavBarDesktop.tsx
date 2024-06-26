@@ -26,7 +26,7 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems = [], menuItems = []
 
   return (
     <>
-      {multiDomainItems.length != 0 && (
+      {multiDomainItems?.length > 0 && (
         <Box bg={_backgroundColorPrimary}>
           <Flex
             py="0.375rem"

@@ -92,6 +92,14 @@ export const theme: Record<string, any> = {
           },
         },
       },
+      navMultiDomain: {
+        item: {
+          color: white,
+          _hover: {
+            color: 'lightgrey',
+          },
+        },
+      },
       navBar: {
         backgroundColorPrimary: primary,
         backgroundColorSecondary: secondary,

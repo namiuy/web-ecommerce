@@ -3,8 +3,8 @@ import { Flex, Button } from '@chakra-ui/react';
 import { ReactElement } from 'react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 
-const _navItemColor = 'brand.nav.item.color';
-const _itemHoverColor = 'brand.nav.item._hover.color';
+const _navItemColor = 'brand.navMultiDomain.item.color';
+const _itemHoverColor = 'brand.navMultiDomain.item._hover.color';
 const _fontSize = '0.8125rem';
 const _fontWeight = '500';
 

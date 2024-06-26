@@ -1,5 +1,5 @@
-const primary = '#095b77';
-const secondary = '#0a6e8f';
+const primary = '#ffffff';
+const secondary = '#171717';
 
 const white = '#ffffff';
 const black = '#000000';
@@ -45,7 +45,7 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
-      background: greyBg,
+      background: '#fafafa',
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
@@ -94,26 +94,26 @@ export const theme: Record<string, any> = {
       },
       navMultiDomain: {
         item: {
-          color: white,
+          color: secondary,
           _hover: {
-            color: 'lightgrey',
+            color: secondary,
           },
         },
       },
       navBar: {
-        backgroundColorPrimary: primary,
+        backgroundColorPrimary: secondary,
         backgroundColorSecondary: secondary,
         borderColor: primary,
         iconButton: {
           color: white,
           _hover: {
-            color: white,
+            color: secondary,
           },
         },
         input: {
-          color: white,
+          color: secondary,
           borderColor: primary,
-          iconColor: white,
+          iconColor: secondary,
           backgroundColor: primary,
           _focus: {
             borderColor: primary,
@@ -122,7 +122,7 @@ export const theme: Record<string, any> = {
             borderColor: primary,
           },
           _placeholder: {
-            color: white,
+            color: secondary,
           },
         },
       },
@@ -153,18 +153,18 @@ export const theme: Record<string, any> = {
       },
       footer: {
         backgroundColor: secondary,
-        color: "lightgrey",
+        color: secondary,
         borderColor: white,
-        input : {
-          color: white,
-          borderColor: primary,
+        input: {
+          color: 'red',
+          borderColor: 'red',
           backgroundColor: primary,
         },
         iconButton: {
-          backgroundColor: primary,
-          color: white,
+          backgroundColor: 'red',
+          color: secondary,
           _active: {
-            backgroundColor: primary,
+            backgroundColor: 'red',
           },
         },
       },
@@ -198,6 +198,11 @@ export const theme: Record<string, any> = {
               transformOrigin: 'left top',
             },
           },
+        },
+      },
+      contact: {
+        input: {
+          borderColor: primary,
         },
       },
     },

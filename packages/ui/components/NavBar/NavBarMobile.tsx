@@ -82,7 +82,6 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
       <Grid
         bg={_backgroundColorPrimary}
         backdropFilter={_backdropFilter}
-        borderBottom="solid 1px"
         color={_color}
         borderBottomColor={_borderColor}
         gridTemplateColumns="auto 1rem 1fr 1rem auto"
