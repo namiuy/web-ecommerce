@@ -80,7 +80,7 @@ const menuItems = [
   },
 ];
 
-const socialNeworksItems = [
+const socialNeworksItemsNami = [
   {
     id: 'facebook',
     href: 'https://www.facebook.com/nami.ltda/',
@@ -98,6 +98,27 @@ const socialNeworksItems = [
     href: 'https://www.linkedin.com/company/namiuy',
   },
 ];
+
+const socialNeworksItemsRobotec = [
+  {
+    id: 'facebook',
+    href: 'https://www.facebook.com/robotecuy',
+  },
+  {
+    id: 'instagram',
+    href: 'https://www.instagram.com/robotecuy',
+  },
+  {
+    id: 'youtube',
+    href: 'https://www.youtube.com/@robotecuruguay2909',
+  },
+  {
+    id: 'linkedin',
+    href: 'https://www.linkedin.com/company/robotecuy/',
+  },
+];
+
+const socialNeworksItems = ID === 'ROBOTEC' ? socialNeworksItemsRobotec : socialNeworksItemsNami;
 
 const branches = [
   {
