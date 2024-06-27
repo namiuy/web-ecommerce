@@ -1,7 +1,16 @@
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga4';
 
-export type Page = 'SignIn' | 'Home' | 'Company' | 'Products' | 'ProductDetail' | 'Brand' | 'Contact' | 'Register';
+export type Page =
+  | 'SignIn'
+  | 'Home'
+  | 'Company'
+  | 'Products'
+  | 'ProductDetail'
+  | 'Brand'
+  | 'Contact'
+  | 'Register'
+  | 'Policies';
 
 type Category = 'Cart' | 'Quote';
 
