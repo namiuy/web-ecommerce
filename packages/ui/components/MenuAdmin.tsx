@@ -41,7 +41,7 @@ const MenuAdmin = () => {
       <MenuButton>
         <Avatar w="2rem" h="2rem" size="sm" bg={_avatarBg} color={_avatarColor} name={userName} />
       </MenuButton>
-      <MenuList p="0">
+      <MenuList p="0" zIndex={999}>
         <MenuGroup title={userName}>
           <MenuItem icon={<MdLogout />} borderRadius={_borderRadious} onClick={handleSignOut}>
             Cerrar sesión
