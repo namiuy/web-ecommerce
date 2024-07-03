@@ -1,3 +1,9 @@
+type Branch = {
+  code: string;
+  quant: number;
+};
+
 export type Stock = {
-  availablilty: 'AV' | 'CO' | 'NO';
+  availability: 'AV' | 'CO' | 'NO';
+  branches: Branch[];
 };

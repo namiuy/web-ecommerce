@@ -12,7 +12,7 @@ const HomePage: NextPage = () => (
       <Head />
       <NavBar />
       <Container p="0" mb="2rem">
-        <Flex direction="column" gap="4rem">
+        <Flex direction="column" gap="2rem">
           <Banner section="home_a" />
           <Brands />
         </Flex>
