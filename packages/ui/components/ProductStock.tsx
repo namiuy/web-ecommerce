@@ -40,7 +40,7 @@ export const ProductStock = ({ id }: StockProps) => {
         <>
           {isUserAdmin ? (
             <Flex gap="0.375rem" pl="0.25rem">
-              {data?.branches.map((branch, i) => (
+              {data?.branches?.map((branch, i) => (
                 <Box
                   key={i}
                   textAlign="center"
