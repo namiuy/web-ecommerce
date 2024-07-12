@@ -125,7 +125,7 @@ const branches = [
     location: 'Montevideo',
     address: 'Bvr. Artigas 3397',
     addressDetail: 'Casi Gral. Flores',
-    schedule: 'Lunes a Viernes: de 8:00 a 12:00 y de 13:30 a 18:30 hrs.',
+    schedule: 'Lunes a Viernes: de 8:00 a 12:30 y de 13:30 a 18:00 hrs.',
     phone: [
       {
         number: 59822001350,
