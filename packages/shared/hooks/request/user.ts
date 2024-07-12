@@ -18,7 +18,10 @@ type AccessToken = {
 };
 
 const getAccessToken = (username: string, password: string): Promise<AccessToken> =>
-  post<AccessToken>(`${bff.url}/oauth/access_token`, { body: JSON.stringify({ username, password }) });
+  post<AccessToken>(`${bff.url}/oauth/access_token`, {
+    body: JSON.stringify({ username, password }),
+    credentials: 'include',
+  });
 
 const getUser = (access_token: string, user_id: string): Promise<User> => {
   return get<User>(`${bff.url}/users/${user_id}`, { headers: { Authorization: `OAuth ${access_token}` } });
