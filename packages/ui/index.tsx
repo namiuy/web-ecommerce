@@ -40,7 +40,6 @@ export * from './components/GaPage';
 export * from './components/Head';
 export * from './components/NavBar';
 export * from './components/Map';
-export * from './components/ProductCard';
 export * from './components/ProductAddModal';
 export * from './components/ProductEditModal';
 export * from './components/ProductFilters';

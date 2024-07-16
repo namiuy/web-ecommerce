@@ -1,5 +1,5 @@
-import { Box, Container, Stack, Text, Grid, GridItem } from '@chakra-ui/react';
-import { ReactNode, ElementType } from 'react';
+import { Box, Container, Stack, Grid, GridItem } from '@chakra-ui/react';
+import { ElementType } from 'react';
 import SocialNetworks from 'ui/components/SocialNetworks';
 import { Newsletter } from './Newsletter';
 
