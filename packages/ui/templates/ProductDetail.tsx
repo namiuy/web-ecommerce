@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import lscache from 'lscache';
-import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio } from '@chakra-ui/react';
+import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio, Image } from '@chakra-ui/react';
 import {
   Flex,
   Container,
@@ -18,11 +17,8 @@ import {
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
 import { isBrowser, useProductGet, product as productConf } from 'shared';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Product } from 'shared/entities/product';
-import { ButtonEdit } from '../components/ButtonEdit';
-import { ProductEditModal } from '../components/ProductCard/ProductEditModal';
-import { User } from 'shared/entities/user';
 import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
 import { formatPrice } from 'shared/utils/product';
@@ -55,6 +51,8 @@ const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
 
 const _descriptionMarginTop = { lg: '2rem', base: '0' };
 
+const _grey0 = 'brand.grey.0';
+
 export type ProductActionProps = {
   isLoading: boolean;
   product?: Product;
@@ -77,12 +75,9 @@ const getAction = (action: ProductAction, props: ProductActionProps) => {
 export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const router = useRouter();
   const issBrowser = isBrowser();
-  const [user, setUser] = useState<User>();
-  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, error, data } = useProductGet(id);
 
-  // const isLoading = true;
+  const imageDisclosure = useDisclosure();
 
   const isMobile = useBreakpointValue({ base: true, sm: false });
 
@@ -90,10 +85,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
   const isPriceBoth = detailPriceType === 'BOTH';
   const isPriceSimple = detailPriceType === 'SIMPLE';
-
-  useEffect(() => {
-    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
-  }, [issBrowser]);
 
   useEffect(() => {
     if (!isLoading && !data?.id) router.replace('/productos'); // TODO: improve this
@@ -124,12 +115,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 </Link>
               </Box>
             </Skeleton>
-            {isUserAdmin && (
-              <Skeleton isLoaded={!isLoading}>
-                <ButtonEdit onClick={onOpen} />
-                <ProductEditModal isOpen={isOpen} product={data} onOpen={onOpen} onClose={onClose} />
-              </Skeleton>
-            )}
           </Flex>
         )}
       </Container>
@@ -148,9 +133,19 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           >
             <Skeleton isLoaded={!isLoading}>
               <AspectRatio ratio={{ base: 4 / 3, lg: 1, xl: 4 / 3 }}>
+                <Image
+                  w={'100%'}
+                  onClick={imageDisclosure.onOpen}
+                  src={data?.image_url}
+                  alt={data?.brand.name}
+                  cursor={'pointer'}
+                  style={{ objectFit: 'contain' }}
+                  fallback={<Box w="100%" h="100%" bg={_grey0} />}
+                />
                 <ImageModal
-                  image={data ? data.image_url : 'undefined'}
-                  title={data ? data.brand.name : 'undefined'}
+                  disclosure={imageDisclosure}
+                  image={data?.image_url}
+                  title={data?.brand.name}
                   isMobile={!!isMobile}
                 />
               </AspectRatio>

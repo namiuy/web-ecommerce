@@ -1,7 +1,7 @@
 import { Box, Flex, Image, Link } from '@chakra-ui/react';
 import { Product } from 'shared/entities/product';
 import { Card, Text, Skeleton } from 'ui';
-import { boxShadowMd } from '../ThemeProvider/colors';
+import { boxShadowMd } from 'ui/components/ThemeProvider/colors';
 import { formatPrice } from 'shared/utils/product';
 
 import { product as productConf } from 'shared';
