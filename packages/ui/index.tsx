@@ -41,6 +41,8 @@ export * from './components/Head';
 export * from './components/NavBar';
 export * from './components/Map';
 export * from './components/ProductCard';
+export * from './components/ProductAddModal';
+export * from './components/ProductEditModal';
 export * from './components/ProductFilters';
 export * from './components/ProductListSection';
 export * from './components/ProductSearch';

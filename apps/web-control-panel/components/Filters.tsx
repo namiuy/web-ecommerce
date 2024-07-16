@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { Select } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { mapBrandOptions, mapCategoryOptions, useBrandList, useCategoryList } from 'shared';
+import { getProductsUrl, mapBrandOptions, mapCategoryOptions, removeSearchParamFromUrl, useBrandList, useCategoryList } from 'shared';
 import { Flex } from 'ui';
 
 type FiltersProps = {
@@ -11,6 +11,8 @@ type FiltersProps = {
 
 export const Filters = ({ categoryId, brandId }: FiltersProps) => {
   const router = useRouter();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | undefined>(categoryId);
+  const [selectedBrandId, setSelectedBrandId] = useState<number | undefined>(brandId);
   const { data: categories = [], isLoading: isCategoriesLoading } = useCategoryList();
   const { data: brands = [], isLoading: isBrandsLoading } = useBrandList();
 
@@ -18,22 +20,37 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
   const selectBrandOptions = useMemo(() => mapBrandOptions(brands, router.query), [brands, router.query]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === '-1') return;
-    const option = selectCategoryOptions.find(c => c.id === e.target.value);
-    if (option?.href) router.push(option.href);
+    let href;
+    if (e.target.value === '-1') {
+      setSelectedCategoryId(undefined);
+      href = removeSearchParamFromUrl(getProductsUrl(), 'c')
+    } else {
+      const option = selectCategoryOptions.find(c => c.id === e.target.value);
+      setSelectedCategoryId(option?.id);
+      href = option?.href;
+    }
+    if (href) router.push(href);
   };
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === '-1') return;
-    const option = selectBrandOptions.find(c => c.id === e.target.value);
-    if (option?.href) router.push(option.href);
+    let href;
+    if (e.target.value === '-1') {
+      setSelectedBrandId(undefined);
+      href = removeSearchParamFromUrl(getProductsUrl(), 'b')
+    } else {
+      const option = selectBrandOptions.find(c => c.id === e.target.value);
+      setSelectedBrandId(option?.id ? Number(option.id) : undefined);
+      href = option?.href;
+    }
+    if (href) router.push(href);
+
   };
 
   return (
     <Flex gap="1rem">
       <Select
         disabled={isCategoriesLoading}
-        value={categoryId}
+        value={selectedCategoryId}
         onChange={handleCategoryChange}
         bg="#f2f2f2"
         borderColor="#f2f2f2"
@@ -48,7 +65,7 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
       </Select>
       <Select
         disabled={isBrandsLoading}
-        value={brandId}
+        value={selectedBrandId}
         onChange={handleBrandChange}
         bg="#f2f2f2"
         borderColor="#f2f2f2"

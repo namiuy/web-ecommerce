@@ -9,6 +9,9 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:cp": "turbo run dev --filter=web-control-panel",
+    "dev:credi": "turbo run dev --filter=web-credi",
+    "dev:nami": "turbo run dev --filter=web-nami",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

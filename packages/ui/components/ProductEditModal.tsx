@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { Product } from 'shared/entities/product';
-import { ModalEdit } from '../ModalEdit';
-import { ProductForm } from '../ProductForm';
+import { ModalEdit } from './ModalEdit';
+import { ProductForm } from './ProductForm';
 
 export type ProductEditModalProps = {
   isOpen: boolean;

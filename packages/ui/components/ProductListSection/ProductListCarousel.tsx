@@ -2,9 +2,9 @@ import { useProductListGet, getEmptyArray } from 'shared';
 import { Product } from 'shared/entities/product';
 import { ProductCardCarousel } from '../ProductCardCarousel';
 
-type ProductListCarouselProps = { editMode?: boolean; productListId: number; productsLength: number };
+type ProductListCarouselProps = { productListId: number; productsLength: number };
 
-export const ProductListCarousel = ({ editMode = false, productListId, productsLength }: ProductListCarouselProps) => {
+export const ProductListCarousel = ({ productListId, productsLength }: ProductListCarouselProps) => {
   const { isLoading, error, data } = useProductListGet(productListId);
 
   if (error) {
@@ -15,5 +15,5 @@ export const ProductListCarousel = ({ editMode = false, productListId, productsL
   const products =
     isLoading || !data?.products ? getEmptyArray<Product>(productsLength) : data.products.filter(p => p.id);
 
-  return <ProductCardCarousel editMode={editMode} products={products} isLoading={isLoading} />;
+  return <ProductCardCarousel products={products} isLoading={isLoading} />;
 };

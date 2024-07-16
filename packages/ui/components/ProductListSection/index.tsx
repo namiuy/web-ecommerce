@@ -1,15 +1,11 @@
-import lscache from 'lscache';
 import { Flex /*, IconButton, useDisclosure*/ } from '@chakra-ui/react';
 import { Box, Container } from 'ui';
-import { useEffect, useState } from 'react';
 // import { MdEdit } from 'react-icons/md';
 import { sort, useProductListList } from 'shared';
 import { ProductList } from 'shared/entities/product-list';
 import { Heading } from 'ui';
 // import { ModalEdit } from './ModalEdit';
 // import { ProductListSectionEdit } from './ProductListSectionEdit';
-import { User } from 'shared/entities/user';
-import { isBrowser } from 'shared';
 import { ProductListCarousel } from './ProductListCarousel';
 
 const _grey3 = 'brand.grey.3';
@@ -43,13 +39,6 @@ type ProductListSectionProps = { name: string };
 
 export const ProductListSection = ({ name }: ProductListSectionProps) => {
   const { isLoading, error, data = [] } = useProductListList();
-  const issBrowser = isBrowser();
-  const [user, setUser] = useState<User>();
-  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
-
-  useEffect(() => {
-    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
-  }, [issBrowser]);
 
   if (error) {
     console.log(error);
@@ -71,7 +60,6 @@ export const ProductListSection = ({ name }: ProductListSectionProps) => {
               <ProductListCarousel
                 key={i}
                 productListId={id}
-                editMode={isUserAdmin}
                 productsLength={product_ids.length}
               />
             </Flex>

@@ -1,7 +1,7 @@
 import lscache from 'lscache';
 import { Menu, MenuButton, MenuList, useDisclosure, Avatar, MenuItem, MenuGroup } from '@chakra-ui/react';
 import { MdAdd, MdLogout } from 'react-icons/md';
-import { ProductAddModal } from './ProductCard/ProductAddModal';
+import { ProductAddModal } from './ProductAddModal';
 import { User } from 'shared/entities/user';
 import { useRouter } from 'next/router';
 import { isBrowser } from 'shared';
@@ -27,7 +27,7 @@ const MenuAdmin = () => {
   }
 
   const { firstName, lastName, roles } = user;
-  const isUserAdmin = roles?.includes('admin'); // TODO: improve this
+  const isUserAdmin = user?.roles?.includes('admin') || user?.roles?.includes('seller'); // TODO: improve this
   const userName = `${firstName} ${lastName}`;
 
   const handleSignOut = () => {

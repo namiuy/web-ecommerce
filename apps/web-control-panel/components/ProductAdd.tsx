@@ -1,6 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { Button } from 'ui';
-import { ProductAddModal } from 'ui/components/ProductCard/ProductAddModal';
+import { Button, ProductAddModal } from 'ui';
 
 import { FaPlus } from 'react-icons/fa';
 

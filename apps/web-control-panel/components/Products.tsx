@@ -3,8 +3,7 @@ import { Filters } from './Filters';
 import { ProductTable } from './ProductTable';
 import { ProductAdd } from './ProductAdd';
 import { Search } from './Search';
-import { Flex, Text } from 'ui';
-import { ProductAddModal } from 'ui/components/ProductCard/ProductAddModal';
+import { Flex, Text, ProductAddModal } from 'ui';
 import { useDisclosure } from '@chakra-ui/react';
 
 export const Products = () => {

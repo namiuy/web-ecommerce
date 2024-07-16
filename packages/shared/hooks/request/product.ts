@@ -50,7 +50,7 @@ export const useProductSearch = ({
     sortBy,
   });
 
-  const { isLoading, data, ...rest } = useRequest<ProductSearch>(url);
+  const { isLoading, data, ...rest } = useRequest<ProductSearch>(url, true);
 
   const {
     setProductSearchResultIsLoading,

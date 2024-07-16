@@ -32,7 +32,7 @@ export const Search = ({ initialValue = '' }: SearchProps) => {
 
   return (
     <InputGroup w="15rem">
-      <Input placeholder="Buscar un producto..." onKeyDown={handleKeyDown} onChange={handleChange} />
+      <Input placeholder="Buscar un producto..." defaultValue={text} onKeyDown={handleKeyDown} onChange={handleChange} />
       <InputRightElement>
         <Icon
           boxSize="6"

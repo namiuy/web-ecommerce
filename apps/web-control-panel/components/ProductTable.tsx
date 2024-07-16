@@ -8,15 +8,13 @@ import {
   Td,
   IconButton,
   useDisclosure,
-  AspectRatio,
   Image,
   Spinner,
   Checkbox,
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import { useProductSearch } from 'shared';
-import { Flex, Text, ImageModal } from 'ui';
-import { ProductEditModal } from 'ui/components/ProductCard/ProductEditModal';
+import { Flex, Text, ImageModal, ProductEditModal } from 'ui';
 import { useState } from 'react';
 import { Product } from 'shared/entities/product';
 
@@ -33,8 +31,6 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
   const [product, setProduct] = useState<Product>();
   const [imageSrc, setImageSrc] = useState<string>();
 
-  const [zIndex, setZindex] = useState(1);
-
   const handleEdit = (product: Product) => {
     setProduct(product);
     onOpen();
@@ -45,6 +41,11 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
     imageDisclosure.onOpen();
   };
 
+
+  if (error) {
+    console.log(error)
+  }
+
   if (isLoading) {
     return (
       <Flex justifyContent="center" alignItems="center" height="10rem">
@@ -52,7 +53,8 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
       </Flex>
     );
   }
-  if (!categoryId && !brandId) {
+
+  if (!categoryId && !brandId && !text) {
     return (
       <Flex justifyContent="center" alignItems="center" height="10rem">
         <Text>Seleccione un filtro...</Text>
@@ -105,18 +107,10 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
                     <Td textAlign="center">{product.price}</Td>
                     <Td textAlign="center">{product.discount} %</Td>
                     <Td textAlign="center">
-                      {product.is_public ? (
-                        <Checkbox isDisabled defaultChecked bg="#f2f2f2" />
-                      ) : (
-                        <Checkbox isDisabled bg="#f2f2f2" />
-                      )}
+                      <Checkbox isDisabled defaultChecked={product.is_public} bg="#f2f2f2" />
                     </Td>
                     <Td textAlign="center">
-                      {product.is_original ? (
-                        <Checkbox isDisabled defaultChecked bg="#f2f2f2" />
-                      ) : (
-                        <Checkbox isDisabled bg="#f2f2f2" />
-                      )}
+                      <Checkbox isDisabled defaultChecked={product.is_original} bg="#f2f2f2" />
                     </Td>
                     <Td textAlign="center">
                       <IconButton
