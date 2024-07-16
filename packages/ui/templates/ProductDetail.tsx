@@ -144,7 +144,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 /> */}
                 <ImageModal
                   disclosure={imageDisclosure}
-                  onOpen={imageDisclosure.onOpen}
                   image={data?.image_url}
                   title={data?.brand.name}
                   isMobile={!!isMobile}
