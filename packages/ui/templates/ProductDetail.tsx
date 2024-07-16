@@ -133,7 +133,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           >
             <Skeleton isLoaded={!isLoading}>
               <AspectRatio ratio={{ base: 4 / 3, lg: 1, xl: 4 / 3 }}>
-                <Image
+                {/* <Image
                   w={'100%'}
                   onClick={imageDisclosure.onOpen}
                   src={data?.image_url}
@@ -141,7 +141,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   cursor={'pointer'}
                   style={{ objectFit: 'contain' }}
                   fallback={<Box w="100%" h="100%" bg={_grey0} />}
-                />
+                /> */}
                 <ImageModal
                   disclosure={imageDisclosure}
                   image={data?.image_url}
