@@ -1,39 +1,27 @@
-import { useDisclosure, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Box } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, UseDisclosureReturn, ModalOverlay } from '@chakra-ui/react';
 import { Image } from 'ui';
 
-const _grey0 = 'brand.grey.0';
+const _backgroundColor = 'blackAlpha.800';
+const _backgroundColorMobile = 'blackAlpha.900';
+const _backdropFilter = 'saturate(180%) blur(6px)';
 
 type ImageModalProps = {
-  image: string;
-  title: string;
-  isMobile: boolean;
+  disclosure: UseDisclosureReturn;
+  image?: string;
+  title?: string;
+  isMobile?: boolean;
 };
 
-const OverlayDesktop = () => <Box position="absolute" top="0" left="0" w="100%" h="100%" bg="blackAlpha.800" />;
-const OverlayMobile = () => <Box position="absolute" top="0" left="0" w="100%" h="100%" bg="blackAlpha.900" />;
-
-export const ImageModal = (props: ImageModalProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export const ImageModal = ({ disclosure, image, title, isMobile }: ImageModalProps) => {
   return (
-    <>
-      <Image
-        w={'100%'}
-        onClick={onOpen}
-        src={props.image}
-        alt={props.title}
-        cursor={'pointer'}
-        style={{ objectFit: 'contain' }}
-        fallback={<Box w="100%" h="100%" bg={_grey0} />}
-      />
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        {props.isMobile ? <OverlayMobile /> : <OverlayDesktop />}
-        <ModalContent maxW={props.isMobile ? '100%' : '50%'}>
-          <ModalCloseButton />
-          <ModalBody mx={'auto'}>
-            <Image src={props.image} alt={props.title} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
+      <ModalOverlay bg={isMobile ? _backgroundColorMobile : _backgroundColor} backdropFilter={_backdropFilter} />
+      <ModalContent maxW={isMobile ? '100%' : '50%'}>
+        <ModalCloseButton />
+        <ModalBody>
+          <Image src={image} alt={title} />
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };

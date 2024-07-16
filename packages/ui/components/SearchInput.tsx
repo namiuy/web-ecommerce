@@ -25,7 +25,7 @@ const SearchInput = ({ placeholder = 'Buscar un producto...', onSearch }: Search
   const [value, setValue] = useState(isProductsPath && t ? t : '');
 
   const search = () => {
-    if (value.length > 2) {
+    if (value.length === 0 || value.length > 2) {
       router.push(`${productsPath}?t=${value}`);
       if (onSearch) onSearch();
     }

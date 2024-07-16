@@ -32,7 +32,6 @@ const Message = ({ content }: { content: string }) => (
 export const ProductSearch = (props: ProductSearchProps) => {
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
-  const isUserAdmin = user?.roles?.includes('admin'); // TODO: improve this
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
@@ -69,7 +68,7 @@ export const ProductSearch = (props: ProductSearchProps) => {
       >
         {products?.map((product, i) => (
           <GridItem key={i}>
-            <ProductCard isLoading={isLoading} editMode={isUserAdmin} product={product} />
+            <ProductCard isLoading={isLoading} product={product} />
           </GridItem>
         ))}
       </Grid>
