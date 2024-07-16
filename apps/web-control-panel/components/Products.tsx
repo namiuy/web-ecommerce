@@ -10,7 +10,6 @@ export const Products = () => {
   const brandId = searchParams.get('b') ? Number(searchParams.get('b')) : undefined;
   const categoryId = searchParams.get('c') ?? undefined;
   const text = searchParams.get('t') ?? undefined;
-  const hasQueryParams = !!brandId || !!categoryId || !!text;
 
   return (
     <>
@@ -24,7 +23,7 @@ export const Products = () => {
         </Flex>
         <ProductAdd />
       </Flex>
-      {hasQueryParams && <ProductTable categoryId={categoryId} brandId={brandId} text={text} />}
+      <ProductTable categoryId={categoryId} brandId={brandId} text={text} />
     </>
   );
 };

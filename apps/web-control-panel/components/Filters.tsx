@@ -58,7 +58,7 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
       >
         <option value="-1">Seleccione una categoría...</option>
         {selectCategoryOptions.map(({ id, name, parent }, i) => (
-          <option key={i} value={id}>
+          <option key={i} value={id} selected={id === categoryId}>
             {parent ? `${parent} | ${name}` : name}
           </option>
         ))}
@@ -73,7 +73,7 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
       >
         <option value="-1">Seleccione una marca...</option>
         {selectBrandOptions.map(({ id, name }, i) => (
-          <option key={i} value={id}>
+          <option key={i} value={id} selected={id === categoryId}>
             {name}
           </option>
         ))}

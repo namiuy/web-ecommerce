@@ -7,6 +7,7 @@ import { CiBoxList } from 'react-icons/ci';
 import { IoPricetagsOutline } from 'react-icons/io5';
 import { Icon, Link } from '@chakra-ui/react';
 import { UserMenu } from './UserMenu';
+import { appName } from 'shared'
 
 const _borderColor = '#f2f2f2';
 
@@ -55,7 +56,7 @@ export const SideBar = ({ currentPage }: SiderBarProps) => (
   >
     <Flex flexDir="column">
       <Text fontWeight="semibold" my="1.5rem" fontSize="1.125rem">
-        Nami
+        {appName}
       </Text>
       <Flex flexDir="column" gap="0.625rem" alignItems="start">
         <SidebarButton path="productos" text="Productos" icon={FiBox} currentPage={currentPage} />

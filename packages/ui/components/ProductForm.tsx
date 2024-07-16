@@ -18,6 +18,8 @@ import {
 import { useMemo, useState } from 'react';
 import {
   getObjectDifference,
+  mapBrandOptions,
+  mapCategoryOptions,
   productAdd,
   productDelete,
   productUpdate,
@@ -25,8 +27,6 @@ import {
   useCategoryList,
   validateEmpty,
 } from 'shared';
-import { Brand } from 'shared/entities/brand';
-import { Category } from 'shared/entities/category';
 import { Product } from 'shared/entities/product';
 import { Box } from '..';
 import { Form, FormSchema } from './Form';
@@ -57,16 +57,6 @@ type ModalDeleteProps = {
 type ProductFormProps = {
   product?: Product;
   onSuccess: () => void;
-};
-
-const mapCategoryOptions = (data: Category[]) => {
-  return data
-    .flatMap(c => (c?.sub_categories ? [c, ...c.sub_categories] : [c]))
-    .map(({ id, name, parent }) => ({ id, name, parent }));
-};
-
-const mapBrandOptions = (data: Brand[]) => {
-  return data.map(({ id, name }) => ({ id, name })).map(({ id, name }) => ({ id, name }));
 };
 
 const ModalDelete = ({ isOpen, name = '', onConfirm, onCancel }: ModalDeleteProps) => (
@@ -104,7 +94,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   const selectCategoryOptions = useMemo(() => mapCategoryOptions(categories), [categories]);
   const selectBrandOptions = useMemo(() => mapBrandOptions(brands), [brands]);
 
-  const selectCategoryOptions2 = selectCategoryOptions.map(option => ({
+  const selectCategoryOptionsWithParent = selectCategoryOptions.map(option => ({
     ...option,
     name: option?.parent ? `${option.parent} | ${option.name}` : option.name,
   }));
@@ -193,7 +183,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
         schema={schema}
         data={data}
         selectors={{
-          category: selectCategoryOptions2,
+          category: selectCategoryOptionsWithParent,
           brand: selectBrandOptions,
         }}
         onSubmit={isAdd ? add : update}

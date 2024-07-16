@@ -57,6 +57,8 @@ export const bff = {
 
 export const envId = prc.envId;
 
+export const appName = prc.appName;
+
 export const siteHost = prc.siteHost;
 
 export const keys = prc.keys as Keys;
