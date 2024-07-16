@@ -1,6 +1,6 @@
 import { Icon, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState, useEffect } from 'react';
 import { addSearchParamsToUrl, getProductsUrl } from 'shared';
 
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -11,7 +11,11 @@ type SearchProps = {
 
 export const Search = ({ initialValue = '' }: SearchProps) => {
   const router = useRouter();
-  const [text, setText] = useState<string>(initialValue);
+  const [text, setText] = useState(initialValue);
+
+  useEffect(() => {
+    if (initialValue) setText(initialValue)
+  }, [initialValue])
 
   const validateAndSearch = (text: string) => {
     if (text.length === 0 || text.length > 2) {
@@ -32,7 +36,7 @@ export const Search = ({ initialValue = '' }: SearchProps) => {
 
   return (
     <InputGroup w="15rem">
-      <Input placeholder="Buscar un producto..." defaultValue={text} onKeyDown={handleKeyDown} onChange={handleChange} />
+      <Input placeholder="Buscar un producto..." value={text} onKeyDown={handleKeyDown} onChange={handleChange} />
       <InputRightElement>
         <Icon
           boxSize="6"
