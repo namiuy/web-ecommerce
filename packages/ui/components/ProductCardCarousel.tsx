@@ -1,19 +1,19 @@
 import { useBreakpointValue } from '@chakra-ui/react';
 import { Product } from 'shared/entities/product';
-import { Carousel, ProductCard } from 'ui';
+import { Carousel } from 'ui';
 
 import { product as productConf } from 'shared';
+import { ProductCard } from './ProductCard';
 const { showCod } = productConf;
 
 const _minH = showCod ? { base: '20rem', lg: '23.5rem' } : { base: '18rem', lg: '22.5rem' };
 
 type ProductCardCarouselProps = {
   isLoading: boolean;
-  editMode?: boolean;
   products: Product[];
 };
 
-export const ProductCardCarousel = ({ isLoading, editMode = false, products }: ProductCardCarouselProps) => {
+export const ProductCardCarousel = ({ isLoading, products }: ProductCardCarouselProps) => {
   const isLg = useBreakpointValue({
     base: false,
     lg: true,
@@ -37,7 +37,7 @@ export const ProductCardCarousel = ({ isLoading, editMode = false, products }: P
       spaceBetween={32}
     >
       {products?.map((product: Product, i: number) => (
-        <ProductCard key={i} isLoading={isLoading} editMode={editMode} product={product} />
+        <ProductCard key={i} isLoading={isLoading} product={product} />
       ))}
     </Carousel>
   );

@@ -1,41 +1,17 @@
-import { Flex /*, IconButton, useDisclosure*/ } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Box, Container } from 'ui';
-// import { MdEdit } from 'react-icons/md';
 import { sort, useProductListList } from 'shared';
 import { ProductList } from 'shared/entities/product-list';
 import { Heading } from 'ui';
-// import { ModalEdit } from './ModalEdit';
-// import { ProductListSectionEdit } from './ProductListSectionEdit';
 import { ProductListCarousel } from './ProductListCarousel';
 
 const _grey3 = 'brand.grey.3';
 const _bg = 'brand.background';
 
-type ProductListSectionProps = { name: string };
-// type EditProps = {
-//   data: Array<ProductList>;
-// };
+type ProductListSectionProps = {
+  name: string
+};
 
-// const Edit: FC<EditProps> = ({ data }) => {
-//   const { isOpen, onOpen, onClose } = useDisclosure();
-//   return (
-//     <>
-//       <IconButton
-//         w="3rem"
-//         h="3rem"
-//         aria-label=""
-//         bg="none"
-//         color="grey"
-//         icon={<MdEdit />}
-//         onClick={onOpen}
-//         _hover={{ color: 'black' }}
-//       />
-//       <ModalEdit title="Listas de productos" isOpen={isOpen} scrollBehavior="inside" onOpen={onOpen} onClose={onClose}>
-//         <ProductListSectionEdit data={data} />
-//       </ModalEdit>
-//     </>
-//   );
-// };
 
 export const ProductListSection = ({ name }: ProductListSectionProps) => {
   const { isLoading, error, data = [] } = useProductListList();
@@ -55,7 +31,7 @@ export const ProductListSection = ({ name }: ProductListSectionProps) => {
           {dataSort.map(({ id, name, product_ids }, i) => (
             <Flex key={i} direction="column" w="100%" p={{ base: '1rem 1rem 0', sm: '2rem 1rem 0' }}>
               <Heading as="h3" size="lg" color={_grey3} pb=".5rem">
-                {name} {/* <Edit data={data} /> */}
+                {name}
               </Heading>
               <ProductListCarousel
                 key={i}
