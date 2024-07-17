@@ -1,5 +1,5 @@
-import { theme as themeCredi } from '../../web-credibikerss/theme';
-import { theme as themeNami } from '../../web-nami/theme';
+import { theme as themeCredi } from './theme.credi';
+import { theme as themeNami } from './theme.nami';
 
 import { envId } from 'shared';
 
