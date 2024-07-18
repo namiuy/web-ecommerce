@@ -1,5 +1,5 @@
-import { Logo as logoCredi } from '../../web-credibikerss/components/Logo';
-import { Logo as logoNami } from '../../web-nami/components/Logo';
+import { Logo as logoCredi } from './Logo/LogoCredi';
+import { Logo as logoNami } from './Logo/LogoNami';
 
 import { envId } from 'shared';
 
