@@ -75,6 +75,17 @@ const branches = [
     position: { lat: -34.7308552, lng: -56.2236266 },
     mapUrl: 'https://maps.app.goo.gl/1zXx8qUZdsgGxNQv7',
   },
+  {
+    location: 'Pando',
+    address: 'Av. 18 de Julio 1190, entre Sarandí y Treinta y Tres',
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
+    whatsApp: {
+      number: 598098155509,
+      text: '098 155 509',
+    },
+    position: { lat: -34.722971323908304, lng: -55.960520870846246 },
+    mapUrl: 'https://maps.app.goo.gl/EjSJUcaMU7u5UMgz7',
+  },
 ];
 
 module.exports = {
