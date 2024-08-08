@@ -7,7 +7,7 @@ import { useBreakpointValue } from '@chakra-ui/react';
 import { branches } from 'shared';
 import { Map } from './Map';
 
-const _secondaryColor = '#d7fc00'; // TODO: fix
+const _secondaryColor = '#d7fc00'; // TODO: fixx
 
 const _color = '#d5d5d5';
 const _mapH = '26rem';
@@ -64,14 +64,14 @@ const FooterMap = ({ location, address, whatsApp, position, mapUrl }: FooterMapP
       {address}
     </Center>
   </div>
-); //img === 'MVD' ? imgMapMvd : img === 'LPA' ? imgMapLpa : imgMapPan
+);
 
 export const Footer = () => {
-  const isLg = !!useBreakpointValue({
+  const isMd = !!useBreakpointValue({
     base: false,
-    lg: true,
+    md: true,
   });
-  const rotateDeg = isLg ? 12 : 8;
+  const rotateDeg = isMd ? 12 : 8;
   return (
     <Box bg={_bg} pt="1rem" pb="4rem" color={_color}>
       <Container p="0">
@@ -80,20 +80,20 @@ export const Footer = () => {
             <SocialNetworks dark color={_color} size="2rem" gap="2rem" hide={['whatsapp']} />
           </AnimationWrapper>
         </Center>
-        <Flex flexDir={{ base: 'column-reverse', lg: 'column' }}>
+        <Flex flexDir={{ base: 'column-reverse', md: 'column' }}>
           <Grid
             p={{ base: '2rem', md: '2rem' }}
             gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }}
             gap={{ base: '2rem', xl: '4rem' }}
           >
             {branches.slice(1, 3).map((branch, i) => (
-              <Box key={i} style={isLg ? { perspective: 2000, transformStyle: 'preserve-3d' } : {}}>
+              <Box key={i} style={isMd ? { perspective: 2000, transformStyle: 'preserve-3d' } : {}}>
                 <Box
                   transform={
-                    isLg
+                    isMd
                       ? i === 0
-                        ? `rotateY(${rotateDeg}deg) ${isLg ? '' : 'translateX(1.1%)'}`
-                        : `rotateY(-${rotateDeg}deg) ${isLg ? '' : 'translateX(-1.1%)'}`
+                        ? `rotateY(${rotateDeg}deg) ${isMd ? '' : 'translateX(1.1%)'}`
+                        : `rotateY(-${rotateDeg}deg) ${isMd ? '' : 'translateX(-1.1%)'}`
                       : ''
                   }
                   borderTop="solid 1px #ffffff30"
