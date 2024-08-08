@@ -1,5 +1,4 @@
 import NextLink from 'next/link';
-import { FC } from 'react';
 import { AnimationWrapper, Box, Center, Container, Flex, Grid, Heading } from 'ui';
 import SocialNetworks from 'ui/components/SocialNetworks';
 import { IoLogoWhatsapp } from 'react-icons/io5';
@@ -8,7 +7,7 @@ import { useBreakpointValue } from '@chakra-ui/react';
 import { branches } from 'shared';
 import { Map } from './Map';
 
-const _secondaryColor = '#d7fc00'; // TODO: fix
+const _secondaryColor = '#d7fc00'; // TODO: fixx
 
 const _color = '#d5d5d5';
 const _mapH = '26rem';
@@ -29,7 +28,7 @@ type FooterMapProps = {
   mapUrl: string;
 };
 
-const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position, mapUrl }) => (
+const FooterMap = ({ location, address, whatsApp, position, mapUrl }: FooterMapProps) => (
   <div>
     <Flex justifyContent="space-between" alignItems="center">
       <Heading as="h4" fontSize={_branchNameSize} textTransform="uppercase" fontWeight="bolder">
@@ -54,7 +53,12 @@ const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position, 
       </AnimationWrapper>
     </Flex>
     <Box h="1rem" />
-    <Map h={_mapH} img={location === 'Montevideo' ? 'MVD' : 'LPA'} position={position} url={mapUrl} />
+    <Map
+      h={_mapH}
+      img={location === 'Montevideo' ? 'MVD' : location === 'Las Piedras' ? 'LPA' : 'PAN'}
+      position={position}
+      url={mapUrl}
+    />
     <Box h="1rem" />
     <Center color={_addressColor} fontSize=".8rem" letterSpacing=".05rem">
       {address}
@@ -63,11 +67,11 @@ const FooterMap: FC<FooterMapProps> = ({ location, address, whatsApp, position, 
 );
 
 export const Footer = () => {
-  const isLg = !!useBreakpointValue({
+  const isMd = !!useBreakpointValue({
     base: false,
-    lg: true,
+    md: true,
   });
-  const rotateDeg = isLg ? 12 : 8;
+  const rotateDeg = isMd ? 12 : 8;
   return (
     <Box bg={_bg} pt="1rem" pb="4rem" color={_color}>
       <Container p="0">
@@ -76,34 +80,35 @@ export const Footer = () => {
             <SocialNetworks dark color={_color} size="2rem" gap="2rem" hide={['whatsapp']} />
           </AnimationWrapper>
         </Center>
-        <Grid
-          p={{ base: '2rem', md: '2rem' }}
-          gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }}
-          gap={{ base: '2rem', xl: '4rem' }}
-        >
-          {branches.map((branch, i) => (
-            <div
-              key={i}
-              style={{
-                perspective: 2000,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              <Box
-                transform={
-                  i === 0
-                    ? `rotateY(${rotateDeg}deg) ${isLg ? '' : 'translateX(1.1%)'}`
-                    : `rotateY(-${rotateDeg}deg) ${isLg ? '' : 'translateX(-1.1%)'}`
-                }
-                borderTop="solid 1px #ffffff30"
-                pt="4rem"
-                pb="2rem"
-              >
-                <FooterMap {...branch} />
+        <Flex flexDir={{ base: 'column-reverse', md: 'column' }}>
+          <Grid
+            p={{ base: '2rem', md: '2rem' }}
+            gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }}
+            gap={{ base: '2rem', xl: '4rem' }}
+          >
+            {branches.slice(1, 3).map((branch, i) => (
+              <Box key={i} style={isMd ? { perspective: 2000, transformStyle: 'preserve-3d' } : {}}>
+                <Box
+                  transform={
+                    isMd
+                      ? i === 0
+                        ? `rotateY(${rotateDeg}deg) ${isMd ? '' : 'translateX(1.1%)'}`
+                        : `rotateY(-${rotateDeg}deg) ${isMd ? '' : 'translateX(-1.1%)'}`
+                      : ''
+                  }
+                  borderTop="solid 1px #ffffff30"
+                  pt="4rem"
+                  pb="2rem"
+                >
+                  <FooterMap {...branch} />
+                </Box>
               </Box>
-            </div>
-          ))}
-        </Grid>
+            ))}
+          </Grid>
+          <Box borderTop="solid 1px #ffffff30" pt="4rem" pb="2rem" mx="2rem">
+            <FooterMap {...branches[0]} />
+          </Box>
+        </Flex>
       </Container>
     </Box>
   );
