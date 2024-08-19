@@ -24,8 +24,8 @@ const Company = () => (
                   <Text>
                     Credibikerss es una empresa familiar que nace en Montevideo, Uruguay, desde hace más de diez años
                     con el anhelo de extender la marca en todo el Uruguay. Con el paso del tiempo nos extendimos,
-                    actualmente Credibikerss cuenta con dos sucursales, una en Cordón, Montevideo y otra en Las Piedras,
-                    Canelones. Nos dedicamos a la venta de motocicletas y accesorios.
+                    actualmente Credibikerss cuenta con tres sucursales, una en Cordón, Montevideo, otra en Las Piedras
+                    y la ultima apertura en Pando, Canelones. Nos dedicamos a la venta de motocicletas y accesorios.
                   </Text>
                 </div>
 
