@@ -1,5 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio, Image } from '@chakra-ui/react';
+import {
+  Link,
+  useDisclosure,
+  useBreakpointValue,
+  Divider,
+  AspectRatio,
+  Image,
+  Spinner,
+  useToast,
+} from '@chakra-ui/react';
 import {
   Flex,
   Container,
@@ -15,13 +24,14 @@ import {
   QuoteRequestButton,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
-import { isBrowser, useProductGet, product as productConf } from 'shared';
+import { isBrowser, useProductGet, product as productConf, useStockGet, useCart } from 'shared';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
 import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
 import { formatPrice } from 'shared/utils/product';
+import { QuantityInput } from '../components/QuantityInput';
 
 const { detailPriceType, showRelatedProducts, showStock } = productConf;
 
@@ -30,6 +40,7 @@ const _borderColor = 'brand.productDetail.borderColor';
 const _smallTextColor = 'brand.productDetail.smallText';
 const _relatedLinksLinkColor = 'brand.productDetail.relatedLinks.linkColor';
 const _relatedLinksMainContainerHover = 'blue.50';
+const _color = 'brand.productDetail.smallText';
 
 const _productSale = 'brand.productDetail.sale';
 
@@ -56,6 +67,7 @@ const _grey0 = 'brand.grey.0';
 export type ProductActionProps = {
   isLoading: boolean;
   product?: Product;
+  quantity?: number;
 };
 
 type ProductAction = 'add_to_cart' | 'quote_request' | 'whatsapp_request';
@@ -74,12 +86,15 @@ const getAction = (action: ProductAction, props: ProductActionProps) => {
 
 export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const router = useRouter();
-  const issBrowser = isBrowser();
-  const { isLoading, error, data } = useProductGet(id);
-
   const imageDisclosure = useDisclosure();
-
   const isMobile = useBreakpointValue({ base: true, sm: false });
+  const toast = useToast();
+
+  const { isLoading, error, data } = useProductGet(id);
+  const { isLoading: isLoadingStock, data: dataStock } = useStockGet(id);
+
+  const [stock, setStock] = useState<'NO' | 'CO' | 'AV'>();
+  const [quantity, setQuantity] = useState(1);
 
   const isPriceWithTax = detailPriceType === 'WITH_TAX';
   const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
@@ -87,7 +102,13 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isPriceSimple = detailPriceType === 'SIMPLE';
 
   useEffect(() => {
-    if (!isLoading && !data?.id) router.replace('/productos'); // TODO: improve this
+    if (dataStock?.availability) {
+      setStock(dataStock?.availability);
+    }
+  }, [dataStock?.availability, setStock]);
+
+  useEffect(() => {
+    if (!isLoading && !data?.id) router.replace('/products'); // TODO: improve this
   }, [data]);
 
   if (error) {
@@ -109,7 +130,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   {' '}
                   |{' '}
                 </Text>
-                <Link href={`/productos?c=${data?.category.id}`} _hover={{ textDecoration: 'none' }}>
+                <Link href={`/products?c=${data?.category.id}`} _hover={{ textDecoration: 'none' }}>
                   {' '}
                   {data?.category.name}
                 </Link>
@@ -163,7 +184,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               ) : (
                 <Box>
                   <Link
-                    href={`/productos?b=${data?.brand.id}`}
+                    href={`/products?b=${data?.brand.id}`}
                     _hover={{ textDecoration: 'none' }}
                     fontSize="0.875rem"
                     color={_smallTextColor}
@@ -266,7 +287,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   ) : (
                     <Box>
                       <Text
-                        fontSize={isPriceWithTax ? '2.5rem' : '1.375rem'}
+                        fontSize={isPriceWithTax ? '2.25rem' : '1.375rem'}
                         fontWeight="medium"
                         color={isPriceWithTax ? 'black' : _smallTextColor}
                       >
@@ -285,11 +306,27 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               )}
             </Box>
             {showStock && (
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
-                <ProductStock id={id} />
+              <Skeleton isLoaded={!isLoadingStock} w="fit-content" mb="1rem">
+                <ProductStock id={id} stock={dataStock} />
               </Skeleton>
             )}
-            <>{actions.map(a => getAction(a, { isLoading, product: data }))}</>
+            <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+              <Flex alignItems="center" gap="1rem" mb="1.5rem">
+                <Text fontSize="0.875rem" color={_color}>
+                  Cantidad
+                </Text>
+                <QuantityInput initialQuantity={1} onQuantityChange={value => setQuantity(value)} />
+              </Flex>
+            </Skeleton>
+            <>
+              {actions.map(action =>
+                getAction(action, {
+                  isLoading,
+                  product: { ...data, stock } as Product,
+                  quantity,
+                }),
+              )}
+            </>
           </GridItem>
           {data?.description && (
             <GridItem

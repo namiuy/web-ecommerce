@@ -186,7 +186,7 @@ export const SignIn = ({ Logo }: SignInProps) => {
             )}
           </Formik>
           <Box>
-            <Link href="/" color={_color} fontSize="0.938rem">
+            <Link href="/registro" color={_color} fontSize="0.938rem">
               ¿No tienes una cuenta? Regístrate
             </Link>
           </Box>

@@ -19,6 +19,7 @@ import { IconType } from 'react-icons';
 import { MenuDrawer } from '../MenuDrawer';
 import Link from 'next/link';
 import SearchInput from '../SearchInput';
+import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
@@ -84,7 +85,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
         backdropFilter={_backdropFilter}
         color={_color}
         borderBottomColor={_borderColor}
-        gridTemplateColumns="auto 1rem 1fr 1rem auto"
+        gridTemplateColumns="1fr 3fr auto auto"
         pt="1rem"
         pb="1rem"
         alignItems="center"
@@ -102,7 +103,6 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
             icon={HiMenuAlt2}
           />
         </GridItem>
-        <GridItem />
         <GridItem justifySelf="center">
           {Logo && (
             <Link href="/">
@@ -110,7 +110,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
             </Link>
           )}
         </GridItem>
-        <GridItem />
+        <GridItem>{/* <ShoppingCartDrawer /> */}</GridItem>
         <GridItem>
           <SearchButton />
         </GridItem>
