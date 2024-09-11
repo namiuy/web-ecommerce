@@ -59,3 +59,5 @@ export { Products as ProductsTemplate } from './templates/Products';
 export { SignIn as SignInTemplate } from './templates/SignIn';
 export { Register as RegisterTemplate } from './templates/Register';
 export { Contact as ContactTemplate } from './templates/Contact';
+export { PasswordReset1 as PasswordReset1Template } from './templates/PasswordReset1';
+export { PasswordReset2 as PasswordReset2Template } from './templates/PasswordReset2';
