@@ -71,42 +71,41 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
   };
 
   return (
-    <Box height={'100vh'} bg={_backgroundColorTwo}>
-      <Box bgGradient={_backgroundGradient} h={'46rem'}>
-        <Box p={'1.5rem'} display={'flex'} justifyContent={_logoPosition}>
+    <Box height="100vh" bg={_backgroundColorTwo}>
+      <Box bgGradient={_backgroundGradient} h="46rem">
+        <Box p="1.5rem" display="flex" justifyContent={_logoPosition}>
           <Logo />
         </Box>
         <Container
           maxW={_containerW}
-          color={'white'}
-          mt={'4rem'}
-          mb={'1rem'}
+          color="white"
+          mt="4rem"
+          mb="1rem"
           px={0}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          <Link borderRadius={'50%'} p={'0.25rem'} _hover={_backButtonHover}>
-            {' '}
-            <ArrowBackIcon boxSize={'6'} />
+          <Link href="/" borderRadius="50%" p="0.25rem" _hover={_backButtonHover}>
+            <ArrowBackIcon boxSize="6" />
           </Link>
-          <Text fontSize={'1.875rem'} display={'inline-block'} fontWeight={'bold'}>
+          <Text fontSize="1.875rem" display="inline-block" fontWeight="bold">
             ¡Bienvenido!
           </Text>
-          <Box width={'2rem'}> &nbsp;</Box>
+          <Box width="2rem"> &nbsp;</Box>
         </Container>
         <Container
           maxW={_containerW}
-          minH={'20rem'}
-          bg={'white'}
-          boxShadow={'lg'}
-          borderRadius={'0.5rem'}
-          p={'2rem 2rem 1rem 2rem'}
+          minH="20rem"
+          bg="white"
+          boxShadow="lg"
+          borderRadius="0.5rem"
+          p="2rem 2rem 1rem 2rem"
         >
           <Formik initialValues={initialValues} onSubmit={handleSubmit} validateOnChange={false} validateOnBlur={false}>
             {({ handleSubmit, errors }) => (
               <form onSubmit={handleSubmit}>
-                <FormControl mb={'1rem'} isInvalid={!!errors.email}>
+                <FormControl mb="1rem" isInvalid={!!errors.email}>
                   <FormLabel htmlFor="email">Correo electrónico</FormLabel>
                   <Field
                     as={Input}
@@ -153,8 +152,8 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
 
-                <Box mb={'1rem'} textAlign={'end'}>
-                  <Link href={'/'} color={'primary.main'} fontSize={'0.875rem'}>
+                <Box mb="1rem" textAlign="end">
+                  <Link href="/" color="primary.main" fontSize="0.875rem">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </Box>
@@ -173,10 +172,10 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                   type="submit"
                   isDisabled={isLoading}
                   bg={_loginButtonBg}
-                  color={'white'}
+                  color="white"
                   _hover={{ backgroundColor: 'primary.main' }}
                   width="100%"
-                  mb={'0.75rem'}
+                  mb="0.75rem"
                 >
                   Iniciar sesión
                 </Button>
@@ -184,7 +183,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
             )}
           </Formik>
           <Box>
-            <Link href={'/'} color={'primary.main'} fontSize={'0.938rem'}>
+            <Link href="/" color="primary.main" fontSize="0.938rem">
               ¿No tienes una cuenta? Regístrate
             </Link>
           </Box>

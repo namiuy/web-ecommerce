@@ -72,29 +72,28 @@ export const Register = ({ Logo }: RegisterProps) => {
 
   return (
     <Box>
-      <Box height={'100vh'} bgGradient={_backgroundGradient}>
-        <Box p={'1.5rem'} display={'flex'} justifyContent={{ base: 'center', lg: 'start' }}>
+      <Box height="100vh" bgGradient={_backgroundGradient}>
+        <Box p="1.5rem" display="flex" justifyContent={{ base: 'center', lg: 'start' }}>
           <Logo />
         </Box>
         <Container
           maxW={_containerW}
-          color={'white'}
-          mb={'1rem'}
+          color="white"
+          mb="1rem"
           px={0}
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          <Link borderRadius={'50%'} p={'0.25rem'} _hover={_backButtonHover}>
-            {' '}
-            <ArrowBackIcon boxSize={'6'} />
+          <Link href="/" borderRadius="50%" p="0.25rem" _hover={_backButtonHover}>
+            <ArrowBackIcon boxSize="6" />
           </Link>
-          <Heading size={'lg'} display={'inline-block'}>
+          <Heading size="lg" display="inline-block">
             Completa tus datos
           </Heading>
-          <Box width={'2rem'}> &nbsp;</Box>
+          <Box width="2rem"> &nbsp;</Box>
         </Container>
-        <Container maxW={_containerW} minH={'30rem'} bg={'white'} boxShadow={'lg'} borderRadius={'0.5rem'} p={'2rem'}>
+        <Container maxW={_containerW} minH="30rem" bg="white" boxShadow="lg" borderRadius="0.5rem" p="2rem">
           {!data && (
             <Formik
               initialValues={{
@@ -125,8 +124,8 @@ export const Register = ({ Logo }: RegisterProps) => {
             >
               {({ handleSubmit, errors }) => (
                 <form onSubmit={handleSubmit}>
-                  <Grid gridTemplateAreas={_gridTemplateAreas} gap={'1rem'}>
-                    <GridItem gridArea={'firstName'}>
+                  <Grid gridTemplateAreas={_gridTemplateAreas} gap="1rem">
+                    <GridItem gridArea="firstName">
                       <FormControl width={_formControlW} isInvalid={!!errors.firstName}>
                         <FormLabel htmlFor="firstName">Nombre</FormLabel>
                         <Field
@@ -145,7 +144,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.firstName}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'lastName'}>
+                    <GridItem gridArea="lastName">
                       <FormControl width={_formControlW} isInvalid={!!errors.lastName}>
                         <FormLabel htmlFor="lastName">Apellido</FormLabel>
                         <Field
@@ -163,7 +162,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'email'}>
+                    <GridItem gridArea="email">
                       <FormControl isInvalid={!!errors.email || emailInUseError}>
                         <FormLabel htmlFor="email">Correo electrónico</FormLabel>
                         <Field
@@ -183,7 +182,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         </FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'password'}>
+                    <GridItem gridArea="password">
                       <FormControl width={_formControlW} isInvalid={!!errors.password}>
                         <FormLabel htmlFor="password">Contraseña</FormLabel>
                         <Field
@@ -205,7 +204,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.password}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'passwordConfirm'}>
+                    <GridItem gridArea="passwordConfirm">
                       <FormControl width={_formControlW} isInvalid={!!errors.passwordConfirm}>
                         <FormLabel htmlFor="passwordConfirm">Confirme su contraseña</FormLabel>
                         <Field
@@ -223,7 +222,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.passwordConfirm}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'phone'}>
+                    <GridItem gridArea="phone">
                       <FormControl width={_formControlW} isInvalid={!!errors.phone}>
                         <FormLabel htmlFor="phone">Teléfono</FormLabel>
                         <Field
@@ -241,7 +240,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.phone}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'address'}>
+                    <GridItem gridArea="address">
                       <FormControl width={_formControlW} isInvalid={!!errors.address}>
                         <FormLabel htmlFor="address">Dirección</FormLabel>
                         <Field
@@ -259,7 +258,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.address}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'state'}>
+                    <GridItem gridArea="state">
                       <FormControl width={_formControlW} isInvalid={!!errors.state}>
                         <FormLabel htmlFor="state">Departamento</FormLabel>
                         <Field
@@ -285,7 +284,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         <FormErrorMessage>{errors.state}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea={'city'}>
+                    <GridItem gridArea="city">
                       <FormControl width={_formControlW} isInvalid={!!errors.city}>
                         <FormLabel htmlFor="city">Localidad</FormLabel>
                         <Field
@@ -307,7 +306,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                       </FormControl>
                     </GridItem>
 
-                    <GridItem gridArea={'progress'}>
+                    <GridItem gridArea="progress">
                       <Progress
                         h={isLoading ? '4px' : '1px'}
                         m="1rem 0"
@@ -317,14 +316,15 @@ export const Register = ({ Logo }: RegisterProps) => {
                       />
                     </GridItem>
 
-                    <GridItem gridArea={'submit'} mt={'1rem'}>
+                    <GridItem gridArea="submit" mt="1rem">
                       <Button
                         disabled={isLoading}
                         type="submit"
+                        _hover={{ backgroundColor: 'brand.login.backgroundColorOne' }}
                         bg={_loginButtonBg}
-                        color={'white'}
+                        color="white"
                         width="100%"
-                        mb={'0.75rem'}
+                        mb="0.75rem"
                       >
                         Registrarse
                       </Button>
@@ -336,17 +336,17 @@ export const Register = ({ Logo }: RegisterProps) => {
           )}
           {data && (
             <>
-              <Box textAlign={'center'} pt={'9rem'}>
-                <Icon as={BsFillCheckCircleFill} color={'green.500'} w={'2.5rem'} h={'2.5rem'}></Icon>
-                <Text fontSize={'1.5rem'} fontWeight={'bold'}>
-                  ¡Registro realizado con éxito!
+              <Box textAlign="center" pt="9rem">
+                <Icon as={BsFillCheckCircleFill} color="green.500" w="2.5rem" h="2.5rem"></Icon>
+                <Text fontSize="1.5rem" fontWeight="bold">
+                  Te has registrado existosamente
                 </Text>
-                <Text fontSize={'1.375rem'}>Comprueba tu email para activar tu cuenta.</Text>
+                <Text fontSize="1.375rem">Comprueba tu email para activar tu cuenta.</Text>
               </Box>
             </>
           )}
         </Container>
-        <Box py={'2rem'}></Box>
+        <Box py="2rem"></Box>
       </Box>
     </Box>
   );
