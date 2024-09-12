@@ -45,10 +45,11 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
-      background: greyBg,
+      background: '#fafafa',
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
+        color: primary,
       },
       banner: {
         paginationColor: secondary,
@@ -107,7 +108,7 @@ export const theme: Record<string, any> = {
         iconButton: {
           color: white,
           _hover: {
-            color: white,
+            color: secondary,
           },
         },
         input: {
@@ -150,12 +151,20 @@ export const theme: Record<string, any> = {
         input: {
           borderColor: primary,
         },
+        button: {
+          backgroundColor: primary,
+          color: white,
+          _hover: {
+            backgroundColor: primary,
+          },
+        },
+        iconColor: primary,
       },
       footer: {
         backgroundColor: secondary,
-        color: "lightgrey",
+        color: 'lightgrey',
         borderColor: white,
-        input : {
+        input: {
           color: white,
           borderColor: primary,
           backgroundColor: primary,
@@ -198,6 +207,11 @@ export const theme: Record<string, any> = {
               transformOrigin: 'left top',
             },
           },
+        },
+      },
+      contact: {
+        input: {
+          borderColor: primary,
         },
       },
     },

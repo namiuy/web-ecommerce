@@ -49,6 +49,7 @@ export const theme: Record<string, any> = {
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
+        color: primary,
       },
       banner: {
         paginationColor: secondary,
@@ -135,7 +136,7 @@ export const theme: Record<string, any> = {
         },
       },
       avatar: {
-        backgroundColor: secondary,
+        backgroundColor: primary,
         color: white,
       },
       drawerMenu: {
@@ -150,12 +151,20 @@ export const theme: Record<string, any> = {
         input: {
           borderColor: primary,
         },
+        button: {
+          backgroundColor: primary,
+          color: white,
+          _hover: {
+            backgroundColor: primary,
+          },
+        },
+        iconColor: primary,
       },
       footer: {
         backgroundColor: secondary,
-        color: "lightgrey",
+        color: 'lightgrey',
         borderColor: white,
-        input : {
+        input: {
           color: white,
           borderColor: primary,
           backgroundColor: primary,

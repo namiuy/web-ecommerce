@@ -1,13 +1,14 @@
 import lscache from 'lscache';
 import { Flex, Grid, GridItem, Heading, Skeleton, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { getEmptyArray, useProductSearch } from 'shared';
+import { getEmptyArray, useProductSearch, isBrowser, product as productConf } from 'shared';
 import { Product } from 'shared/entities/product';
+import { User } from 'shared/entities/user';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { ProductCard } from './ProductCard';
-import { User } from 'shared/entities/user';
-import { isBrowser } from 'shared';
 import Pagination from './Pagination';
+
+const { showPagination } = productConf;
 
 const _grey2 = 'brand.grey.2';
 
@@ -72,7 +73,7 @@ export const ProductSearch = (props: ProductSearchProps) => {
           </GridItem>
         ))}
       </Grid>
-      {data?.count && data?.count > ITEMS_PER_PAGE && (
+      {showPagination && data?.count && data?.count > ITEMS_PER_PAGE && (
         <Pagination currentPage={props?.pag || 1} maxRowsPerPage={ITEMS_PER_PAGE} totalItems={data.count} />
       )}
     </>

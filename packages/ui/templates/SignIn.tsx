@@ -12,6 +12,7 @@ const UNAUTHORIZED = 'Unauthorized';
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
 const _backgroundColorTwo = 'brand.login.backgroundColorTwo';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
+const _color = 'brand.login.color';
 
 const _backButtonHover = { color: 'brand.login.backgroundColorOne', backgroundColor: 'white' };
 const _loginButtonBg = 'brand.login.backgroundColorOne';
@@ -29,7 +30,7 @@ type SignInValues = {
   password: string;
 };
 
-export const SignIn: FC<SignInProps> = ({ Logo }) => {
+export const SignIn = ({ Logo }: SignInProps) => {
   const router = useRouter();
   const toast = useToast();
   const [signInProps, setSignInProps] = useState<SignInValues>();
@@ -57,6 +58,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
           isClosable: true,
         });
       }
+      setSignInProps(undefined);
     }
   }, [toast, error]);
 
@@ -73,9 +75,9 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
   return (
     <Box height="100vh" bg={_backgroundColorTwo}>
       <Box bgGradient={_backgroundGradient} h="46rem">
-        <Box p="1.5rem" display="flex" justifyContent={_logoPosition}>
+        <Link href="/" p="1.5rem" display="flex" justifyContent={_logoPosition}>
           <Logo />
-        </Box>
+        </Link>
         <Container
           maxW={_containerW}
           color="white"
@@ -87,6 +89,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
           justifyContent="space-between"
         >
           <Link href="/" borderRadius="50%" p="0.25rem" _hover={_backButtonHover}>
+            {''}
             <ArrowBackIcon boxSize="6" />
           </Link>
           <Text fontSize="1.875rem" display="inline-block" fontWeight="bold">
@@ -114,7 +117,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                     type="text"
                     isDisabled={isLoading}
                     variant="filled"
-                    _focus={{ borderColor: 'primary.main' }}
+                    _focus={{ borderColor: _color }}
                     validate={(value: any) => {
                       let error;
 
@@ -138,7 +141,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                     type="password"
                     isDisabled={isLoading}
                     variant="filled"
-                    _focus={{ borderColor: 'primary.main' }}
+                    _focus={{ borderColor: _color }}
                     validate={(value: any) => {
                       let error;
 
@@ -152,8 +155,8 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
 
-                <Box mb="1rem" textAlign="end">
-                  <Link href="/" color="primary.main" fontSize="0.875rem">
+                <Box mt="0.375rem" mb="1rem" textAlign="end">
+                  <Link href="/restablecer-contrasena" color={_color} fontSize="0.875rem">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </Box>
@@ -173,7 +176,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
                   isDisabled={isLoading}
                   bg={_loginButtonBg}
                   color="white"
-                  _hover={{ backgroundColor: 'primary.main' }}
+                  _hover={{ backgroundColor: _color }}
                   width="100%"
                   mb="0.75rem"
                 >
@@ -183,7 +186,7 @@ export const SignIn: FC<SignInProps> = ({ Logo }) => {
             )}
           </Formik>
           <Box>
-            <Link href="/" color="primary.main" fontSize="0.938rem">
+            <Link href="/" color={_color} fontSize="0.938rem">
               ¿No tienes una cuenta? Regístrate
             </Link>
           </Box>

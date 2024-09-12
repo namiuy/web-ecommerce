@@ -8,6 +8,7 @@ const {
   PRODUCT_DETAIL_PRICE_TYPE,
   PRODUCT_DETAIL_RELATED_PRODUCTS,
   PRODUCT_DETAIL_STOCK,
+  PRODUCT_PAGINATION,
   SITE_HOST,
   GOOGLE_MAP_API_KEY,
   GOOGLE_GA_MEASUREMENT_ID,
@@ -203,6 +204,7 @@ module.exports = {
       showCod: PRODUCT_CARD_CODE === 'true',
       showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS === 'true',
       showStock: PRODUCT_DETAIL_STOCK === 'true',
+      showPagination: PRODUCT_PAGINATION === 'true',
     },
   },
 };

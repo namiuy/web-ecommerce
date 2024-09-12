@@ -9,9 +9,8 @@ const _grey3 = 'brand.grey.3';
 const _bg = 'brand.background';
 
 type ProductListSectionProps = {
-  name: string
+  name: string;
 };
-
 
 export const ProductListSection = ({ name }: ProductListSectionProps) => {
   const { isLoading, error, data = [] } = useProductListList();
@@ -33,11 +32,7 @@ export const ProductListSection = ({ name }: ProductListSectionProps) => {
               <Heading as="h3" size="lg" color={_grey3} pb=".5rem">
                 {name}
               </Heading>
-              <ProductListCarousel
-                key={i}
-                productListId={id}
-                productsLength={product_ids.length}
-              />
+              <ProductListCarousel key={i} productListId={id} productsLength={product_ids.length} />
             </Flex>
           ))}
         </Flex>

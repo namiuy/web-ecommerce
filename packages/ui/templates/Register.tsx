@@ -48,10 +48,6 @@ export const Register = ({ Logo }: RegisterProps) => {
   const { isLoading, data, error } = useAddUser(registerProps);
   const emailInUseError = error === EMAIL_ALREADY_IN_USE;
 
-  {
-    data && console.log('Se ha registrado exitosamente!');
-  }
-
   const statesSelect = () => {
     return states?.data?.map((state: State) => (
       <option key={state.id} value={state.id}>
@@ -93,7 +89,14 @@ export const Register = ({ Logo }: RegisterProps) => {
           </Heading>
           <Box width="2rem"> &nbsp;</Box>
         </Container>
-        <Container maxW={_containerW} minH="30rem" bg="white" boxShadow="lg" borderRadius="0.5rem" p="2rem">
+        <Container
+          maxW={_containerW}
+          minH="30rem"
+          bg="white"
+          boxShadow="lg"
+          borderRadius="0.5rem"
+          p="1.5rem 2rem 1rem 2rem"
+        >
           {!data && (
             <Formik
               initialValues={{
@@ -315,8 +318,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                         colorScheme="primary"
                       />
                     </GridItem>
-
-                    <GridItem gridArea="submit" mt="1rem">
+                    <GridItem gridArea="submit">
                       <Button
                         disabled={isLoading}
                         type="submit"
@@ -341,7 +343,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                 <Text fontSize="1.5rem" fontWeight="bold">
                   Te has registrado existosamente
                 </Text>
-                <Text fontSize="1.375rem">Comprueba tu email para activar tu cuenta.</Text>
+                <Text fontSize="1.375rem">Revisa tu email para activar tu cuenta.</Text>
               </Box>
             </>
           )}

@@ -32,6 +32,10 @@ const _top = { base: '0', lg: '60%' };
 const _transform = { base: 'none', lg: 'translateY(-50%)' };
 const _mb = { base: '8', lg: 'none' };
 
+const _iconColor = 'brand.contact.iconColor';
+const _buttonColor = 'brand.contact.button.backgroundColor';
+const _buttonHoverColor = 'brand.contact.button._hover.backgroundColor';
+
 const calculateCenter = (branches: any) => {
   let lat = 0;
   let lng = 0;
@@ -110,7 +114,7 @@ export const Contact = () => {
                     _hover={{ color: 'blackAlpha.900' }}
                   >
                     <Box display="flex" alignItems="center">
-                      <Icon as={MdLocationOn} w="2rem" h="3rem" boxSize={10} mr="0.5rem" color="primary.main" />
+                      <Icon as={MdLocationOn} w="2rem" h="3rem" boxSize={10} mr="0.5rem" color={_iconColor} />
                       <Box w="100%">
                         <Text>{branch.address}</Text>
                         <Text fontSize={14}>{branch.addressDetail}</Text>
@@ -119,7 +123,7 @@ export const Contact = () => {
                   </Link>
                 </Box>
                 <Box display="flex" alignItems="center">
-                  <Icon as={BiSolidTime} w="2rem" h="1.5rem" ml="0.25rem" mr="0.75rem" color="primary.main" />
+                  <Icon as={BiSolidTime} w="2rem" h="1.5rem" ml="0.25rem" mr="0.75rem" color={_iconColor} />
                   <Text fontSize={16}>{branch.schedule}</Text>
                 </Box>
                 <Box
@@ -128,7 +132,7 @@ export const Contact = () => {
                   pb={index + 2 > branches.length ? 'none' : '1rem'}
                   fontSize="1.188rem"
                 >
-                  <Icon as={FaPhoneAlt} w="2rem" h="1.25rem" ml="0.25rem" mr="0.75rem" color="primary.main" />
+                  <Icon as={FaPhoneAlt} w="2rem" h="1.25rem" ml="0.25rem" mr="0.75rem" color={_iconColor} />
                   {branch.phone.map((phone, index) => (
                     <Box display="flex" key={index}>
                       {index != 0 && <Text px="0.375rem"> - </Text>}
@@ -276,11 +280,11 @@ export const Contact = () => {
                     />
                     <Button
                       type="submit"
-                      bg="primary.main"
+                      bg={_buttonColor}
                       color="white"
                       width="100%"
                       mt={2}
-                      _hover={{ backgroundColor: 'primary.main' }}
+                      _hover={{ backgroundColor: _buttonHoverColor }}
                     >
                       ENVIAR
                     </Button>

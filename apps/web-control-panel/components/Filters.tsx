@@ -1,7 +1,14 @@
 import { useRouter } from 'next/router';
 import { Select } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { getProductsUrl, mapBrandOptions, mapCategoryOptions, removeSearchParamFromUrl, useBrandList, useCategoryList } from 'shared';
+import {
+  getProductsUrl,
+  mapBrandOptions,
+  mapCategoryOptions,
+  removeSearchParamFromUrl,
+  useBrandList,
+  useCategoryList,
+} from 'shared';
 import { Flex } from 'ui';
 
 type FiltersProps = {
@@ -23,7 +30,7 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
     let href;
     if (e.target.value === '-1') {
       setSelectedCategoryId(undefined);
-      href = removeSearchParamFromUrl(getProductsUrl(), 'c')
+      href = removeSearchParamFromUrl(getProductsUrl(), 'c');
     } else {
       const option = selectCategoryOptions.find(c => c.id === e.target.value);
       setSelectedCategoryId(option?.id);
@@ -36,14 +43,13 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
     let href;
     if (e.target.value === '-1') {
       setSelectedBrandId(undefined);
-      href = removeSearchParamFromUrl(getProductsUrl(), 'b')
+      href = removeSearchParamFromUrl(getProductsUrl(), 'b');
     } else {
       const option = selectBrandOptions.find(c => c.id === e.target.value);
       setSelectedBrandId(option?.id ? Number(option.id) : undefined);
       href = option?.href;
     }
     if (href) router.push(href);
-
   };
 
   return (
