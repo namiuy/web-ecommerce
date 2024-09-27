@@ -7,6 +7,7 @@ import { UserAdd } from '../../entities/user-add';
 import lscache from 'lscache';
 import { UserRestorePwd1 } from '../../entities/user-restore-pwd-1';
 import { UserRestorePwd2 } from '../../entities/user-restore-pwd-2';
+import { UserChangePwd } from '../../entities/user-change-pwd';
 
 type SignInProps = {
   email: string;
@@ -40,6 +41,34 @@ const restorePwd2 = (user: UserRestorePwd2): Promise<Result<boolean>> => {
 
 const activateAccount = (activation_hash: string): Promise<Result<boolean>> => {
   return post<Result<boolean>>(`${bff.url}/users/activate`, { body: JSON.stringify({ activation_hash }) });
+};
+
+const changePwdUser = (user: UserChangePwd): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/users/change-pwd`, { body: JSON.stringify(user) }, true);
+};
+
+export const useGetUser = (id: string): Result<User> => {
+  const [user, setUser] = useState<User>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const result = await getUser(id);
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setUser(result);
+      }
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [id]);
+
+  return { isLoading, data: user, error };
 };
 
 export const useSignIn = (props?: SignInProps): Result<User> => {
@@ -187,6 +216,38 @@ export const useActivateAccount = (guid: string): Result<boolean> => {
       fetchData();
     }
   }, [guid]);
+
+  return { isLoading, data, error };
+};
+
+export const useChangePwdUser = (props?: UserChangePwd): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (props) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await changePwdUser(props);
+
+        if (result.error) {
+          setError(result.error);
+          setData(undefined);
+        } else {
+          setData(true);
+          setError(undefined);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+
+    return () => {
+      setData(undefined);
+      setError(undefined);
+    };
+  }, [props]);
 
   return { isLoading, data, error };
 };

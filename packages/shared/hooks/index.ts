@@ -25,3 +25,4 @@ export * from './request/stock';
 export * from './request/newsletter';
 export * from './analytics';
 export * from './request/stock';
+export * from './request/person';
