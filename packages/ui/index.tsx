@@ -62,3 +62,4 @@ export { RegisterActivation as RegisterActivationTemplate } from './templates/Re
 export { Contact as ContactTemplate } from './templates/Contact';
 export { PasswordReset1 as PasswordReset1Template } from './templates/PasswordReset1';
 export { PasswordReset2 as PasswordReset2Template } from './templates/PasswordReset2';
+export { Profile as ProfileTemplate } from './templates/Profile';

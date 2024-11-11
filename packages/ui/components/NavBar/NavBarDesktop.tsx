@@ -68,9 +68,6 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems = [], menuItems = []
             </GridItem>
           )}
           <GridItem>
-            <SocialNetworks dark={dark} color={_navItemColor} size="1.2rem" hide={['tiktok', 'whatsapp']} />
-          </GridItem>
-          <GridItem>
             <MenuAdmin />
           </GridItem>
         </Grid>
