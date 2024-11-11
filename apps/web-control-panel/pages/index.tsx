@@ -16,7 +16,7 @@ const HomePage = () => {
       const isUserAdmin = user?.roles?.includes('admin') || user?.roles?.includes('seller'); // TODO: improve this
 
       if (isUserAdmin) {
-        setIsLoading(false)
+        setIsLoading(false);
       } else {
         router.push('/iniciar');
       }
@@ -34,7 +34,7 @@ const HomePage = () => {
         <WelcomePanel />
       </Content>
     </Flex>
-  )
+  );
 };
 
 export default HomePage;

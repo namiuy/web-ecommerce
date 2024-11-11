@@ -4,7 +4,7 @@ import { Image, Flex, Skeleton, Center } from 'ui';
 
 const LOADING_LENGTH = 14;
 
-const _w = '4.25rem';
+const _w = '5rem';
 const _h = '3.5rem';
 
 const _grey2 = 'brand.grey.2';
@@ -29,7 +29,7 @@ export const Brands = () => {
                 src={logo_url}
                 alt={name}
                 opacity=".7"
-                fit="cover"
+                fit="contain"
                 _hover={{ opacity: '1' }}
                 fallback={
                   <Flex w={_w} h={_h}>

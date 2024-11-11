@@ -101,7 +101,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
         {data && (
           <Flex justifyContent="space-between" alignItems="center">
             <Skeleton isLoaded={!isLoading}>
-              <Box color={'brand.grey.2'} fontSize="0.875rem" fontWeight="medium">
+              <Box color="brand.grey.2" fontSize="0.875rem" fontWeight="medium">
                 <Link onClick={() => router.back()} _hover={{ textDecoration: 'none' }}>
                   Volver
                 </Link>
@@ -134,11 +134,11 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
             <Skeleton isLoaded={!isLoading}>
               <AspectRatio ratio={{ base: 4 / 3, lg: 1, xl: 4 / 3 }}>
                 <Image
-                  w={'100%'}
+                  w="100%"
                   onClick={imageDisclosure.onOpen}
                   src={data?.image_url}
                   alt={data?.brand.name}
-                  cursor={'pointer'}
+                  cursor="pointer"
                   style={{ objectFit: 'contain' }}
                   fallback={<Box w="100%" h="100%" bg={_grey0} />}
                 />

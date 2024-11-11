@@ -9,7 +9,7 @@ const _buttonColor = 'brand.footer.iconButton.color';
 const _focusBorderColor = 'brand.footer.input.borderColor';
 const _buttonBackgroundColor = 'brand.footer.iconButton._active.backgroundColor';
 
-export const Newsletter = () => {
+const Newsletter = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [email, setEmail] = useState('');
@@ -67,6 +67,7 @@ export const Newsletter = () => {
             _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
             bg={_backgroundColor}
             border={0}
+            color="black"
           />
           <IconButton
             bg={_backgroundColor}
@@ -87,3 +88,5 @@ export const Newsletter = () => {
     </Stack>
   );
 };
+
+export default Newsletter;

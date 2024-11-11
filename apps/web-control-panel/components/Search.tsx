@@ -14,8 +14,8 @@ export const Search = ({ initialValue = '' }: SearchProps) => {
   const [text, setText] = useState(initialValue);
 
   useEffect(() => {
-    if (initialValue) setText(initialValue)
-  }, [initialValue])
+    if (initialValue) setText(initialValue);
+  }, [initialValue]);
 
   const validateAndSearch = (text: string) => {
     if (text.length === 0 || text.length > 2) {

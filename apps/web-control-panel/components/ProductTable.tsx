@@ -41,9 +41,8 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
     imageDisclosure.onOpen();
   };
 
-
   if (error) {
-    console.log(error)
+    console.log(error);
   }
 
   if (isLoading) {

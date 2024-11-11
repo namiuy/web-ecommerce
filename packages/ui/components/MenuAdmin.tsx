@@ -39,7 +39,7 @@ const MenuAdmin = () => {
   return (
     <Menu>
       <MenuButton>
-        <Avatar w="2rem" h="2rem" size="sm" bg={_avatarBg} color={_avatarColor} name={userName} />
+        <Avatar w="2.875rem" h="2.875rem" size="md" bg={_avatarBg} color={_avatarColor} name={userName} />
       </MenuButton>
       <MenuList p="0" zIndex={999}>
         <MenuGroup title={userName}>

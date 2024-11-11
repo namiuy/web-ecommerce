@@ -1,6 +1,5 @@
 const primary = '#ffffff';
 const secondary = '#171717';
-
 const white = '#ffffff';
 const black = '#000000';
 const greyBg = '#fafafa';
@@ -8,14 +7,11 @@ const borderColor = '#eeeeee';
 const smallText = '#909090';
 const tooltipBg = '#676767';
 const buyButtonHoverBg = '#e53e3e';
-
 const relatedLinksColor = '#4195db';
 const relatedLinksColorBg = '#e6f2ff';
-
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px)',
 };
-
 export const theme: Record<string, any> = {
   colors: {
     primary: {
@@ -47,8 +43,9 @@ export const theme: Record<string, any> = {
     brand: {
       background: '#fafafa',
       login: {
-        backgroundColorOne: primary,
+        backgroundColorOne: secondary,
         backgroundColorTwo: greyBg,
+        color: secondary,
       },
       banner: {
         paginationColor: secondary,
@@ -150,6 +147,14 @@ export const theme: Record<string, any> = {
         input: {
           borderColor: primary,
         },
+        button: {
+          backgroundColor: secondary,
+          color: white,
+          _hover: {
+            backgroundColor: secondary,
+          },
+        },
+        iconColor: secondary,
       },
       footer: {
         backgroundColor: secondary,
@@ -170,7 +175,6 @@ export const theme: Record<string, any> = {
       },
     },
   },
-
   components: {
     Form: {
       variants: {
@@ -181,7 +185,6 @@ export const theme: Record<string, any> = {
                 ...activeLabelStyles,
               },
             },
-
             'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label': {
               ...activeLabelStyles,
             },

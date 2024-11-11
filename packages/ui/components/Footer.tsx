@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Grid, GridItem } from '@chakra-ui/react';
 import { ElementType } from 'react';
-import SocialNetworks from 'ui/components/SocialNetworks';
-import { Newsletter } from './Newsletter';
+import SocialNetworks from './SocialNetworks';
+import Newsletter from './Newsletter';
 
 const _backgroundColor = 'brand.footer.backgroundColor';
 

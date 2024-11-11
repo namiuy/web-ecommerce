@@ -5,6 +5,8 @@ import { get, post } from '../../utils/fetcher';
 import { User } from '../../entities/user';
 import { UserAdd } from '../../entities/user-add';
 import lscache from 'lscache';
+import { UserRestorePwd1 } from '../../entities/user-restore-pwd-1';
+import { UserRestorePwd2 } from '../../entities/user-restore-pwd-2';
 
 type SignInProps = {
   email: string;
@@ -26,6 +28,18 @@ const getUser = (user_id: string): Promise<User> => {
 
 const addUser = (user: UserAdd): Promise<Result<boolean>> => {
   return post<Result<boolean>>(`${bff.url}/users`, { body: JSON.stringify(user) });
+};
+
+const restorePwd1 = (user: UserRestorePwd1): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/restore_password_1`, { body: JSON.stringify(user) });
+};
+
+const restorePwd2 = (user: UserRestorePwd2): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/restore_password_2`, { body: JSON.stringify(user) });
+};
+
+const activateAccount = (activation_hash: string): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/users/activate`, { body: JSON.stringify({ activation_hash }) });
 };
 
 export const useSignIn = (props?: SignInProps): Result<User> => {
@@ -99,6 +113,80 @@ export const useAddUser = (props?: UserAdd): Result<boolean> => {
       fetchData();
     }
   }, [props]);
+
+  return { isLoading, data, error };
+};
+
+export const useRestorePwd1 = (props?: UserRestorePwd1): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean>();
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (props) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await restorePwd1(props);
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setData(true);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+  }, [props]);
+
+  return { isLoading, data, error };
+};
+
+export const useRestorePwd2 = (props?: UserRestorePwd2): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean>();
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (props) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await restorePwd2(props);
+
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setData(true);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+  }, [props]);
+
+  return { isLoading, data, error };
+};
+
+export const useActivateAccount = (guid: string): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean>();
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (guid) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await activateAccount(guid);
+
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setData(true);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+  }, [guid]);
 
   return { isLoading, data, error };
 };

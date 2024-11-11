@@ -22,8 +22,8 @@ export const validatePassword = (value: string) => {
   return undefined;
 };
 
-export const validateRepeatPassword = (value: string, password: string) => {
-  if (!value.toString().length) return 'Este campo es obligatorio';
-  if (value !== password) return 'Las contraseñas no coinciden';
+export const validateRepeatPassword = (password1: string, password2: string) => {
+  if (!password1.toString().length) return 'Este campo es obligatorio';
+  if (password1 !== password2) return 'Las contraseñas no coinciden';
   return undefined;
 };

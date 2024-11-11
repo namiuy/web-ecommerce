@@ -7,7 +7,7 @@ import { CiBoxList } from 'react-icons/ci';
 import { IoPricetagsOutline } from 'react-icons/io5';
 import { Icon, Link } from '@chakra-ui/react';
 import { UserMenu } from './UserMenu';
-import { appName } from 'shared'
+import { appName } from 'shared';
 
 const _borderColor = '#f2f2f2';
 
