@@ -5,7 +5,7 @@ import { Image, Flex, Skeleton, Center } from 'ui';
 const LOADING_LENGTH = 14;
 
 const _w = '5rem';
-const _h = '3.5rem';
+const _h = '3.75rem';
 
 const _grey2 = 'brand.grey.2';
 
