@@ -38,6 +38,10 @@ const restorePwd2 = (user: UserRestorePwd2): Promise<Result<boolean>> => {
   return post<Result<boolean>>(`${bff.url}/restore_password_2`, { body: JSON.stringify(user) });
 };
 
+const activateAccount = (activation_hash: string): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/users/activate`, { body: JSON.stringify({ activation_hash }) });
+};
+
 export const useSignIn = (props?: SignInProps): Result<User> => {
   const [accessTokenResult, setAccessTokenResult] = useState<AccessToken>();
   const [isLoading, setIsLoading] = useState(false);
@@ -158,6 +162,31 @@ export const useRestorePwd2 = (props?: UserRestorePwd2): Result<boolean> => {
       fetchData();
     }
   }, [props]);
+
+  return { isLoading, data, error };
+};
+
+export const useActivateAccount = (guid: string): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean>();
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (guid) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await activateAccount(guid);
+
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setData(true);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+  }, [guid]);
 
   return { isLoading, data, error };
 };
