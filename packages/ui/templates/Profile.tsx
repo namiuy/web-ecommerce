@@ -42,7 +42,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
   const [editPostalCode, setEditPostalCode] = useState<string>();
 
   const id = lscache.get('user')?.id;
-  const personId = lscache.get('user')?.personId;
+  const personId = lscache.get('user')?.person_id;
   const { data, isLoading, error } = useGetPerson(personId);
 
   const [personData, setPersonData] = useState(data);

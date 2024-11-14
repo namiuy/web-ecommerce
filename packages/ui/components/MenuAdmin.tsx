@@ -27,13 +27,15 @@ const MenuAdmin = () => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
 
+  console.log('user', user);
+
   if (!user) {
     return <></>;
   }
 
-  const { firstName, lastName, roles } = user;
+  const { first_name, last_name } = user;
   const isUserAdmin = user?.roles?.includes('admin') || user?.roles?.includes('seller'); // TODO: improve this
-  const userName = `${firstName} ${lastName}`;
+  const userName = `${first_name} ${last_name}`;
 
   const handleSignOut = () => {
     lscache.remove('access_token');
@@ -50,7 +52,7 @@ const MenuAdmin = () => {
       <MenuButton>
         <Flex alignItems="center" gap="0.75rem" borderRadius="2rem" bg={_avatarBg} p="0.5rem 0.5rem 0.5rem 1rem">
           <Text color="white" fontWeight="semibold">
-            {firstName}
+            {first_name}
           </Text>
           <Avatar
             w="2.25rem"
