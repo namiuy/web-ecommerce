@@ -2,6 +2,7 @@ import { GaPage, Head, Box, ProductDetailTemplate } from 'ui';
 import { NavBar, Footer } from '../../components';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
+import { cartEnabled } from 'shared';
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter();
@@ -17,8 +18,7 @@ const ProductDetailPage: NextPage = () => {
         <Box>
           <Head />
           <NavBar />
-          {/* <ProductDetailTemplate id={id} actions={['add_to_cart']} /> */}
-          <ProductDetailTemplate id={id} actions={['whatsapp_request']} />
+          <ProductDetailTemplate id={id} actions={cartEnabled ? ['add_to_cart'] : ['whatsapp_request']} />
         </Box>
         <Footer />
       </>

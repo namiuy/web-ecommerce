@@ -21,7 +21,7 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], simple }: NavBarProps) => {
+const NavBarDesktopSimple = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [] }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
   return (
@@ -43,10 +43,10 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems = [], menuItems = []
           </Flex>
         </Box>
       )}
-      <Box bg={_backgroundColorSecondary} backdropFilter={simple ? _backdropFilter : 'none'}>
+      <Box bg={_backgroundColorSecondary} backdropFilter={_backdropFilter}>
         <Grid
-          p={simple ? '1.5rem 0 1.5rem 0 ' : '1rem 0 0.375rem 0'}
-          gridTemplateColumns={simple ? '12rem 1fr auto auto auto' : '12rem 1fr auto auto'}
+          p="1.5rem 0"
+          gridTemplateColumns="12rem 1fr auto auto"
           alignItems="center"
           gap="2rem"
           w={_mainWidth}
@@ -62,39 +62,13 @@ const NavBarDesktop = ({ dark, logo: Logo, multiDomainItems = [], menuItems = []
           <GridItem>
             <SearchInput />
           </GridItem>
-          {simple && (
-            <GridItem>
-              <Nav items={menuItemsWithOnClick} />
-            </GridItem>
-          )}
           <GridItem>
-            <MenuAdmin />
+            <Nav items={menuItemsWithOnClick} />
           </GridItem>
         </Grid>
-
-        {!simple && (
-          <Grid
-            py="0.625rem"
-            pl="1rem"
-            bg={_backgroundColorSecondary}
-            borderBottomColor={_borderColor}
-            w={_mainWidth}
-            m="0 auto"
-            gridTemplateColumns={'1fr auto'}
-          >
-            <GridItem>
-              <Nav items={menuItemsWithOnClick} />
-            </GridItem>
-            <GridItem>
-              <Text color="white" fontWeight="semibold" fontSize="0.875rem">
-                Lideres en radiadores y aire acondicionado
-              </Text>
-            </GridItem>
-          </Grid>
-        )}
       </Box>
     </>
   );
 };
 
-export default NavBarDesktop;
+export default NavBarDesktopSimple;

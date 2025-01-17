@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Input, InputGroup, Icon, InputRightElement } from '@chakra-ui/react';
+import { Input, InputGroup, Icon, InputRightElement, Box } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { KeyboardEvent, ChangeEvent, useState, useEffect } from 'react';
 
@@ -44,27 +44,36 @@ const SearchInput = ({ placeholder = 'Buscar un producto...', onSearch }: Search
   }, [router.query]);
 
   return (
-    <InputGroup>
-      <Input
-        h="3rem"
-        borderRadius="3rem"
-        border="solid 1px"
-        borderColor={_borderColor}
-        color={_color}
-        backgroundColor={_backgroundColor}
-        fontSize="0.938rem"
-        placeholder={placeholder}
-        _placeholder={{ color: _placeholderColor }}
-        _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
-        _hover={{ borderColor: _hoverBorderColor }}
-        value={value}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
-      <InputRightElement w="auto" h="100%" onClick={search} cursor="pointer">
-        <Icon w="1.5rem" h="1.5rem" mr="1rem" as={AiOutlineSearch} color={_iconColor} />
-      </InputRightElement>
-    </InputGroup>
+    <Box opacity="70%" _hover={{ borderColor: _hoverBorderColor, opacity: '100%' }} transition="250ms">
+      <InputGroup>
+        <Input
+          h="3rem"
+          borderRadius="0.5rem"
+          border="solid 2px"
+          borderColor={_borderColor}
+          color={_color}
+          backgroundColor={_backgroundColor}
+          fontSize="0.938rem"
+          fontWeight="medium"
+          placeholder={placeholder}
+          _placeholder={{ color: _placeholderColor }}
+          _focus={{ borderColor: 'white', opacity: '100%', boxShadow: 'unset' }}
+          value={value}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
+        <InputRightElement
+          w="auto"
+          h="100%"
+          onClick={search}
+          cursor="pointer"
+          borderRadius="0 0.25rem 0.25rem 0"
+          color="white"
+        >
+          <Icon w="1.5rem" h="1.5rem" mx="0.75rem" as={AiOutlineSearch} />
+        </InputRightElement>
+      </InputGroup>
+    </Box>
   );
 };
 

@@ -53,6 +53,7 @@ export * from './components/ImageModal';
 export * from './components/QuoteRequestButton';
 export * from './components/WhatsApp';
 export * from './components/Footer';
+export * from './components/ShoppingCartDrawer';
 
 export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetail';
 export { Products as ProductsTemplate } from './templates/Products';
@@ -63,3 +64,5 @@ export { Contact as ContactTemplate } from './templates/Contact';
 export { PasswordReset1 as PasswordReset1Template } from './templates/PasswordReset1';
 export { PasswordReset2 as PasswordReset2Template } from './templates/PasswordReset2';
 export { Profile as ProfileTemplate } from './templates/Profile';
+export { ShoppingCart as ShoppingCartTemplate } from './templates/ShoppingCart';
+export { Checkout as CheckoutTemplate } from './templates/Checkout';

@@ -10,7 +10,9 @@ export type Page =
   | 'Brand'
   | 'Contact'
   | 'Register'
-  | 'Policies';
+  | 'Policies'
+  | 'Cart'
+  | 'Checkout';
 
 type Category = 'Cart' | 'Quote';
 
