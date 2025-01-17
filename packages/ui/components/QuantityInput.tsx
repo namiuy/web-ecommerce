@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Input, Flex, IconButton, Spinner } from '@chakra-ui/react';
+import { Input, Flex, IconButton } from '@chakra-ui/react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
-import { useCartStoreHook } from 'shared';
 
 type QuantityInputProps = {
   initialQuantity?: number;
