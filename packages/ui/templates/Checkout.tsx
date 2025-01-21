@@ -15,6 +15,11 @@ const _mainGridTemplateAreas = { base: '"a" "b"', lg: '"a b"' };
 const _mainGridTemplateColumns = { base: '1fr', lg: '4fr 1fr' };
 const _mainGridGap = { base: '3rem', lg: '1.5rem' };
 
+type CheckoutValues = {
+  shipping_id: string;
+  payment_id: string;
+};
+
 export const Checkout = () => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();

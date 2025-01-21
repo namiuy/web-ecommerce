@@ -81,6 +81,9 @@ const MenuAdmin = () => {
           <MenuItem icon={<IoPerson />} borderRadius={_borderRadius} onClick={handleProfile}>
             Mi perfil
           </MenuItem>
+          <MenuItem icon={<FaShoppingBag />} borderRadius={_borderRadius} onClick={handleOrderHistory}>
+            Mis compras
+          </MenuItem>
           <MenuItem icon={<MdLogout />} borderRadius={_borderRadius} onClick={handleSignOut}>
             Cerrar sesión
           </MenuItem>
