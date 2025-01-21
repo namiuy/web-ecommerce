@@ -102,14 +102,14 @@ export const ShoppingCartDrawer = () => {
             color="white"
             borderRadius="full"
             fontSize="0.75rem"
-            w="1rem"
-            h="1rem"
+            w="1.125rem"
+            h="1.125rem"
             display="flex"
             justifyContent="center"
             alignItems="center"
             zIndex="1"
           >
-            {itemsCount}
+            {isLoading ? <Spinner size="xs" /> : itemsCount}
           </Box>
         </Flex>
       </Button>

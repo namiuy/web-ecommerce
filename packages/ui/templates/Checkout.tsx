@@ -1,11 +1,14 @@
-import { useToast } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 import { Box, Text, Container, Button, Grid, GridItem, Flex } from 'ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCart, paymentMethods, shippingMethods } from 'shared';
 import { ShippingMethod } from '../components/Checkout/ShippingMethod';
 import { PaymentMethod } from '../components/Checkout/PaymentMethod';
 import { Verification } from '../components/Checkout/Verification';
 import { Summary } from '../components/Checkout/Summary';
+import { useCheckout } from 'shared';
+import { SuccessModal } from '../components/Checkout/SuccessModal';
+import { Order } from 'shared/entities/order';
 
 const _containerW = { base: '90%', lg: '75%' };
 const _mainGridTemplateAreas = { base: '"a" "b"', lg: '"a b"' };
@@ -14,6 +17,7 @@ const _mainGridGap = { base: '3rem', lg: '1.5rem' };
 
 export const Checkout = () => {
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onError = (error: string) => {
     toast({
@@ -24,7 +28,17 @@ export const Checkout = () => {
     });
   };
 
-  const { isLoading, error, totalPrice } = useCart({ onError });
+  const { totalPrice } = useCart({ onError });
+
+  const [checkoutValues, setCheckoutValues] = useState<Partial<Order>>();
+  const { isLoading, data, error } = useCheckout(checkoutValues);
+
+  useEffect(() => {
+    if (data) {
+      onOpen();
+      setCheckoutValues(undefined);
+    }
+  }, [data, onOpen]);
 
   const [shippingMethod, setShippingMethod] = useState(shippingMethods[0].id);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].id);
@@ -62,6 +76,10 @@ export const Checkout = () => {
       setBackButtonVisible(newPage > 1);
       setNextButtonVisible(newPage < totalPages);
     }
+  };
+
+  const handleCheckout = () => {
+    setCheckoutValues({ shipping: { id: shippingMethod }, payment: { id: paymentMethod } });
   };
 
   return (
@@ -106,10 +124,17 @@ export const Checkout = () => {
             </Box>
           </GridItem>
           <GridItem gridArea="b" w={{ base: 'auto', md: '17.5rem' }}>
-            <Summary page={page} totalAmount={totalAmount} shippingPrice={shippingPrice} />
+            <Summary
+              isLoading={isLoading}
+              page={page}
+              totalAmount={totalAmount}
+              shippingPrice={shippingPrice}
+              handleCheckout={handleCheckout}
+            />
           </GridItem>
         </Grid>
       </Container>
+      <SuccessModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };

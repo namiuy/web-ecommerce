@@ -1,4 +1,4 @@
-import { Box, Text, Flex } from 'ui';
+import { Box, Text, Flex, Image } from 'ui';
 import { RadioGroup, Radio } from '@chakra-ui/react';
 import { paymentMethods } from 'shared';
 
@@ -29,12 +29,21 @@ export const PaymentMethod = ({ paymentMethod, handlePaymentChange }: PaymentMet
               _hover={{ bg: 'blackAlpha.50' }}
               onClick={() => handlePaymentChange(method.id)}
             >
-              <Flex gap="1.5rem" w="100%">
+              <Flex gap="2rem" w="100%" alignItems="center">
                 <Radio value={method.id} colorScheme="primary" size="lg" />
-                <Box w="100%">
-                  <Text fontWeight="medium">{method.name}</Text>
-                  <Text fontSize="0.875rem">{method.description}</Text>
-                </Box>
+                <Flex
+                  flexDir={{ base: 'column', md: 'row' }}
+                  gap={{ base: '1rem', md: '2rem' }}
+                  w="100%"
+                  alignItems="center"
+                >
+                  <Flex w="7rem" h="2.5rem" alignItems="center">
+                    <Image src={`/assets/payment-methods/${method.id}.svg`} alt={method.name} w="7rem" h="2.5rem" />
+                  </Flex>
+                  <Flex w="100%" alignItems="center">
+                    <Text fontSize="0.875rem">{method.description}</Text>
+                  </Flex>
+                </Flex>
               </Flex>
             </Flex>
           ))}

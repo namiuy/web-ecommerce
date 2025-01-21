@@ -6,9 +6,17 @@ type SummaryProps = {
   page: number;
   totalAmount: number;
   shippingPrice: number;
+  handleCheckout: () => void;
+  isLoading: boolean;
 };
 
-export const Summary = ({ page, totalAmount, shippingPrice }: SummaryProps) => {
+export const Summary = ({
+  page,
+  totalAmount,
+  shippingPrice,
+  handleCheckout,
+  isLoading: isLoadingCheckout,
+}: SummaryProps) => {
   const { isLoading, error, totalPrice } = useCart({});
 
   return (
@@ -30,7 +38,7 @@ export const Summary = ({ page, totalAmount, shippingPrice }: SummaryProps) => {
           <Text>Productos</Text>
           <Flex alignItems="baseline" gap="0.25rem" fontSize="1.125rem">
             <Text fontSize="0.875rem">U$S </Text>
-            {isLoading ? <Spinner /> : totalPrice.toFixed(2)}
+            {isLoading ? <Spinner size="sm" /> : totalPrice.toFixed(2)}
           </Flex>
         </GridItem>
         <GridItem gridArea="d" display="flex" justifyContent="space-between" alignItems="center">
@@ -40,7 +48,7 @@ export const Summary = ({ page, totalAmount, shippingPrice }: SummaryProps) => {
               <Text as="span" fontSize="1.125rem">
                 U$S{' '}
               </Text>
-              {isLoading ? <Spinner /> : totalAmount.toFixed(2)}
+              {isLoading ? <Spinner size="sm" /> : totalAmount.toFixed(2)}
               <Text fontSize="0.75rem">IVA inc</Text>
             </Flex>
           </Box>
@@ -52,9 +60,10 @@ export const Summary = ({ page, totalAmount, shippingPrice }: SummaryProps) => {
             bg="#6A0000"
             color="white"
             _hover={{ backgroundColor: '#820101' }}
-            isDisabled={page !== 3}
+            isDisabled={page !== 3 || isLoadingCheckout}
+            onClick={handleCheckout}
           >
-            FINALIZAR COMPRA
+            {isLoadingCheckout ? <Spinner size="sm" /> : 'FINALIZAR COMPRA'}
           </Button>
         </GridItem>
       </Grid>
