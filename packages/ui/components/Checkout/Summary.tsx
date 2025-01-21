@@ -60,7 +60,7 @@ export const Summary = ({
             bg="#6A0000"
             color="white"
             _hover={{ backgroundColor: '#820101' }}
-            isDisabled={page !== 3 || isLoadingCheckout}
+            isDisabled={page !== 4 || isLoadingCheckout}
             onClick={handleCheckout}
           >
             {isLoadingCheckout ? <Spinner size="sm" /> : 'FINALIZAR COMPRA'}

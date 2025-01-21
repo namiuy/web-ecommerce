@@ -1,5 +1,6 @@
 import { Box, Text, Grid, GridItem, Image, Flex } from 'ui';
 import { shippingMethods, paymentMethods, useCart } from 'shared';
+import { Address } from 'shared/entities/address';
 
 const _productListAreas = { base: '"a b b b" "a c d d"', sm: '"a b c d"' };
 const _productListColumns = { base: '1fr 1fr 1fr auto', sm: '10% 50% 20% 20%' };
@@ -11,9 +12,11 @@ const _productListSubtotalUSD = { base: '0.75rem', sm: '0.875rem' };
 type VerificationProps = {
   shippingMethod: string;
   paymentMethod: string;
+  address?: Address;
+  observation?: string;
 };
 
-export const Verification = ({ shippingMethod, paymentMethod }: VerificationProps) => {
+export const Verification = ({ shippingMethod, paymentMethod, address, observation }: VerificationProps) => {
   const { cart } = useCart({});
 
   const shippingMethodSelected = shippingMethods.find(method => method.id === shippingMethod);
@@ -30,6 +33,21 @@ export const Verification = ({ shippingMethod, paymentMethod }: VerificationProp
         </Text>
         <Text>{shippingMethodSelected?.description}</Text>
       </Box>
+      {shippingMethod != 'RES' && (
+        <Box p="1.5rem" borderBottom="1px" borderColor="blackAlpha.200">
+          <Text fontWeight="semibold" fontSize="1.25rem" color="blackAlpha.800" pb="0.5rem">
+            Direccion
+          </Text>
+          <Text>
+            {address?.address}, {address?.city_name}, {address?.state_name}
+          </Text>
+          {shippingMethod == 'INT' && (
+            <Text fontSize="0.875rem" pt="0.5rem">
+              Observaciones: {observation}
+            </Text>
+          )}
+        </Box>
+      )}
       <Box p="1.5rem" borderBottom="1px" borderColor="blackAlpha.200">
         <Text fontWeight="semibold" fontSize="1.25rem" color="blackAlpha.800" pb="0.5rem">
           Método de pago

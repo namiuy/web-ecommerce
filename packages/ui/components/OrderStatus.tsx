@@ -6,6 +6,10 @@ type StatusProps = {
   status: Status;
 };
 
+// function getKeyByValue(value: string): string | undefined {
+//   return (Object.keys(Status) as Array<keyof typeof Status>).find(key => Status[key] === value);
+// }
+
 const colors: Record<Status, BoxProps> = {
   [Status.PENDING_PAYMENT]: { color: 'yellow.700', bg: 'yellow.100' },
   [Status.PROCESSING_PAYMENT]: { color: 'blue.800', bg: 'blue.100' },

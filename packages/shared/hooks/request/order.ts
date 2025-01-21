@@ -4,25 +4,26 @@ import { post, get } from '../../utils/fetcher';
 import { Result } from './result';
 import { Order } from '../../entities/order';
 import { OrderList } from '../../entities/order-list';
+import { Checkout } from '../../entities/checkout';
 
-const checkout = (order_details: Partial<Order>): Promise<Order> => {
-  return post<Order>(`${bff.url}/order`, { body: JSON.stringify(order_details) }, true);
+const checkout = (checkout: Checkout): Promise<Order> => {
+  return post<Order>(`${bff.url}/order`, { body: JSON.stringify(checkout) }, true);
 };
 
 const listOrders = (id: string): Promise<OrderList> => {
   return get<OrderList>(`${bff.url}/orders?guid=${id}`, {}, true);
 };
 
-export const useCheckout = (order_details?: Partial<Order>): Result<Order> => {
+export const useCheckout = (checkout_values?: Checkout): Result<Order> => {
   const [order, setOrder] = useState<Order>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (order_details) {
+      if (checkout_values) {
         setIsLoading(true);
-        const result = await checkout(order_details);
+        const result = await checkout(checkout_values);
 
         if (result.error) {
           setError(result.error);
@@ -34,7 +35,7 @@ export const useCheckout = (order_details?: Partial<Order>): Result<Order> => {
     };
 
     fetchData();
-  }, [order_details]);
+  }, [checkout_values]);
 
   return { isLoading, data: order, error };
 };
