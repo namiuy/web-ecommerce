@@ -7,3 +7,4 @@ export * from './ProductTable';
 export * from './Search';
 export * from './Sidebar';
 export * from './WelcomePanel';
+export * from './Orders';

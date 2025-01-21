@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { Box, Text } from 'ui';
 import { Status } from 'shared/entities/status';
-import { BoxProps } from '@chakra-ui/react';
+import { BoxProps, Select } from '@chakra-ui/react';
+import { ModalStatus } from './ModalStatus';
 
 type StatusProps = {
+  orderId: string;
   status: Status;
+  isEdit?: boolean;
 };
 
 // function getKeyByValue(value: string): string | undefined {
@@ -19,10 +23,59 @@ const colors: Record<Status, BoxProps> = {
   [Status.DISPATCHED]: { color: 'green.800', bg: 'green.100' },
 };
 
-export const OrderStatus = ({ status }: StatusProps) => {
+export const OrderStatus = ({ orderId, status, isEdit }: StatusProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<Status | null>(null);
+  const [tempStatus, setTempStatus] = useState<Status>(status);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStatus(e.target.value as Status);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setSelectedStatus(null);
+    setIsModalOpen(false);
+  };
+
+  const handleModalConfirm = (newStatus: Status) => {
+    setTempStatus(newStatus);
+    setIsModalOpen(false);
+  };
+
   return (
-    <Box px="0.5rem" py="0.25rem" bg={colors[status].bg} borderRadius="0.25rem">
-      <Text color={colors[status].color}>{status}</Text>
-    </Box>
+    <>
+      <Box px="0.5rem" py="0.25rem" bg={colors[tempStatus].bg} borderRadius="0.25rem">
+        {isEdit ? (
+          <Select
+            size="sm"
+            h="1.75rem"
+            border="none"
+            _focusVisible={{ border: 'none' }}
+            value={tempStatus}
+            color={colors[tempStatus].color}
+            onChange={handleChange}
+          >
+            {Object.values(Status).map(value => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </Select>
+        ) : (
+          <Text color={colors[tempStatus].color}>{tempStatus}</Text>
+        )}
+      </Box>
+
+      {selectedStatus && (
+        <ModalStatus
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          orderId={orderId}
+          status={selectedStatus}
+          onConfirm={handleModalConfirm}
+        />
+      )}
+    </>
   );
 };

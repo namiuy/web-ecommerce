@@ -90,14 +90,6 @@ const MenuAdmin = () => {
             Cerrar sesión
           </MenuItem>
         </MenuGroup>
-        {isUserAdmin && (
-          <MenuGroup title="Administrar">
-            <MenuItem icon={<MdAdd />} borderRadius={_borderRadius} onClick={onOpen}>
-              Agregar producto
-            </MenuItem>
-            <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
-          </MenuGroup>
-        )}
       </MenuList>
     </Menu>
   );
