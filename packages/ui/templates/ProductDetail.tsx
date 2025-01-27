@@ -1,14 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Link,
-  useDisclosure,
-  useBreakpointValue,
-  Divider,
-  AspectRatio,
-  Image,
-  Spinner,
-  useToast,
-} from '@chakra-ui/react';
+import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio, Image } from '@chakra-ui/react';
 import {
   Flex,
   Container,
@@ -24,7 +15,7 @@ import {
   QuoteRequestButton,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
-import { isBrowser, useProductGet, product as productConf, useStockGet, useCart } from 'shared';
+import { useProductGet, product as productConf } from 'shared';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
@@ -88,24 +79,23 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const router = useRouter();
   const imageDisclosure = useDisclosure();
   const isMobile = useBreakpointValue({ base: true, sm: false });
-  const toast = useToast();
 
   const { isLoading, error, data } = useProductGet(id);
-  const { isLoading: isLoadingStock, data: dataStock } = useStockGet(id);
 
-  const [stock, setStock] = useState<'NO' | 'CO' | 'AV'>();
+  const [stock, setStock] = useState<'NO' | 'CO' | 'AV' | undefined>();
+
+  const handleStockChange = (stock: string) => {
+    if (stock === 'AV' || stock === 'CO' || stock === 'NO') {
+      setStock(stock);
+    }
+  };
+
   const [quantity, setQuantity] = useState(1);
 
   const isPriceWithTax = detailPriceType === 'WITH_TAX';
   const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
   const isPriceBoth = detailPriceType === 'BOTH';
   const isPriceSimple = detailPriceType === 'SIMPLE';
-
-  useEffect(() => {
-    if (dataStock?.availability) {
-      setStock(dataStock?.availability);
-    }
-  }, [dataStock?.availability, setStock]);
 
   useEffect(() => {
     if (!isLoading && !data?.id) router.replace('/products'); // TODO: improve this
@@ -306,8 +296,8 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               )}
             </Box>
             {showStock && (
-              <Skeleton isLoaded={!isLoadingStock} w="fit-content" mb="1rem">
-                <ProductStock id={id} stock={dataStock} />
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                <ProductStock id={id} handleStockChange={handleStockChange} />
               </Skeleton>
             )}
             <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">

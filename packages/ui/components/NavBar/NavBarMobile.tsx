@@ -110,7 +110,9 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
             </Link>
           )}
         </GridItem>
-        <GridItem>{/* <ShoppingCartDrawer /> */}</GridItem>
+        <GridItem>
+          <ShoppingCartDrawer />
+        </GridItem>
         <GridItem>
           <SearchButton />
         </GridItem>
