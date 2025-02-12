@@ -296,18 +296,20 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               )}
             </Box>
             {showStock && (
-              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
-                <ProductStock id={id} handleStockChange={handleStockChange} />
-              </Skeleton>
+              <>
+                <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                  <ProductStock id={id} handleStockChange={handleStockChange} />
+                </Skeleton>
+                <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                  <Flex alignItems="center" gap="1rem" mb="1.5rem">
+                    <Text fontSize="0.875rem" color={_color}>
+                      Cantidad
+                    </Text>
+                    <QuantityInput initialQuantity={1} onQuantityChange={value => setQuantity(value)} />
+                  </Flex>
+                </Skeleton>
+              </>
             )}
-            <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
-              <Flex alignItems="center" gap="1rem" mb="1.5rem">
-                <Text fontSize="0.875rem" color={_color}>
-                  Cantidad
-                </Text>
-                <QuantityInput initialQuantity={1} onQuantityChange={value => setQuantity(value)} />
-              </Flex>
-            </Skeleton>
             <>
               {actions.map(action =>
                 getAction(action, {
