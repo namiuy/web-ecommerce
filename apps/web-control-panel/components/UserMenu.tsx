@@ -25,9 +25,9 @@ export const UserMenu = () => {
     return <></>;
   }
 
-  const { firstName, lastName, roles } = user;
+  const { first_name, last_name, roles } = user;
   const isUserAdmin = roles?.includes('admin'); // TODO: improve this
-  const userName = `${firstName} ${lastName}`;
+  const userName = `${first_name} ${last_name}`;
 
   const handleSignOut = () => {
     lscache.remove('user');
