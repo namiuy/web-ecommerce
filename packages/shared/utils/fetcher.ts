@@ -7,7 +7,7 @@ const getRequestInit = (
   init: RequestInit = {} as RequestInit,
   withAuth: boolean = false,
 ): RequestInit | undefined => {
-  const withContent = method === 'POST' || method === 'PUT';
+  const withContent = method === 'POST' || method === 'PUT' || method === 'DELETE';
   return {
     method,
     headers: {

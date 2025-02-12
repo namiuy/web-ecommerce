@@ -1,4 +1,4 @@
-import lscache from 'lscache';
+import lscache, { set } from 'lscache';
 import { isBrowser, useStockGet } from 'shared';
 import { Flex, Text, Tooltip, Spinner, Box } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
@@ -10,32 +10,34 @@ const _color = 'brand.productDetail.smallText';
 
 type StockProps = {
   id: string;
+  handleStockChange: (stock: string) => void;
 };
 
-export const ProductStock = ({ id }: StockProps) => {
-  const { isLoading, error, data } = useStockGet(id);
-
+export const ProductStock = ({ id, handleStockChange }: StockProps) => {
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
+
+  const { isLoading, data } = useStockGet(id);
+
+  useEffect(() => {
+    if (data?.availability) {
+      handleStockChange(data?.availability);
+    }
+  }, [data?.availability, handleStockChange]);
 
   useEffect(() => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
 
-  if (error) {
-    console.log(error);
-    return <></>;
-  }
-
   const isUserAdmin = user ? user.roles?.includes('seller') : false; // TODO: improve this
 
   return (
     <Flex alignItems="center" gap="0.5rem">
-      <Text color={_color} fontSize="0.75rem">
+      <Text color={_color} fontSize="0.875rem">
         Stock
       </Text>
       {isLoading ? (
-        <Spinner boxSize="3" mb="3px" color={_color} />
+        <Spinner size="xs" color="blackAlpha.600" />
       ) : (
         <>
           {isUserAdmin ? (

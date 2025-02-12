@@ -113,14 +113,14 @@ export const theme: Record<string, any> = {
         },
         input: {
           color: white,
-          borderColor: primary,
-          iconColor: white,
+          borderColor: white,
+          iconColor: primary,
           backgroundColor: primary,
           _focus: {
-            borderColor: primary,
+            borderColor: white,
           },
           _hover: {
-            borderColor: primary,
+            borderColor: white,
           },
           _placeholder: {
             color: white,

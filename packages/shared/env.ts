@@ -1,4 +1,6 @@
 import getConfig from 'next/config';
+import { PaymentMethod } from './entities/payment-method';
+import { ShippingMethod } from './entities/shipping-method';
 
 const { publicRuntimeConfig: prc } = getConfig();
 
@@ -66,7 +68,15 @@ export const keys = prc.keys as Keys;
 
 export const branches = prc.branches as Branch[];
 
+export const cartEnabled = prc.cartEnabled as boolean;
+
+export const authEnabled = prc.authEnabled as boolean;
+
 export const multiDomainItems = prc.multiDomainItems as MultiDomainItem[];
+
+export const paymentMethods = prc.paymentMethods as PaymentMethod[];
+
+export const shippingMethods = prc.shippingMethods as ShippingMethod[];
 
 export const menuItems = prc.menuItems as MenuItem[];
 

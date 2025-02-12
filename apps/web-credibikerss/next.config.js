@@ -11,6 +11,8 @@ const {
   PRODUCT_DETAIL_STOCK,
   SITE_HOST,
   GOOGLE_GA_MEASUREMENT_ID,
+  CART_ENABLED,
+  AUTH_ENABLED
 } = process.env;
 
 const menuItems = [
@@ -100,6 +102,8 @@ module.exports = {
     socialNeworksItems,
     multiDomainItems,
     branches,
+    cartEnabled: CART_ENABLED === 'true',
+    authEnabled: AUTH_ENABLED === 'true',
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
       googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,

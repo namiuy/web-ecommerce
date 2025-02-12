@@ -29,6 +29,7 @@ const _loginButtonBg = 'brand.login.backgroundColorOne';
 
 const _containerW = { md: '45rem', base: '90%' };
 const _formControlW = { md: '20rem', base: '100%' };
+const _logoPosition = { base: 'center', lg: 'start' };
 
 const _gridTemplateAreas = {
   md: `"firstName lastName" "email email" "password passwordConfirm" "phone address" "state city" "progress progress" "submit submit"`,
@@ -69,9 +70,9 @@ export const Register = ({ Logo }: RegisterProps) => {
   return (
     <Box>
       <Box height="100vh" bgGradient={_backgroundGradient}>
-        <Box p="1.5rem" display="flex" justifyContent={{ base: 'center', lg: 'start' }}>
+        <Link href="/" p="1.5rem" display="flex" justifyContent={_logoPosition}>
           <Logo />
-        </Box>
+        </Link>
         <Container
           maxW={_containerW}
           color="white"

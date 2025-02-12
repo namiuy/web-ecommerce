@@ -1,6 +1,6 @@
 import lscache from 'lscache';
 import { Menu, MenuButton, MenuList, useDisclosure, Avatar, MenuItem, MenuGroup } from '@chakra-ui/react';
-import { Flex, Text } from 'ui';
+import { Button, Flex, Text } from 'ui';
 import { MdAdd, MdLogout } from 'react-icons/md';
 import { ProductAddModal } from './ProductAddModal';
 import { User } from 'shared/entities/user';
@@ -27,10 +27,24 @@ const MenuAdmin = () => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
 
-  console.log('user', user);
-
   if (!user) {
-    return <></>;
+    return (
+      <Button
+        onClick={() => router.replace('/iniciar')}
+        bg="transparent"
+        px="0"
+        borderRadius="0.5rem"
+        h="100%"
+        _hover={{ bg: 'primary.main' }}
+      >
+        <Flex alignItems="center" gap="0.5rem" pr="1rem">
+          <Avatar w="3rem" h="3rem" size="lg" bg="transparent" color="white" icon={<IoPerson />} />
+          <Text color="white" fontWeight="medium" fontSize="0.875rem">
+            Iniciar sesión
+          </Text>
+        </Flex>
+      </Button>
+    );
   }
 
   const { first_name, last_name } = user;
@@ -44,25 +58,17 @@ const MenuAdmin = () => {
   };
 
   const handleProfile = () => {
-    router.push('/perfil');
+    router.replace('/perfil');
   };
 
   return (
     <Menu>
-      <MenuButton>
-        <Flex alignItems="center" gap="0.75rem" borderRadius="2rem" bg={_avatarBg} p="0.5rem 0.5rem 0.5rem 1rem">
-          <Text color="white" fontWeight="semibold">
-            {first_name}
+      <MenuButton _hover={{ bg: 'primary.main' }} borderRadius="0.5rem" bg="secondary.main" px="0">
+        <Flex alignItems="center" gap="0.5rem" bg="transparent">
+          <Avatar w="3rem" h="3rem" size="lg" bg="transparent" color={_avatarColor} icon={<IoPerson />} />
+          <Text color="white" fontWeight="medium" fontSize="0.875rem" pr="1rem">
+            {first_name} {last_name}
           </Text>
-          <Avatar
-            w="2.25rem"
-            h="2.25rem"
-            size="md"
-            bg={_backgroundColorSecondary}
-            color={_avatarColor}
-            // name={userName}
-            icon={<IoPerson />}
-          />
         </Flex>
       </MenuButton>
       <MenuList p="0" zIndex={999}>
