@@ -21,8 +21,7 @@ export const ShoppingCart = () => {
 
   const router = useRouter();
 
-  const { cart, isLoading, error, totalPrice, getCart, updateQuantityCart, deleteFromCart, isOpen, onOpen, onClose } =
-    useCart();
+  const { cart, isLoading, error, totalPrice, updateQuantityCart, deleteFromCart } = useCart({});
 
   const handleDelete = (itemCode: string) => {
     deleteFromCart(itemCode);
