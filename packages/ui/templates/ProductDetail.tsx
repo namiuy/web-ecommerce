@@ -15,7 +15,7 @@ import {
   QuoteRequestButton,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
-import { useProductGet, product as productConf } from 'shared';
+import { useProductGet, product as productConf, cartEnabled } from 'shared';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
@@ -296,19 +296,19 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               )}
             </Box>
             {showStock && (
-              <>
-                <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
-                  <ProductStock id={id} handleStockChange={handleStockChange} />
-                </Skeleton>
-                <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
-                  <Flex alignItems="center" gap="1rem" mb="1.5rem">
-                    <Text fontSize="0.875rem" color={_color}>
-                      Cantidad
-                    </Text>
-                    <QuantityInput initialQuantity={1} onQuantityChange={value => setQuantity(value)} />
-                  </Flex>
-                </Skeleton>
-              </>
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                <ProductStock id={id} handleStockChange={handleStockChange} />
+              </Skeleton>
+            )}
+            {cartEnabled && (
+              <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
+                <Flex alignItems="center" gap="1rem" mb="1.5rem">
+                  <Text fontSize="0.875rem" color={_color}>
+                    Cantidad
+                  </Text>
+                  <QuantityInput initialQuantity={1} onQuantityChange={value => setQuantity(value)} />
+                </Flex>
+              </Skeleton>
             )}
             <>
               {actions.map(action =>
