@@ -14,7 +14,8 @@ const {
   GOOGLE_GA_MEASUREMENT_ID,
   NODE_ENV,
   CART_ENABLED,
-  AUTH_ENABLED
+  AUTH_ENABLED,
+  PAYMENT_METHODS
 } = process.env;
 
 const multiDomainItemsHrefProd = {
@@ -184,6 +185,8 @@ const branches = [
   },
 ];
 
+const enabledPaymentMethods = PAYMENT_METHODS ? PAYMENT_METHODS.split(',').map(method => method.trim()) : [];
+
 const paymentMethods = [
   {
     id: "SADE",
@@ -200,6 +203,10 @@ const paymentMethods = [
     name: 'Abitab', 
     description: 'Debes girar a nombre de: Maria Fernanda Varela CI 1977433-7' },
 ];
+
+const availablePaymentMethods = paymentMethods.filter(method =>
+  enabledPaymentMethods.includes(method.id)
+);
 
 const shippingMethods = [
   { 
@@ -240,7 +247,7 @@ module.exports = {
     branches,
     cartEnabled: CART_ENABLED === 'true',
     authEnabled: AUTH_ENABLED === 'true',
-    paymentMethods,
+    paymentMethods: availablePaymentMethods,
     shippingMethods,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
