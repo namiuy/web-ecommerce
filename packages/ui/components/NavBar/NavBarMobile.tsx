@@ -20,6 +20,7 @@ import { MenuDrawer } from '../MenuDrawer';
 import Link from 'next/link';
 import SearchInput from '../SearchInput';
 import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
+import { cartEnabled } from 'shared';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
@@ -110,9 +111,11 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
             </Link>
           )}
         </GridItem>
-        <GridItem>
-          <ShoppingCartDrawer />
-        </GridItem>
+        {cartEnabled && (
+          <GridItem>
+            <ShoppingCartDrawer />
+          </GridItem>
+        )}
         <GridItem>
           <SearchButton />
         </GridItem>

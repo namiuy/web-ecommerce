@@ -9,7 +9,7 @@ import NavMultiDomain from '../NavMultiDomain';
 import MenuAdmin from '../MenuAdmin';
 import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
 import { useEffect, useState } from 'react';
-import { isBrowser, authEnabled } from 'shared';
+import { isBrowser, authEnabled, cartEnabled } from 'shared';
 import { User } from 'shared/entities/user';
 import lscache from 'lscache';
 
@@ -84,7 +84,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
               <MenuAdmin />
             </GridItem>
           )}
-          {user && (
+          {user && cartEnabled && (
             <GridItem>
               <ShoppingCartDrawer />
             </GridItem>
