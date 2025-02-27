@@ -15,7 +15,7 @@ const {
   NODE_ENV,
   CART_ENABLED,
   AUTH_ENABLED,
-  PAYMENT_METHODS
+  PAYMENT_METHODS,
 } = process.env;
 
 const multiDomainItemsHrefProd = {
@@ -189,44 +189,45 @@ const enabledPaymentMethods = PAYMENT_METHODS ? PAYMENT_METHODS.split(',').map(m
 
 const paymentMethods = [
   {
-    id: "SADE",
+    id: 'SADE',
     name: 'Santander',
     description: 'Debes depositar a nombre de: Alodenar S.A. Cuenta Corriente Dólares 5100409277 sucursal 61 Cuenta Corriente Pesos 441546 sucursal 61',
   },
   {
-    id: "ITDE",
+    id: 'ITDE',
     name: 'Itaú',
     description: 'Debes depositar a nombre de: Alodenar S.A. Cuenta Corriente Dólares 492316 Cuenta Corriente Pesos 485112',
   },
-  { 
-    id: "ABGI",
-    name: 'Abitab', 
-    description: 'Debes girar a nombre de: Maria Fernanda Varela CI 1977433-7' },
+  {
+    id: 'ABGI',
+    name: 'Abitab',
+    description: 'Debes girar a nombre de: Maria Fernanda Varela CI 1977433-7',
+  },
 ];
 
-const availablePaymentMethods = paymentMethods.filter(method =>
-  enabledPaymentMethods.includes(method.id)
-);
+const availablePaymentMethods = paymentMethods.filter(method => enabledPaymentMethods.includes(method.id));
 
 const shippingMethods = [
-  { 
-    id : "MON",
-    name: 'Montevideo', 
-    description: 'Te lo enviamos a tu casa en Montevideo.', 
-    price: 6 },
   {
-    id : "AME",
+    id: 'MON',
+    name: 'Montevideo',
+    description: 'Te lo enviamos a tu casa en Montevideo.',
+    price: 6,
+  },
+  {
+    id: 'AME',
     name: 'Área Metropolitana',
     description: 'Te lo enviamos a tu casa hasta Costa de Oro hasta Arroyo Pando, Ruta 8 hasta Pando, La Paz y Las Piedras.',
     price: 9,
   },
-  { 
-    id : "INT",
-    name: 'Interior', 
-    description: 'Te lo enviamos por la empresa de transporte que tu nos indiques.', 
-    price: 0 },
   {
-    id : "RES",
+    id: 'INT',
+    name: 'Interior',
+    description: 'Te lo enviamos por la empresa de transporte que tu nos indiques.',
+    price: 0,
+  },
+  {
+    id: 'RES',
     name: 'Retiro en el comercio',
     description: 'Lo retiras en nuestro local de Joanicó 3256 esq. Av. D. A. Larrañaga.',
     price: 0,

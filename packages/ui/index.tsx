@@ -66,3 +66,4 @@ export { PasswordReset2 as PasswordReset2Template } from './templates/PasswordRe
 export { Profile as ProfileTemplate } from './templates/Profile';
 export { ShoppingCart as ShoppingCartTemplate } from './templates/ShoppingCart';
 export { Checkout as CheckoutTemplate } from './templates/Checkout';
+export { OrderHistory as OrderHistoryTemplate } from './templates/OrderHistory';

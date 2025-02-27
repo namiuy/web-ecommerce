@@ -12,7 +12,8 @@ export type Page =
   | 'Register'
   | 'Policies'
   | 'Cart'
-  | 'Checkout';
+  | 'Checkout'
+  | 'MyOrders';
 
 type Category = 'Cart' | 'Quote';
 
