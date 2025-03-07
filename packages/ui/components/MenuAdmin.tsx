@@ -5,7 +5,7 @@ import { MdAdd, MdLogout } from 'react-icons/md';
 import { ProductAddModal } from './ProductAddModal';
 import { User } from 'shared/entities/user';
 import { useRouter } from 'next/router';
-import { isBrowser } from 'shared';
+import { cartEnabled, isBrowser } from 'shared';
 import { useEffect, useState } from 'react';
 import { IoPerson } from 'react-icons/io5';
 import { FaShoppingBag } from 'react-icons/fa';
@@ -81,9 +81,11 @@ const MenuAdmin = () => {
           <MenuItem icon={<IoPerson />} borderRadius={_borderRadius} onClick={handleProfile}>
             Mi perfil
           </MenuItem>
-          <MenuItem icon={<FaShoppingBag />} borderRadius={_borderRadius} onClick={handleOrderHistory}>
-            Mis compras
-          </MenuItem>
+          {cartEnabled && (
+            <MenuItem icon={<FaShoppingBag />} borderRadius={_borderRadius} onClick={handleOrderHistory}>
+              Mis compras
+            </MenuItem>
+          )}
           <MenuItem icon={<MdLogout />} borderRadius={_borderRadius} onClick={handleSignOut}>
             Cerrar sesión
           </MenuItem>
