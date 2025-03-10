@@ -28,3 +28,4 @@ export * from './request/stock';
 export * from './request/person';
 export * from './request/cart';
 export * from './cart';
+export * from './request/order';

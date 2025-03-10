@@ -14,7 +14,7 @@ export const ShippingMethod = ({ shippingMethod, handleShippingChange }: Shippin
       <Text fontWeight="semibold" fontSize="1.25rem" p="1rem" pt="0.25rem">
         Elige el método de envío
       </Text>
-      <RadioGroup onChange={handleShippingChange} value={shippingMethod} px={{ base: '0', md: '1.5rem' }}>
+      <RadioGroup value={shippingMethod} px={{ base: '0', md: '1.5rem' }}>
         <Flex flexDir="column">
           {shippingMethods.map((method, index) => (
             <Flex

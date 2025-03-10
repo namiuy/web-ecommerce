@@ -5,13 +5,14 @@ import { MdAdd, MdLogout } from 'react-icons/md';
 import { ProductAddModal } from './ProductAddModal';
 import { User } from 'shared/entities/user';
 import { useRouter } from 'next/router';
-import { isBrowser } from 'shared';
+import { cartEnabled, isBrowser } from 'shared';
 import { useEffect, useState } from 'react';
 import { IoPerson } from 'react-icons/io5';
+import { FaShoppingBag } from 'react-icons/fa';
 
 const _avatarBg = 'brand.avatar.backgroundColor';
 const _avatarColor = 'brand.avatar.color';
-const _borderRadious = '0.375rem';
+const _borderRadius = '0.375rem';
 
 const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
 const _backgroundColorSecondary = 'brand.navBar.backgroundColorSecondary';
@@ -61,6 +62,10 @@ const MenuAdmin = () => {
     router.replace('/perfil');
   };
 
+  const handleOrderHistory = () => {
+    router.replace('/mis-compras');
+  };
+
   return (
     <Menu>
       <MenuButton _hover={{ bg: 'primary.main' }} borderRadius="0.5rem" bg="secondary.main" px="0">
@@ -73,16 +78,21 @@ const MenuAdmin = () => {
       </MenuButton>
       <MenuList p="0" zIndex={999}>
         <MenuGroup title={userName}>
-          <MenuItem icon={<IoPerson />} borderRadius={_borderRadious} onClick={handleProfile}>
+          <MenuItem icon={<IoPerson />} borderRadius={_borderRadius} onClick={handleProfile}>
             Mi perfil
           </MenuItem>
-          <MenuItem icon={<MdLogout />} borderRadius={_borderRadious} onClick={handleSignOut}>
+          {cartEnabled && (
+            <MenuItem icon={<FaShoppingBag />} borderRadius={_borderRadius} onClick={handleOrderHistory}>
+              Mis compras
+            </MenuItem>
+          )}
+          <MenuItem icon={<MdLogout />} borderRadius={_borderRadius} onClick={handleSignOut}>
             Cerrar sesión
           </MenuItem>
         </MenuGroup>
         {isUserAdmin && (
           <MenuGroup title="Administrar">
-            <MenuItem icon={<MdAdd />} borderRadius={_borderRadious} onClick={onOpen}>
+            <MenuItem icon={<MdAdd />} borderRadius={_borderRadius} onClick={onOpen}>
               Agregar producto
             </MenuItem>
             <ProductAddModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />

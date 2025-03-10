@@ -1,7 +1,8 @@
-import { Box, Container, Stack, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Container, Stack, Grid, GridItem } from 'ui';
 import { ElementType } from 'react';
 import SocialNetworks from './SocialNetworks';
 import Newsletter from './Newsletter';
+import { PaymentMethods } from './PaymentMethods';
 
 const _backgroundColor = 'brand.footer.backgroundColor';
 
@@ -11,11 +12,10 @@ type FooterProps = {
 
 export const Footer = ({ Logo }: FooterProps) => {
   return (
-    <Box bg={_backgroundColor} color="white">
+    <Box bg={_backgroundColor} color="white" py="2rem">
       <Container
         as={Stack}
-        maxW={'6xl'}
-        pt="2rem"
+        maxW="6xl"
         px={{ base: '2rem', md: '2rem', xl: '0' }}
         pb={{ base: '2rem', md: '4rem', xl: '2rem' }}
       >
@@ -24,16 +24,19 @@ export const Footer = ({ Logo }: FooterProps) => {
           templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '1fr 1.5fr 1fr' }}
           gap={12}
         >
-          <GridItem gridArea="a" placeSelf="center start" w="10rem">
+          <GridItem gridArea="a" placeSelf="center start">
             <Logo />
           </GridItem>
           <GridItem gridArea="b" placeSelf="center stretch">
             <Newsletter />
           </GridItem>
-          <GridItem gridArea="c" placeSelf={{ base: 'center start', md: 'center end' }}>
+          <GridItem gridArea="c" placeSelf={{ base: 'center', md: 'center end' }}>
             <SocialNetworks color="white" gap="1.5rem" size="1.75rem" />
           </GridItem>
         </Grid>
+      </Container>
+      <Container pt="1rem" pb="0.75rem">
+        <PaymentMethods />
       </Container>
     </Box>
   );

@@ -112,6 +112,7 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
     setRequestBody(body as Quote);
   };
 
+  console.log('discount', product.discount);
   return (
     <Modal isOpen={isOpen} size="lg" onClose={onClose}>
       <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
@@ -150,7 +151,7 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
                       <small>Cod</small> {product.id}
                     </Text>
 
-                    {!isLoading && product.discount != 0 ? (
+                    {!isLoading && product.discount ? (
                       <Flex alignItems="baseline" gap="0.5rem">
                         <Text fontSize="1.375rem" fontWeight="semibold">
                           <small>U$S</small> {formatPrice(product.price - (product.price * product.discount) / 100)}

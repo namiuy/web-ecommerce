@@ -37,7 +37,7 @@ export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionP
       {isLoading ? (
         <>
           <Skeleton w="100%" h="2.75rem" my="1rem" />
-          <Skeleton w="100%" h="2.75rem" />
+          {/* <Skeleton w="100%" h="2.75rem" /> */}
         </>
       ) : (
         <>
@@ -45,11 +45,11 @@ export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionP
             width="100%"
             height="2.75rem"
             borderRadius="0.5rem"
-            bg="white"
-            color="primary.main"
+            bg="secondary.main"
+            color="white"
             border="2px"
-            borderColor="primary.main"
-            _hover={{ backgroundColor: 'secondary.main', color: 'white', borderColor: 'secondary.main' }}
+            borderColor="secondary.main"
+            _hover={{ backgroundColor: 'primary.main', borderColor: 'primary.main' }}
             isDisabled={!product || product?.stock != 'AV' || isLoadingAdd}
             onClick={handleAddToCart}
           >
@@ -61,7 +61,7 @@ export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionP
               </>
             )}
           </Button>
-          <Button
+          {/* <Button
             width="100%"
             height="2.75rem"
             borderRadius="0.5rem"
@@ -78,7 +78,7 @@ export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionP
                 COMPRAR <Icon as={BiSolidShoppingBag} ml="5px" boxSize="4" mb="3px" />
               </>
             )}
-          </Button>
+          </Button> */}
         </>
       )}
     </>
