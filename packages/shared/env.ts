@@ -1,6 +1,7 @@
 import getConfig from 'next/config';
 import { PaymentMethod } from './entities/payment-method';
 import { ShippingMethod } from './entities/shipping-method';
+import { Color } from './entities/color';
 
 const { publicRuntimeConfig: prc } = getConfig();
 
@@ -83,3 +84,5 @@ export const menuItems = prc.menuItems as MenuItem[];
 export const socialNeworksItems = prc.socialNeworksItems as SocialNeworkItem[];
 
 export const product = prc.product as Product;
+
+export const colors = prc.colors as Color[];

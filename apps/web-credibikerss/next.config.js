@@ -12,7 +12,7 @@ const {
   SITE_HOST,
   GOOGLE_GA_MEASUREMENT_ID,
   CART_ENABLED,
-  AUTH_ENABLED
+  AUTH_ENABLED,
 } = process.env;
 
 const menuItems = [
@@ -90,6 +90,15 @@ const branches = [
   },
 ];
 
+const colors = [
+  { id: 'red', color: '#FF0000', name: 'Rojo' },
+  { id: 'black', color: '#000000', name: 'Negro' },
+  { id: 'blue', color: '#0000FF', name: 'Azul' },
+  { id: 'green', color: '#008000', name: 'Verde' },
+  { id: 'yellow', color: '#FFFF00', name: 'Amarillo' },
+  { id: 'purple', color: '#800080', name: 'Morado' },
+];
+
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
@@ -101,6 +110,7 @@ module.exports = {
     menuItems,
     socialNeworksItems,
     multiDomainItems,
+    colors,
     branches,
     cartEnabled: CART_ENABLED === 'true',
     authEnabled: AUTH_ENABLED === 'true',

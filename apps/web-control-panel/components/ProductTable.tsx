@@ -32,7 +32,10 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
   const [imageSrc, setImageSrc] = useState<string>();
 
   const handleEdit = (product: Product) => {
-    setProduct(product);
+    setProduct({
+      ...product,
+      colors: product.colors ?? [],
+    });
     onOpen();
   };
 
@@ -104,7 +107,7 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
                       {product.name}
                     </Td>
                     <Td textAlign="center">{product.price}</Td>
-                    <Td textAlign="center">{product.discount} %</Td>
+                    <Td textAlign="center">{product.discount ?? 0} %</Td>
                     <Td textAlign="center">
                       <Checkbox isDisabled defaultChecked={product.is_public} bg="#f2f2f2" />
                     </Td>
