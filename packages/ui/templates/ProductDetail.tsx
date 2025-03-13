@@ -212,7 +212,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                     <Skeleton w="50%" h="4rem" mb="0.25rem" />
                   ) : (
                     <>
-                      {data?.discount != 0 ? (
+                      {data?.discount && data?.discount > 0 ? (
                         <>
                           <Box>
                             <Text fontSize="1.375rem" fontWeight="medium" as="s" color={_productSale}>
