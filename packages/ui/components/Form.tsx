@@ -10,8 +10,8 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
-import { FC } from 'react';
 import { MdDelete } from 'react-icons/md';
+import { ColorSelector } from './ColorSelector';
 
 export type FormSchema = {
   id: string;
@@ -32,6 +32,8 @@ type FromProps = {
   selectors: Record<string, SelectOption[]>;
   onSubmit: (values: Record<string, any>) => void;
   onDelete?: () => void;
+  selectedColor: string;
+  setSelectedColor: (color: string) => void;
 };
 
 const initFromSchema = (schema: FormSchema[]): Record<string, any> => {
@@ -40,7 +42,16 @@ const initFromSchema = (schema: FormSchema[]): Record<string, any> => {
   return initialValues;
 };
 
-export const Form: FC<FromProps> = ({ isLoading, schema, data, selectors, onSubmit, onDelete }) => {
+export const Form = ({
+  isLoading,
+  schema,
+  data,
+  selectors,
+  onSubmit,
+  onDelete,
+  selectedColor,
+  setSelectedColor,
+}: FromProps) => {
   const isAdd = !data;
   return (
     <Formik initialValues={data || initFromSchema(schema)} onSubmit={onSubmit}>
@@ -77,6 +88,7 @@ export const Form: FC<FromProps> = ({ isLoading, schema, data, selectors, onSubm
                 <FormErrorMessage fontSize=".7rem">{errors[id] as string}</FormErrorMessage>
               </FormControl>
             ))}
+            <ColorSelector selectedColor={selectedColor} onSelect={setSelectedColor} />
             <Flex gap="1rem">
               {onDelete && (
                 <IconButton disabled={isLoading} icon={<MdDelete />} aria-label="" variant="ghost" onClick={onDelete} />

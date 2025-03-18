@@ -10,4 +10,5 @@ export type Quote = {
   preferred_branch: string;
   comments: string;
   attachment: string;
+  color: string;
 };

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment } from 'react';
 import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio, Image } from '@chakra-ui/react';
 import {
   Flex,
@@ -15,7 +16,6 @@ import {
   QuoteRequestButton,
 } from 'ui';
 import { WhatsAppRequestButton } from '../components/WhatsAppRequestButton';
-import { useProductGet, product as productConf, cartEnabled } from 'shared';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
@@ -23,7 +23,9 @@ import { ProductStock } from '../components/ProductStock';
 import { RelatedProducts } from '../components/RelatedProducts';
 import { formatPrice } from 'shared/utils/product';
 import { QuantityInput } from '../components/QuantityInput';
+import { ColorSelector } from '../components/ColorSelector';
 
+import { useProductGet, product as productConf, cartEnabled } from 'shared';
 const { detailPriceType, showRelatedProducts, showStock } = productConf;
 
 const _background = 'brand.background';
@@ -32,28 +34,21 @@ const _smallTextColor = 'brand.productDetail.smallText';
 const _relatedLinksLinkColor = 'brand.productDetail.relatedLinks.linkColor';
 const _relatedLinksMainContainerHover = 'blue.50';
 const _color = 'brand.productDetail.smallText';
-
 const _productSale = 'brand.productDetail.sale';
+const _grey0 = 'brand.grey.0';
 
 const _mainBoxPaddingY = { lg: '3rem', base: '2rem' };
-
 const _containerSize = { lg: '75%', base: '90%' };
 const _containerPadding = { lg: '2rem', base: '1rem' };
-
 const _gridTemplateAreas = { lg: `"image details" "description description"`, base: `"image" "details" "description"` };
 const _gridTemplateRows = { lg: 'auto 1fr', base: 'auto 1fr' };
 const _gridTemplateColumns = { lg: '3fr 2fr', base: '1fr' };
 const _gridItemBorderColor = { lg: _borderColor, base: 'transparent' };
-
 const _gridItemImagePaddingBottom = { lg: '0', base: '1rem' };
 const _gridItemImagePaddingRight = { lg: '1.5rem', base: '0' };
-
 const _gridItemDetailsBorderLeft = { lg: '1px', base: '0' };
 const _gridIemDetailsPaddingLeft = { lg: '2rem', base: '0' };
-
 const _descriptionMarginTop = { lg: '2rem', base: '0' };
-
-const _grey0 = 'brand.grey.0';
 
 export type ProductActionProps = {
   isLoading: boolean;
@@ -96,10 +91,6 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
   const isPriceBoth = detailPriceType === 'BOTH';
   const isPriceSimple = detailPriceType === 'SIMPLE';
-
-  useEffect(() => {
-    if (!isLoading && !data?.id) router.replace('/products'); // TODO: improve this
-  }, [data]);
 
   if (error) {
     console.log(error);
@@ -294,6 +285,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   )}
                 </>
               )}
+              {data?.colors && data.colors.length > 0 && <ColorSelector colors={data?.colors} />}
             </Box>
             {showStock && (
               <Skeleton isLoaded={!isLoading} w="fit-content" mb="1rem">
@@ -331,10 +323,10 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               <Skeleton isLoaded={!isLoading}>
                 <Text lineHeight="2rem">
                   {data?.description?.split('\n').map((linea, i) => (
-                    <>
+                    <Fragment key={i}>
                       {linea}
                       <br />
-                    </>
+                    </Fragment>
                   ))}
                 </Text>
               </Skeleton>
