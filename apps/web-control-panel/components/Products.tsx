@@ -4,6 +4,7 @@ import { ProductTable } from './ProductTable';
 import { ProductAdd } from './ProductAdd';
 import { Search } from './Search';
 import { Flex, Text } from 'ui';
+import { FiltersReset } from './FiltersReset';
 
 export const Products = () => {
   const searchParams = useSearchParams();
@@ -20,6 +21,7 @@ export const Products = () => {
         <Flex gap="1rem">
           <Filters categoryId={categoryId} brandId={brandId} />
           <Search initialValue={text} />
+          <FiltersReset />
         </Flex>
         <ProductAdd />
       </Flex>

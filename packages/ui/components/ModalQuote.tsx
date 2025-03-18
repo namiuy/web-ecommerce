@@ -20,9 +20,8 @@ import {
   Icon,
   Progress,
 } from '@chakra-ui/react';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Product } from 'shared/entities/product';
-import { FileUpload } from './FileUpload';
 import { File as FileEntity } from 'shared/entities/file';
 import { Quote } from 'shared/entities/quote';
 import { useQuoteRequest } from 'shared/hooks';
@@ -31,6 +30,7 @@ import { Field, Formik } from 'formik';
 import { formatPrice, validateEmail, validateEmpty } from 'shared';
 import styled from '@emotion/styled';
 import { MdCheckCircle } from 'react-icons/md';
+import { ColorSelector } from './ColorSelector';
 
 const _grey0 = 'brand.grey.1';
 const _backgroundColor = 'rgba(0, 0, 0, .6)';
@@ -40,7 +40,7 @@ const _formErrorMessageFontSize = '.7rem';
 const _productSale = 'brand.productDetail.sale';
 
 const FormLabel = styled(FormLabelChalkra)`
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 `;
 
 type ModalQuoteProps = {
@@ -59,18 +59,10 @@ type FormControlInputProps = {
   validate?: (value: string) => string | undefined;
 };
 
-const FormControlInput: FC<FormControlInputProps> = ({
-  disabled,
-  id,
-  label,
-  type = 'text',
-  errors,
-  touched,
-  validate,
-}) => (
+const FormControlInput = ({ disabled, id, label, type = 'text', errors, touched, validate }: FormControlInputProps) => (
   <FormControl isInvalid={Boolean(errors[id] && touched[id])}>
     <Flex flexDir="column">
-      <FormLabel htmlFor="name" size="xs">
+      <FormLabel htmlFor="name" size="sm">
         {label}
       </FormLabel>
       <Field as={Input} id={id} name={id} disabled={disabled} type={type} variant="outline" validate={validate} />
@@ -82,18 +74,16 @@ const FormControlInput: FC<FormControlInputProps> = ({
 export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
   const [attachment, setAttachment] = useState<FileEntity>();
   const [attachmentError, setAttachmentError] = useState<string>();
-  const [requestBody, setRequestBody] = useState<Quote>();
-  const { isLoading, data: isSuccess, error } = useQuoteRequest(requestBody);
+  const [quoteValues, setQuoteValues] = useState<Quote>();
+  const { isLoading, data: isSuccess, error } = useQuoteRequest(quoteValues);
 
-  const initialValues = {
-    user_name: '',
-    user_last_name: '',
-    user_phone: '',
-    user_email: '',
-    preferred_branch: 'MVD',
-    comments: '',
-    attachment: '',
-  };
+  const [selectedColor, setSelectedColor] = useState<string>('');
+
+  useEffect(() => {
+    if (product.colors && product.colors.length > 0) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product.colors]);
 
   useEffect(() => {
     if (error) console.log(error);
@@ -104,31 +94,29 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
 
     const body = {
       ...values,
+      color: selectedColor,
       product: product.id,
       user_id: '-1',
       attachment: attachment?.name ?? '',
     };
 
-    setRequestBody(body as Quote);
+    setQuoteValues(body as Quote);
   };
 
-  console.log('discount', product.discount);
   return (
-    <Modal isOpen={isOpen} size="lg" onClose={onClose}>
+    <Modal isOpen={isOpen} size="lg" onClose={onClose} isCentered={isSuccess}>
       <ModalOverlay bg={_backgroundColor} backdropFilter={_backdropFilter} />
       <ModalContent>
-        <ModalHeader>Solicitud de Financiación</ModalHeader>
-        <ModalCloseButton />
-
+        {!isSuccess && <ModalHeader>Solicitud de Financiación</ModalHeader>}
+        {!isSuccess && <ModalCloseButton />}
         <ModalBody>
-          <Flex flexDir="column" gap="2rem" pb="2rem">
+          <Flex flexDir="column" gap="2rem">
             {isSuccess ? (
-              <Flex flexDir="column" gap="1rem" textAlign="center">
-                <Icon w="4rem" h="4rem" as={MdCheckCircle} margin="auto" color="green.400" />
-                La solicitud fue enviada correctamente.
-                <Button mt="1rem" variant="link" onClick={onClose}>
-                  Volver
-                </Button>
+              <Flex textAlign="center" flexDir="column" justifyContent="center" alignItems="center" h="12rem">
+                <Icon as={MdCheckCircle} color="green.500" w="3rem" h="3rem"></Icon>
+                <Text w="80%" fontSize="1.375rem" fontWeight="medium" lineHeight="2rem" pb="0.25rem" pt="0.75rem">
+                  La solicitud fue enviada correctamente.
+                </Text>
               </Flex>
             ) : (
               <>
@@ -178,7 +166,20 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
                   </Text>
                 </div>
 
-                <Formik initialValues={initialValues} validateOnBlur={false} onSubmit={handleSubmit}>
+                <Formik
+                  initialValues={{
+                    user_name: '',
+                    user_last_name: '',
+                    user_phone: '',
+                    user_email: '',
+                    preferred_branch: 'MVD',
+                    comments: '',
+                    attachment: '',
+                    color: selectedColor,
+                  }}
+                  validateOnBlur={false}
+                  onSubmit={handleSubmit}
+                >
                   {({ values, errors, touched, handleSubmit: hsf }) => (
                     <form onSubmit={hsf}>
                       <Flex direction="column" gap="1rem">
@@ -243,6 +244,15 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
                           <FileUpload disabled={isLoading} path="attachments" onSuccess={setAttachment} />
                           <FormErrorMessage fontSize={_formErrorMessageFontSize}>{attachmentError}</FormErrorMessage>
                         </FormControl> */}
+
+                        {product.colors && product.colors.length > 0 && (
+                          <ColorSelector
+                            colors={product.colors}
+                            selectedColor={selectedColor}
+                            onSelect={setSelectedColor}
+                            isSelect
+                          />
+                        )}
 
                         <Progress
                           h={isLoading ? '4px' : '1px'}

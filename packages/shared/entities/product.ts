@@ -20,4 +20,5 @@ export type Product = {
   related_links: RelatedLink[];
   price_without_tax: number;
   discount: number;
+  colors: string[];
 };
