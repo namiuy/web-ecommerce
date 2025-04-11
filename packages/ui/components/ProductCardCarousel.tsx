@@ -6,7 +6,7 @@ import { product as productConf } from 'shared';
 import { ProductCard } from './ProductCard';
 const { showCod } = productConf;
 
-const _minH = showCod ? { base: '20rem', lg: '25rem' } : { base: '18rem', lg: '22.5rem' };
+const _minH = showCod ? { base: '20rem', lg: '26rem' } : { base: '18rem', lg: '22.5rem' };
 
 type ProductCardCarouselProps = {
   isLoading: boolean;

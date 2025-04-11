@@ -239,8 +239,8 @@ export const ShoppingCartDrawer = () => {
               fontWeight="bold"
               w="100%"
               onClick={handleClick}
-              colorScheme="primary"
-              _hover={{ backgroundColor: '#820101' }}
+              colorScheme="secondary"
+              _hover={{ backgroundColor: 'primary.main' }}
               isDisabled={itemsCount === 0}
             >
               VER CARRITO

@@ -5,6 +5,7 @@ import { newsletterSubscribe, validateEmail } from 'shared';
 
 const _placeholderColor = 'brand.footer.color';
 const _backgroundColor = 'brand.footer.input.backgroundColor';
+const _inputColor = 'brand.footer.input.color';
 const _buttonColor = 'brand.footer.iconButton.color';
 const _focusBorderColor = 'brand.footer.input.borderColor';
 const _buttonBackgroundColor = 'brand.footer.iconButton._active.backgroundColor';
@@ -66,7 +67,7 @@ const Newsletter = () => {
             _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
             bg={_backgroundColor}
             border={0}
-            color="white"
+            color={_inputColor}
           />
           <IconButton
             bg={_backgroundColor}

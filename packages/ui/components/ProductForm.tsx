@@ -36,7 +36,6 @@ import {
 import { Product } from 'shared/entities/product';
 import { Box } from '..';
 import { FileUpload } from './FileUpload';
-import { v4 as uuidv4 } from 'uuid';
 import { Formik, Field } from 'formik';
 import { ColorSelector } from './ColorSelector';
 import { FaTrashAlt } from 'react-icons/fa';
@@ -45,7 +44,7 @@ import { FaPlus } from 'react-icons/fa';
 
 const _grey0 = 'brand.grey.0';
 
-import { product as productConf } from 'shared';
+import { product as productConf, productFormPhotoUpload } from 'shared';
 const { showColors } = productConf;
 
 const hiddenInputs = {
@@ -192,21 +191,24 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
           justifyContent="center"
         >
           {images.length === 0 ? (
-            <FileUpload
-              path="products"
-              fileName={uuidv4()}
-              bg={_grey0}
-              border="1px dashed gray"
-              borderRadius="md"
-              boxSize="18rem"
-              onSuccess={result => {
-                const url = result?.url;
-                if (typeof url === 'string') {
-                  setImages([url]);
-                  setMainImage(url);
-                }
-              }}
-            />
+            <>
+              {productFormPhotoUpload && (
+                <FileUpload
+                  path="products"
+                  bg={_grey0}
+                  border="1px dashed gray"
+                  borderRadius="md"
+                  boxSize="18rem"
+                  onSuccess={result => {
+                    const url = result?.url;
+                    if (typeof url === 'string') {
+                      setImages([url]);
+                      setMainImage(url);
+                    }
+                  }}
+                />
+              )}
+            </>
           ) : (
             <Image alt={data?.name} src={mainImage} objectFit="contain" maxH="100%" maxW="100%" />
           )}
@@ -227,44 +229,47 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                 onClick={() => setMainImage(url)}
               >
                 <Image src={url} alt={`Imagen ${index}`} boxSize="100%" objectFit="contain" />
-                <Button
-                  size="xs"
-                  colorScheme="red"
-                  pos="absolute"
-                  top="-0.75rem"
-                  right="-0.75rem"
-                  borderRadius="50%"
-                  zIndex={2}
-                  display="none"
-                  _groupHover={{ display: 'flex' }}
-                  onClick={e => {
-                    e.stopPropagation();
-                    const updated = images.filter((_, i) => i !== index);
-                    setImages(updated);
-                    if (url === mainImage) setMainImage(updated[0] || '');
-                  }}
-                >
-                  <FaTrashAlt size="0.625rem" />
-                </Button>
+                {productFormPhotoUpload && (
+                  <Button
+                    size="xs"
+                    colorScheme="red"
+                    pos="absolute"
+                    top="-0.75rem"
+                    right="-0.75rem"
+                    borderRadius="50%"
+                    zIndex={2}
+                    display="none"
+                    _groupHover={{ display: 'flex' }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      const updated = images.filter((_, i) => i !== index);
+                      setImages(updated);
+                      if (url === mainImage) setMainImage(updated[0] || '');
+                    }}
+                  >
+                    <FaTrashAlt size="0.625rem" />
+                  </Button>
+                )}
               </Box>
             ))}
-            <FileUpload
-              path="products"
-              fileName={uuidv4()}
-              bg={_grey0}
-              border="1px dashed gray"
-              borderRadius="md"
-              boxSize="60px"
-              onSuccess={result => {
-                const url = result?.url;
-                if (typeof url === 'string') {
-                  setImages(prev => [...prev, url]);
-                  if (!mainImage) setMainImage(url);
-                }
-              }}
-            >
-              {''}
-            </FileUpload>
+            {productFormPhotoUpload && (
+              <FileUpload
+                path="products"
+                bg={_grey0}
+                border="1px dashed gray"
+                borderRadius="md"
+                boxSize="60px"
+                onSuccess={result => {
+                  const url = result?.url;
+                  if (typeof url === 'string') {
+                    setImages(prev => [...prev, url]);
+                    if (!mainImage) setMainImage(url);
+                  }
+                }}
+              >
+                {''}
+              </FileUpload>
+            )}
           </Flex>
         )}
       </Flex>

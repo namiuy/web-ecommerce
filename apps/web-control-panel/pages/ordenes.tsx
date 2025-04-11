@@ -23,6 +23,7 @@ const OrdenesPage: NextPage = () => {
       }
     }
   }, [issBrowser]);
+
   return (
     <Flex>
       <SideBar currentPage="ordenes" />

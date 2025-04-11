@@ -57,9 +57,9 @@ export const Summary = ({
           <Button
             variant="outline"
             w="100%"
-            bg="#6A0000"
+            bg="primary.main"
             color="white"
-            _hover={{ backgroundColor: '#820101' }}
+            _hover={{ backgroundColor: 'secondary.main' }}
             isDisabled={page !== 4 || isLoadingCheckout}
             onClick={handleCheckout}
           >

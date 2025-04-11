@@ -1,6 +1,14 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 
-const { ID, APP_NAME, BFF_URL, GOOGLE_MAP_API_KEY, GOOGLE_GA_MEASUREMENT_ID, PRODUCT_COLORS } = process.env;
+const {
+  ID,
+  APP_NAME,
+  BFF_URL,
+  GOOGLE_MAP_API_KEY,
+  GOOGLE_GA_MEASUREMENT_ID,
+  PRODUCT_COLORS,
+  PRODUCT_FORM_PHOTO_UPLOAD,
+} = process.env;
 
 const colors = [
   { id: 'red', color: '#FF0000', name: 'Rojo' },
@@ -29,6 +37,7 @@ module.exports = {
       afterPriceText: '',
       showColors: PRODUCT_COLORS === 'true',
     },
+    productFormPhotoUpload: PRODUCT_FORM_PHOTO_UPLOAD === 'true',
     colors,
   },
 };

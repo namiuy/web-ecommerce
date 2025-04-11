@@ -1,6 +1,5 @@
-const primary = '#ffffff';
+const primary = '#2f3030';
 const secondary = '#171717';
-
 const white = '#ffffff';
 const black = '#000000';
 const greyBg = '#fafafa';
@@ -8,14 +7,11 @@ const borderColor = '#eeeeee';
 const smallText = '#909090';
 const tooltipBg = '#676767';
 const buyButtonHoverBg = '#e53e3e';
-
 const relatedLinksColor = '#4195db';
 const relatedLinksColorBg = '#e6f2ff';
-
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px)',
 };
-
 export const theme: Record<string, any> = {
   colors: {
     primary: {
@@ -47,8 +43,9 @@ export const theme: Record<string, any> = {
     brand: {
       background: '#fafafa',
       login: {
-        backgroundColorOne: primary,
+        backgroundColorOne: secondary,
         backgroundColorTwo: greyBg,
+        color: secondary,
       },
       banner: {
         paginationColor: secondary,
@@ -104,6 +101,7 @@ export const theme: Record<string, any> = {
         backgroundColorPrimary: secondary,
         backgroundColorSecondary: secondary,
         borderColor: primary,
+
         iconButton: {
           color: white,
           _hover: {
@@ -111,18 +109,18 @@ export const theme: Record<string, any> = {
           },
         },
         input: {
-          color: secondary,
-          borderColor: primary,
-          iconColor: secondary,
-          backgroundColor: primary,
+          color: white,
+          borderColor: white,
+          iconColor: white,
+          backgroundColor: '#2f3030',
           _focus: {
-            borderColor: primary,
+            borderColor: white,
           },
           _hover: {
-            borderColor: primary,
+            borderColor: white,
           },
           _placeholder: {
-            color: secondary,
+            color: white,
           },
         },
       },
@@ -135,7 +133,7 @@ export const theme: Record<string, any> = {
         },
       },
       avatar: {
-        backgroundColor: secondary,
+        backgroundColor: '#2f3030',
         color: white,
       },
       drawerMenu: {
@@ -150,27 +148,34 @@ export const theme: Record<string, any> = {
         input: {
           borderColor: primary,
         },
+        button: {
+          backgroundColor: secondary,
+          color: white,
+          _hover: {
+            backgroundColor: secondary,
+          },
+        },
+        iconColor: secondary,
       },
       footer: {
         backgroundColor: secondary,
-        color: secondary,
+        color: primary,
         borderColor: white,
         input: {
-          color: 'red',
-          borderColor: 'red',
-          backgroundColor: primary,
+          color: black,
+          borderColor: white,
+          backgroundColor: white,
         },
         iconButton: {
-          backgroundColor: 'red',
+          backgroundColor: white,
           color: secondary,
           _active: {
-            backgroundColor: 'red',
+            backgroundColor: white,
           },
         },
       },
     },
   },
-
   components: {
     Form: {
       variants: {
@@ -181,10 +186,10 @@ export const theme: Record<string, any> = {
                 ...activeLabelStyles,
               },
             },
-
-            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label': {
-              ...activeLabelStyles,
-            },
+            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label':
+              {
+                ...activeLabelStyles,
+              },
             label: {
               top: 0,
               left: 0,

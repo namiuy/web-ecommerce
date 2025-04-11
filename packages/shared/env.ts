@@ -80,6 +80,8 @@ export const cartEnabled = prc.cartEnabled as boolean;
 
 export const authEnabled = prc.authEnabled as boolean;
 
+export const productFormPhotoUpload = prc.productFormPhotoUpload as boolean;
+
 export const multiDomainItems = prc.multiDomainItems as MultiDomainItem[];
 
 export const paymentMethods = prc.paymentMethods as PaymentMethod[];
@@ -95,3 +97,5 @@ export const socialNeworksItems = prc.socialNeworksItems as SocialNeworkItem[];
 export const product = prc.product as Product;
 
 export const colors = prc.colors as Color[];
+
+export const navbarMessage = prc.navbarMessage;

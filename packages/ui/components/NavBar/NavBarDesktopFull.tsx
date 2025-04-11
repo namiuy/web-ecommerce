@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { isBrowser, authEnabled, cartEnabled } from 'shared';
 import { User } from 'shared/entities/user';
 import lscache from 'lscache';
+import { navbarMessage } from 'shared';
 
 const _navItemColor = 'brand.nav.item.color';
 const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
@@ -58,7 +59,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
       <Box bg={_backgroundColorSecondary}>
         <Grid
           p="1.5rem 0 0.5rem 0"
-          gridTemplateColumns={user ? '12rem 3fr auto auto auto' : '12rem 3fr auto auto'}
+          gridTemplateColumns={user ? '1fr 3fr auto auto auto' : '1fr 3fr auto auto'}
           alignItems="center"
           gap="1rem"
           w={_mainWidth}
@@ -74,11 +75,6 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
           <GridItem>
             <SearchInput />
           </GridItem>
-          {multiDomainItems?.length <= 0 && (
-            <GridItem>
-              <SocialNetworks dark={dark} color={_navItemColor} size="1.2rem" hide={['tiktok', 'whatsapp']} />
-            </GridItem>
-          )}
           {authEnabled && (
             <GridItem pl="1rem">
               <MenuAdmin />
@@ -104,7 +100,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
           </GridItem>
           <GridItem>
             <Text color="white" fontWeight="semibold" fontSize="0.875rem">
-              Lideres en radiadores y aire acondicionado
+              {navbarMessage}
             </Text>
           </GridItem>
         </Grid>
