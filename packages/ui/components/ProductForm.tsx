@@ -42,8 +42,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { Formik, Field } from 'formik';
 import { ColorSelector } from './ColorSelector';
 import { FaTrashAlt } from 'react-icons/fa';
+import { EditIcon } from '@chakra-ui/icons';
+import { FaPlus } from 'react-icons/fa';
 
 const _grey0 = 'brand.grey.0';
+
+import { product as productConf } from 'shared';
+const { showColors } = productConf;
+
+const hiddenInputs = {
+  colors: !showColors,
+};
 
 type ModalDeleteProps = {
   isOpen: boolean;
@@ -166,6 +175,8 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   const handleToggleColor = (colorId: string) => {
     setProductColors((prev = []) => (prev.includes(colorId) ? prev.filter(c => c !== colorId) : [...prev, colorId]));
   };
+
+  console.log('public', product?.is_public);
 
   return (
     <Grid alignItems="start" p="2rem" gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="2rem">
@@ -367,6 +378,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                   <Field
                     as={Checkbox}
                     disabled={isLoading}
+                    defaultChecked={product?.is_original}
                     bg="#f2f2f2"
                     id="is_original"
                     name="is_original"
@@ -384,6 +396,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                   <Field
                     as={Checkbox}
                     disabled={isLoading}
+                    defaultChecked={product?.is_public}
                     bg="#f2f2f2"
                     id="is_public"
                     name="is_public"
@@ -395,7 +408,9 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                 </FormControl>
               </Flex>
 
-              <ColorSelector colors={productColors ?? []} onToggleColor={handleToggleColor} isEdit />
+              {!hiddenInputs['colors'] && (
+                <ColorSelector colors={productColors ?? []} onToggleColor={handleToggleColor} isEdit />
+              )}
 
               <Progress
                 h={isLoading ? '4px' : '1px'}
@@ -409,10 +424,12 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                 <Button
                   disabled={isLoading}
                   type="submit"
-                  colorScheme="primary"
+                  bg="#f2f2f2"
                   width="full"
                   size="lg"
                   _hover={{ opacity: 0.8 }}
+                  leftIcon={isAdd ? <FaPlus /> : <EditIcon />}
+                  gap="0.25rem"
                 >
                   {isAdd ? 'Agregar' : 'Modificar'}
                 </Button>

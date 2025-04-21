@@ -60,10 +60,10 @@ export const SideBar = ({ currentPage }: SiderBarProps) => (
       </Text>
       <Flex flexDir="column" gap="0.625rem" alignItems="start">
         <SidebarButton path="productos" text="Productos" icon={FiBox} currentPage={currentPage} />
+        <SidebarButton path="ordenes" text="Ordenes" icon={HiOutlineShoppingCart} currentPage={currentPage} />
         {/* <SidebarButton path="listas" text="Listas de productos" icon={CiBoxList} currentPage={currentPage} />
         <SidebarButton path="categorias" text="Categorias" icon={IoPricetagsOutline} currentPage={currentPage} />
         <SidebarButton path="marcas" text="Marcas" icon={FaBarsStaggered} currentPage={currentPage} />
-        <SidebarButton path="ordenes" text="Ordenes" icon={HiOutlineShoppingCart} currentPage={currentPage} />
         <SidebarButton path="banners" text="Banners" icon={FaRegImage} currentPage={currentPage} /> */}
       </Flex>
     </Flex>

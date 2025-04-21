@@ -9,6 +9,7 @@ export type Address = {
   state_name: string;
   postal_code: string;
   previous_postal_code?: string;
+  observation?: string;
   is_default?: boolean;
   mode?: string;
 };
