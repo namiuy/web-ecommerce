@@ -3,8 +3,9 @@ import { bff } from '../../env';
 import { post, get } from '../../utils/fetcher';
 import { Result } from './result';
 import { Order } from '../../entities/order';
-import { OrderList } from '../../entities/order-list';
+import { OrderList } from '../../entities/order_list';
 import { Checkout } from '../../entities/checkout';
+import { StatusChange } from '../../entities/status-change';
 
 const checkout = (checkout: Checkout): Promise<Order> => {
   return post<Order>(`${bff.url}/order`, { body: JSON.stringify(checkout) }, true);
@@ -63,4 +64,40 @@ export const useListOrders = (id?: string): Result<OrderList> => {
   }, [id]);
 
   return { isLoading, data: orders, error };
+};
+
+export const statusChange = (status_change: StatusChange): Promise<Result<boolean>> => {
+  return post<Result<boolean>>(`${bff.url}/order/status-change`, { body: JSON.stringify(status_change) }, true);
+};
+
+export const useStatusChange = (props?: StatusChange): Result<boolean> => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<boolean | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (props) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await statusChange(props);
+
+        if (result.error) {
+          setError(result.error);
+          setData(undefined);
+        } else {
+          setData(true);
+          setError(undefined);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    }
+
+    return () => {
+      setData(undefined);
+      setError(undefined);
+    };
+  }, [props]);
+
+  return { isLoading, data, error };
 };

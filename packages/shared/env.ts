@@ -53,6 +53,7 @@ type Product = {
   showRelatedProducts: boolean;
   showStock: boolean;
   showPagination: boolean;
+  showColors: boolean;
 };
 
 export const bff = {
