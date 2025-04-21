@@ -67,7 +67,7 @@ export const OrderHistory = () => {
                     <Flex justify="space-between">
                       <Text>{new Date(order.date).toLocaleDateString('es-ES')}</Text>
                       <Text>#{order.number}</Text>
-                      <OrderStatus status={order.status as Status} />
+                      <OrderStatus orderId={order.id} status={order.status as Status} />
                     </Flex>
                     <Flex flexDir={{ base: 'column', md: 'row' }} gap={{ base: '1.5rem', md: '2rem' }}>
                       <Flex flexDir="column" w={{ base: '100%', md: '35%' }} gap="0.5rem">
