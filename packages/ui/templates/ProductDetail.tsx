@@ -111,7 +111,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   {' '}
                   |{' '}
                 </Text>
-                <Link href={`/products?c=${data?.category.id}`} _hover={{ textDecoration: 'none' }}>
+                <Link href={`/productos?c=${data?.category.id}`} _hover={{ textDecoration: 'none' }}>
                   {' '}
                   {data?.category.name}
                 </Link>
@@ -165,7 +165,7 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               ) : (
                 <Box>
                   <Link
-                    href={`/products?b=${data?.brand.id}`}
+                    href={`/productos?b=${data?.brand.id}`}
                     _hover={{ textDecoration: 'none' }}
                     fontSize="0.875rem"
                     color={_smallTextColor}
