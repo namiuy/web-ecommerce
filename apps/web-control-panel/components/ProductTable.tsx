@@ -72,7 +72,7 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
     } else {
       return (
         <>
-          <TableContainer maxH="73%" overflowY="scroll" border="1px solid" borderRadius="0.5rem" borderColor="#f2f2f2">
+          <TableContainer overflowY="scroll" border="1px solid" borderRadius="0.5rem" borderColor="#f2f2f2">
             <Table variant="simple">
               <Thead position="sticky" top="0" bg="#f2f2f2" zIndex="1">
                 <Tr>
@@ -94,8 +94,8 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
                     </Td>
                     <Td display="flex" justifyContent="center">
                       <Image
-                        onClick={() => handleImage(product.image_url)}
-                        src={product?.image_url}
+                        onClick={() => handleImage(product?.images?.[0] || '')}
+                        src={product?.images?.[0] || ''}
                         alt={product?.brand.name}
                         cursor={'pointer'}
                         fit="contain"
