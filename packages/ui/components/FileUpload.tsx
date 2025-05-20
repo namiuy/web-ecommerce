@@ -83,21 +83,7 @@ export const FileUpload: FC<FileUploadProps & ButtonProps> = ({
     onSuccess(undefined);
   };
 
-  return result ? (
-    <Button
-      w="100%"
-      overflow="hidden"
-      whiteSpace="nowrap"
-      display="block"
-      textOverflow="ellipsis"
-      leftIcon={<Icon /*transform="translateY(3px)"*/ as={MdDelete} />}
-      {...buttonProps}
-      disabled={disabled}
-      onClick={disabled ? undefined : clear}
-    >
-      {result.originalname}
-    </Button>
-  ) : (
+  return (
     <>
       <input
         ref={fileInputRef}
@@ -113,13 +99,12 @@ export const FileUpload: FC<FileUploadProps & ButtonProps> = ({
         {...buttonProps}
         isLoading={isLoading}
         disabled={disabled}
-        leftIcon={<Icon /*transform="translateY(3px)"*/ as={HiOutlineUpload} />}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleFileButtonClick}
       >
-        {children ?? 'Subir archivo'}
+        <Icon as={HiOutlineUpload} boxSize="1.5rem" />
       </Button>
       {error && (
         <Box color="red" fontSize=".8rem">

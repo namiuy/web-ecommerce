@@ -14,6 +14,7 @@ export type Product = {
   description: string;
   price: number;
   image_url: string;
+  images: string[];
   path: string;
   stock: 'NO' | 'CO' | 'AV';
   specifications: Specification[];

@@ -1,6 +1,5 @@
 import {
   Button,
-  Center,
   Flex,
   Image,
   Modal,
@@ -13,7 +12,6 @@ import {
   Grid,
   useDisclosure,
   useToast,
-  AspectRatio,
   Textarea,
   FormControl,
   FormErrorMessage,
@@ -23,7 +21,7 @@ import {
   Input,
   Checkbox,
 } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   getObjectDifference,
   mapBrandOptions,
@@ -130,6 +128,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
       brand: { id: Number(values.brand) },
       category: { id: values.category.toString() },
       colors: productColors,
+      images: images,
     } as Product)
       .then(() => {
         showToast('Producto agregado correctamente');
@@ -141,7 +140,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
 
   const update = (values: Record<string, any>) => {
     setIsLoading(true);
-    const diff = getObjectDifference(data, { ...values, image_url: imageUrl, colors: productColors });
+    const diff = getObjectDifference(data, { ...values, image_url: imageUrl, colors: productColors, images: images });
     if (Object.keys(diff).length) {
       diff.id = data?.id;
       if (diff.brand) diff.brand = { id: Number(values.brand) };
@@ -176,28 +175,99 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
     setProductColors((prev = []) => (prev.includes(colorId) ? prev.filter(c => c !== colorId) : [...prev, colorId]));
   };
 
-  console.log('public', product?.is_public);
+  const [images, setImages] = useState<string[]>(product?.images ?? []);
+  const [mainImage, setMainImage] = useState<string>(product?.images?.[0] ?? '');
 
   return (
     <Grid alignItems="start" p="2rem" gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="2rem">
-      <Center p={{ base: '2rem 1rem', lg: '1rem' }}>
-        <AspectRatio w="100%" ratio={4 / 3}>
-          <>
-            <Image alt={data?.name} src={imageUrl} fit="contain" fallback={<Box w="100%" bg={_grey0} />} p="1rem" />
+      <Flex p={{ base: '2rem 1rem', lg: '1rem' }} justifyContent="center" flexDir="column" gap="1rem">
+        <Box
+          w="100%"
+          h="300px"
+          borderRadius="md"
+          bg="white"
+          overflow="hidden"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {images.length === 0 ? (
             <FileUpload
-              pos="absolute"
               path="products"
-              fileName={product?.id ?? uuidv4()}
-              bg={imageUrl ? 'transparent' : _grey0}
-              border="none"
-              _hover={{ bg: 'rgba(0,0,0,0.2)' }}
-              onSuccess={result => setImageUrl(result?.url)}
+              fileName={uuidv4()}
+              bg={_grey0}
+              border="1px dashed gray"
+              borderRadius="md"
+              boxSize="18rem"
+              onSuccess={result => {
+                const url = result?.url;
+                if (typeof url === 'string') {
+                  setImages([url]);
+                  setMainImage(url);
+                }
+              }}
+            />
+          ) : (
+            <Image alt={data?.name} src={mainImage} objectFit="contain" maxH="100%" maxW="100%" />
+          )}
+        </Box>
+        {images.length > 0 && (
+          <Flex gap="1.25rem" wrap="wrap" mt="1rem">
+            {images.map((url, index) => (
+              <Box
+                key={index}
+                role="group"
+                pos="relative"
+                boxSize="60px"
+                border={url === mainImage ? '2px solid' : '1px solid'}
+                borderColor={url === mainImage ? 'blue.400' : 'gray.300'}
+                borderRadius="md"
+                _hover={{ cursor: 'pointer' }}
+                p="0.25rem"
+                onClick={() => setMainImage(url)}
+              >
+                <Image src={url} alt={`Imagen ${index}`} boxSize="100%" objectFit="contain" />
+                <Button
+                  size="xs"
+                  colorScheme="red"
+                  pos="absolute"
+                  top="-0.75rem"
+                  right="-0.75rem"
+                  borderRadius="50%"
+                  zIndex={2}
+                  display="none"
+                  _groupHover={{ display: 'flex' }}
+                  onClick={e => {
+                    e.stopPropagation();
+                    const updated = images.filter((_, i) => i !== index);
+                    setImages(updated);
+                    if (url === mainImage) setMainImage(updated[0] || '');
+                  }}
+                >
+                  <FaTrashAlt size="0.625rem" />
+                </Button>
+              </Box>
+            ))}
+            <FileUpload
+              path="products"
+              fileName={uuidv4()}
+              bg={_grey0}
+              border="1px dashed gray"
+              borderRadius="md"
+              boxSize="60px"
+              onSuccess={result => {
+                const url = result?.url;
+                if (typeof url === 'string') {
+                  setImages(prev => [...prev, url]);
+                  if (!mainImage) setMainImage(url);
+                }
+              }}
             >
-              {imageUrl ? 'Remplazar imagen' : 'Subir imagen'}
+              {''}
             </FileUpload>
-          </>
-        </AspectRatio>
-      </Center>
+          </Flex>
+        )}
+      </Flex>
       <Formik
         initialValues={{
           id: product?.id || '',

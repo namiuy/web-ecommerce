@@ -92,6 +92,12 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isPriceBoth = detailPriceType === 'BOTH';
   const isPriceSimple = detailPriceType === 'SIMPLE';
 
+  const [mainImage, setMainImage] = useState(data?.images?.[0]);
+
+  useEffect(() => {
+    setMainImage(data?.images?.[0] || '');
+  }, [data]);
+
   if (error) {
     console.log(error);
     return <></>;
@@ -111,9 +117,9 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                   {' '}
                   |{' '}
                 </Text>
-                <Link href={`/productos?c=${data?.category.id}`} _hover={{ textDecoration: 'none' }}>
+                <Link href={`/productos?c=${data?.category?.id}`} _hover={{ textDecoration: 'none' }}>
                   {' '}
-                  {data?.category.name}
+                  {data?.category?.name}
                 </Link>
               </Box>
             </Skeleton>
@@ -138,17 +144,35 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
                 <Image
                   w="100%"
                   onClick={imageDisclosure.onOpen}
-                  src={data?.image_url}
-                  alt={data?.brand.name}
+                  src={mainImage}
+                  alt={data?.brand?.name}
                   cursor="pointer"
                   style={{ objectFit: 'contain' }}
                   fallback={<Box w="100%" h="100%" bg={_grey0} />}
                 />
               </AspectRatio>
+              <Flex gap="1.25rem" mt="0.5rem" wrap="wrap">
+                {data?.images?.map((url, index) => (
+                  <Box
+                    key={index}
+                    border={url === mainImage ? '2px solid' : '1px solid'}
+                    borderColor={url === mainImage ? 'blue.500' : 'gray.300'}
+                    borderRadius="md"
+                    boxSize="4rem"
+                    overflow="hidden"
+                    p="0.25rem"
+                    _hover={{ cursor: 'pointer', opacity: 0.8 }}
+                    onClick={() => setMainImage(url)}
+                  >
+                    <Image src={url} alt={`thumb-${index}`} boxSize="100%" objectFit="contain" />
+                  </Box>
+                ))}
+              </Flex>
+
               <ImageModal
                 disclosure={imageDisclosure}
-                image={data?.image_url}
-                title={data?.brand.name}
+                image={mainImage}
+                title={data?.brand?.name}
                 isMobile={!!isMobile}
               />
             </Skeleton>
@@ -165,13 +189,13 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
               ) : (
                 <Box>
                   <Link
-                    href={`/productos?b=${data?.brand.id}`}
+                    href={`/productos?b=${data?.brand?.id}`}
                     _hover={{ textDecoration: 'none' }}
                     fontSize="0.875rem"
                     color={_smallTextColor}
                   >
                     {' '}
-                    {data?.brand.name}
+                    {data?.brand?.name}
                   </Link>
                 </Box>
               )}
