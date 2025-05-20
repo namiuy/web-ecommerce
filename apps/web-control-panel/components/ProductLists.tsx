@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, Text } from 'ui';
 import { DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import { IconButton, Badge } from '@chakra-ui/react';
-import { ProductList } from 'shared/entities/drag-and-drop';
+import { ProductList } from 'shared/entities/product-list';
 import { useProductListList } from 'shared';
 
 const productLists: ProductList[] = [
