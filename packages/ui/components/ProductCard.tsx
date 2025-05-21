@@ -41,7 +41,7 @@ export type ProductCardProps = {
 };
 
 export const ProductCard = ({ min = false, isLoading = false, product }: ProductCardProps) => {
-  const { name, category, price = 0, price_without_tax, id, image_url, discount = 0 } = product || {};
+  const { name, category, price = 0, price_without_tax, id, image_url, discount = 0, images } = product || {};
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card minW={_minW} maxW={_maxW} mt={_mt} p={_p} size="sm" _hover={{ boxShadow: boxShadowMd }}>
@@ -54,7 +54,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                 w="100%"
                 h={_imageMinH}
                 alt={name}
-                src={image_url}
+                src={images?.[0] || ''}
                 fit="contain"
                 fallback={<Box h={_imageMinH} bg={_grey0} />}
               />
