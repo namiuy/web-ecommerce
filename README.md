@@ -1,6 +1,6 @@
 # Turborepo starter
 
-This is an official npm starter turborepo.
+This is an official npm starter turborepo
 
 ## What's inside?
 
