@@ -1,4 +1,4 @@
-import { FormControl, Input, FormLabel, Textarea, Progress, useBreakpointValue, useToast } from '@chakra-ui/react';
+import { FormControl, Input, FormLabel, Textarea, Progress, useToast } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { validateEmpty, validateEmail } from 'shared';
