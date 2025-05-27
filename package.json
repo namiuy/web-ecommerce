@@ -12,6 +12,7 @@
     "dev:cp": "turbo run dev --filter=web-control-panel",
     "dev:credi": "turbo run dev --filter=web-credibikerss",
     "dev:nami": "turbo run dev --filter=web-nami",
+    "dev:nexlab": "turbo run dev --filter=web-nexlab",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
