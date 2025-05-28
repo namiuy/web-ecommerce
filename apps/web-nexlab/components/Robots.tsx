@@ -14,7 +14,7 @@ export const Robots = () => {
         borderRadius="2rem"
       >
         <Box>
-          <Text fontFamily="mono" fontSize={{ base: '1rem', md: '1.75rem' }} pb="0.5rem" fontWeight="bold" color="gray.600">
+          <Text fontFamily="mono" fontSize={{ base: '1rem', md: '1.5rem' }} pb="0.5rem" fontWeight="bold" color="gray.600">
             Robots versátiles
           </Text>
           <Heading fontSize={{ base: '1.5rem', md: '3rem' }} pb="1.5rem" maxW={{ base: '100%', lg: '30rem' }}>
