@@ -20,8 +20,8 @@ export const Hero = () => {
           src="/buey.png"
           alt="Vehículo autónomo fumigador"
           position="absolute"
-          right={{ base: '0', md: '0', lg: '-20rem' }}
-          bottom={{ base: '-3rem', sm: '-4rem', md: '-6rem' }}
+          right={{ base: '-1rem', md: '0', lg: '-20rem' }}
+          bottom={{ base: '-2rem', sm: '-4rem', md: '-6rem' }}
           w={{ base: '100%', md: '60rem', lg: '70rem' }}
           zIndex={0}
           objectFit="contain"
