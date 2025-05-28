@@ -16,8 +16,7 @@ export const NavBar = () => {
       backdropFilter="blur(0.75rem)"
       color="black"
       boxShadow="sm"
-      px={6}
-      py={4}
+      p="1rem"
       position="fixed"
       top={0}
       left={0}
@@ -27,13 +26,11 @@ export const NavBar = () => {
         WebkitBackdropFilter: 'blur(0.75rem)',
       }}
     >
-      <Container maxW="container.lg">
-        <Flex justify="space-between" align="center">
-          <Image src="./nexlab.png" alt="Nexlab Logo" w="10rem" />
-          <Button onClick={scrollToBottom} bg="#0071e3" color="white" borderRadius="0.5rem" fontWeight="medium" _hover={{ bg: '#005bb5' }} py="1.25rem">
-            Contactarse
-          </Button>
-        </Flex>
+      <Container maxW="container.xl" px={{ base: '0rem', lg: '1rem' }} display="flex" justifyContent="space-between" alignItems="center">
+        <Image src="./nexlab.svg" alt="Nexlab Logo" w="10rem" />
+        <Button onClick={scrollToBottom} bg="#0071e3" color="white" borderRadius="0.5rem" fontWeight="medium" _hover={{ bg: '#005bb5' }} py="1.25rem">
+          Contactar
+        </Button>
       </Container>
     </Box>
   );

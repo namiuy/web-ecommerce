@@ -3,10 +3,10 @@ import { Container, Heading, Flex, Box, Text } from 'ui';
 export const Workflow = () => {
   return (
     <Container maxW="container.xl" px={4} textAlign="center">
-      <Text fontFamily="mono" fontSize={{ base: '1rem', md: '1rem' }} pb="0.5rem" fontWeight="bold" color="gray.600">
+      <Text fontFamily="mono" fontSize={{ base: '1.25rem', md: '1.25rem' }} pb="0.5rem" fontWeight="bold" color="gray.600">
         ¿Cómo trabajamos?
       </Text>
-      <Flex flexDir="column" justifyContent="center" alignItems="center">
+      <Flex flexDir="column" justifyContent="center" alignItems="center" ml={{ base: '0', lg: '1rem' }}>
         <Flex justifyContent="space-between" alignItems="center" gap="2rem" maxW="25rem">
           <Text fontSize="6rem" color="lightgray" fontWeight="medium">
             1
