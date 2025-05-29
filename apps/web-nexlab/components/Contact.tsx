@@ -10,7 +10,7 @@ import { Box, Button, Container, Flex, Grid, Text, GridItem } from 'ui';
 
 export const Contact = () => {
   const toast = useToast();
-  const [contactProps, setContactProps] = useState<ContactValues>();
+  const [contactProps, setContactProps] = useState<ContactValues & { resetForm?: () => void }>();
   const { isLoading, data, error } = useContactRequest(contactProps);
 
   useEffect(() => {
@@ -26,21 +26,12 @@ export const Contact = () => {
           isClosable: true,
         });
       }
+      contactProps?.resetForm?.();
     }
   }, [toast, data]);
 
-  // const handleSubmit = async (values: ContactValues) => {
-  //   setContactProps(values);
-  // };
-
-  const handleSubmit = (values: ContactValues, { resetForm }: { resetForm: () => void }) => {
-    const to = 'ventas@nexlab.com.uy';
-    const subject = encodeURIComponent(values.subject || 'Contacto desde web');
-    const body = encodeURIComponent(`Nombre: ${values.name}\nCorreo: ${values.email}\nTeléfono: ${values.phone}\n\n${values.message}`);
-
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-
-    resetForm();
+  const handleSubmit = async (values: ContactValues, { resetForm }: { resetForm: () => void }) => {
+    setContactProps({ ...values, resetForm });
   };
 
   return (
@@ -166,14 +157,14 @@ export const Contact = () => {
                   </GridItem>
                 </Grid>
 
-                {errors.message && (
+                {errors.message && touched.message && (
                   <Text color="red.500" pt="0.75rem">
                     Debe completar todos los campos
                   </Text>
                 )}
 
                 <Box w="100%" textAlign="center" mt="1.5rem">
-                  <Progress h={isLoading ? '4px' : '1px'} size="xs" isIndeterminate={isLoading} colorScheme="primary" />
+                  <Progress h={isLoading ? '4px' : '1px'} size="xs" isIndeterminate={isLoading} />
                   <Button type="submit" bg="#0071e3" color="white" mt="1.5rem" py="1.5rem" px="2rem" _hover={{ bg: '#005bb5' }}>
                     Enviar mensaje
                   </Button>
