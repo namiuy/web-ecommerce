@@ -13,7 +13,7 @@ export const Automation = () => {
         flexDirection={{ base: 'column', lg: 'row-reverse' }}
         alignItems="center"
         position="relative"
-        h={{ base: '30rem', md: '55rem', lg: '40rem' }}
+        h={{ base: '32rem', md: '55rem', lg: '40rem' }}
         borderRadius="2rem"
       >
         <Box>
