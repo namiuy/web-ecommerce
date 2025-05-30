@@ -40,18 +40,26 @@ export const RegisterActivation = ({ Logo }: PasswordResetProps) => {
           <Heading size="lg">Activación</Heading>
         </Container>
         <Container maxW="25rem" minH="15rem" bg="white" boxShadow="lg" borderRadius="0.5rem" p="3rem 2rem 1rem 2rem">
-          <Flex textAlign="center" flexDir="column" justifyContent="center" alignItems="center" h="9rem">
-            <Icon as={BsFillCheckCircleFill} color="green.500" w="2.75rem" h="2.75rem"></Icon>
-            <Text w="80%" fontSize="1.375rem" fontWeight="medium" lineHeight="2rem" pb="0.75rem" pt="1rem">
-              Tu cuenta ha sido activada existosamente
-            </Text>
-            <Flex gap="0.25rem">
-              <Text fontSize="1.125rem">Ya puedes</Text>
-              <Link href="/iniciar" color="primary.main" fontSize="1.125rem" fontWeight="medium">
-                iniciar sesión
-              </Link>
+          {data ? (
+            <Flex textAlign="center" flexDir="column" justifyContent="center" alignItems="center" h="9rem">
+              <Icon as={BsFillCheckCircleFill} color="green.500" w="2.75rem" h="2.75rem"></Icon>
+              <Text w="80%" fontSize="1.375rem" fontWeight="medium" lineHeight="2rem" pb="0.75rem" pt="1rem">
+                Tu cuenta ha sido activada existosamente
+              </Text>
+              <Flex gap="0.25rem">
+                <Text fontSize="1.125rem">Ya puedes</Text>
+                <Link href="/iniciar" color="primary.main" fontSize="1.125rem" fontWeight="medium">
+                  iniciar sesión
+                </Link>
+              </Flex>
             </Flex>
-          </Flex>
+          ) : (
+            <Flex textAlign="center" flexDir="column" justifyContent="center" alignItems="center" h="9rem">
+              <Text w="80%" fontSize="1.375rem" fontWeight="medium" lineHeight="2rem" pb="0.75rem" pt="1rem">
+                {error ? 'El enlace de activación es inválido o ha expirado.' : 'Activando tu cuenta...'}
+              </Text>
+            </Flex>
+          )}
         </Container>
       </Box>
     </Box>

@@ -9,8 +9,6 @@ import 'swiper/css/grid';
 import 'swiper/css/navigation';
 import { boxShadowLg, boxShadowMd } from './ThemeProvider/colors';
 
-const _buttonSize = { base: '2rem', lg: '3rem' };
-
 type NavigationButtonProps = {
   slideHeight: number | string;
   rows: number;
@@ -19,35 +17,40 @@ type NavigationButtonProps = {
   right?: number | string;
   onClick: VoidFunction;
 };
+
+const buttonSize = {
+  base: '2rem',
+  lg: '3rem',
+};
+
 const NavigationButton = ({ slideHeight, rows, direction, left, right = 0, onClick }: NavigationButtonProps) => {
   const isBefore = direction === 'before';
-  const ariaLabel = isBefore ? 'Atras' : 'Siguiente';
   const icon = isBefore ? MdOutlineNavigateBefore : MdOutlineNavigateNext;
+
   return (
     <IconButton
-      as="button"
-      aria-label={ariaLabel}
-      pos="absolute"
-      h={_buttonSize}
-      w={_buttonSize}
+      aria-label={isBefore ? 'Atrás' : 'Siguiente'}
+      onClick={onClick}
+      icon={<Icon as={icon} w="100%" h="100%" color="brand.grey.2" _hover={{ color: 'brand.grey.3' }} />}
+      position="absolute"
       top={{
-        base: `calc(((${slideHeight} * ${rows}) - ${_buttonSize.base}) / 2)`,
-        lg: `calc((((${slideHeight} * ${rows}) - ${_buttonSize.lg}) / 2))`,
+        base: `calc(((${slideHeight} * ${rows}) - ${buttonSize.base}) / 2)`,
+        lg: `calc(((${slideHeight} * ${rows}) - ${buttonSize.lg}) / 2)`,
       }}
-      left={!isBefore ? undefined : left}
-      right={isBefore ? undefined : right}
+      left={isBefore ? left : undefined}
+      right={!isBefore ? right : undefined}
       zIndex="99"
       bg="white"
-      borderRadius="50%"
+      borderRadius="full"
       boxShadow={boxShadowMd}
-      icon={
-        <Icon as={icon} w={_buttonSize} h={_buttonSize} color={'brand.grey.2'} _hover={{ color: 'brand.grey.3' }} />
-      }
-      _hover={{ bg: 'wihte', boxShadow: boxShadowLg }}
-      onClick={onClick}
+      minW={buttonSize}
+      minH={buttonSize}
+      aspectRatio={1}
+      _hover={{ bg: 'white', boxShadow: boxShadowLg }}
     />
   );
 };
+
 type CarouselProps = {
   rows?: number;
   navigationLeft?: number | string;
@@ -59,6 +62,7 @@ type CarouselProps = {
   children: ReactNode;
   onChange?: () => void;
 };
+
 export const Carousel = ({
   rows = 1,
   slideHeight,
@@ -71,38 +75,36 @@ export const Carousel = ({
   onChange,
 }: CarouselProps) => {
   const swiperRef = useRef<SwiperType>();
+
   return (
-    <Box pos="relative">
+    <Box position="relative">
       {showNavigation && (
-        <Box>
+        <>
           <NavigationButton
-            rows={rows}
             direction="before"
             slideHeight={slideHeight}
+            rows={rows}
             left={navigationLeft}
             onClick={() => swiperRef.current?.slidePrev()}
           />
           <NavigationButton
-            rows={rows}
             direction="next"
             slideHeight={slideHeight}
+            rows={rows}
             right={navigationRight}
             onClick={() => swiperRef.current?.slideNext()}
           />
-        </Box>
+        </>
       )}
+
       <Swiper
-        slidesPerView={slidesPerView}
-        grid={{
-          rows,
-        }}
         modules={[Grid, Navigation]}
-        style={{ height: `calc(${slideHeight} * ${rows}` }}
-        grabCursor={true}
-        onBeforeInit={swiper => {
-          swiperRef.current = swiper;
-        }}
+        slidesPerView={slidesPerView}
         spaceBetween={spaceBetween}
+        grid={{ rows }}
+        grabCursor
+        style={{ height: `calc(${slideHeight} * ${rows})` }}
+        onBeforeInit={swiper => (swiperRef.current = swiper)}
         onChange={onChange}
       >
         {Children.map(children, (child, i) => (

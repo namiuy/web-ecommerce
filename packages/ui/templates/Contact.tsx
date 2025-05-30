@@ -16,12 +16,10 @@ import { Field, Formik } from 'formik';
 import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
-
 import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as ContactValues } from 'shared/entities/contact';
 import { useEffect, useState } from 'react';
-
 import { branches } from 'shared/env';
 
 const _firstBoxWidth = { base: '100%', lg: '20rem' };
@@ -49,7 +47,7 @@ const calculateCenter = (branches: any) => {
 export const Contact = () => {
   const toast = useToast();
   const lg = useBreakpointValue({ base: false, lg: true });
-  const [contactProps, setContactProps] = useState<ContactValues>();
+  const [contactProps, setContactProps] = useState<ContactValues & { resetForm?: () => void }>();
   const { isLoading, data, error } = useContactRequest(contactProps);
 
   useEffect(() => {
@@ -65,11 +63,12 @@ export const Contact = () => {
           isClosable: true,
         });
       }
+      contactProps?.resetForm?.();
     }
   }, [toast, data]);
 
-  const handleSubmit = async (values: ContactValues) => {
-    setContactProps(values);
+  const handleSubmit = async (values: ContactValues, { resetForm }: { resetForm: () => void }) => {
+    setContactProps({ ...values, resetForm });
   };
 
   return (
@@ -155,7 +154,7 @@ export const Contact = () => {
             bg="white"
             color="blackAlpha.700"
             p={6}
-            pt={4}
+            pt="1.25rem"
             borderRadius={16}
             boxShadow="2xl"
             w={_secondBoxWidth}
@@ -165,7 +164,7 @@ export const Contact = () => {
             transform={_transform}
             mb={_mb}
           >
-            <Text fontSize="1.375rem" fontWeight="bold" mb="1.25rem">
+            <Text fontSize="1.375rem" fontWeight="bold" pb="1.25rem" align="center">
               Contáctese con nosotros
             </Text>
             <Formik
@@ -177,14 +176,14 @@ export const Contact = () => {
                 message: '',
               }}
               onSubmit={handleSubmit}
-              validateOnChange={false}
+              validateOnChange={true}
               validateOnBlur={false}
             >
-              {({ handleSubmit, errors }) => (
+              {({ handleSubmit, errors, touched }) => (
                 <form onSubmit={handleSubmit}>
                   <VStack spacing="1rem" align="flex-start">
                     <Box w="100%">
-                      <FormControl isInvalid={!!errors.name} variant="floating">
+                      <FormControl isInvalid={!!errors.name && touched.name} variant="floating">
                         <Field
                           as={Input}
                           id="name"
@@ -192,15 +191,13 @@ export const Contact = () => {
                           name="name"
                           type="text"
                           disabled={isLoading}
-                          validate={(value: any) => {
-                            return validateEmpty(value);
-                          }}
+                          validate={validateEmpty}
                         />
                         <FormLabel>Nombre</FormLabel>
                       </FormControl>
                     </Box>
                     <Box w="100%">
-                      <FormControl isInvalid={!!errors.email} variant="floating">
+                      <FormControl isInvalid={!!errors.email && touched.email} variant="floating">
                         <Field
                           as={Input}
                           id="email"
@@ -208,15 +205,13 @@ export const Contact = () => {
                           type="text"
                           placeholder=" "
                           disabled={isLoading}
-                          validate={(value: any) => {
-                            return validateEmail(value);
-                          }}
+                          validate={validateEmail}
                         />
                         <FormLabel>Correo electrónico</FormLabel>
                       </FormControl>
                     </Box>
                     <Box w="100%">
-                      <FormControl isInvalid={!!errors.phone} variant="floating">
+                      <FormControl isInvalid={!!errors.phone && touched.phone} variant="floating">
                         <Field
                           as={Input}
                           id="phone"
@@ -224,15 +219,13 @@ export const Contact = () => {
                           type="number"
                           placeholder=" "
                           disabled={isLoading}
-                          validate={(value: any) => {
-                            return validateEmpty(value);
-                          }}
+                          validate={validateEmpty}
                         />
-                        <FormLabel>Telefono</FormLabel>
+                        <FormLabel>Teléfono</FormLabel>
                       </FormControl>
                     </Box>
                     <Box w="100%">
-                      <FormControl isInvalid={!!errors.subject} variant="floating">
+                      <FormControl isInvalid={!!errors.subject && touched.subject} variant="floating">
                         <Field
                           as={Input}
                           id="subject"
@@ -240,15 +233,13 @@ export const Contact = () => {
                           type="text"
                           placeholder=" "
                           disabled={isLoading}
-                          validate={(value: any) => {
-                            return validateEmpty(value);
-                          }}
+                          validate={validateEmpty}
                         />
                         <FormLabel>Asunto</FormLabel>
                       </FormControl>
                     </Box>
                     <Box w="100%">
-                      <FormControl isInvalid={!!errors.message} variant="floating">
+                      <FormControl isInvalid={!!errors.message && touched.message} variant="floating">
                         <Field
                           as={Textarea}
                           id="message"
@@ -257,23 +248,20 @@ export const Contact = () => {
                           placeholder=" "
                           resize="none"
                           disabled={isLoading}
-                          validate={(value: any) => {
-                            return validateEmpty(value);
-                          }}
+                          validate={validateEmpty}
                         />
                         <FormLabel>Mensaje</FormLabel>
                       </FormControl>
                     </Box>
                   </VStack>
-                  {errors.message && (
+                  {errors.message && touched.message && (
                     <Text color="red.500" pt="0.75rem">
                       Debe completar todos los campos
                     </Text>
                   )}
-                  <Box w="100%">
+                  <Box w="100%" pt="1rem">
                     <Progress
                       h={isLoading ? '4px' : '1px'}
-                      m="1rem 0"
                       size="xs"
                       isIndeterminate={isLoading}
                       colorScheme="primary"
@@ -283,10 +271,10 @@ export const Contact = () => {
                       bg={_buttonColor}
                       color="white"
                       width="100%"
-                      mt={2}
-                      _hover={{ backgroundColor: _buttonHoverColor }}
+                      mt="1rem"
+                      _hover={{ backgroundColor: 'secondary.main' }}
                     >
-                      ENVIAR
+                      Enviar
                     </Button>
                   </Box>
                 </form>

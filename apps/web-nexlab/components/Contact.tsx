@@ -156,13 +156,11 @@ export const Contact = () => {
                     </FormControl>
                   </GridItem>
                 </Grid>
-
                 {errors.message && touched.message && (
                   <Text color="red.500" pt="0.75rem">
                     Debe completar todos los campos
                   </Text>
                 )}
-
                 <Box w="100%" textAlign="center" mt="1.5rem">
                   <Progress h={isLoading ? '4px' : '1px'} size="xs" isIndeterminate={isLoading} />
                   <Button type="submit" bg="#0071e3" color="white" mt="1.5rem" py="1.5rem" px="2rem" _hover={{ bg: '#005bb5' }}>

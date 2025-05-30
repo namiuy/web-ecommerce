@@ -5,7 +5,7 @@ import { useState, FC } from 'react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 
-import { useStateList } from 'shared/hooks/request/state';
+import { useStateListWithoutCache } from 'shared/hooks/request/state';
 import { useCityList } from 'shared/hooks/request/city';
 import {
   validateEmpty,
@@ -41,7 +41,7 @@ type RegisterProps = {
 };
 
 export const Register = ({ Logo }: RegisterProps) => {
-  const states = useStateList();
+  const states = useStateListWithoutCache();
   const cities = useCityList();
   const [password, setPassword] = useState('');
   const [selectedState, setSelectedState] = useState(null);
