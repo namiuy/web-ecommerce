@@ -1,21 +1,16 @@
 import lscache from 'lscache';
-import { Menu, MenuButton, MenuList, useDisclosure, Avatar, MenuItem, MenuGroup } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { Menu, MenuItem, MenuGroup, MenuButton, MenuList, useDisclosure, Avatar } from '@chakra-ui/react';
 import { Button, Flex, Text } from 'ui';
-import { MdAdd, MdLogout } from 'react-icons/md';
-import { ProductAddModal } from './ProductAddModal';
+import { cartEnabled, isBrowser } from 'shared';
 import { User } from 'shared/entities/user';
 import { useRouter } from 'next/router';
-import { cartEnabled, isBrowser } from 'shared';
-import { useEffect, useState } from 'react';
+import { MdLogout } from 'react-icons/md';
 import { IoPerson } from 'react-icons/io5';
 import { FaShoppingBag } from 'react-icons/fa';
 
-const _avatarBg = 'brand.avatar.backgroundColor';
 const _avatarColor = 'brand.avatar.color';
 const _borderRadius = '0.375rem';
-
-const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
-const _backgroundColorSecondary = 'brand.navBar.backgroundColorSecondary';
 
 const MenuAdmin = () => {
   const router = useRouter();
@@ -32,7 +27,7 @@ const MenuAdmin = () => {
     return (
       <Button
         onClick={() => router.replace('/iniciar')}
-        bg="transparent"
+        bg="secondary.main"
         px="0"
         borderRadius="0.5rem"
         h="100%"
@@ -49,7 +44,6 @@ const MenuAdmin = () => {
   }
 
   const { first_name, last_name } = user;
-  const isUserAdmin = user?.roles?.includes('admin') || user?.roles?.includes('seller'); // TODO: improve this
   const userName = `${first_name} ${last_name}`;
 
   const handleSignOut = () => {
