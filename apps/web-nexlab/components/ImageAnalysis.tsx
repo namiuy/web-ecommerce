@@ -5,8 +5,7 @@ export const ImageAnalysis = () => {
   return (
     <Container maxW="container.xl" mx="auto" px={4}>
       <Flex
-        px="3rem"
-        py={{ base: '1.5rem', md: '3rem' }}
+        p={{ base: '1.5rem', md: '3rem' }}
         w="100%"
         bg="white"
         textAlign={{ base: 'center', lg: 'left' }}
