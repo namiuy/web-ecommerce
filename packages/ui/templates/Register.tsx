@@ -4,7 +4,6 @@ import { Formik, Field } from 'formik';
 import { useState, FC } from 'react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
-
 import { useStateListWithoutCache } from 'shared/hooks/request/state';
 import { useCityList } from 'shared/hooks/request/city';
 import {
@@ -23,17 +22,13 @@ const EMAIL_ALREADY_IN_USE = 'Email already in use';
 
 const _backgroundColorOne = 'brand.login.backgroundColorOne';
 const _backgroundGradient = `linear(to-b, ${_backgroundColorOne} 50%, transparent 50%)`;
-
 const _backButtonHover = { color: 'brand.login.backgroundColorOne', backgroundColor: 'white' };
 const _loginButtonBg = 'brand.login.backgroundColorOne';
-
 const _containerW = { md: '45rem', base: '90%' };
 const _formControlW = { md: '20rem', base: '100%' };
-const _logoPosition = { base: 'center', lg: 'start' };
-
 const _gridTemplateAreas = {
-  md: `"firstName lastName" "email email" "password passwordConfirm" "phone address" "state city" "progress progress" "submit submit"`,
-  base: `"firstName" "lastName" "email" "password" "passwordConfirm" "phone" "address" "state" "city" "progress" "submit"`,
+  md: `"first_name last_name" "email email" "password passwordConfirm" "phone address" "state city" "progress progress" "submit submit"`,
+  base: `"first_name" "last_name" "email" "password" "passwordConfirm" "phone" "address" "state" "city" "progress" "submit"`,
 };
 
 type RegisterProps = {
@@ -70,7 +65,7 @@ export const Register = ({ Logo }: RegisterProps) => {
   return (
     <Box>
       <Box height="100vh" bgGradient={_backgroundGradient}>
-        <Link href="/" p="1.5rem" display="flex" justifyContent={_logoPosition}>
+        <Link href="/" p="1.5rem" display="flex" justifyContent={{ base: 'center', lg: 'start' }}>
           <Logo />
         </Link>
         <Container
@@ -101,8 +96,8 @@ export const Register = ({ Logo }: RegisterProps) => {
           {!data && (
             <Formik
               initialValues={{
-                firstName: '',
-                lastName: '',
+                first_name: '',
+                last_name: '',
                 email: '',
                 password: '',
                 passwordConfirm: '',
@@ -113,8 +108,8 @@ export const Register = ({ Logo }: RegisterProps) => {
               }}
               onSubmit={values => {
                 setRegisterProps({
-                  firstName: values.firstName,
-                  lastName: values.lastName,
+                  first_name: values.first_name,
+                  last_name: values.last_name,
                   email: values.email,
                   password: password,
                   phone: values.phone,
@@ -129,15 +124,14 @@ export const Register = ({ Logo }: RegisterProps) => {
               {({ handleSubmit, errors }) => (
                 <form onSubmit={handleSubmit}>
                   <Grid gridTemplateAreas={_gridTemplateAreas} gap="1rem">
-                    <GridItem gridArea="firstName">
-                      <FormControl width={_formControlW} isInvalid={!!errors.firstName}>
+                    <GridItem gridArea="first_name">
+                      <FormControl width={_formControlW} isInvalid={!!errors.first_name}>
                         <FormLabel htmlFor="firstName">Nombre</FormLabel>
                         <Field
                           as={Input}
                           disabled={isLoading}
-                          dis
-                          id="firstName"
-                          name="firstName"
+                          id="first_name"
+                          name="first_name"
                           type="text"
                           variant="filled"
                           _focus={{ borderColor: 'primary.main' }}
@@ -145,17 +139,17 @@ export const Register = ({ Logo }: RegisterProps) => {
                             return validateEmpty(value);
                           }}
                         />
-                        <FormErrorMessage>{errors.firstName}</FormErrorMessage>
+                        <FormErrorMessage>{errors.first_name}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
-                    <GridItem gridArea="lastName">
-                      <FormControl width={_formControlW} isInvalid={!!errors.lastName}>
+                    <GridItem gridArea="last_name">
+                      <FormControl width={_formControlW} isInvalid={!!errors.last_name}>
                         <FormLabel htmlFor="lastName">Apellido</FormLabel>
                         <Field
                           as={Input}
                           disabled={isLoading}
-                          id="lastName"
-                          name="lastName"
+                          id="last_name"
+                          name="last_name"
                           type="text"
                           variant="filled"
                           _focus={{ borderColor: 'primary.main' }}
@@ -163,7 +157,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                             return validateEmpty(value);
                           }}
                         />
-                        <FormErrorMessage>{errors.lastName}</FormErrorMessage>
+                        <FormErrorMessage>{errors.last_name}</FormErrorMessage>
                       </FormControl>
                     </GridItem>
                     <GridItem gridArea="email">
