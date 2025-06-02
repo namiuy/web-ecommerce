@@ -27,5 +27,5 @@ export * from './analytics';
 export * from './request/stock';
 export * from './request/person';
 export * from './request/cart';
-export * from './cart';
+export * from './zustand/cart';
 export * from './request/order';

@@ -1,16 +1,17 @@
+import lscache from 'lscache';
 import { Box, Container, Flex, Heading, Skeleton, Text } from 'ui';
 import { ArrowBackIcon, EditIcon } from '@chakra-ui/icons';
 import { Link, useDisclosure } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { ModalPassword } from '../components/ModalPassword';
 import { ModalName } from '../components/ModalName';
-import lscache from 'lscache';
-import { useGetPerson } from 'shared';
+import { isBrowser, useGetPerson } from 'shared';
 import { TiPlus } from 'react-icons/ti';
 import { ModalNewPhone } from '../components/ModalNewPhone';
 import { ModalEditPhone } from '../components/ModalEditPhone';
 import { ModalNewAddress } from '../components/ModalNewAddress';
 import { ModalEditAddress } from '../components/ModalEditAddress';
+import { useRouter } from 'next/router';
 
 const _backgroundColorOne = 'brand.profile.backgroundColorOne';
 const _backgroundColorTwo = 'brand.profile.backgroundColorTwo';
@@ -26,6 +27,18 @@ type ProfileProps = {
 };
 
 export const Profile = ({ Logo }: ProfileProps) => {
+  const issBrowser = isBrowser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      if (!user || !user.id) {
+        router.push('/');
+      }
+    }
+  }, [issBrowser]);
+
   const { isOpen: isOpenFirst, onOpen: onOpenFirst, onClose: onCloseFirst } = useDisclosure();
   const { isOpen: isOpenSecond, onOpen: onOpenSecond, onClose: onCloseSecond } = useDisclosure();
   const { isOpen: isOpenThird, onOpen: onOpenThird, onClose: onCloseThird } = useDisclosure();

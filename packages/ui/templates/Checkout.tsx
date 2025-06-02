@@ -1,8 +1,8 @@
 import lscache from 'lscache';
-import { Spinner, useDisclosure, useToast } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 import { Box, Text, Container, Button, Grid, GridItem, Flex } from 'ui';
 import { useEffect, useState } from 'react';
-import { useCart, paymentMethods, shippingMethods, useGetPerson } from 'shared';
+import { useCart, paymentMethods, shippingMethods, useGetPerson, isBrowser } from 'shared';
 import { ShippingMethod } from '../components/Checkout/ShippingMethod';
 import { PaymentMethod } from '../components/Checkout/PaymentMethod';
 import { Verification } from '../components/Checkout/Verification';
@@ -12,6 +12,7 @@ import { SuccessModal } from '../components/Checkout/SuccessModal';
 import { Checkout as CheckoutValues } from 'shared/entities/checkout';
 import { AddressSelection } from '../components/Checkout/AddressSelection';
 import { Address } from 'shared/entities/address';
+import { useRouter } from 'next/router';
 
 const _containerW = { base: '90%', lg: '75%' };
 const _mainGridTemplateAreas = { base: '"a" "b"', lg: '"a b"' };
@@ -21,6 +22,17 @@ const _mainGridGap = { base: '3rem', lg: '1.5rem' };
 export const Checkout = () => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const issBrowser = isBrowser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      if (!user || !user.id) {
+        router.push('/');
+      }
+    }
+  }, [issBrowser]);
 
   const onError = (error: string) => {
     toast({
