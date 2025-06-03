@@ -1,8 +1,6 @@
 import { Flex } from 'ui';
 import { ReactNode } from 'react';
 
-const _borderColor = '#f2f2f2';
-
 export const Content = ({ children }: { children: ReactNode }) => (
   <Flex flexDir="column" w="100%" minW="75rem">
     <Flex justifyContent="center" alignItems="center" h="100vh" bg="#f7f7f7">
@@ -16,7 +14,7 @@ export const Content = ({ children }: { children: ReactNode }) => (
         bg="white"
         borderRadius="0.5rem"
         border="2px solid"
-        borderColor={_borderColor}
+        borderColor="#f2f2f2"
         gap="1.25rem"
       >
         {children}

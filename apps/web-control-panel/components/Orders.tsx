@@ -1,38 +1,36 @@
 import lscache from 'lscache';
-import { Spinner, useBreakpointValue, Divider, Center } from '@chakra-ui/react';
 import router from 'next/router';
-import { useListOrders } from 'shared';
-import { Box, Text, Flex, Grid, GridItem, Image } from 'ui';
-import { OrderStatus } from 'ui/components/OrderStatus';
+import { Spinner, useBreakpointValue, Divider, Center } from '@chakra-ui/react';
+import { Box, Text, Flex, Grid, GridItem, Image, OrderStatus } from 'ui';
 import { Status } from 'shared/entities/status';
+import { isBrowser, useListAllOrders } from 'shared';
+import { useState, useEffect } from 'react';
 
 const _productListPaddingY = { base: '0.5rem', sm: '0' };
 const _productListSubtotal = { base: '0.913rem', sm: '1rem' };
 const _productListSubtotalUSD = { base: '0.75rem', sm: '0.875rem' };
-
 const _boxShadow = ' 0 3px 5px -1px rgb(0 0 0 / 5%), 0 6px 40px 0 rgb(0 0 0 / 3%), 0 1px 18px 0 rgb(0 0 0 / 2%) ';
 
 export const Orders = () => {
   const md = useBreakpointValue({ base: false, md: true });
+  const { data, isLoading, error } = useListAllOrders();
+  const issBrowser = isBrowser();
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
 
-  const guid = lscache.get('user')?.id;
-  const { data, isLoading, error } = useListOrders(guid);
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      setIsUserAdmin(user?.roles?.includes('administrator') || user?.roles?.includes('manager')); // TODO: improve this
+    }
+  }, [issBrowser]);
 
   return (
     <>
       <Text fontSize="1.5rem" fontWeight="medium">
         Ordenes
       </Text>
-      {false ? (
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          h="20rem"
-          bg="white"
-          boxShadow={_boxShadow}
-          borderRadius="0.5rem"
-          mt="2rem"
-        >
+      {isLoading ? (
+        <Flex justifyContent="center" alignItems="center" h="100%">
           <Spinner size="xl" />
         </Flex>
       ) : (
@@ -47,7 +45,7 @@ export const Orders = () => {
               boxShadow={_boxShadow}
               borderRadius="0.5rem"
             >
-              <Text fontSize="1.25rem">No has realizado ninguna compra.</Text>
+              <Text fontSize="1.25rem">No hay ninguna orden.</Text>
             </Flex>
           ) : (
             <Flex direction="column" gap="1.5rem" overflow="scroll" pb="2rem">
@@ -62,11 +60,13 @@ export const Orders = () => {
                   flexDir="column"
                   gap="2rem"
                   pb="2rem"
+                  border="1px solid"
+                  borderColor="blackAlpha.100"
                 >
                   <Flex justify="space-between">
                     <Text>{new Date(order.date).toLocaleDateString('es-ES')}</Text>
                     <Text>#{order.number}</Text>
-                    <OrderStatus orderId={order.id} status={order.status as Status} isEdit />
+                    <OrderStatus orderId={order.id} status={order.status as Status} isEdit={isUserAdmin} />
                   </Flex>
                   <Flex flexDir={{ base: 'column', md: 'row' }} gap={{ base: '1.5rem', md: '2rem' }}>
                     <Flex flexDir="column" w={{ base: '100%', md: '35%' }} gap="0.5rem">

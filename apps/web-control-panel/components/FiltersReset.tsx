@@ -1,7 +1,6 @@
-import React from 'react';
 import { Button } from 'ui';
-import { GrPowerReset } from 'react-icons/gr';
 import { useRouter } from 'next/router';
+import { GrPowerReset } from 'react-icons/gr';
 
 export const FiltersReset = () => {
   const router = useRouter();

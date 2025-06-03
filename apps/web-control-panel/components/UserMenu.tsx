@@ -1,18 +1,17 @@
 import lscache from 'lscache';
-import { useDisclosure, Avatar } from '@chakra-ui/react';
+import { Flex, Text, Button } from 'ui';
+import { Avatar } from '@chakra-ui/react';
 import { MdLogout } from 'react-icons/md';
 import { User } from 'shared/entities/user';
 import { useRouter } from 'next/router';
 import { isBrowser } from 'shared';
 import { useEffect, useState } from 'react';
-import { Flex, Text, Button } from 'ui';
 
 const _avatarBg = 'brand.avatar.backgroundColor';
 const _avatarColor = 'brand.avatar.color';
 
 export const UserMenu = () => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
@@ -25,8 +24,7 @@ export const UserMenu = () => {
     return <></>;
   }
 
-  const { first_name, last_name, roles } = user;
-  const isUserAdmin = roles?.includes('admin'); // TODO: improve this
+  const { first_name, last_name } = user;
   const userName = `${first_name} ${last_name}`;
 
   const handleSignOut = () => {

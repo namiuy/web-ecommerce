@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { Select } from '@chakra-ui/react';
+import { Flex } from 'ui';
 import { useMemo, useState } from 'react';
 import {
   getProductsUrl,
@@ -9,7 +10,6 @@ import {
   useBrandList,
   useCategoryList,
 } from 'shared';
-import { Flex } from 'ui';
 
 type FiltersProps = {
   categoryId?: string;

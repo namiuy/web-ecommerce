@@ -1,6 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { Button, ProductAddModal } from 'ui';
-
 import { FaPlus } from 'react-icons/fa';
 
 export const ProductAdd = () => {
