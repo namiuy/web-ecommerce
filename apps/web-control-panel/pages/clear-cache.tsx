@@ -1,9 +1,24 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { isBrowser } from 'shared';
 import { Button, Flex, Text } from 'ui';
 
 const ClearCachePage: NextPage = () => {
+  const issBrowser = isBrowser();
   const router = useRouter();
+
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      const isUserAdmin =
+        user?.roles?.includes('administrator') || user?.roles?.includes('manager') || user?.roles?.includes('seller'); // TODO: improve this
+
+      if (!isUserAdmin) {
+        router.push('/iniciar');
+      }
+    }
+  }, [issBrowser]);
 
   const clearCache = () => {
     localStorage.clear();
