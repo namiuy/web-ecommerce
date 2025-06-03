@@ -54,6 +54,7 @@ export * from './components/QuoteRequestButton';
 export * from './components/WhatsApp';
 export * from './components/Footer';
 export * from './components/ShoppingCartDrawer';
+export * from './components/OrderStatus';
 
 export { ProductDetail as ProductDetailTemplate } from './templates/ProductDetail';
 export { Products as ProductsTemplate } from './templates/Products';

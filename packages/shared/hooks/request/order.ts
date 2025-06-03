@@ -15,6 +15,10 @@ const listOrders = (id: string): Promise<OrderList> => {
   return get<OrderList>(`${bff.url}/orders?guid=${id}`, {}, true);
 };
 
+const listAllOrders = (): Promise<OrderList> => {
+  return get<OrderList>(`${bff.url}/orders`, {}, true);
+};
+
 export const useCheckout = (checkout_values?: Checkout): Result<Order> => {
   const [order, setOrder] = useState<Order>();
   const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +66,28 @@ export const useListOrders = (id?: string): Result<OrderList> => {
 
     fetchData();
   }, [id]);
+
+  return { isLoading, data: orders, error };
+};
+
+export const useListAllOrders = (): Result<OrderList> => {
+  const [orders, setOrders] = useState<OrderList>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const result = await listAllOrders();
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setOrders(result);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
 
   return { isLoading, data: orders, error };
 };

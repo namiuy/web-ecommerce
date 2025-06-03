@@ -1,13 +1,15 @@
-import { Flex, Box, Text, Button } from 'ui';
-import { FaBarsStaggered } from 'react-icons/fa6';
-import { HiOutlineShoppingCart } from 'react-icons/hi2';
-import { FaRegImage } from 'react-icons/fa';
+import lscache from 'lscache';
+import { Icon, Link } from '@chakra-ui/react';
+import { Flex, Text } from 'ui';
+import { UserMenu } from './UserMenu';
+import { appName, isBrowser } from 'shared';
 import { FiBox } from 'react-icons/fi';
+import { HiOutlineShoppingCart } from 'react-icons/hi2';
+import { FaBarsStaggered } from 'react-icons/fa6';
+import { FaRegImage } from 'react-icons/fa';
 import { CiBoxList } from 'react-icons/ci';
 import { IoPricetagsOutline } from 'react-icons/io5';
-import { Icon, Link } from '@chakra-ui/react';
-import { UserMenu } from './UserMenu';
-import { appName } from 'shared';
+import { useEffect, useState } from 'react';
 
 const _borderColor = '#f2f2f2';
 
@@ -44,29 +46,43 @@ type SiderBarProps = {
   currentPage?: string;
 };
 
-export const SideBar = ({ currentPage }: SiderBarProps) => (
-  <Flex
-    flexDir="column"
-    justifyContent="space-between"
-    minW="15rem"
-    minH="100vh"
-    borderRight="2px solid"
-    borderColor={_borderColor}
-    p="1.25rem"
-  >
-    <Flex flexDir="column">
-      <Text fontWeight="semibold" my="1.5rem" fontSize="1.125rem">
-        {appName}
-      </Text>
-      <Flex flexDir="column" gap="0.625rem" alignItems="start">
-        <SidebarButton path="productos" text="Productos" icon={FiBox} currentPage={currentPage} />
-        <SidebarButton path="ordenes" text="Ordenes" icon={HiOutlineShoppingCart} currentPage={currentPage} />
-        {/* <SidebarButton path="listas" text="Listas de productos" icon={CiBoxList} currentPage={currentPage} />
+export const SideBar = ({ currentPage }: SiderBarProps) => {
+  const issBrowser = isBrowser();
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      setIsUserAdmin(user?.roles?.includes('administrator') || user?.roles?.includes('manager')); // TODO: improve this
+    }
+  }, [issBrowser]);
+
+  return (
+    <Flex
+      flexDir="column"
+      justifyContent="space-between"
+      minW="15rem"
+      minH="100vh"
+      borderRight="2px solid"
+      borderColor={_borderColor}
+      p="1.25rem"
+    >
+      <Flex flexDir="column">
+        <Text fontWeight="semibold" my="1.5rem" fontSize="1.125rem">
+          {appName}
+        </Text>
+        <Flex flexDir="column" gap="0.625rem" alignItems="start">
+          <SidebarButton path="ordenes" text="Ordenes" icon={HiOutlineShoppingCart} currentPage={currentPage} />
+          {isUserAdmin && <SidebarButton path="productos" text="Productos" icon={FiBox} currentPage={currentPage} />}
+          {/* 
+        <SidebarButton path="listas" text="Listas de productos" icon={CiBoxList} currentPage={currentPage} />
         <SidebarButton path="categorias" text="Categorias" icon={IoPricetagsOutline} currentPage={currentPage} />
         <SidebarButton path="marcas" text="Marcas" icon={FaBarsStaggered} currentPage={currentPage} />
-        <SidebarButton path="banners" text="Banners" icon={FaRegImage} currentPage={currentPage} /> */}
+        <SidebarButton path="banners" text="Banners" icon={FaRegImage} currentPage={currentPage} /> 
+        */}
+        </Flex>
       </Flex>
+      <UserMenu />
     </Flex>
-    <UserMenu />
-  </Flex>
-);
+  );
+};
