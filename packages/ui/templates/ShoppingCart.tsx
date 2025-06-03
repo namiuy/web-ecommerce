@@ -1,9 +1,11 @@
+import lscache from 'lscache';
 import { IconButton, Spinner, useBreakpointValue } from '@chakra-ui/react';
 import { Box, Text, Image, Container, Button, Grid, GridItem, Flex } from 'ui';
 import { BsTrash3 } from 'react-icons/bs';
 import { QuantityInput } from '../components/QuantityInput';
 import { useRouter } from 'next/router';
-import { useCart } from 'shared';
+import { isBrowser, useCart } from 'shared';
+import { useEffect } from 'react';
 
 const _containerW = { base: '90%', lg: '75%' };
 const _mainGridTemplateAreas = { base: '"a" "b"', lg: '"a b"' };
@@ -18,8 +20,17 @@ const _productListSubtotalUSD = { base: '0.75rem', sm: '0.875rem' };
 
 export const ShoppingCart = () => {
   const sm = useBreakpointValue({ base: false, sm: true });
-
+  const issBrowser = isBrowser();
   const router = useRouter();
+
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      if (!user || !user.id) {
+        router.push('/');
+      }
+    }
+  }, [issBrowser]);
 
   const { cart, isLoading, error, totalPrice, updateQuantityCart, deleteFromCart } = useCart({});
 

@@ -27,6 +27,8 @@ export const AddressSelection = ({
     router.replace('/perfil');
   };
 
+  console.log('addresses', addresses);
+
   return (
     <>
       <Text fontWeight="semibold" fontSize="1.25rem" p="1rem" pt="0.25rem">

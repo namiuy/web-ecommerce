@@ -1,10 +1,11 @@
 import lscache from 'lscache';
 import { Spinner, useBreakpointValue, Divider, Center } from '@chakra-ui/react';
 import router from 'next/router';
-import { useListOrders } from 'shared';
+import { isBrowser, useListOrders } from 'shared';
 import { Box, Heading, Text, Container, Flex, Button, Grid, GridItem, Image } from 'ui';
 import { OrderStatus } from '../components/OrderStatus';
 import { Status } from 'shared/entities/status';
+import { useEffect } from 'react';
 
 const _productListPaddingY = { base: '0.5rem', sm: '0' };
 const _productListSubtotal = { base: '0.913rem', sm: '1rem' };
@@ -18,6 +19,17 @@ export const OrderHistory = () => {
 
   const guid = lscache.get('user')?.id;
   const { data, isLoading, error } = useListOrders(guid);
+
+  const issBrowser = isBrowser();
+
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user'); // TODO: improve this
+      if (!user || !user.id) {
+        router.push('/');
+      }
+    }
+  }, [issBrowser]);
 
   return (
     <Box bg={_backgroundColor} minH="85vh">
@@ -128,7 +140,12 @@ export const OrderHistory = () => {
                       </Flex>
                       {!md && <Divider />}
                     </Flex>
-
+                    {order.observation && (
+                      <Flex gap="0.25rem">
+                        <Text fontWeight="bold">OBSERVACIONES:</Text>
+                        <Text> {order.observation}</Text>
+                      </Flex>
+                    )}
                     <Grid>
                       {md && (
                         <GridItem>

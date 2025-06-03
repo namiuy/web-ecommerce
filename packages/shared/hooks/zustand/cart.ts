@@ -3,9 +3,9 @@ import {
   addToCart as apiAddToCart,
   updateQuantityCart as apiUpdateQuantity,
   deleteFromCart as apiDeleteFromCart,
-} from './request/cart';
-import { Cart } from '../entities/cart';
-import { useCartStore } from '../store/cart';
+} from '../request/cart';
+import { Cart } from '../../entities/cart';
+import { useCartStore } from '../../store/cart';
 import { useToast } from '@chakra-ui/react';
 
 type CartState = {

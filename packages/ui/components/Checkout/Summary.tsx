@@ -1,6 +1,6 @@
 import { Spinner } from '@chakra-ui/react';
 import { useCart } from 'shared';
-import { Box, Text, Flex, Button, Grid, GridItem } from 'ui';
+import { Box, Text, Flex, Button, Grid, GridItem, Skeleton } from 'ui';
 
 type SummaryProps = {
   page: number;
@@ -38,7 +38,7 @@ export const Summary = ({
           <Text>Productos</Text>
           <Flex alignItems="baseline" gap="0.25rem" fontSize="1.125rem">
             <Text fontSize="0.875rem">U$S </Text>
-            {isLoading ? <Spinner size="sm" /> : totalPrice.toFixed(2)}
+            {isLoading ? <Skeleton w="4rem" h="1.25rem" /> : totalPrice.toFixed(2)}
           </Flex>
         </GridItem>
         <GridItem gridArea="d" display="flex" justifyContent="space-between" alignItems="center">
@@ -48,7 +48,7 @@ export const Summary = ({
               <Text as="span" fontSize="1.125rem">
                 U$S{' '}
               </Text>
-              {isLoading ? <Spinner size="sm" /> : totalAmount.toFixed(2)}
+              {isLoading ? <Skeleton w="5rem" h="1.75rem" /> : totalAmount.toFixed(2)}
               <Text fontSize="0.75rem">IVA inc</Text>
             </Flex>
           </Box>

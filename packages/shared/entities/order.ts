@@ -18,5 +18,6 @@ export type Order = {
   status: Status;
   // status: string;
   items: OrderItem[];
+  observation: string;
   error?: string;
 };
