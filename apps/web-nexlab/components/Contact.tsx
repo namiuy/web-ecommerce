@@ -28,7 +28,7 @@ export const Contact = () => {
       }
       contactProps?.resetForm?.();
     }
-  }, [toast, data]);
+  }, [toast, data, contactProps]);
 
   const handleSubmit = async (values: ContactValues, { resetForm }: { resetForm: () => void }) => {
     setContactProps({ ...values, resetForm });
