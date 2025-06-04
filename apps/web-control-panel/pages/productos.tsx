@@ -14,14 +14,14 @@ const ProductosPage: NextPage = () => {
 
   useEffect(() => {
     if (issBrowser) {
-      const user = lscache.get('user'); // TODO: improve this
-      const isUserAdmin = user?.roles?.includes('administrator') || user?.roles?.includes('manager'); // TODO: improve this
+      const user = lscache.get('user');
+      const isUserAdmin = user?.roles?.includes('administrator') || user?.roles?.includes('manager');
 
       if (!isUserAdmin) {
         router.push('/');
       }
     }
-  }, [issBrowser]);
+  }, [issBrowser, router]);
 
   return (
     <Flex>

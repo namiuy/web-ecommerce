@@ -52,8 +52,8 @@ export const SideBar = ({ currentPage }: SiderBarProps) => {
 
   useEffect(() => {
     if (issBrowser) {
-      const user = lscache.get('user'); // TODO: improve this
-      setIsUserAdmin(user?.roles?.includes('administrator') || user?.roles?.includes('manager')); // TODO: improve this
+      const user = lscache.get('user');
+      setIsUserAdmin(user?.roles?.includes('administrator') || user?.roles?.includes('manager'));
     }
   }, [issBrowser]);
 

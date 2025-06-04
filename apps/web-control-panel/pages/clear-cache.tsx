@@ -10,15 +10,15 @@ const ClearCachePage: NextPage = () => {
 
   useEffect(() => {
     if (issBrowser) {
-      const user = lscache.get('user'); // TODO: improve this
+      const user = lscache.get('user');
       const isUserAdmin =
-        user?.roles?.includes('administrator') || user?.roles?.includes('manager') || user?.roles?.includes('seller'); // TODO: improve this
+        user?.roles?.includes('administrator') || user?.roles?.includes('manager') || user?.roles?.includes('seller');
 
       if (!isUserAdmin) {
         router.push('/iniciar');
       }
     }
-  }, [issBrowser]);
+  }, [issBrowser, router]);
 
   const clearCache = () => {
     localStorage.clear();
