@@ -1,8 +1,8 @@
 'use client';
 
+import lscache from 'lscache';
 import { NextPage } from 'next';
 import { Flex } from 'ui';
-
 import { SideBar, Content, Orders } from '../components';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
