@@ -104,6 +104,10 @@ export const Checkout = () => {
         newPage--;
       }
 
+      if (page === 2 && shippingMethod == 'INT') {
+        setObservation('');
+      }
+
       setPage(newPage);
       setBackButtonVisible(newPage > 1);
       setNextButtonVisible(newPage < totalPages);
