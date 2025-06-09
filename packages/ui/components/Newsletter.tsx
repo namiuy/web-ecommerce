@@ -10,9 +10,9 @@ const _focusBorderColor = 'brand.footer.input.borderColor';
 const _buttonBackgroundColor = 'brand.footer.iconButton._active.backgroundColor';
 
 const Newsletter = () => {
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [email, setEmail] = useState('');
 
   const toast = useToast();
 
@@ -20,7 +20,6 @@ const Newsletter = () => {
     if (validateEmail(email)) {
       toast({
         position: 'top',
-
         description: 'Debe ingresar un correo electrónico válido',
         status: 'error',
         duration: 3000,
@@ -67,7 +66,7 @@ const Newsletter = () => {
             _focus={{ borderColor: _focusBorderColor, boxShadow: 'unset' }}
             bg={_backgroundColor}
             border={0}
-            color="black"
+            color="white"
           />
           <IconButton
             bg={_backgroundColor}
@@ -79,7 +78,7 @@ const Newsletter = () => {
               bg: _buttonBackgroundColor,
             }}
             aria-label="Subscribe"
-            disabled={isLoading || isSuccess}
+            disabled={isLoading}
             icon={<BiMailSend />}
             onClick={add}
           />

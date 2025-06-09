@@ -1,11 +1,15 @@
+import lscache from 'lscache';
 import { Icon, Spinner, useToast } from '@chakra-ui/react';
 import { Button, Skeleton } from 'ui';
 import { BiSolidShoppingBag } from 'react-icons/bi';
 import { useCart } from 'shared';
 import { ProductActionProps } from '../templates/ProductDetail';
+import { useRouter } from 'next/router';
 
 export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionProps) => {
   const toast = useToast();
+
+  const router = useRouter();
 
   const onError = (error: string) => {
     if (error == 'Stock Insuficiente') {
@@ -29,7 +33,12 @@ export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionP
   const { addToCart, isLoading: isLoadingAdd } = useCart({ onError });
 
   const handleAddToCart = () => {
-    addToCart(product!!.id, quantity!!);
+    const user = lscache.get('user');
+    if (!user) {
+      router.push('/iniciar');
+    } else {
+      addToCart(product!!.id, quantity!!);
+    }
   };
 
   return (

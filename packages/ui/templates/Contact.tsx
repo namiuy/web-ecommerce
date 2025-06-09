@@ -269,6 +269,7 @@ export const Contact = () => {
                     <Button
                       type="submit"
                       bg={_buttonColor}
+                      disabled={isLoading}
                       color="white"
                       width="100%"
                       mt="1rem"

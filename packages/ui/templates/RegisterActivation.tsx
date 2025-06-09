@@ -1,5 +1,5 @@
 import { Box, Container, Heading, Flex, Text } from 'ui';
-import { Link, Icon } from '@chakra-ui/react';
+import { Link, Icon, Spinner } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
@@ -19,7 +19,7 @@ export const RegisterActivation = ({ Logo }: PasswordResetProps) => {
 
   const url = urlActivation ? urlActivation.toString() : '';
 
-  const { data, error } = useActivateAccount(url);
+  const { data, isLoading, error } = useActivateAccount(url);
 
   return (
     <Box height="100vh" bg={_backgroundColorTwo}>
@@ -55,9 +55,12 @@ export const RegisterActivation = ({ Logo }: PasswordResetProps) => {
             </Flex>
           ) : (
             <Flex textAlign="center" flexDir="column" justifyContent="center" alignItems="center" h="9rem">
-              <Text w="80%" fontSize="1.375rem" fontWeight="medium" lineHeight="2rem" pb="0.75rem" pt="1rem">
-                {error ? 'El enlace de activación es inválido o ha expirado.' : 'Activando tu cuenta...'}
-              </Text>
+              {isLoading && <Spinner size="lg" />}
+              {error && (
+                <Text w="80%" fontSize="1.375rem" fontWeight="medium" lineHeight="2rem" pb="0.75rem" pt="1rem">
+                  El enlace de activación es inválido o ha expirado
+                </Text>
+              )}
             </Flex>
           )}
         </Container>
