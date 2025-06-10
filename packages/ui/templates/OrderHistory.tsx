@@ -6,6 +6,7 @@ import { Box, Heading, Text, Container, Flex, Button, Grid, GridItem, Image } fr
 import { OrderStatus } from '../components/OrderStatus';
 import { Status } from 'shared/entities/status';
 import { useEffect } from 'react';
+import { paymentMethods } from 'shared';
 
 const _productListPaddingY = { base: '0.5rem', sm: '0' };
 const _productListSubtotal = { base: '0.913rem', sm: '1rem' };
@@ -146,6 +147,15 @@ export const OrderHistory = () => {
                         <Text> {order.observation}</Text>
                       </Flex>
                     )}
+                    {(() => {
+                      const method = paymentMethods.find(pm => pm.id === order.payment.id);
+                      return method?.description ? (
+                        <Box>
+                          <Text fontWeight="bold">PAGO</Text>
+                          <Text> {method.description}</Text>
+                        </Box>
+                      ) : null;
+                    })()}
                     <Grid>
                       {md && (
                         <GridItem>

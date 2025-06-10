@@ -114,7 +114,7 @@ export const theme: Record<string, any> = {
         input: {
           color: white,
           borderColor: white,
-          iconColor: primary,
+          iconColor: white,
           backgroundColor: primary,
           _focus: {
             borderColor: white,
