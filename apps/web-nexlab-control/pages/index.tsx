@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { GaPage, Text, Box, Heading } from 'ui';
-import { GroundStats, NpkStats } from '../components';
+import { GaPage } from 'ui';
 import { StatsBySector } from '../components/StatsBySector';
 
 declare global {
@@ -35,32 +34,6 @@ export default function Home() {
       })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
     }
   }, []);
-
-  const npkData = {
-    n: 40,
-    p: 15,
-    k: 30,
-  };
-
-  const groundData = {
-    temperature: 22.5,
-    humidity: 70,
-    ec: 1.2,
-    ph: 6.8,
-  };
-
-  const npkHistorical = {
-    n: [28, 30, 34, 33, 40],
-    p: [11, 10.5, 13, 12.7, 15.2],
-    k: [19, 21.5, 26, 28.2, 30.5],
-  };
-
-  const groundHistorical = {
-    temperature: [20.5, 21.3, 22.1, 22.7, 23.2],
-    humidity: [58, 63, 65, 68, 70],
-    ec: [0.9, 1.0, 1.05, 1.18, 1.3],
-    ph: [6.4, 6.5, 6.6, 6.75, 6.85],
-  };
 
   return (
     <GaPage page="Home">
