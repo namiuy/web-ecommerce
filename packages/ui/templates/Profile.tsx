@@ -66,6 +66,14 @@ export const Profile = ({ Logo }: ProfileProps) => {
     }
   }, [data]);
 
+  const redirectTo = router.query.redirectTo as string;
+
+  useEffect(() => {
+    if (redirectTo === 'checkout') {
+      onOpenFifth();
+    }
+  }, [redirectTo]);
+
   const handlePhoneChange = (phone: string) => {
     setEditPhone(phone);
     onOpenFourth();
@@ -319,6 +327,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                   isOpen={isOpenFifth}
                   onClose={onCloseFifth}
                   setPersonData={setPersonData}
+                  redirectTo={redirectTo}
                 />
               </Flex>
               {isLoading ? (

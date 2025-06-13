@@ -13,6 +13,7 @@
     "dev:credi": "turbo run dev --filter=web-credibikerss",
     "dev:nami": "turbo run dev --filter=web-nami",
     "dev:nexlab": "turbo run dev --filter=web-nexlab",
+    "dev:nexlab-control": "turbo run dev --filter=web-nexlab-control",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -27,9 +28,11 @@
   },
   "packageManager": "npm@8.19.3",
   "dependencies": {
+    "chart.js": "^4.4.9",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react-chartjs-2": "^5.3.0",
     "react-dnd": "^16.0.1",
+    "react-dom": "18.3.1",
     "react-ga4": "^2.1.0",
     "uuid": "^9.0.1",
     "zustand": "^5.0.1"

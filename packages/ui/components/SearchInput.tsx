@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { Input, InputGroup, Icon, InputRightElement, Box } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { CloseIcon } from '@chakra-ui/icons';
 import { KeyboardEvent, ChangeEvent, useState, useEffect } from 'react';
 
 const _color = 'brand.navBar.input.color';
@@ -9,7 +10,6 @@ const _borderColor = 'brand.navBar.input.borderColor';
 const _backgroundColor = 'brand.navBar.input.backgroundColor';
 const _placeholderColor = 'brand.navBar.input._placeholder.color';
 const _hoverBorderColor = 'brand.navBar.input._hover.borderColor';
-const _focusBorderColor = 'brand.navBar.input._focus.borderColor';
 
 type SearchInputProps = {
   placeholder?: string;
@@ -37,6 +37,11 @@ const SearchInput = ({ placeholder = 'Buscar un producto...', onSearch }: Search
     if (event.key === 'Enter') search();
   };
 
+  const clearInput = () => {
+    setValue('');
+    router.push(productsPath); // elimina el query param ?t=...
+  };
+
   useEffect(() => {
     if (!router.query?.t) {
       setValue('');
@@ -62,15 +67,29 @@ const SearchInput = ({ placeholder = 'Buscar un producto...', onSearch }: Search
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
-        <InputRightElement
-          w="auto"
-          h="100%"
-          onClick={search}
-          cursor="pointer"
-          borderRadius="0 0.25rem 0.25rem 0"
-          color="white"
-        >
-          <Icon w="1.5rem" h="1.5rem" mx="0.75rem" as={AiOutlineSearch} />
+        <InputRightElement w="auto" h="100%">
+          <Box display="flex" alignItems="center" h="100%">
+            {value && (
+              <Icon
+                as={CloseIcon}
+                w="1rem"
+                h="1rem"
+                color={_iconColor}
+                mx="0.5rem"
+                cursor="pointer"
+                onClick={clearInput}
+              />
+            )}
+            <Icon
+              as={AiOutlineSearch}
+              w="1.5rem"
+              h="1.5rem"
+              mx="0.75rem"
+              color={_iconColor}
+              cursor="pointer"
+              onClick={search}
+            />
+          </Box>
         </InputRightElement>
       </InputGroup>
     </Box>

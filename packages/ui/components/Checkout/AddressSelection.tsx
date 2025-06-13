@@ -24,7 +24,7 @@ export const AddressSelection = ({
   const router = useRouter();
 
   const handleNewAddress = () => {
-    router.replace('/perfil');
+    router.push('/perfil?redirectTo=checkout');
   };
 
   console.log('addresses', addresses);

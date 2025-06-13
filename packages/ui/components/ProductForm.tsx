@@ -441,24 +441,6 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
               </FormControl>
 
               <Flex justifyContent="flex-start" gap="2rem" mt="0.5rem">
-                <FormControl isInvalid={!!errors.is_original} display="flex" alignItems="center" w="fit-content">
-                  <FormLabel htmlFor="is_original" mb="0" fontSize="0.875rem">
-                    Original
-                  </FormLabel>
-                  <Field
-                    as={Checkbox}
-                    disabled={isLoading}
-                    defaultChecked={product?.is_original}
-                    bg="#f2f2f2"
-                    id="is_original"
-                    name="is_original"
-                    type="checkbox"
-                    variant="filled"
-                    _focus={{ borderColor: 'primary.main' }}
-                  />
-                  <FormErrorMessage>{errors.is_original}</FormErrorMessage>
-                </FormControl>
-
                 <FormControl isInvalid={!!errors.is_public} display="flex" alignItems="center" w="fit-content">
                   <FormLabel htmlFor="is_public" mb="0" fontSize="0.875rem">
                     Público
@@ -475,6 +457,24 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                     _focus={{ borderColor: 'primary.main' }}
                   />
                   <FormErrorMessage>{errors.is_public}</FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.is_original} display="flex" alignItems="center" w="fit-content">
+                  <FormLabel htmlFor="is_original" mb="0" fontSize="0.875rem">
+                    Original
+                  </FormLabel>
+                  <Field
+                    as={Checkbox}
+                    disabled={isLoading}
+                    defaultChecked={product?.is_original}
+                    bg="#f2f2f2"
+                    id="is_original"
+                    name="is_original"
+                    type="checkbox"
+                    variant="filled"
+                    _focus={{ borderColor: 'primary.main' }}
+                  />
+                  <FormErrorMessage>{errors.is_original}</FormErrorMessage>
                 </FormControl>
               </Flex>
 

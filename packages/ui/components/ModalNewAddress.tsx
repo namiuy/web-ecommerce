@@ -31,9 +31,10 @@ type ModalNewAddressProps = {
   isOpen: boolean;
   onClose: () => void;
   setPersonData: (data: any) => void;
+  redirectTo?: string;
 };
 
-export const ModalNewAddress = ({ id, personId, isOpen, onClose, setPersonData }: ModalNewAddressProps) => {
+export const ModalNewAddress = ({ id, personId, isOpen, onClose, setPersonData, redirectTo }: ModalNewAddressProps) => {
   const toast = useToast();
   const [changeAddressProps, setChangeAddressProps] = useState<PersonUpdate>();
   const { data, error, isLoading } = useUpdatePerson(changeAddressProps);
@@ -84,6 +85,10 @@ export const ModalNewAddress = ({ id, personId, isOpen, onClose, setPersonData }
         // setSelectedState(null);
 
         onClose();
+
+        if (redirectTo) {
+          window.location.href = `/${redirectTo}`;
+        }
       }
 
       if (error) {
