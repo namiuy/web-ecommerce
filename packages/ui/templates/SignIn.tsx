@@ -64,7 +64,13 @@ export const SignIn = ({ Logo }: SignInProps) => {
 
   useEffect(() => {
     if (data) {
-      router.push('/');
+      const redirectPath = sessionStorage.getItem('redirectAfterLogin');
+      if (redirectPath) {
+        sessionStorage.removeItem('redirectAfterLogin');
+        router.push(redirectPath);
+      } else {
+        router.push('/');
+      }
     }
   }, [router, data]);
 
