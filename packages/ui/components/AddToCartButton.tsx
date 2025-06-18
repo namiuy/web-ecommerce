@@ -35,6 +35,7 @@ export const AddToCartButton = ({ isLoading, product, quantity }: ProductActionP
   const handleAddToCart = () => {
     const user = lscache.get('user');
     if (!user) {
+      sessionStorage.setItem('redirectAfterLogin', router.asPath);
       router.push('/iniciar');
     } else {
       addToCart(product!!.id, quantity!!);

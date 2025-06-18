@@ -5,7 +5,8 @@ import { boxShadowMd } from 'ui/components/ThemeProvider/colors';
 import { formatPrice } from 'shared/utils/product';
 
 import { product as productConf } from 'shared';
-const { showCod, cardPriceType } = productConf;
+import { ProductStock } from './ProductStock';
+const { showCod, cardPriceType, showStock } = productConf;
 
 const _black = 'black';
 const _grey0 = 'brand.grey.0';
@@ -42,6 +43,7 @@ export type ProductCardProps = {
 
 export const ProductCard = ({ min = false, isLoading = false, product }: ProductCardProps) => {
   const { name, category, price = 0, price_without_tax, id, image_url, discount = 0, images } = product || {};
+
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card minW={_minW} maxW={_maxW} mt={_mt} p={_p} size="sm" _hover={{ boxShadow: boxShadowMd }}>
@@ -120,6 +122,8 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                     </Text>
                   )}
                 </Box>
+
+                {product && showStock && <ProductStock id={product.id} />}
 
                 <Text color={_black} fontSize={_priceSize} lineHeight={_priceSize} fontWeight="bold">
                   {isPriceSimple ? (

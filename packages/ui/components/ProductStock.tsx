@@ -10,7 +10,7 @@ const _color = 'brand.productDetail.smallText';
 
 type StockProps = {
   id: string;
-  handleStockChange: (stock: string) => void;
+  handleStockChange?: (stock: string) => void;
 };
 
 export const ProductStock = ({ id, handleStockChange }: StockProps) => {
@@ -20,7 +20,7 @@ export const ProductStock = ({ id, handleStockChange }: StockProps) => {
   const { isLoading, data } = useStockGet(id);
 
   useEffect(() => {
-    if (data?.availability) {
+    if (data?.availability && handleStockChange) {
       handleStockChange(data?.availability);
     }
   }, [data?.availability, handleStockChange]);

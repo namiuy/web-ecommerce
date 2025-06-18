@@ -141,8 +141,8 @@ const branches = [
       },
     ],
     whatsApp: {
-      number: 598098000600,
-      text: '098 000 600',
+      number: 598098402538,
+      text: '098 402 538',
     },
     position: {
       lat: -34.87058963647513,
