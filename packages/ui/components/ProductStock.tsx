@@ -29,7 +29,9 @@ export const ProductStock = ({ id, handleStockChange }: StockProps) => {
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
 
-  const isUserAdmin = user ? user.roles?.includes('seller') : false; // TODO: improve this
+  const isUserAdmin = user
+    ? user.roles?.includes('seller') || user.roles?.includes('administrator') || user.roles?.includes('manager')
+    : false; // TODO: improve this
 
   return (
     <Flex alignItems="center" gap="0.5rem">

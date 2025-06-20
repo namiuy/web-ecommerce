@@ -234,6 +234,42 @@ const shippingMethods = [
   },
 ];
 
+const homeCategories =
+  ID === 'TOOLS'
+    ? [
+        {
+          name: 'Escáneres',
+          image_url: './assets/categories/scanner.png',
+          path: '10',
+        },
+        {
+          name: 'Elevadores',
+          image_url: './assets/categories/elevador.png',
+          path: '9',
+        },
+        {
+          name: 'Alineadoras',
+          image_url: './assets/categories/alineadora.png',
+          path: '11.30',
+        },
+        {
+          name: 'Aire Acondicionado',
+          image_url: './assets/categories/aire_acondicionado.png',
+          path: '8',
+        },
+        {
+          name: 'Osciloscopios',
+          image_url: './assets/categories/osciloscopio.png',
+          path: '12',
+        },
+        {
+          name: 'Herramientas',
+          image_url: './assets/categories/herramientas.png',
+          path: '17',
+        },
+      ]
+    : [];
+
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
@@ -245,6 +281,7 @@ module.exports = {
     menuItems,
     socialNeworksItems,
     multiDomainItems,
+    homeCategories,
     branches,
     cartEnabled: CART_ENABLED === 'true',
     authEnabled: AUTH_ENABLED === 'true',
