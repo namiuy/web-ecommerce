@@ -46,6 +46,12 @@ type SocialNeworkItem = {
   href: string;
 };
 
+type HomeCategory = {
+  name: string;
+  image_url: string;
+  path: string;
+};
+
 type Product = {
   cardPriceType: string;
   detailPriceType: string;
@@ -79,6 +85,8 @@ export const multiDomainItems = prc.multiDomainItems as MultiDomainItem[];
 export const paymentMethods = prc.paymentMethods as PaymentMethod[];
 
 export const shippingMethods = prc.shippingMethods as ShippingMethod[];
+
+export const homeCategories = prc.homeCategories as HomeCategory[];
 
 export const menuItems = prc.menuItems as MenuItem[];
 
