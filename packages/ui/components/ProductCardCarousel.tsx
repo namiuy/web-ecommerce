@@ -6,7 +6,7 @@ import { product as productConf } from 'shared';
 import { ProductCard } from './ProductCard';
 const { showCod } = productConf;
 
-const _minH = showCod ? { base: '20rem', lg: '23.5rem' } : { base: '18rem', lg: '22.5rem' };
+const _minH = showCod ? { base: '20rem', lg: '25rem' } : { base: '18rem', lg: '22.5rem' };
 
 type ProductCardCarouselProps = {
   isLoading: boolean;
@@ -36,9 +36,7 @@ export const ProductCardCarousel = ({ isLoading, products }: ProductCardCarousel
       slidesPerView={slidesPerView}
       spaceBetween={32}
     >
-      {products?.map((product: Product, i: number) => (
-        <ProductCard key={i} isLoading={isLoading} product={product} />
-      ))}
+      {products?.map((product: Product, i: number) => <ProductCard key={i} isLoading={isLoading} product={product} />)}
     </Carousel>
   );
 };
