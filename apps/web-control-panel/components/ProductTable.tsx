@@ -113,7 +113,7 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
                 <Td display="flex" justifyContent="center">
                   <Image
                     onClick={() => handleImage(product?.images?.[0] || '')}
-                    src={product?.images?.[0] || ''}
+                    src={product?.images?.length > 0 ? product?.images?.[0] : './placeholder.svg'}
                     alt={product?.brand.name}
                     cursor={'pointer'}
                     fit="contain"

@@ -16,6 +16,7 @@ const {
   CART_ENABLED,
   AUTH_ENABLED,
   PAYMENT_METHODS,
+  NAVBAR_MESSAGE,
 } = process.env;
 
 const multiDomainItemsHrefProd = {
@@ -61,7 +62,7 @@ const multiDomainItemsRobotec = [];
 
 const multiDomainItems = ID === 'ROBOTEC' ? multiDomainItemsRobotec : multiDomainItemsNami;
 
-const menuItems = [
+const menuItemsNami = [
   {
     id: 'index',
     text: 'Inicio',
@@ -83,6 +84,36 @@ const menuItems = [
     href: '/contacto',
   },
 ];
+
+const menuItemsRobotec = [
+  {
+    id: 'index',
+    text: 'Inicio',
+    href: '/',
+  },
+  {
+    id: 'products',
+    text: 'Productos',
+    href: '/productos',
+  },
+  {
+    id: 'cursos',
+    text: 'Cursos',
+    href: 'https://www.robotec.edu.uy',
+  },
+  {
+    id: 'company',
+    text: 'Empresa',
+    href: '/empresa',
+  },
+  {
+    id: 'contact',
+    text: 'Contacto',
+    href: '/contacto',
+  },
+];
+
+const menuItems = ID === 'ROBOTEC' ? menuItemsRobotec : menuItemsNami;
 
 const socialNeworksItemsNami = [
   {
@@ -124,7 +155,7 @@ const socialNeworksItemsRobotec = [
 
 const socialNeworksItems = ID === 'ROBOTEC' ? socialNeworksItemsRobotec : socialNeworksItemsNami;
 
-const branches = [
+const branchesNami = [
   {
     location: 'Montevideo',
     address: 'Bvr. Artigas 3397',
@@ -184,6 +215,32 @@ const branches = [
     },
   },
 ];
+
+const branchesRobotec = [
+  {
+    location: 'Montevideo',
+    address: 'Joanicó 3258',
+    addressDetail: 'Esq. Av. Dámaso A. Larrañaga',
+    schedule: 'Lunes a Viernes: de 9:00 a 12:30 y de 13:00 a 18:00 hrs.',
+    phone: [
+      {
+        number: 59824807776,
+        text: '2480 7776',
+      },
+    ],
+    whatsApp: {
+      number: 598099263226,
+      text: '099 263 226',
+    },
+    position: {
+      lat: -34.88040991654218,
+      lng: -56.15175340966902,
+    },
+    mapUrl: 'https://maps.app.goo.gl/gJc8m7AwYp2igCZNA',
+  },
+];
+
+const branches = ID === 'ROBOTEC' ? branchesRobotec : branchesNami;
 
 const enabledPaymentMethods = PAYMENT_METHODS ? PAYMENT_METHODS.split(',').map(method => method.trim()) : [];
 
@@ -287,6 +344,7 @@ module.exports = {
     authEnabled: AUTH_ENABLED === 'true',
     paymentMethods: availablePaymentMethods,
     shippingMethods,
+    navbarMessage: NAVBAR_MESSAGE,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
       googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,

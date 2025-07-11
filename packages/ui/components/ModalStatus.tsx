@@ -43,6 +43,14 @@ export const ModalStatus = ({ orderId, isOpen, onClose, status, onConfirm }: Mod
   const { isLoading, data, error } = useStatusChange(statusChangeValues);
 
   useEffect(() => {
+    if (status === Status.CANCELED) {
+      setSendEmail(false);
+    } else {
+      setSendEmail(true);
+    }
+  }, [status]);
+
+  useEffect(() => {
     if (data) {
       const id = 'model-status-success';
       if (!toast.isActive(id)) {
@@ -81,9 +89,11 @@ export const ModalStatus = ({ orderId, isOpen, onClose, status, onConfirm }: Mod
           >
             {status}
           </Box>
-          <Checkbox mt={4} isChecked={sendEmail} onChange={e => setSendEmail(e.target.checked)}>
-            Enviar email de notificación
-          </Checkbox>
+          {status !== Status.CANCELED && (
+            <Checkbox mt={4} isChecked={sendEmail} onChange={e => setSendEmail(e.target.checked)}>
+              Enviar email de notificación
+            </Checkbox>
+          )}
           {error && (
             <Text color="red.500" mt={2}>
               {error}

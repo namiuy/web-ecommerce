@@ -1,14 +1,12 @@
-'use client';
-
 import lscache from 'lscache';
 import { NextPage } from 'next';
 import { Flex } from 'ui';
-import { SideBar, Content, Orders } from '../components';
+import { SideBar, Content, Products, PhotosUpload } from '../components';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { isBrowser } from 'shared';
 
-const OrdenesPage: NextPage = () => {
+const FotosPage: NextPage = () => {
   const issBrowser = isBrowser();
   const router = useRouter();
 
@@ -26,12 +24,12 @@ const OrdenesPage: NextPage = () => {
 
   return (
     <Flex>
-      <SideBar currentPage="ordenes" />
+      <SideBar currentPage="fotos" />
       <Content>
-        <Orders />
+        <PhotosUpload />
       </Content>
     </Flex>
   );
 };
 
-export default OrdenesPage;
+export default FotosPage;

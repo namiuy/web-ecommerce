@@ -62,7 +62,7 @@ const MenuAdmin = () => {
 
   return (
     <Menu>
-      <MenuButton _hover={{ bg: 'primary.main' }} borderRadius="0.5rem" bg="secondary.main" px="0">
+      <MenuButton borderRadius="0.5rem" bg="secondary.main" px="0" _hover={{ bg: 'primary.main' }}>
         <Flex alignItems="center" gap="0.5rem" bg="transparent">
           <Avatar w="3rem" h="3rem" size="lg" bg="transparent" color={_avatarColor} icon={<IoPerson />} />
           <Text color="white" fontWeight="medium" fontSize="0.875rem" pr="1rem">

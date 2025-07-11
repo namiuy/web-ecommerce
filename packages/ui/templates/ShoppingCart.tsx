@@ -191,9 +191,9 @@ export const ShoppingCart = () => {
                     <Button
                       variant="outline"
                       w="100%"
-                      bg="#6A0000"
+                      bg="secondary.main"
                       color="white"
-                      _hover={{ backgroundColor: '#820101' }}
+                      _hover={{ backgroundColor: 'primary.main' }}
                       onClick={() => router.replace('/checkout')}
                     >
                       FINALIZAR COMPRA
@@ -204,10 +204,10 @@ export const ShoppingCart = () => {
                       variant="outline"
                       w="100%"
                       bg="white"
-                      color="#820101"
-                      borderColor="#820101"
+                      color="secondary.main"
+                      borderColor="secondary.main"
                       border="2px"
-                      _hover={{ backgroundColor: '#820101', color: 'white', borderColor: '#820101' }}
+                      _hover={{ backgroundColor: 'primary.main', color: 'white', borderColor: 'primary.main' }}
                       onClick={() => router.replace('/')}
                     >
                       CONTINUAR COMPRANDO

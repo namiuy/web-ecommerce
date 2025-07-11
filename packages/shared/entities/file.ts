@@ -4,5 +4,6 @@ export type File = {
   buffer?: Buffer;
   mimetype: string;
   path: string;
+  extension?: string;
   url?: string;
 };

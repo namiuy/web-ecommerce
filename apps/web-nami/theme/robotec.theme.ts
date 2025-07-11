@@ -1,4 +1,4 @@
-const primary = '#ffffff';
+const primary = '#2f3030';
 const secondary = '#171717';
 const white = '#ffffff';
 const black = '#000000';
@@ -101,6 +101,7 @@ export const theme: Record<string, any> = {
         backgroundColorPrimary: secondary,
         backgroundColorSecondary: secondary,
         borderColor: primary,
+
         iconButton: {
           color: white,
           _hover: {
@@ -108,18 +109,18 @@ export const theme: Record<string, any> = {
           },
         },
         input: {
-          color: secondary,
-          borderColor: primary,
-          iconColor: secondary,
-          backgroundColor: primary,
+          color: white,
+          borderColor: white,
+          iconColor: white,
+          backgroundColor: '#2f3030',
           _focus: {
-            borderColor: primary,
+            borderColor: white,
           },
           _hover: {
-            borderColor: primary,
+            borderColor: white,
           },
           _placeholder: {
-            color: secondary,
+            color: white,
           },
         },
       },
@@ -132,7 +133,7 @@ export const theme: Record<string, any> = {
         },
       },
       avatar: {
-        backgroundColor: secondary,
+        backgroundColor: '#2f3030',
         color: white,
       },
       drawerMenu: {
@@ -158,18 +159,18 @@ export const theme: Record<string, any> = {
       },
       footer: {
         backgroundColor: secondary,
-        color: secondary,
+        color: primary,
         borderColor: white,
         input: {
-          color: 'red',
-          borderColor: 'red',
-          backgroundColor: primary,
+          color: black,
+          borderColor: white,
+          backgroundColor: white,
         },
         iconButton: {
-          backgroundColor: 'red',
+          backgroundColor: white,
           color: secondary,
           _active: {
-            backgroundColor: 'red',
+            backgroundColor: white,
           },
         },
       },
