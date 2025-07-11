@@ -1,5 +1,5 @@
-const primary = '#1d7531';
-const secondary = '#238a3a';
+const primary = '#010133';
+const secondary = '#01014a';
 
 const white = '#ffffff';
 const black = '#000000';
@@ -45,10 +45,11 @@ export const theme: Record<string, any> = {
       900: secondary,
     },
     brand: {
-      background: greyBg,
+      background: '#fafafa',
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
+        color: primary,
       },
       banner: {
         paginationColor: secondary,
@@ -107,19 +108,19 @@ export const theme: Record<string, any> = {
         iconButton: {
           color: white,
           _hover: {
-            color: white,
+            color: secondary,
           },
         },
         input: {
           color: white,
-          borderColor: primary,
+          borderColor: white,
           iconColor: white,
           backgroundColor: primary,
           _focus: {
-            borderColor: primary,
+            borderColor: white,
           },
           _hover: {
-            borderColor: primary,
+            borderColor: white,
           },
           _placeholder: {
             color: white,
@@ -135,7 +136,7 @@ export const theme: Record<string, any> = {
         },
       },
       avatar: {
-        backgroundColor: secondary,
+        backgroundColor: primary,
         color: white,
       },
       drawerMenu: {
@@ -150,12 +151,20 @@ export const theme: Record<string, any> = {
         input: {
           borderColor: primary,
         },
+        button: {
+          backgroundColor: primary,
+          color: white,
+          _hover: {
+            backgroundColor: primary,
+          },
+        },
+        iconColor: primary,
       },
       footer: {
         backgroundColor: secondary,
-        color: "lightgrey",
+        color: 'lightgrey',
         borderColor: white,
-        input : {
+        input: {
           color: white,
           borderColor: primary,
           backgroundColor: primary,
@@ -182,9 +191,10 @@ export const theme: Record<string, any> = {
               },
             },
 
-            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label': {
-              ...activeLabelStyles,
-            },
+            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label':
+              {
+                ...activeLabelStyles,
+              },
             label: {
               top: 0,
               left: 0,
@@ -198,6 +208,11 @@ export const theme: Record<string, any> = {
               transformOrigin: 'left top',
             },
           },
+        },
+      },
+      contact: {
+        input: {
+          borderColor: primary,
         },
       },
     },

@@ -12,7 +12,6 @@
     "dev:cp": "turbo run dev --filter=web-control-panel",
     "dev:credi": "turbo run dev --filter=web-credibikerss",
     "dev:nami": "turbo run dev --filter=web-nami",
-    "dev:autopartes": "turbo run dev --filter=web-autopartes",
     "dev:nexlab": "turbo run dev --filter=web-nexlab",
     "dev:nexlab-control": "turbo run dev --filter=web-nexlab-control",
     "lint": "turbo run lint",

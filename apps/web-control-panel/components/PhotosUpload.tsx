@@ -5,6 +5,21 @@ import { Buffer } from 'buffer';
 import { AddIcon, CheckIcon } from '@chakra-ui/icons';
 import { Photo } from 'shared/entities/photo';
 
+const normalizeFileName = (filename: string): string => {
+  const parts = filename.split('.');
+  if (parts.length < 2) return filename.toUpperCase();
+  const ext = parts.pop()!.toLowerCase();
+  const base = parts.join('.').toUpperCase();
+  return `${base}.${ext}`;
+};
+
+const splitNameAndExtension = (filename: string): [string, string] => {
+  const parts = filename.split('.');
+  if (parts.length < 2) return [filename, ''];
+  const ext = parts.pop()!.toLowerCase();
+  return [parts.join('.'), ext];
+};
+
 export const PhotosUpload = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -12,17 +27,20 @@ export const PhotosUpload = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
 
+  const openFileDialog = () => inputRef.current?.click();
+
   const handleFiles = useCallback((files: FileList | null) => {
     if (!files) return;
+
     Array.from(files).forEach(file => {
       const reader = new FileReader();
       reader.onload = e => {
-        if (e.target) {
+        if (e.target?.result) {
           setPhotos(prev => [
             ...prev,
             {
               id: `${Date.now()}-${Math.random()}`,
-              name: file.name,
+              name: normalizeFileName(file.name),
               url: e.target!.result as string,
               mimetype: file.type,
               uploaded: false,
@@ -33,8 +51,6 @@ export const PhotosUpload = () => {
       reader.readAsDataURL(file);
     });
   }, []);
-
-  const openFileDialog = () => inputRef.current?.click();
 
   const handleCancel = () => {
     setPhotos([]);
@@ -47,10 +63,13 @@ export const PhotosUpload = () => {
 
     for (let i = 0; i < photos.length; i++) {
       const photo = photos[i];
+
       try {
         setUploadingPhotoIndex(i);
+
         const blob = await fetch(photo.url).then(r => r.blob());
         const arrayBuffer = await blob.arrayBuffer();
+
         const [name, extension] = splitNameAndExtension(photo.name);
 
         const backendFile = {
@@ -62,7 +81,7 @@ export const PhotosUpload = () => {
           path: 'products',
         };
 
-        const { data, error } = await uploadFile({ file: backendFile });
+        const { data, error } = await uploadFile({ file: backendFile, keepOriginalName: true });
 
         if (error) throw new Error(error);
         if (!data?.url) throw new Error('La respuesta no contiene una URL válida');
@@ -93,13 +112,6 @@ export const PhotosUpload = () => {
     setPhotos([]);
   };
 
-  const splitNameAndExtension = (filename: string): [string, string] => {
-    const parts = filename.split('.');
-    if (parts.length < 2) return [filename, ''];
-    const ext = parts.pop()!;
-    return [parts.join('.'), ext];
-  };
-
   return (
     <Box
       flex="1"
@@ -123,7 +135,7 @@ export const PhotosUpload = () => {
         type="file"
         accept="image/jpeg"
         multiple
-        style={{ display: 'none' }}
+        hidden
         onChange={e => handleFiles(e.target.files)}
       />
 
@@ -166,50 +178,17 @@ export const PhotosUpload = () => {
                   borderWidth="1px"
                   borderRadius="md"
                   boxShadow="sm"
-                  overflow="hidden"
                   bg="white"
-                  role="group"
                   position="relative"
                   minH="17rem"
                 >
                   {uploadingPhotoIndex === index && (
-                    <Box
-                      position="absolute"
-                      top="0"
-                      left="0"
-                      w="100%"
-                      h="100%"
-                      bg="rgba(255,255,255,0.8)"
-                      zIndex="2"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
+                    <Overlay>
                       <Spinner size="md" color="blue.500" />
-                    </Box>
+                    </Overlay>
                   )}
 
-                  {photo.uploaded && (
-                    <Box
-                      position="absolute"
-                      top="0.5rem"
-                      left="0.5rem"
-                      zIndex={3}
-                      bg="green.500"
-                      color="white"
-                      px={2}
-                      py={1}
-                      borderRadius="full"
-                      fontSize="xs"
-                      fontWeight="bold"
-                      display="flex"
-                      alignItems="center"
-                      gap={1}
-                    >
-                      <CheckIcon boxSize={3} />
-                      Subida
-                    </Box>
-                  )}
+                  {photo.uploaded && <Tag label="Subida" icon={<CheckIcon boxSize={3} />} color="green.500" />}
 
                   <Button
                     size="xs"
@@ -237,6 +216,7 @@ export const PhotosUpload = () => {
                   </Box>
                 </Flex>
               ))}
+
               <Flex
                 direction="column"
                 borderWidth="2px"
@@ -244,7 +224,6 @@ export const PhotosUpload = () => {
                 borderColor="gray.300"
                 borderRadius="md"
                 boxShadow="sm"
-                overflow="hidden"
                 bg="gray.50"
                 justify="center"
                 align="center"
@@ -276,3 +255,42 @@ export const PhotosUpload = () => {
     </Box>
   );
 };
+
+const Overlay = ({ children }: { children: React.ReactNode }) => (
+  <Box
+    position="absolute"
+    top="0"
+    left="0"
+    w="100%"
+    h="100%"
+    bg="rgba(255,255,255,0.8)"
+    zIndex="2"
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+  >
+    {children}
+  </Box>
+);
+
+const Tag = ({ label, icon, color }: { label: string; icon: React.ReactNode; color: string }) => (
+  <Box
+    position="absolute"
+    top="0.5rem"
+    left="0.5rem"
+    zIndex={3}
+    bg={color}
+    color="white"
+    px={2}
+    py={1}
+    borderRadius="full"
+    fontSize="xs"
+    fontWeight="bold"
+    display="flex"
+    alignItems="center"
+    gap={1}
+  >
+    {icon}
+    {label}
+  </Box>
+);

@@ -8,6 +8,7 @@ const {
   GOOGLE_GA_MEASUREMENT_ID,
   PRODUCT_COLORS,
   PRODUCT_FORM_PHOTO_UPLOAD,
+  SIDEBAR_OPTIONS,
 } = process.env;
 
 const colors = [
@@ -38,6 +39,7 @@ module.exports = {
       showColors: PRODUCT_COLORS === 'true',
     },
     productFormPhotoUpload: PRODUCT_FORM_PHOTO_UPLOAD === 'true',
+    sidebarOptions: SIDEBAR_OPTIONS ? SIDEBAR_OPTIONS.split(',') : [],
     colors,
   },
 };
