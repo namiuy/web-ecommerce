@@ -1,5 +1,3 @@
-'use client';
-
 import lscache from 'lscache';
 import { NextPage } from 'next';
 import { Flex } from 'ui';
