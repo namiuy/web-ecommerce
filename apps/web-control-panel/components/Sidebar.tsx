@@ -50,11 +50,13 @@ type SiderBarProps = {
 export const SideBar = ({ currentPage }: SiderBarProps) => {
   const issBrowser = isBrowser();
   const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [isUserImageUploader, setIsUserImageUploader] = useState(false);
 
   useEffect(() => {
     if (issBrowser) {
       const user = lscache.get('user');
       setIsUserAdmin(user?.roles?.includes('administrator') || user?.roles?.includes('manager'));
+      setIsUserImageUploader(user?.roles?.includes('imageuploader'));
     }
   }, [issBrowser]);
 
@@ -79,7 +81,7 @@ export const SideBar = ({ currentPage }: SiderBarProps) => {
           {sidebarOptions.includes('products') && isUserAdmin && (
             <SidebarButton path="productos" text="Productos" icon={FiBox} currentPage={currentPage} />
           )}
-          {sidebarOptions.includes('photos') && (
+          {sidebarOptions.includes('photos') && isUserImageUploader && (
             <SidebarButton path="fotos" text="Fotos" icon={IoMdPhotos} currentPage={currentPage} />
           )}
         </Flex>
