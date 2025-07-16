@@ -13,11 +13,10 @@ const FotosPage: NextPage = () => {
   useEffect(() => {
     if (issBrowser) {
       const user = lscache.get('user');
-      const isUserAdmin =
-        user?.roles?.includes('administrator') || user?.roles?.includes('manager') || user?.roles?.includes('seller');
+      const isUserImageUploader = user?.roles?.includes('administrator') || user?.roles?.includes('imageuploader');
 
-      if (!isUserAdmin) {
-        router.push('/iniciar');
+      if (!isUserImageUploader) {
+        router.push('/');
       }
     }
   }, [issBrowser]);

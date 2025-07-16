@@ -19,7 +19,7 @@ const OrdenesPage: NextPage = () => {
         user?.roles?.includes('administrator') || user?.roles?.includes('manager') || user?.roles?.includes('seller');
 
       if (!isUserAdmin) {
-        router.push('/iniciar');
+        router.push('/');
       }
     }
   }, [issBrowser]);
