@@ -92,11 +92,31 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isPriceBoth = detailPriceType === 'BOTH';
   const isPriceSimple = detailPriceType === 'SIMPLE';
 
-  const [mainImage, setMainImage] = useState(data?.images?.[0]);
+  const shouldUseMultimedias = data?.multimedias !== undefined;
+
+  const [mainImageUrl, setMainImageUrl] = useState<string>('');
+
+  const getAllImages = () => {
+    if (shouldUseMultimedias) {
+      return data?.multimedias?.filter(m => m.type === 'photo' && m.url)?.map(m => m.url!) || [];
+    } else {
+      return data?.images || [];
+    }
+  };
+
+  const getMainImage = (): string => {
+    if (shouldUseMultimedias) {
+      const firstPhoto = data?.multimedias?.find(m => m.type === 'photo' && m.url);
+      return firstPhoto?.url || '';
+    } else {
+      return data?.images?.[0] || '';
+    }
+  };
 
   useEffect(() => {
-    setMainImage(data?.images?.[0] || '');
-  }, [data]);
+    const mainImg = getMainImage();
+    setMainImageUrl(mainImg);
+  }, [data, shouldUseMultimedias]);
 
   if (error) {
     console.log(error);
@@ -141,37 +161,83 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
           >
             <Skeleton isLoaded={!isLoading}>
               <AspectRatio ratio={{ base: 4 / 3, lg: 1, xl: 4 / 3 }}>
-                <Image
-                  w="100%"
-                  onClick={imageDisclosure.onOpen}
-                  src={mainImage}
-                  alt={data?.brand?.name}
-                  cursor="pointer"
-                  style={{ objectFit: 'contain' }}
-                  fallback={<Box w="100%" h="100%" bg={_grey0} />}
-                />
+                {shouldUseMultimedias && data?.multimedias?.find(m => m.type === 'video' && m.url === mainImageUrl) ? (
+                  <video src={mainImageUrl} controls style={{ width: '100%', height: '100%', objectFit: 'contain' }}>
+                    Tu navegador no soporta el elemento de video.
+                  </video>
+                ) : (
+                  <Image
+                    w="100%"
+                    onClick={imageDisclosure.onOpen}
+                    src={mainImageUrl}
+                    alt={data?.brand?.name}
+                    cursor="pointer"
+                    style={{ objectFit: 'contain' }}
+                    fallback={<Box w="100%" h="100%" bg={_grey0} />}
+                  />
+                )}
               </AspectRatio>
+
               <Flex gap="1.25rem" mt="0.5rem" wrap="wrap">
-                {data?.images?.map((url, index) => (
-                  <Box
-                    key={index}
-                    border={url === mainImage ? '2px solid' : '1px solid'}
-                    borderColor={url === mainImage ? 'blue.500' : 'gray.300'}
-                    borderRadius="md"
-                    boxSize="4rem"
-                    overflow="hidden"
-                    p="0.25rem"
-                    _hover={{ cursor: 'pointer', opacity: 0.8 }}
-                    onClick={() => setMainImage(url)}
-                  >
-                    <Image src={url} alt={`thumb-${index}`} boxSize="100%" objectFit="contain" />
-                  </Box>
-                ))}
+                {shouldUseMultimedias
+                  ? data?.multimedias?.map((media, index) => {
+                      if (!media.url) return null;
+                      const isSelected = media.url === mainImageUrl;
+
+                      return (
+                        <Box
+                          key={index}
+                          border={isSelected ? '2px solid' : '1px solid'}
+                          borderColor={isSelected ? 'blue.500' : 'gray.300'}
+                          borderRadius="md"
+                          boxSize="4rem"
+                          overflow="hidden"
+                          p="0.25rem"
+                          _hover={{ cursor: 'pointer', opacity: 0.8 }}
+                          onClick={() => setMainImageUrl(media.url!)}
+                          position="relative"
+                        >
+                          {media.type === 'photo' ? (
+                            <Image src={media.url} alt={`thumb-${index}`} boxSize="100%" objectFit="contain" />
+                          ) : (
+                            <Box
+                              boxSize="100%"
+                              bg="gray.100"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                              borderRadius="sm"
+                            >
+                              <Text fontSize="lg">📹</Text>
+                            </Box>
+                          )}
+                        </Box>
+                      );
+                    })
+                  : data?.images?.map((url, index) => {
+                      const isSelected = url === mainImageUrl;
+
+                      return (
+                        <Box
+                          key={index}
+                          border={isSelected ? '2px solid' : '1px solid'}
+                          borderColor={isSelected ? 'blue.500' : 'gray.300'}
+                          borderRadius="md"
+                          boxSize="4rem"
+                          overflow="hidden"
+                          p="0.25rem"
+                          _hover={{ cursor: 'pointer', opacity: 0.8 }}
+                          onClick={() => setMainImageUrl(url)}
+                        >
+                          <Image src={url} alt={`thumb-${index}`} boxSize="100%" objectFit="contain" />
+                        </Box>
+                      );
+                    })}
               </Flex>
 
               <ImageModal
                 disclosure={imageDisclosure}
-                image={mainImage}
+                image={mainImageUrl}
                 title={data?.brand?.name}
                 isMobile={!!isMobile}
               />

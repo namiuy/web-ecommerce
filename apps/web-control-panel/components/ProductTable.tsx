@@ -11,11 +11,11 @@ import {
   Image,
   Spinner,
   Checkbox,
-  Button,
+  Badge,
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import { useProductSearch } from 'shared';
-import { Flex, Text, ImageModal, ProductEditModal } from 'ui';
+import { Box, Flex, Text, ImageModal, ProductEditModal } from 'ui';
 import { useState } from 'react';
 import { Product } from 'shared/entities/product';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -46,6 +46,33 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
   const handleImage = (src: string) => {
     setImageSrc(src);
     imageDisclosure.onOpen();
+  };
+
+  const getProductMainImage = (product: Product): string => {
+    if (product.multimedias && product.multimedias.length > 0) {
+      const firstPhoto = product.multimedias.find(m => m.type === 'photo');
+      if (firstPhoto) return firstPhoto.url;
+    }
+
+    if (product.images && product.images.length > 0) {
+      return product.images[0];
+    }
+
+    return './placeholder.jpg';
+  };
+
+  const hasVideo = (product: Product): boolean => {
+    return product.multimedias?.some(m => m.type === 'video') ?? false;
+  };
+
+  const getMediaCount = (product: Product): number => {
+    if (product.multimedias) {
+      return product.multimedias.length;
+    }
+    if (product.images) {
+      return product.images.length;
+    }
+    return 0;
   };
 
   const handleNextPage = () => {
@@ -105,56 +132,90 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
             </Tr>
           </Thead>
           <Tbody>
-            {data?.products.map((product, index) => (
-              <Tr key={index} h="3rem">
-                <Td maxW="8rem" textAlign="center">
-                  {product.id}
-                </Td>
-                <Td display="flex" justifyContent="center">
-                  <Image
-                    onClick={() => handleImage(product?.images?.[0] || '')}
-                    src={product?.images?.length > 0 ? product?.images?.[0] : './placeholder.svg'}
-                    alt={product?.brand.name}
-                    cursor={'pointer'}
-                    fit="contain"
-                    w="3.75rem"
-                    h="3.75rem"
-                  />
-                </Td>
-                <Td maxW="20rem" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  {product.name}
-                </Td>
-                <Td textAlign="center">{product.price}</Td>
-                <Td textAlign="center">{product.discount ?? 0} %</Td>
-                <Td textAlign="center">
-                  <Checkbox isDisabled defaultChecked={product?.is_public} bg="#f2f2f2" />
-                </Td>
-                <Td textAlign="center">
-                  <Checkbox isDisabled defaultChecked={product?.is_original} bg="#f2f2f2" />
-                </Td>
-                <Td textAlign="center">
-                  <IconButton
-                    aria-label="Editar"
-                    icon={<EditIcon />}
-                    variant="filled"
-                    colorScheme="primary"
-                    size="lg"
-                    borderRadius="50%"
-                    _hover={{ bg: 'blackAlpha.100' }}
-                    onClick={() => handleEdit(product)}
-                  />
-                </Td>
-              </Tr>
-            ))}
+            {data?.products.map((product, index) => {
+              const mainImageUrl = getProductMainImage(product);
+              const mediaCount = getMediaCount(product);
+              const productHasVideo = hasVideo(product);
+
+              return (
+                <Tr key={index} h="3rem">
+                  <Td maxW="8rem" textAlign="center">
+                    {product.id}
+                  </Td>
+                  <Td display="flex" justifyContent="center">
+                    <Box position="relative">
+                      <Image
+                        onClick={() => handleImage(mainImageUrl)}
+                        src={mainImageUrl}
+                        alt={product?.brand.name}
+                        cursor={'pointer'}
+                        fit="contain"
+                        w="3.75rem"
+                        h="3.75rem"
+                      />
+
+                      {mediaCount > 1 && (
+                        <Badge
+                          position="absolute"
+                          top="-0.25rem"
+                          right="-0.25rem"
+                          borderRadius="full"
+                          px="0.375rem"
+                          fontSize="0.625rem"
+                          colorScheme="blue"
+                        >
+                          {mediaCount}
+                        </Badge>
+                      )}
+
+                      {productHasVideo && (
+                        <Badge
+                          position="absolute"
+                          bottom="-0.25rem"
+                          left="-0.25rem"
+                          borderRadius="full"
+                          px="0.375rem"
+                          fontSize="0.625rem"
+                          colorScheme="purple"
+                        >
+                          📹
+                        </Badge>
+                      )}
+                    </Box>
+                  </Td>
+                  <Td maxW="20rem" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+                    {product.name}
+                  </Td>
+                  <Td textAlign="center">{product.price}</Td>
+                  <Td textAlign="center">{product.discount ?? 0} %</Td>
+                  <Td textAlign="center">
+                    <Checkbox isDisabled defaultChecked={product?.is_public} bg="#f2f2f2" />
+                  </Td>
+                  <Td textAlign="center">
+                    <Checkbox isDisabled defaultChecked={product?.is_original} bg="#f2f2f2" />
+                  </Td>
+                  <Td textAlign="center">
+                    <IconButton
+                      aria-label="Editar"
+                      icon={<EditIcon />}
+                      variant="filled"
+                      colorScheme="primary"
+                      size="lg"
+                      borderRadius="50%"
+                      _hover={{ bg: 'blackAlpha.100' }}
+                      onClick={() => handleEdit(product)}
+                    />
+                  </Td>
+                </Tr>
+              );
+            })}
           </Tbody>
         </Table>
       </TableContainer>
 
       <Flex justifyContent="space-between" alignItems="center" mt="1rem">
-        {/* Izquierda: cantidad de resultados */}
         <Text>Mostrando {data?.products?.length || 0} resultados</Text>
 
-        {/* Derecha: paginación */}
         <Flex gap="1rem" alignItems="center">
           <IconButton
             aria-label="Anterior"

@@ -2,6 +2,7 @@ import { Brand } from './brand';
 import { Category } from './category';
 import { RelatedLink } from './related-link';
 import { Specification } from './specification';
+import { Multimedia } from './multimedia';
 
 export type Product = {
   id: string;
@@ -14,7 +15,8 @@ export type Product = {
   description: string;
   price: number;
   image_url: string;
-  images: string[];
+  images?: string[];
+  multimedias?: Multimedia[];
   path: string;
   stock: 'NO' | 'CO' | 'AV';
   specifications: Specification[];
