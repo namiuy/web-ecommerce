@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Link } from '@chakra-ui/react';
+import { Box, Flex, Image, Link, Badge } from '@chakra-ui/react';
 import { Product } from 'shared/entities/product';
 import { Card, Text, Skeleton } from 'ui';
 import { boxShadowMd } from 'ui/components/ThemeProvider/colors';
@@ -42,24 +42,76 @@ export type ProductCardProps = {
 };
 
 export const ProductCard = ({ min = false, isLoading = false, product }: ProductCardProps) => {
-  const { name, category, price = 0, price_without_tax, id, image_url, discount = 0, images } = product || {};
+  const {
+    name,
+    category,
+    price = 0,
+    price_without_tax,
+    id,
+    image_url,
+    discount = 0,
+    images,
+    multimedias,
+  } = product || {};
+
+  const shouldUseMultimedias = multimedias !== undefined;
+
+  const getProductMainImage = (): string => {
+    if (shouldUseMultimedias) {
+      const firstPhoto = multimedias?.find(m => m.type === 'photo' && m.url);
+      if (firstPhoto?.url) return firstPhoto.url;
+    } else {
+      if (images && images.length > 0) {
+        return images[0];
+      }
+    }
+
+    return image_url || '';
+  };
+
+  const hasVideo = (): boolean => {
+    if (shouldUseMultimedias) {
+      return multimedias?.some(m => m.type === 'video') ?? false;
+    }
+    return false;
+  };
+
+  const mainImageUrl = getProductMainImage();
+  const productHasVideo = hasVideo();
 
   return (
     <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card minW={_minW} maxW={_maxW} mt={_mt} p={_p} size="sm" _hover={{ boxShadow: boxShadowMd }}>
         <Flex direction="column" justifyContent="space-between">
-          <Box mb={_imageMb}>
+          <Box mb={_imageMb} position="relative">
             {isLoading ? (
               <Skeleton w="100%" h={_imageMinH} />
             ) : (
-              <Image
-                w="100%"
-                h={_imageMinH}
-                alt={name}
-                src={images?.[0] || ''}
-                fit="contain"
-                fallback={<Box h={_imageMinH} bg={_grey0} />}
-              />
+              <>
+                <Image
+                  w="100%"
+                  h={_imageMinH}
+                  alt={name}
+                  src={mainImageUrl}
+                  fit="contain"
+                  fallback={<Box h={_imageMinH} bg={_grey0} />}
+                />
+
+                {productHasVideo && (
+                  <Badge
+                    position="absolute"
+                    bottom="0.25rem"
+                    left="0.25rem"
+                    borderRadius="full"
+                    px="0.375rem"
+                    fontSize="0.625rem"
+                    colorScheme="purple"
+                    zIndex={1}
+                  >
+                    📹
+                  </Badge>
+                )}
+              </>
             )}
           </Box>
           <Flex direction="column" justifyContent="space-between" p={_bodyP} gap={_bodyGap}>

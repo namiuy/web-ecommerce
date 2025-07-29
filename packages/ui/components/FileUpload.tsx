@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useRef, useState, useEffect, ChangeEvent, DragEvent } from 'react';
-import { MdDelete } from 'react-icons/md';
+import { useRef, useState, useEffect, ChangeEvent, DragEvent } from 'react';
 import { Button, ButtonProps, Icon } from '@chakra-ui/react';
 import { Box } from '..';
 import { upload } from 'shared';
@@ -14,18 +13,17 @@ type FileUploadProps = {
   onSuccess: (result?: FileEntity) => void;
 };
 
-export const FileUpload: FC<FileUploadProps & ButtonProps> = ({
+export const FileUpload = ({
   disabled,
   path,
   fileName,
   children,
   onSuccess,
   ...buttonProps
-}) => {
+}: FileUploadProps & ButtonProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<FileEntity>();
   const [error, setError] = useState<string>();
   const [dragging, setDragging] = useState(false);
 
@@ -34,7 +32,6 @@ export const FileUpload: FC<FileUploadProps & ButtonProps> = ({
       setIsLoading(true);
       upload(path, file, fileName)
         .then(data => {
-          setResult(data);
           onSuccess(data);
         })
         .catch(error => {
@@ -75,12 +72,6 @@ export const FileUpload: FC<FileUploadProps & ButtonProps> = ({
 
   const handleFileButtonClick = () => {
     fileInputRef.current?.click();
-  };
-
-  const clear = () => {
-    setFile(undefined);
-    setResult(undefined);
-    onSuccess(undefined);
   };
 
   return (

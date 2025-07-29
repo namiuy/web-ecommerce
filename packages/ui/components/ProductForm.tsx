@@ -20,8 +20,10 @@ import {
   Select,
   Input,
   Checkbox,
+  Text,
+  Badge,
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   getObjectDifference,
   mapBrandOptions,
@@ -34,6 +36,7 @@ import {
   validateEmpty,
 } from 'shared';
 import { Product } from 'shared/entities/product';
+import { Multimedia } from 'shared/entities/multimedia';
 import { Box } from '..';
 import { FileUpload } from './FileUpload';
 import { Formik, Field } from 'formik';
@@ -103,12 +106,16 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
     name: option?.parent ? `${option.parent} | ${option.name}` : option.name,
   }));
 
+  const shouldUseMultimedias = useMemo(() => {
+    return product?.multimedias !== undefined;
+  }, [product]);
+
   const handleSubmit = (values: Record<string, any>) => {
     isAdd ? add(values) : update(values);
   };
 
   const handleError = (error: Error) => {
-    console.log('Error de prueba', error);
+    console.log(error);
   };
 
   const showToast = (message: string) => {
@@ -121,14 +128,21 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
 
   const add = (values: Record<string, any>) => {
     setIsLoading(true);
-    productAdd({
+    const productData: any = {
       ...values,
       image_url: imageUrl ?? '',
       brand: { id: Number(values.brand) },
       category: { id: values.category.toString() },
       colors: productColors,
-      images: images,
-    } as Product)
+    };
+
+    if (shouldUseMultimedias) {
+      productData.multimedias = multimedias;
+    } else {
+      productData.images = images;
+    }
+
+    productAdd(productData as Product)
       .then(() => {
         showToast('Producto agregado correctamente');
         onSuccess();
@@ -139,7 +153,19 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
 
   const update = (values: Record<string, any>) => {
     setIsLoading(true);
-    const diff = getObjectDifference(data, { ...values, image_url: imageUrl, colors: productColors, images: images });
+    const updateData: any = {
+      ...values,
+      image_url: imageUrl,
+      colors: productColors,
+    };
+
+    if (shouldUseMultimedias) {
+      updateData.multimedias = multimedias;
+    } else {
+      updateData.images = images;
+    }
+
+    const diff = getObjectDifference(data, updateData);
     if (Object.keys(diff).length) {
       diff.id = data?.id;
       if (diff.brand) diff.brand = { id: Number(values.brand) };
@@ -177,6 +203,53 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [mainImage, setMainImage] = useState<string>(product?.images?.[0] ?? '');
 
+  const [multimedias, setMultimedias] = useState<Multimedia[]>(product?.multimedias ?? []);
+  const [mainMultimedia, setMainMultimedia] = useState<Multimedia | undefined>(product?.multimedias?.[0] || undefined);
+
+  const getMultimediaType = (url: string): 'photo' | 'video' => {
+    const extension = url.split('.').pop()?.toLowerCase();
+    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+    return videoExtensions.includes(extension || '') ? 'video' : 'photo';
+  };
+
+  const addImage = (url: string) => {
+    setImages(prev => [...prev, url]);
+    if (!mainImage) setMainImage(url);
+  };
+
+  const removeImage = (index: number) => {
+    const url = images[index];
+    const updated = images.filter((_, i) => i !== index);
+    setImages(updated);
+    if (url === mainImage) setMainImage(updated[0] || '');
+  };
+
+  const addMultimedia = (fileName: string, fullUrl: string) => {
+    console.log('aca', fileName, fullUrl);
+    const newMultimedia: Multimedia = {
+      name: fileName,
+      type: getMultimediaType(fullUrl),
+      url: fullUrl,
+    };
+
+    setMultimedias(prev => [...prev, newMultimedia]);
+    if (!mainMultimedia) {
+      setMainMultimedia(newMultimedia);
+    }
+  };
+
+  const removeMultimedia = (index: number) => {
+    const multimedia = multimedias[index];
+    const updated = multimedias.filter((_, i) => i !== index);
+    setMultimedias(updated);
+
+    if (multimedia === mainMultimedia) {
+      setMainMultimedia(updated[0] || undefined);
+    }
+  };
+
+  const hasMedia = shouldUseMultimedias ? multimedias.length > 0 : images.length > 0;
+
   return (
     <Grid alignItems="start" p="2rem" gridTemplateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="2rem">
       <Flex p={{ base: '2rem 1rem', lg: '1rem' }} justifyContent="center" flexDir="column" gap="1rem">
@@ -190,7 +263,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
           alignItems="center"
           justifyContent="center"
         >
-          {images.length === 0 ? (
+          {!hasMedia ? (
             <>
               {productFormPhotoUpload && (
                 <FileUpload
@@ -200,58 +273,151 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                   borderRadius="md"
                   boxSize="18rem"
                   onSuccess={result => {
-                    const url = result?.url;
-                    if (typeof url === 'string') {
-                      setImages([url]);
-                      setMainImage(url);
+                    const fileName = result?.name;
+                    const fullUrl = result?.url;
+                    if (typeof fileName === 'string' && typeof fullUrl === 'string') {
+                      if (shouldUseMultimedias) {
+                        addMultimedia(fileName, fullUrl);
+                      } else {
+                        addImage(fullUrl);
+                      }
                     }
                   }}
                 />
               )}
             </>
           ) : (
-            <Image alt={data?.name} src={mainImage} objectFit="contain" maxH="100%" maxW="100%" />
+            <>
+              {shouldUseMultimedias && mainMultimedia?.type === 'video' ? (
+                <video src={mainMultimedia?.url} controls style={{ maxHeight: '100%', maxWidth: '100%' }}>
+                  Tu navegador no soporta el elemento de video.
+                </video>
+              ) : (
+                <Image
+                  alt={data?.name}
+                  src={shouldUseMultimedias ? mainMultimedia?.url : mainImage}
+                  objectFit="contain"
+                  maxH="100%"
+                  maxW="100%"
+                />
+              )}
+            </>
           )}
         </Box>
-        {images.length > 0 && (
+
+        {hasMedia && (
           <Flex gap="1.25rem" wrap="wrap" mt="1rem">
-            {images.map((url, index) => (
-              <Box
-                key={index}
-                role="group"
-                pos="relative"
-                boxSize="60px"
-                border={url === mainImage ? '2px solid' : '1px solid'}
-                borderColor={url === mainImage ? 'blue.400' : 'gray.300'}
-                borderRadius="md"
-                _hover={{ cursor: 'pointer' }}
-                p="0.25rem"
-                onClick={() => setMainImage(url)}
-              >
-                <Image src={url} alt={`Imagen ${index}`} boxSize="100%" objectFit="contain" />
-                {productFormPhotoUpload && (
-                  <Button
-                    size="xs"
-                    colorScheme="red"
-                    pos="absolute"
-                    top="-0.75rem"
-                    right="-0.75rem"
-                    borderRadius="50%"
-                    zIndex={2}
-                    display="none"
-                    _groupHover={{ display: 'flex' }}
-                    onClick={e => {
-                      e.stopPropagation();
-                      const updated = images.filter((_, i) => i !== index);
-                      setImages(updated);
-                      if (url === mainImage) setMainImage(updated[0] || '');
-                    }}
+            {shouldUseMultimedias &&
+              multimedias.map((media, index) => {
+                const isSelected = media === mainMultimedia;
+
+                return (
+                  <Box
+                    key={index}
+                    role="group"
+                    pos="relative"
+                    boxSize="60px"
+                    border={isSelected ? '2px solid' : '1px solid'}
+                    borderColor={isSelected ? 'blue.400' : 'gray.300'}
+                    borderRadius="md"
+                    _hover={{ cursor: 'pointer' }}
+                    p="0.25rem"
+                    onClick={() => setMainMultimedia(media)}
                   >
-                    <FaTrashAlt size="0.625rem" />
-                  </Button>
-                )}
-              </Box>
-            ))}
+                    {media.type === 'photo' ? (
+                      <Image src={media.url} alt={media.name} boxSize="100%" objectFit="contain" />
+                    ) : (
+                      <Box
+                        boxSize="100%"
+                        bg="gray.100"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="sm"
+                      >
+                        <Text fontSize="xs" textAlign="center">
+                          📹
+                        </Text>
+                      </Box>
+                    )}
+
+                    <Badge
+                      pos="absolute"
+                      bottom="-0.5rem"
+                      left="50%"
+                      transform="translateX(-50%)"
+                      size="xs"
+                      colorScheme={media.type === 'photo' ? 'green' : 'blue'}
+                      fontSize="0.6rem"
+                    >
+                      {media.type === 'photo' ? 'IMG' : 'VID'}
+                    </Badge>
+
+                    {productFormPhotoUpload && (
+                      <Button
+                        size="xs"
+                        colorScheme="red"
+                        pos="absolute"
+                        top="-0.75rem"
+                        right="-0.75rem"
+                        borderRadius="50%"
+                        zIndex={2}
+                        display="none"
+                        _groupHover={{ display: 'flex' }}
+                        onClick={e => {
+                          e.stopPropagation();
+                          removeMultimedia(index);
+                        }}
+                      >
+                        <FaTrashAlt size="0.625rem" />
+                      </Button>
+                    )}
+                  </Box>
+                );
+              })}
+
+            {!shouldUseMultimedias &&
+              images.map((imageUrl, index) => {
+                const isSelected = imageUrl === mainImage;
+
+                return (
+                  <Box
+                    key={index}
+                    role="group"
+                    pos="relative"
+                    boxSize="60px"
+                    border={isSelected ? '2px solid' : '1px solid'}
+                    borderColor={isSelected ? 'blue.400' : 'gray.300'}
+                    borderRadius="md"
+                    _hover={{ cursor: 'pointer' }}
+                    p="0.25rem"
+                    onClick={() => setMainImage(imageUrl)}
+                  >
+                    <Image src={imageUrl} alt={`Image ${index + 1}`} boxSize="100%" objectFit="contain" />
+
+                    {productFormPhotoUpload && (
+                      <Button
+                        size="xs"
+                        colorScheme="red"
+                        pos="absolute"
+                        top="-0.75rem"
+                        right="-0.75rem"
+                        borderRadius="50%"
+                        zIndex={2}
+                        display="none"
+                        _groupHover={{ display: 'flex' }}
+                        onClick={e => {
+                          e.stopPropagation();
+                          removeImage(index);
+                        }}
+                      >
+                        <FaTrashAlt size="0.625rem" />
+                      </Button>
+                    )}
+                  </Box>
+                );
+              })}
+
             {productFormPhotoUpload && (
               <FileUpload
                 path="products"
@@ -260,10 +426,14 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                 borderRadius="md"
                 boxSize="60px"
                 onSuccess={result => {
-                  const url = result?.url;
-                  if (typeof url === 'string') {
-                    setImages(prev => [...prev, url]);
-                    if (!mainImage) setMainImage(url);
+                  const fileName = result?.name;
+                  const fullUrl = result?.url;
+                  if (typeof fileName === 'string' && typeof fullUrl === 'string') {
+                    if (shouldUseMultimedias) {
+                      addMultimedia(fileName, fullUrl);
+                    } else {
+                      addImage(fullUrl);
+                    }
                   }
                 }}
               >
@@ -273,6 +443,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
           </Flex>
         )}
       </Flex>
+
       <Formik
         initialValues={{
           id: product?.id || '',
@@ -308,7 +479,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                     return validateEmpty(value);
                   }}
                 />
-                <FormErrorMessage>{errors.brand}</FormErrorMessage>
+                <FormErrorMessage>{errors.id}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.category}>
