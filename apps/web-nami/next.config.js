@@ -172,8 +172,8 @@ const branchesNami = [
       },
     ],
     whatsApp: {
-      number: 598098402538,
-      text: '098 402 538',
+      number: 598098829026,
+      text: '098 829 026',
     },
     position: {
       lat: -34.87058963647513,
