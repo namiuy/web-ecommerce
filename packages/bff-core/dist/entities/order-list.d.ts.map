@@ -1,0 +1,1 @@
+{"version":3,"file":"order-list.d.ts","sourceRoot":"","sources":["../../entities/order-list.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,SAAS,CAAC;AAEhC,MAAM,MAAM,SAAS,GAAG;IACtB,MAAM,EAAE,KAAK,EAAE,CAAC;IAChB,YAAY,EAAE,MAAM,CAAC;CACtB,CAAC"}

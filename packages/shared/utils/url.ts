@@ -1,12 +1,23 @@
 import { ProductSearchSortBy } from '../entities/product-search';
 
 export const addSearchParamsToUrl = (url: string, newParams: Record<string, string | undefined>): string => {
-  const baseUrl = new URL(url);
+  // Handle relative URLs by creating a temporary absolute URL
+  const isRelative = url.startsWith('/');
+  const baseUrl = isRelative
+    ? new URL(url, typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000')
+    : new URL(url);
+
   const newParamsParsed = Object.entries(newParams).filter((p): p is [string, string] => !!p[1]);
   const combinedParams = new URLSearchParams({
     ...Object.fromEntries(baseUrl.searchParams),
     ...Object.fromEntries(newParamsParsed),
   });
+
+  // Return relative URL if input was relative
+  if (isRelative) {
+    return `${baseUrl.pathname}?${combinedParams.toString()}`;
+  }
+
   return new URL(`${baseUrl.origin}${baseUrl.pathname}?${combinedParams.toString()}`).href;
 };
 

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { bff } from '../..';
 import { Contact } from '../../entities/contact';
 import { post } from '../../utils/fetcher';
 import { Result } from './result';
 
 const sendEmail = (req: Contact): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/contact/email`, { body: JSON.stringify(req) });
+  return post<Result<boolean>>('/api/contact/email', { body: JSON.stringify(req) });
 };
 
 export const useContactRequest = (req?: Contact): Result<boolean> => {

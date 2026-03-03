@@ -130,8 +130,8 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                     lineHeight={_categorySize}
                     overflow="hidden"
                     sx={{
-                      '-webkit-box-orient': 'vertical',
-                      '-webkit-line-clamp': '1',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: '1',
                       display: '-webkit-box',
                     }}
                   >
@@ -147,8 +147,8 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                     fontWeight="semibold"
                     overflow="hidden"
                     sx={{
-                      '-webkit-box-orient': 'vertical',
-                      '-webkit-line-clamp': '2',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: '2',
                       display: '-webkit-box',
                     }}
                   >
@@ -162,8 +162,8 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                       mt="0.125rem"
                       overflow="hidden"
                       sx={{
-                        '-webkit-box-orient': 'vertical',
-                        '-webkit-line-clamp': '1',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: '1',
                         display: '-webkit-box',
                       }}
                     >

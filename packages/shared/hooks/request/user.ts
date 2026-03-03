@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { bff } from '../../env';
 import { Result } from './result';
 import { get, post } from '../../utils/fetcher';
 import { User } from '../../entities/user';
@@ -8,43 +7,35 @@ import lscache from 'lscache';
 import { UserRestorePwd1 } from '../../entities/user-restore-pwd-1';
 import { UserRestorePwd2 } from '../../entities/user-restore-pwd-2';
 import { UserChangePwd } from '../../entities/user-change-pwd';
+import { firebaseSignIn, firebaseSignUp } from '../../services/firebase';
 
 type SignInProps = {
   email: string;
   password: string;
 };
 
-type AccessToken = {
-  access_token: string;
-  user_id: string;
-  error?: string;
-};
-
-const getAccessToken = (username: string, password: string): Promise<AccessToken> =>
-  post<AccessToken>(`${bff.url}/oauth/access_token`, { body: JSON.stringify({ username, password }) });
-
 const getUser = (user_id: string): Promise<User> => {
-  return get<User>(`${bff.url}/users/${user_id}`, {}, true);
+  return get<User>(`/api/users/${user_id}`, {}, true);
 };
 
 const addUser = (user: UserAdd): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/users`, { body: JSON.stringify(user) });
+  return post<Result<boolean>>('/api/users', { body: JSON.stringify(user) });
 };
 
 const restorePwd1 = (user: UserRestorePwd1): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/restore_password_1`, { body: JSON.stringify(user) });
+  return post<Result<boolean>>('/api/restore_password_1', { body: JSON.stringify(user) });
 };
 
 const restorePwd2 = (user: UserRestorePwd2): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/restore_password_2`, { body: JSON.stringify(user) });
+  return post<Result<boolean>>('/api/restore_password_2', { body: JSON.stringify(user) });
 };
 
 const activateAccount = (activation_hash: string): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/users/activate`, { body: JSON.stringify({ activation_hash }) });
+  return post<Result<boolean>>('/api/users/activate', { body: JSON.stringify({ activation_hash }) });
 };
 
 const changePwdUser = (user: UserChangePwd): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/users/change-pwd`, { body: JSON.stringify(user) }, true);
+  return post<Result<boolean>>('/api/users/change-pwd', { body: JSON.stringify(user) }, true);
 };
 
 export const useGetUser = (id: string): Result<User> => {
@@ -72,7 +63,7 @@ export const useGetUser = (id: string): Result<User> => {
 };
 
 export const useSignIn = (props?: SignInProps): Result<User> => {
-  const [accessTokenResult, setAccessTokenResult] = useState<AccessToken>();
+  const [firebaseUid, setFirebaseUid] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User>();
   const [error, setError] = useState<string>();
@@ -82,15 +73,20 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
       const fetchData = async () => {
         if (props) {
           setIsLoading(true);
-          const result = await getAccessToken(props.email, props.password);
+          try {
+            // Step 1: Sign in with Firebase
+            const { user: firebaseUser, token } = await firebaseSignIn(props.email, props.password);
 
-          if (result.error) {
-            setError(result.error);
-          } else {
-            lscache.set('access_token', result);
-            setAccessTokenResult(result);
+            // Step 2: Store Firebase token in localStorage
+            lscache.set('firebase_token', token);
+
+            // Step 3: Store Firebase UID to fetch user from BFF
+            setFirebaseUid(firebaseUser.uid);
+          } catch (err: any) {
+            console.error('Firebase sign in error:', err);
+            setError(err.message || 'Error al iniciar sesión');
+            setIsLoading(false);
           }
-          setIsLoading(false);
         }
       };
 
@@ -99,10 +95,11 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
   }, [props]);
 
   useEffect(() => {
-    if (accessTokenResult) {
+    if (firebaseUid) {
       const fetchData = async () => {
-        if (accessTokenResult) {
-          const result = await getUser(accessTokenResult.user_id);
+        try {
+          // Step 4: Fetch user profile from BFF using Firebase UID
+          const result = await getUser(firebaseUid);
 
           if (result.error) {
             setError(result.error);
@@ -110,13 +107,17 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
             lscache.set('user', result);
             setUser(result);
           }
+        } catch (err: any) {
+          console.error('Get user error:', err);
+          setError(err.message || 'Error al obtener datos del usuario');
+        } finally {
           setIsLoading(false);
         }
       };
 
       fetchData();
     }
-  }, [accessTokenResult]);
+  }, [firebaseUid]);
 
   return { isLoading, data: user, error };
 };
@@ -130,14 +131,34 @@ export const useAddUser = (props?: UserAdd): Result<boolean> => {
     if (props) {
       const fetchData = async () => {
         setIsLoading(true);
-        const result = await addUser(props);
+        try {
+          // Step 1: Create user in Firebase
+          const { user: firebaseUser, token } = await firebaseSignUp(props.email, props.password);
 
-        if (result.error) {
-          setError(result.error);
-        } else {
-          setData(true);
+          // Step 2: Store Firebase token temporarily
+          lscache.set('firebase_token', token);
+
+          // Step 3: Create user profile in BFF/FastAPI with Firebase UID
+          const userDataForBFF = {
+            ...props,
+            uid: firebaseUser.uid, // Send Firebase UID to BFF
+          };
+
+          const result = await addUser(userDataForBFF);
+
+          if (result.error) {
+            setError(result.error);
+            setData(false);
+          } else {
+            setData(true);
+          }
+        } catch (err: any) {
+          console.error('Firebase sign up error:', err);
+          setError(err.message || 'Error al crear la cuenta');
+          setData(false);
+        } finally {
+          setIsLoading(false);
         }
-        setIsLoading(false);
       };
       fetchData();
     }

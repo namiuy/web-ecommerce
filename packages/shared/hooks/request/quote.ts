@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { bff } from '../..';
 import { Quote } from '../../entities/quote';
 import { post } from '../../utils/fetcher';
 import { Result } from './result';
 
 const addQuote = (req: Quote): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${bff.url}/quotes/request`, { body: JSON.stringify(req) });
+  return post<Result<boolean>>('/api/quotes/request', { body: JSON.stringify(req) });
 };
 
 export const useQuoteRequest = (req?: Quote): Result<boolean> => {

@@ -1,4 +1,3 @@
-import { bff } from '../../env';
 import { File as EntityFile } from '../../entities/file';
 import { post } from '../../utils/fetcher';
 
@@ -7,7 +6,7 @@ const getFileExtension = (name: string) => name?.split('.').pop();
 export const upload = (path: string, file: File, name?: string): Promise<EntityFile> => {
   const body = new FormData();
   body.append('upload', file, name ? `${name}.${getFileExtension(file.name)}` : undefined);
-  return post<EntityFile>(`${bff.url}/files/${path}/upload`, {
+  return post<EntityFile>(`/api/files/${path}/upload`, {
     body,
     headers: {},
   });
@@ -29,7 +28,7 @@ export const uploadFile = async ({
   formData.append('keepOriginalName', keepOriginalName ? 'true' : 'false');
 
   try {
-    const res = await fetch(`${bff.url}/files/${path}/upload`, {
+    const res = await fetch(`/api/files/${path}/upload`, {
       method: 'POST',
       body: formData,
     });

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { bff } from '../../env';
 import { Result } from './result';
 import { get, post, put } from '../../utils/fetcher';
 import { Person } from '../../entities/person';
 import { PersonUpdate } from '../../entities/person-update';
 import { useRequest } from '.';
 
-export const useGetPerson = (id: string): Result<Person> => useRequest(`${bff.url}/person/${id}`, true);
+export const useGetPerson = (id: string): Result<Person> => useRequest(`/api/person?id=${id}`, true);
 
 const updatePerson = (person: PersonUpdate): Promise<Result<boolean>> => {
-  return put<Result<boolean>>(`${bff.url}/person`, { body: JSON.stringify(person) }, true);
+  return put<Result<boolean>>('/api/person', { body: JSON.stringify(person) }, true);
 };
 
 export const useUpdatePerson = (props?: PersonUpdate): Result<boolean> => {

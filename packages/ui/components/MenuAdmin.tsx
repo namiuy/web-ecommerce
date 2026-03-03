@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { MdLogout } from 'react-icons/md';
 import { IoPerson } from 'react-icons/io5';
 import { FaShoppingBag } from 'react-icons/fa';
+import { firebaseSignOut } from 'shared/services/firebase';
 
 const _avatarColor = 'brand.avatar.color';
 const _borderRadius = '0.375rem';
@@ -46,10 +47,24 @@ const MenuAdmin = () => {
   const { first_name, last_name } = user;
   const userName = `${first_name} ${last_name}`;
 
-  const handleSignOut = () => {
-    lscache.remove('access_token');
-    lscache.remove('user');
-    router.reload();
+  const handleSignOut = async () => {
+    try {
+      // Sign out from Firebase
+      await firebaseSignOut();
+
+      // Remove tokens and user data from localStorage
+      lscache.remove('firebase_token');
+      lscache.remove('user');
+
+      // Reload the page to reset state
+      router.reload();
+    } catch (error) {
+      console.error('Error signing out:', error);
+      // Even if Firebase signout fails, clear local data
+      lscache.remove('firebase_token');
+      lscache.remove('user');
+      router.reload();
+    }
   };
 
   const handleProfile = () => {

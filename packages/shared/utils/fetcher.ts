@@ -8,12 +8,16 @@ const getRequestInit = (
   withAuth: boolean = false,
 ): RequestInit | undefined => {
   const withContent = method === 'POST' || method === 'PUT' || method === 'DELETE';
+
+  // Get Firebase ID token from localStorage
+  const firebaseToken = lscache.get('firebase_token');
+
   return {
     method,
     headers: {
       ...(withContent ? { 'Content-Type': 'application/json' } : {}),
-      ...(withAuth && lscache.get('access_token')
-        ? { Authorization: `OAuth ${lscache.get('access_token')?.access_token}` }
+      ...(withAuth && firebaseToken
+        ? { Authorization: `Bearer ${firebaseToken}` }
         : {}),
     },
     ...init,
@@ -41,9 +45,12 @@ export const del = async <T>(url: string, init?: RequestInit, withAuth?: boolean
 };
 
 export const postFormData = async <T>(url: string, formData: FormData, withAuth?: boolean): Promise<T> => {
+  // Get Firebase ID token from localStorage
+  const firebaseToken = lscache.get('firebase_token');
+
   const headers: HeadersInit = {
-    ...(withAuth && lscache.get('access_token')
-      ? { Authorization: `OAuth ${lscache.get('access_token')?.access_token}` }
+    ...(withAuth && firebaseToken
+      ? { Authorization: `Bearer ${firebaseToken}` }
       : {}),
   };
 

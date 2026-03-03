@@ -3,7 +3,6 @@ import { useRequest } from '.';
 import { AppContext } from '../../context';
 import { ProductSearch, ProductSearchSortBy } from '../../entities/product-search';
 import { addSearchParamsToUrl } from '../../utils/url';
-import { bff } from '../../env';
 import { Result } from './result';
 import { Product } from '../../entities/product';
 import { del, post, put } from '../../utils/fetcher';
@@ -18,19 +17,19 @@ type ProductSearchProps = {
 };
 
 export const productAdd = (data: Product): Promise<Product> => {
-  return post<Product>(`${bff.url}/products`, { body: JSON.stringify(data) }, true);
+  return post<Product>('/api/products', { body: JSON.stringify(data) }, true);
 };
 
 export const productUpdate = (id: string, data: any): Promise<Product> => {
-  return put<Product>(`${bff.url}/products/${id}`, { body: JSON.stringify(data) }, true);
+  return put<Product>(`/api/products/${id}`, { body: JSON.stringify(data) }, true);
 };
 
 export const useProductRelatedGet = (id: string): Result<ProductRelated> =>
-  useRequest(`${bff.url}/products/related/${id}`);
+  useRequest(`/api/products/related/${id}`);
 
-export const productDelete = (id: string): Promise<Product> => del<Product>(`${bff.url}/products/${id}`, {}, true);
+export const productDelete = (id: string): Promise<Product> => del<Product>(`/api/products/${id}`, {}, true);
 
-export const useProductGet = (id: string): Result<Product> => useRequest(`${bff.url}/products/${id}`);
+export const useProductGet = (id: string): Result<Product> => useRequest(`/api/products/${id}`);
 
 export const useProductSearch = ({
   brandId,
@@ -45,7 +44,7 @@ export const useProductSearch = ({
     t: text?.toString(),
   };
 
-  const url = addSearchParamsToUrl(`${bff.url}/products/search`, {
+  const url = addSearchParamsToUrl('/api/products/search', {
     ...filters,
     index: index.toString(),
     sortBy,
