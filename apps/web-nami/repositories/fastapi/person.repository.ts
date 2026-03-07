@@ -9,45 +9,45 @@ import {
   UNAUTHORIZED,
 } from '@namiuy/bff-core';
 
-// FastAPI types
+// FastAPI types (using actual database column names in PascalCase)
 type FastAPIPerson = {
-  person_id: number;
-  person_name: string;
-  person_last_name: string;
-  person_default_email: string;
-  person_default_phone?: string;
+  PersonId: number;
+  PersonName: string;
+  PersonLastName: string;
+  PersonDefaultEmail: string;
+  PersonDefaultPhone?: string;
   phones?: Array<{
-    pe_phone: string;
+    PePhone: string;
   }>;
   addresses?: Array<{
-    pe_address: string;
-    city_id: string;
-    city_name?: string;
-    state_id: string;
-    state_name?: string;
-    pe_address_zip_code?: string;
+    PeAddress: string;
+    CityId: number;
+    CityName?: string;
+    StateId: number;
+    StateName?: string;
+    PeAddressZIPCode?: number;
   }>;
 };
 
 // Mapper function (pure)
 const mapPerson = (data: FastAPIPerson): Person => ({
-  id: data.person_id.toString(),
-  name: data.person_name,
-  last_name: data.person_last_name,
-  email: data.person_default_email,
-  default_phone: data.person_default_phone || '',
+  id: data.PersonId.toString(),
+  name: (data.PersonName || '').trim(),
+  last_name: (data.PersonLastName || '').trim(),
+  email: (data.PersonDefaultEmail || '').trim(),
+  default_phone: (data.PersonDefaultPhone || '').trim(),
   default_address: '',
   phones: data.phones?.map(phone => ({
-    number: phone.pe_phone,
-    is_default: phone.pe_phone === data.person_default_phone,
+    number: (phone.PePhone || '').trim(),
+    is_default: phone.PePhone === data.PersonDefaultPhone,
   })) || [],
   addresses: data.addresses?.map(address => ({
-    address: address.pe_address,
-    city_id: address.city_id,
-    city_name: address.city_name || '',
-    state_id: address.state_id,
-    state_name: address.state_name || '',
-    postal_code: address.pe_address_zip_code || '',
+    address: (address.PeAddress || '').trim(),
+    city_id: address.CityId.toString(),
+    city_name: (address.CityName || '').trim(),
+    state_id: address.StateId.toString(),
+    state_name: (address.StateName || '').trim(),
+    postal_code: address.PeAddressZIPCode?.toString() || '',
     is_default: false,
   })) || [],
 });
@@ -73,8 +73,7 @@ export const createPersonRepositoryFastAPI = (
   return {
     get: async (id: string): Promise<Result<Person>> => {
       try {
-        const params = new URLSearchParams({ id });
-        const response = await fetch(`${apiBaseUrl}/person?${params.toString()}`, {
+        const response = await fetch(`${apiBaseUrl}/persons/${id}`, {
           method: 'GET',
           headers: getHeaders(),
         });
@@ -87,7 +86,10 @@ export const createPersonRepositoryFastAPI = (
           return createErrorResult(createUnhandledError(errorText));
         }
 
-        const apiPerson = (await response.json()) as FastAPIPerson;
+        const data = await response.json();
+        const apiPerson = data.person as FastAPIPerson;
+        // Add addresses from separate array in response
+        apiPerson.addresses = data.addresses || [];
         return createSuccessResult(mapPerson(apiPerson));
       } catch (error) {
         return createErrorResult(createUnhandledError((error as Error).message));
@@ -96,15 +98,26 @@ export const createPersonRepositoryFastAPI = (
 
     update: async (person: PersonUpdate): Promise<Result<boolean>> => {
       try {
-        const body = {
-          id: person.id,
-          phones: person.phones,
-          addresses: person.addresses,
-          update_user: person.update_user,
-          guid: person.guid,
-        };
+        // Map addresses and phones to backend format if they exist
+        const body: any = {};
 
-        const response = await fetch(`${apiBaseUrl}/person`, {
+        if (person.addresses && person.addresses.length > 0) {
+          body.addresses = person.addresses.map(addr => ({
+            address: addr.address,
+            cityId: parseInt(addr.city_id),
+            zipCode: addr.postal_code ? parseInt(addr.postal_code) : 0,
+            observation: addr.observation || '',
+          }));
+        }
+
+        if (person.phones && person.phones.length > 0) {
+          body.phones = person.phones.map(phone => ({
+            phone: phone.number,
+            type: 'CEL',
+          }));
+        }
+
+        const response = await fetch(`${apiBaseUrl}/persons/${person.id}`, {
           method: 'PUT',
           headers: getHeaders(),
           body: JSON.stringify(body),

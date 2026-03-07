@@ -11,7 +11,7 @@ import {
   ModalContent,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { useRef, MutableRefObject, useEffect, useState } from 'react';
+import { useRef, MutableRefObject } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { NavBarProps } from '.';
@@ -20,9 +20,7 @@ import { MenuDrawer } from '../MenuDrawer';
 import Link from 'next/link';
 import SearchInput from '../SearchInput';
 import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
-import { cartEnabled, isBrowser } from 'shared';
-import { User } from 'shared/entities/user';
-import lscache from 'lscache';
+import { cartEnabled, useCurrentUser } from 'shared';
 
 const iconButtonColor = 'brand.navBar.iconButton.color';
 const iconButtonHoverColor = 'brand.navBar.iconButton._hover.color';
@@ -81,12 +79,8 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
 
-  const issBrowser = isBrowser();
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
-  }, [issBrowser]);
+  // Use the new hook that syncs with Firebase Auth
+  const { user, isLoading } = useCurrentUser();
 
   return (
     <>

@@ -36,7 +36,7 @@ export const AddressSelection = ({
       </Text>
       <RadioGroup value={address.toString()} px={{ base: '0', md: '1.5rem' }} mb="1rem">
         <Flex flexDir="column">
-          {addresses.map((address, index) => (
+          {addresses?.map((address, index) => (
             <Flex
               key={index}
               justifyContent="space-between"

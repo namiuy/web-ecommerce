@@ -103,9 +103,22 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
 
           if (result.error) {
             setError(result.error);
+          } else if (result.is_logged_in && !result.needs_sync) {
+            // Map BFF response to User entity
+            const mappedUser: User = {
+              id: result.uid,
+              first_name: result.full_name?.split(' ')[0] || '',
+              last_name: result.full_name?.split(' ').slice(1).join(' ') || '',
+              email: result.email,
+              password: '', // Not needed on frontend
+              personId: result.user_id?.toString() || '0', // PersonId from database
+              roles: result.roles || []
+            };
+            lscache.set('user', mappedUser);
+            setUser(mappedUser);
           } else {
-            lscache.set('user', result);
-            setUser(result);
+            // User needs sync or not logged in
+            setError('Usuario no sincronizado. Por favor completa el registro.');
           }
         } catch (err: any) {
           console.error('Get user error:', err);

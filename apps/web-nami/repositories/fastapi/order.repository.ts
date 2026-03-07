@@ -122,9 +122,9 @@ export const createOrderRepositoryFastAPI = (
     checkout: async (checkout: Checkout): Promise<Result<Order>> => {
       try {
         const body = {
-          shipping_id: checkout.shipping_id,
-          payment_id: checkout.payment_id,
-          address_indx: checkout.address_indx,
+          shippingId: checkout.shipping_id,
+          paymentId: checkout.payment_id,
+          addressIdx: checkout.address_indx,
           observation: checkout.observation,
         };
 

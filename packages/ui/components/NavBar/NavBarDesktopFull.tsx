@@ -8,10 +8,7 @@ import SocialNetworks from '../SocialNetworks';
 import NavMultiDomain from '../NavMultiDomain';
 import MenuAdmin from '../MenuAdmin';
 import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
-import { useEffect, useState } from 'react';
-import { isBrowser, authEnabled, cartEnabled } from 'shared';
-import { User } from 'shared/entities/user';
-import lscache from 'lscache';
+import { authEnabled, cartEnabled, useCurrentUser } from 'shared';
 import { navbarMessage } from 'shared';
 
 const _navItemColor = 'brand.nav.item.color';
@@ -29,12 +26,8 @@ const CategoriesWrapper = () => (
 const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [] }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
-  const issBrowser = isBrowser();
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
-  }, [issBrowser]);
+  // Use the new hook that syncs with Firebase Auth
+  const { user, isLoading } = useCurrentUser();
 
   return (
     <>

@@ -9,33 +9,33 @@ import {
   UNAUTHORIZED,
 } from '@namiuy/bff-core';
 
-// FastAPI types
+// FastAPI types (PascalCase from backend)
 type FastAPICartItem = {
-  code: string;
-  items_name: string;
-  items_price: string;
-  items_quantity: number;
-  items_media_name?: string;
+  Code: string;
+  ItemsName: string;
+  ItemsPrice: string;
+  ItemsQuantity: number;
+  ItemsMediaName?: string;
 };
 
 type FastAPICart = {
-  cart_id: number;
-  cart_state: string;
-  cart_user_guid: string;
+  CartId: number;
+  CartState: string;
+  CartUserGUID: string;
   items: FastAPICartItem[];
 };
 
 // Mapper function (pure)
 const mapCart = (imagesUrl: string) => (cart: FastAPICart): Cart => ({
-  id: cart.cart_id.toString(),
-  person_id: cart.cart_user_guid,
-  state: cart.cart_state,
+  id: cart.CartId.toString(),
+  person_id: cart.CartUserGUID,
+  state: cart.CartState,
   items: cart.items.map(item => ({
-    code: item.code,
-    name: item.items_name,
-    image_url: `${imagesUrl}/${item.code}.jpg`,
-    price: item.items_price,
-    quantity: item.items_quantity,
+    code: item.Code,
+    name: item.ItemsName,
+    image_url: `${imagesUrl}/${item.Code}.jpg`,
+    price: item.ItemsPrice,
+    quantity: item.ItemsQuantity,
   })),
 });
 
@@ -76,7 +76,8 @@ export const createCartRepositoryFastAPI = (
           return createErrorResult(createUnhandledError(errorText));
         }
 
-        const apiCart = (await response.json()) as FastAPICart;
+        const data = await response.json();
+        const apiCart = data.cart as FastAPICart;
         return createSuccessResult(mapper(apiCart));
       } catch (error) {
         return createErrorResult(createUnhandledError((error as Error).message));
@@ -101,7 +102,8 @@ export const createCartRepositoryFastAPI = (
           return createErrorResult(createUnhandledError(errorText));
         }
 
-        const apiCart = (await response.json()) as FastAPICart;
+        const data = await response.json();
+        const apiCart = data.cart as FastAPICart;
         return createSuccessResult(mapper(apiCart));
       } catch (error) {
         return createErrorResult(createUnhandledError((error as Error).message));
@@ -126,7 +128,8 @@ export const createCartRepositoryFastAPI = (
           return createErrorResult(createUnhandledError(errorText));
         }
 
-        const apiCart = (await response.json()) as FastAPICart;
+        const data = await response.json();
+        const apiCart = data.cart as FastAPICart;
         return createSuccessResult(mapper(apiCart));
       } catch (error) {
         return createErrorResult(createUnhandledError((error as Error).message));
@@ -150,7 +153,8 @@ export const createCartRepositoryFastAPI = (
           return createErrorResult(createUnhandledError(errorText));
         }
 
-        const apiCart = (await response.json()) as FastAPICart;
+        const data = await response.json();
+        const apiCart = data.cart as FastAPICart;
         return createSuccessResult(mapper(apiCart));
       } catch (error) {
         return createErrorResult(createUnhandledError((error as Error).message));

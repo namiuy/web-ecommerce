@@ -6,16 +6,18 @@ import { OrderList } from '../../entities/order_list';
 import { Checkout } from '../../entities/checkout';
 import { StatusChange } from '../../entities/status-change';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+
 const checkout = (checkout: Checkout): Promise<Order> => {
-  return post<Order>('/api/orders', { body: JSON.stringify(checkout) }, true);
+  return post<Order>(`${API_BASE_URL}/api/cart/checkout`, { body: JSON.stringify(checkout) }, true);
 };
 
 const listOrders = (id: string): Promise<OrderList> => {
-  return get<OrderList>(`/api/orders?guid=${id}`, {}, true);
+  return get<OrderList>(`${API_BASE_URL}/api/orders?guid=${id}`, {}, true);
 };
 
 const listAllOrders = (): Promise<OrderList> => {
-  return get<OrderList>('/api/orders', {}, true);
+  return get<OrderList>(`${API_BASE_URL}/api/orders`, {}, true);
 };
 
 export const useCheckout = (checkout_values?: Checkout): Result<Order> => {
@@ -92,7 +94,7 @@ export const useListAllOrders = (): Result<OrderList> => {
 };
 
 export const statusChange = (status_change: StatusChange): Promise<Result<boolean>> => {
-  return post<Result<boolean>>('/api/order/status-change', { body: JSON.stringify(status_change) }, true);
+  return post<Result<boolean>>(`${API_BASE_URL}/api/order/status-change`, { body: JSON.stringify(status_change) }, true);
 };
 
 export const useStatusChange = (props?: StatusChange): Result<boolean> => {

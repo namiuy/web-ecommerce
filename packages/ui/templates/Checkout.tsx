@@ -70,7 +70,7 @@ export const Checkout = () => {
 
   const [addresses, setAddresses] = useState<Address[]>([]);
 
-  const personId = lscache.get('user')?.person_id;
+  const personId = lscache.get('user')?.personId;
   const { data: person, isLoading: isLoadingPerson } = useGetPerson(personId);
 
   useEffect(() => {
@@ -171,7 +171,7 @@ export const Checkout = () => {
                 />
               )}
               {page == 3 && <PaymentMethod paymentMethod={paymentMethod} handlePaymentChange={handlePaymentChange} />}
-              {page == 4 && (
+              {page == 4 && addresses && (
                 <Verification
                   address={addresses[address]}
                   shippingMethod={shippingMethod}

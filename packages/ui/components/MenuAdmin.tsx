@@ -1,9 +1,7 @@
 import lscache from 'lscache';
-import { useEffect, useState } from 'react';
 import { Menu, MenuItem, MenuGroup, MenuButton, MenuList, useDisclosure, Avatar } from '@chakra-ui/react';
 import { Button, Flex, Text } from 'ui';
-import { cartEnabled, isBrowser } from 'shared';
-import { User } from 'shared/entities/user';
+import { cartEnabled, useCurrentUser } from 'shared';
 import { useRouter } from 'next/router';
 import { MdLogout } from 'react-icons/md';
 import { IoPerson } from 'react-icons/io5';
@@ -17,12 +15,8 @@ const MenuAdmin = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const issBrowser = isBrowser();
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
-  }, [issBrowser]);
+  // Use the new hook that syncs with Firebase Auth
+  const { user, isLoading } = useCurrentUser();
 
   if (!user) {
     return (

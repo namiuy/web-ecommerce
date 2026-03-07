@@ -29,3 +29,4 @@ export * from './request/person';
 export * from './request/cart';
 export * from './zustand/cart';
 export * from './request/order';
+export * from './useCurrentUser';
