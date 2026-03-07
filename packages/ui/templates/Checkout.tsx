@@ -135,9 +135,9 @@ export const Checkout = () => {
 
   const handleCheckout = () => {
     setCheckoutValues({
-      shipping_id: shippingMethod,
-      payment_id: paymentMethod,
-      address_indx: address,
+      shippingId: shippingMethod,
+      paymentId: paymentMethod,
+      addressIdx: address,
       observation,
     });
   };

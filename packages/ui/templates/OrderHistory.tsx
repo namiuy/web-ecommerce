@@ -65,7 +65,7 @@ export const OrderHistory = () => {
               </Flex>
             ) : (
               <>
-                {data?.orders.map(order => (
+                {data?.orders?.map(order => (
                   <Flex
                     key={order.number}
                     bg="white"

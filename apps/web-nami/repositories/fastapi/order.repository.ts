@@ -11,27 +11,31 @@ import {
   createUnhandledError,
 } from '@namiuy/bff-core';
 
-// FastAPI types
+// FastAPI types (backend returns PascalCase)
 type FastAPIOrderItem = {
-  code: string;
-  items_name: string;
-  items_price: string;
-  items_quantity: number;
+  Code: string;
+  ItemsName: string;
+  ItemsPrice: string;
+  ItemsQuantity: number;
 };
 
 type FastAPIOrder = {
-  order_id: number;
-  order_number: string;
-  order_date: string;
-  order_guid: string;
-  order_user_email: string;
-  order_person_name: string;
-  order_phone: string;
-  order_address: string;
-  order_payment_id: string;
-  order_shipping_id: string;
-  order_state: 'INI' | 'PCH' | 'PPE' | 'PAP' | 'DIS' | 'CAN';
-  items?: FastAPIOrderItem[];
+  OrderId: number;
+  OrderGUID: string;
+  OrderDate: string;
+  OrderUserEmail: string;
+  OrderPersonName: string;
+  OrderPersonLastName: string;
+  OrderPhone: string;
+  OrderAddress: string;
+  OrderAddressCityName: string;
+  OrderAddressStateName: string;
+  OrderPaymentId: string;
+  OrderPaymentName: string;
+  OrderShippingId: string;
+  OrderShippingName: string;
+  OrderState: 'INI' | 'PCH' | 'PPE' | 'PAP' | 'DIS' | 'CAN';
+  Items?: FastAPIOrderItem[];
 };
 
 type FastAPIResponse<T> = {
@@ -61,39 +65,39 @@ const mapStatus = (status: string): Status => {
 };
 
 const mapOrder = (imagesUrl: string) => (order: FastAPIOrder): Order => ({
-  id: order.order_id.toString(),
-  number: order.order_number,
-  user_mail: order.order_user_email,
-  date: order.order_date,
+  id: order.OrderId.toString(),
+  number: order.OrderGUID.trim(),
+  user_mail: order.OrderUserEmail,
+  date: order.OrderDate,
   person: {
     id: '',
-    name: order.order_person_name?.split(' ')[0] || '',
-    last_name: order.order_person_name?.split(' ').slice(1).join(' ') || '',
+    name: order.OrderPersonName?.trim() || '',
+    last_name: order.OrderPersonLastName?.trim() || '',
   },
-  phone: order.order_phone,
+  phone: order.OrderPhone?.trim() || '',
   address: {
-    address: order.order_address,
+    address: order.OrderAddress?.trim() || '',
     city_id: '',
-    city_name: '',
+    city_name: order.OrderAddressCityName?.trim() || '',
     state_id: '',
-    state_name: '',
+    state_name: order.OrderAddressStateName?.trim() || '',
     postal_code: '',
   },
   payment: {
-    id: order.order_payment_id,
-    name: '',
+    id: order.OrderPaymentId?.trim() || '',
+    name: order.OrderPaymentName?.trim() || '',
   },
   shipping: {
-    id: order.order_shipping_id,
-    name: '',
+    id: order.OrderShippingId?.trim() || '',
+    name: order.OrderShippingName?.trim() || '',
   },
-  status: mapStatus(order.order_state),
-  items: order.items?.map(item => ({
-    code: item.code,
-    name: item.items_name,
-    image_url: `${imagesUrl}/${item.code}.jpg`,
-    price: item.items_price,
-    quantity: item.items_quantity,
+  status: mapStatus(order.OrderState),
+  items: order.Items?.map((item: FastAPIOrderItem) => ({
+    code: item.Code,
+    name: item.ItemsName?.trim() || '',
+    image_url: `${imagesUrl}/${item.Code}.jpg`,
+    price: item.ItemsPrice,
+    quantity: item.ItemsQuantity,
   })) || [],
 });
 
@@ -122,9 +126,9 @@ export const createOrderRepositoryFastAPI = (
     checkout: async (checkout: Checkout): Promise<Result<Order>> => {
       try {
         const body = {
-          shippingId: checkout.shipping_id,
-          paymentId: checkout.payment_id,
-          addressIdx: checkout.address_indx,
+          shippingId: checkout.shippingId,
+          paymentId: checkout.paymentId,
+          addressIdx: checkout.addressIdx,
           observation: checkout.observation,
         };
 
@@ -153,7 +157,7 @@ export const createOrderRepositoryFastAPI = (
         if (filters.companyId) params.append('company_id', filters.companyId);
 
         const endpoint = filters.guid
-          ? `${apiBaseUrl}/orders/filter?${params.toString()}`
+          ? `${apiBaseUrl}/orders?${params.toString()}`
           : `${apiBaseUrl}/orders/user/me`;
 
         const response = await fetch(endpoint, {
