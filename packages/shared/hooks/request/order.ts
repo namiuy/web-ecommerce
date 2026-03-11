@@ -3,7 +3,7 @@ import { post, get } from '../../utils/fetcher';
 import { Result } from './result';
 import { Order } from '../../entities/order';
 import { OrderList } from '../../entities/order_list';
-import { Checkout } from '../../entities/checkout';
+import { Checkout } from '@namiuy/bff-core';
 import { StatusChange } from '../../entities/status-change';
 
 // Use Next.js BFF instead of calling backend directly
@@ -95,7 +95,7 @@ export const useListAllOrders = (): Result<OrderList> => {
 };
 
 export const statusChange = (status_change: StatusChange): Promise<Result<boolean>> => {
-  return post<Result<boolean>>(`${API_BASE_URL}/api/order/status-change`, { body: JSON.stringify(status_change) }, true);
+  return post<Result<boolean>>(`/api/orders/status-change`, { body: JSON.stringify(status_change) }, true);
 };
 
 export const useStatusChange = (props?: StatusChange): Result<boolean> => {

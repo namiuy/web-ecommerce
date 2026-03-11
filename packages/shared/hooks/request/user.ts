@@ -99,26 +99,13 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
       const fetchData = async () => {
         try {
           // Step 4: Fetch user profile from BFF using Firebase UID
-          const result = await getUser(firebaseUid);
+          const userData = await getUser(firebaseUid);
 
-          if (result.error) {
-            setError(result.error);
-          } else if (result.is_logged_in && !result.needs_sync) {
-            // Map BFF response to User entity
-            const mappedUser: User = {
-              id: result.uid,
-              first_name: result.full_name?.split(' ')[0] || '',
-              last_name: result.full_name?.split(' ').slice(1).join(' ') || '',
-              email: result.email,
-              password: '', // Not needed on frontend
-              personId: result.user_id?.toString() || '0', // PersonId from database
-              roles: result.roles || []
-            };
-            lscache.set('user', mappedUser);
-            setUser(mappedUser);
+          if (userData) {
+            lscache.set('user', userData);
+            setUser(userData);
           } else {
-            // User needs sync or not logged in
-            setError('Usuario no sincronizado. Por favor completa el registro.');
+            setError('No se pudo obtener el usuario.');
           }
         } catch (err: any) {
           console.error('Get user error:', err);

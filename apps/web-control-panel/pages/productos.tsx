@@ -15,7 +15,7 @@ const ProductosPage: NextPage = () => {
   useEffect(() => {
     if (issBrowser) {
       const user = lscache.get('user');
-      const isUserAdmin = user?.roles?.includes('administrator') || user?.roles?.includes('manager');
+      const isUserAdmin = user?.roles?.includes('admin') || user?.roles?.includes('seller');
 
       if (!isUserAdmin) {
         router.push('/');

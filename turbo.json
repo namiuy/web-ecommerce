@@ -1,7 +1,30 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "globalEnv": ["NODE_ENV"],
+  "globalEnv": [
+    "NODE_ENV",
+    "ID",
+    "APP_NAME",
+    "API_BASE_URL",
+    "API_PATH",
+    "IMAGES_URL",
+    "BRANDS_URL",
+    "NEXT_PUBLIC_API_BASE_URL",
+    "NEXT_PUBLIC_IMAGES_URL",
+    "NEXT_PUBLIC_BRANDS_URL",
+    "NEXT_PUBLIC_FIREBASE_API_KEY",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
+    "NEXT_PUBLIC_FIREBASE_APP_ID",
+    "BFF_URL",
+    "GOOGLE_MAP_API_KEY",
+    "GOOGLE_GA_MEASUREMENT_ID",
+    "PRODUCT_COLORS",
+    "PRODUCT_FORM_PHOTO_UPLOAD",
+    "SIDEBAR_OPTIONS"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],

@@ -20,7 +20,7 @@ export const Orders = () => {
   useEffect(() => {
     if (issBrowser) {
       const user = lscache.get('user'); // TODO: improve this
-      setIsUserAdmin(user?.roles?.includes('administrator') || user?.roles?.includes('manager')); // TODO: improve this
+      setIsUserAdmin(user?.roles?.includes('admin') || user?.roles?.includes('seller')); // TODO: improve this
     }
   }, [issBrowser]);
 

@@ -16,7 +16,7 @@ const OrdenesPage: NextPage = () => {
     if (issBrowser) {
       const user = lscache.get('user');
       const isUserAdmin =
-        user?.roles?.includes('administrator') || user?.roles?.includes('manager') || user?.roles?.includes('seller');
+        user?.roles?.includes('admin') || user?.roles?.includes('seller');
 
       if (!isUserAdmin) {
         router.push('/');
