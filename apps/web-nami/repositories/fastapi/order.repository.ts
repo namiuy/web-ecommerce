@@ -143,7 +143,9 @@ export const createOrderRepositoryFastAPI = (
           return createErrorResult(createUnhandledError(errorText));
         }
 
-        const apiOrder = (await response.json()) as FastAPIOrder;
+        const apiResponse = await response.json();
+        // Backend returns {success, message, order, orderId, orderGuid}
+        const apiOrder = apiResponse.order as FastAPIOrder;
         return createSuccessResult(mapper(apiOrder));
       } catch (error) {
         return createErrorResult(createUnhandledError((error as Error).message));

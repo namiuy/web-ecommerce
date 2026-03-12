@@ -26,10 +26,18 @@ export default requireAuth(async (req: NextApiRequest, res: NextApiResponse, tok
 
     case 'POST': {
       // Checkout (create order)
-      const checkoutData: Checkout = req.body;
-      const checkout = createCheckoutUseCase(orderRepository);
-      const result = await checkout(checkoutData);
-      return sendResult(res, result);
+      try {
+        console.log('[API /orders POST] Received checkout data:', req.body);
+        const checkoutData: Checkout = req.body;
+        const checkout = createCheckoutUseCase(orderRepository);
+        const result = await checkout(checkoutData);
+        console.log('[API /orders POST] Checkout result:', result);
+        return sendResult(res, result);
+      } catch (error) {
+        console.error('[API /orders POST] Error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Internal server error';
+        return res.status(500).json({ error: errorMessage });
+      }
     }
 
     default:

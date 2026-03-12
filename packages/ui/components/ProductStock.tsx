@@ -30,8 +30,8 @@ export const ProductStock = ({ id, handleStockChange }: StockProps) => {
   }, [issBrowser]);
 
   const isUserAdmin = user
-    ? user.roles?.includes('seller') || user.roles?.includes('administrator') || user.roles?.includes('manager')
-    : false; // TODO: improve this
+    ? user.roles?.includes('seller') || user.roles?.includes('admin')
+    : false;
 
   return (
     <Flex alignItems="center" gap="0.5rem">
