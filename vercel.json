@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "buildCommand": "cd ../.. && npx turbo run build --filter=@namiuy/bff-core --filter=web-nami",
+  "devCommand": "cd apps/web-nami && npm run dev",
+  "installCommand": "npm install",
+  "framework": null,
+  "outputDirectory": "apps/web-nami/.next"
+}
