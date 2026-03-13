@@ -40,7 +40,7 @@ export const WhatsApp = () => {
       >
         <Icon as={BiLogoWhatsapp} w="2.5rem" h="2.5rem" color="white" transition="300ms" />
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
