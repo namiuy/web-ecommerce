@@ -20,7 +20,7 @@ import { validateEmpty, validateEmail } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as ContactValues } from 'shared/entities/contact';
 import { useEffect, useState } from 'react';
-import { branches } from 'shared/env';
+import { getBranches } from 'shared/env';
 
 const _firstBoxWidth = { base: '100%', lg: '20rem' };
 const _secondBoxWidth = { base: '100%', lg: '25rem' };
@@ -47,6 +47,7 @@ const calculateCenter = (branches: any) => {
 export const Contact = () => {
   const toast = useToast();
   const lg = useBreakpointValue({ base: false, lg: true });
+  const branches = getBranches();
   const [contactProps, setContactProps] = useState<ContactValues & { resetForm?: () => void }>();
   const { isLoading, data, error } = useContactRequest(contactProps);
 
