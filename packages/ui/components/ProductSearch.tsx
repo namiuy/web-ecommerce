@@ -1,13 +1,14 @@
 import lscache from 'lscache';
 import { Flex, Grid, GridItem, Heading, Skeleton, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { getEmptyArray, useProductSearch, isBrowser, product as productConf } from 'shared';
+import { getEmptyArray, useProductSearch, isBrowser, getProduct } from 'shared';
 import { Product } from 'shared/entities/product';
 import { User } from 'shared/entities/user';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
 import { ProductCard } from './ProductCard';
 import Pagination from './Pagination';
 
+const productConf = getProduct();
 const { showPagination } = productConf;
 
 const _grey2 = 'brand.grey.2';

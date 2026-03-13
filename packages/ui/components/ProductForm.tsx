@@ -47,8 +47,10 @@ import { FaPlus } from 'react-icons/fa';
 
 const _grey0 = 'brand.grey.0';
 
-import { product as productConf, productFormPhotoUpload } from 'shared';
+import { getProduct, getProductFormPhotoUpload } from 'shared';
+const productConf = getProduct();
 const { showColors } = productConf;
+const productFormPhotoUpload = getProductFormPhotoUpload();
 
 const hiddenInputs = {
   colors: !showColors,

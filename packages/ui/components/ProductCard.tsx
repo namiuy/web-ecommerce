@@ -4,8 +4,9 @@ import { Card, Text, Skeleton } from 'ui';
 import { boxShadowMd } from 'ui/components/ThemeProvider/colors';
 import { formatPrice } from 'shared/utils/product';
 
-import { product as productConf } from 'shared';
+import { getProduct } from 'shared';
 import { ProductStock } from './ProductStock';
+const productConf = getProduct();
 const { showCod, cardPriceType, showStock } = productConf;
 
 const _black = 'black';

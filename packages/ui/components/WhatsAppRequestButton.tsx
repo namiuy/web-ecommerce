@@ -2,13 +2,13 @@ import { Icon, Link } from '@chakra-ui/react';
 import { Button, Skeleton } from 'ui';
 import { ProductActionProps } from '../templates/ProductDetail';
 import { BiLogoWhatsapp } from 'react-icons/bi';
-import { siteHost } from 'shared';
+import { getSiteHost } from 'shared';
 
 export const WhatsAppRequestButton = ({ isLoading, product }: ProductActionProps) => (
   <Skeleton isLoaded={!isLoading}>
     <Button
       as={Link}
-      href={`https://wa.me/598091033282/?text=Hola,%20estoy%20interesado%20en%20el%20siguiente%20producto:%20${siteHost}${product?.path}`}
+      href={`https://wa.me/598091033282/?text=Hola,%20estoy%20interesado%20en%20el%20siguiente%20producto:%20${getSiteHost()}${product?.path}`}
       target="_blank"
       width="100%"
       height="2.75rem"

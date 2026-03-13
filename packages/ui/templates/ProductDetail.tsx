@@ -25,8 +25,10 @@ import { formatPrice } from 'shared/utils/product';
 import { QuantityInput } from '../components/QuantityInput';
 import { ColorSelector } from '../components/ColorSelector';
 
-import { useProductGet, product as productConf, cartEnabled } from 'shared';
+import { useProductGet, getProduct, getCartEnabled } from 'shared';
+const productConf = getProduct();
 const { detailPriceType, showRelatedProducts, showStock } = productConf;
+const cartEnabled = getCartEnabled();
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';

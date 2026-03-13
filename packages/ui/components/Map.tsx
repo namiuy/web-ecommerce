@@ -1,11 +1,11 @@
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { Skeleton } from './Skeleton';
-import { keys } from 'shared';
+import { getKeys } from 'shared';
 import { Children, FC, isValidElement, useEffect, useRef, useState, cloneElement, ReactNode } from 'react';
 import { Box } from '..';
 import styled from '@emotion/styled';
 
-const { googleMapsApiKey } = keys;
+const { googleMapsApiKey } = getKeys();
 
 const stylesDark = [
   {

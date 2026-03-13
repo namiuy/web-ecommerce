@@ -1,7 +1,7 @@
 import lscache from 'lscache';
 import { Menu, MenuItem, MenuGroup, MenuButton, MenuList, useDisclosure, Avatar } from '@chakra-ui/react';
 import { Button, Flex, Text } from 'ui';
-import { cartEnabled, useCurrentUser } from 'shared';
+import { getCartEnabled, useCurrentUser } from 'shared';
 import { useRouter } from 'next/router';
 import { MdLogout } from 'react-icons/md';
 import { IoPerson } from 'react-icons/io5';
@@ -84,7 +84,7 @@ const MenuAdmin = () => {
           <MenuItem icon={<IoPerson />} borderRadius={_borderRadius} onClick={handleProfile}>
             Mi perfil
           </MenuItem>
-          {cartEnabled && (
+          {getCartEnabled() && (
             <MenuItem icon={<FaShoppingBag />} borderRadius={_borderRadius} onClick={handleOrderHistory}>
               Mis compras
             </MenuItem>

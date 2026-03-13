@@ -8,8 +8,7 @@ import SocialNetworks from '../SocialNetworks';
 import NavMultiDomain from '../NavMultiDomain';
 import MenuAdmin from '../MenuAdmin';
 import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
-import { authEnabled, cartEnabled, useCurrentUser } from 'shared';
-import { navbarMessage } from 'shared';
+import { getAuthEnabled, getCartEnabled, useCurrentUser, getNavbarMessage } from 'shared';
 
 const _navItemColor = 'brand.nav.item.color';
 const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
@@ -68,12 +67,12 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
           <GridItem>
             <SearchInput />
           </GridItem>
-          {authEnabled && (
+          {getAuthEnabled() && (
             <GridItem pl="1rem">
               <MenuAdmin />
             </GridItem>
           )}
-          {user && cartEnabled && (
+          {user && getCartEnabled() && (
             <GridItem>
               <ShoppingCartDrawer />
             </GridItem>
@@ -93,7 +92,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
           </GridItem>
           <GridItem>
             <Text color="white" fontWeight="semibold" fontSize="0.875rem">
-              {navbarMessage}
+              {getNavbarMessage()}
             </Text>
           </GridItem>
         </Grid>

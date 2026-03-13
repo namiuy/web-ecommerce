@@ -2,8 +2,9 @@ import { useBreakpointValue } from '@chakra-ui/react';
 import { Product } from 'shared/entities/product';
 import { Carousel } from 'ui';
 
-import { product as productConf } from 'shared';
+import { getProduct } from 'shared';
 import { ProductCard } from './ProductCard';
+const productConf = getProduct();
 const { showCod } = productConf;
 
 const _minH = showCod ? { base: '20rem', lg: '26rem' } : { base: '18rem', lg: '22.5rem' };

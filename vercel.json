@@ -1,9 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
-  "buildCommand": "echo 'Using pre-built application'",
-  "devCommand": "cd apps/web-nami && npm run dev",
-  "installCommand": "npm install --production",
-  "framework": null,
-  "outputDirectory": "apps/web-nami/.next"
-}
