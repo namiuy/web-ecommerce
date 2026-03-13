@@ -6,7 +6,7 @@ import { IoLogoTiktok, IoLogoWhatsapp } from 'react-icons/io5';
 import { MdFacebook } from 'react-icons/md';
 import { FaYoutube, FaLinkedin } from 'react-icons/fa';
 
-import { socialNeworksItems } from 'shared/env';
+import { getSocialNeworksItems } from 'shared/env';
 
 type Icon = {
   icon: IconType;
@@ -42,10 +42,13 @@ const SocialNetworks = ({
   gap = '1rem',
   hide = [],
   hover = false,
-}: SocialNetworksProps) => (
-  <nav>
-    <Flex as="ol" justifyContent="flex-start" alignItems="center" listStyleType="none" gap={gap}>
-      {socialNeworksItems
+}: SocialNetworksProps) => {
+  const socialNeworksItems = getSocialNeworksItems();
+
+  return (
+    <nav>
+      <Flex as="ol" justifyContent="flex-start" alignItems="center" listStyleType="none" gap={gap}>
+        {socialNeworksItems
         .filter(({ id }) => !hide.includes(id))
         .map(({ id, href }) => (
           <li key={id}>
@@ -65,8 +68,9 @@ const SocialNetworks = ({
             </Link>
           </li>
         ))}
-    </Flex>
-  </nav>
-);
+      </Flex>
+    </nav>
+  );
+};
 
 export default SocialNetworks;
