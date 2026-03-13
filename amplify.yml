@@ -1,25 +1,26 @@
 version: 1
 applications:
-  - appRoot: .
+  - appRoot: apps/web-nami
     frontend:
       phases:
         preBuild:
           commands:
             - echo "Installing dependencies..."
+            - cd ../..
             - npm ci
         build:
           commands:
             - echo "Building packages with Turbo..."
             - npx turbo run build --filter=@namiuy/bff-core --filter=web-nami
       artifacts:
-        baseDirectory: apps/web-nami/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
+          - ../../node_modules/**/*
           - node_modules/**/*
-          - apps/web-nami/node_modules/**/*
-          - packages/bff-core/node_modules/**/*
-          - packages/shared/node_modules/**/*
-          - packages/ui/node_modules/**/*
-          - apps/web-nami/.next/cache/**/*
+          - ../../packages/bff-core/node_modules/**/*
+          - ../../packages/shared/node_modules/**/*
+          - ../../packages/ui/node_modules/**/*
+          - .next/cache/**/*

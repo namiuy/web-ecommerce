@@ -24,9 +24,9 @@
 
 Amplify debería detectar automáticamente el `amplify.yml`. Verificá que:
 
+- **App root directory**: `apps/web-nami`
 - **Build command**: `npx turbo run build --filter=@namiuy/bff-core --filter=web-nami`
-- **Base directory**: (vacío o `/`)
-- **Build output directory**: `apps/web-nami/.next`
+- **Build output directory**: `.next` (relativo a appRoot)
 
 ### 4. Configurar Variables de Entorno
 
