@@ -8,10 +8,12 @@ applications:
             - echo "Installing dependencies..."
             - cd ../..
             - npm ci
+            - echo "Installing Turbo globally..."
+            - npm install -g turbo
         build:
           commands:
             - echo "Building packages with Turbo..."
-            - npx turbo run build --filter=@namiuy/bff-core --filter=web-nami
+            - turbo run build --filter=@namiuy/bff-core --filter=web-nami
       artifacts:
         baseDirectory: .next
         files:
