@@ -1,28 +1,23 @@
 version: 1
-applications:
-  - appRoot: apps/web-nami
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            # Install dependencies at monorepo root
-            - cd ../..
-            - npm install
-            # Build shared packages
-            - npx turbo run build --filter=@namiuy/bff-core --filter=shared --filter=ui
-        build:
-          commands:
-            # Build web-nami app
-            - cd apps/web-nami
-            - npm run build
-      artifacts:
-        baseDirectory: apps/web-nami/.next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-          - apps/web-nami/node_modules/**/*
-          - packages/bff-core/node_modules/**/*
-          - packages/shared/node_modules/**/*
-          - packages/ui/node_modules/**/*
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Installing dependencies..."
+        - npm ci
+    build:
+      commands:
+        - echo "Building packages with Turbo..."
+        - npx turbo run build --filter=@namiuy/bff-core --filter=web-nami
+  artifacts:
+    baseDirectory: apps/web-nami/.next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - apps/web-nami/node_modules/**/*
+      - packages/bff-core/node_modules/**/*
+      - packages/shared/node_modules/**/*
+      - packages/ui/node_modules/**/*
+      - apps/web-nami/.next/cache/**/*
