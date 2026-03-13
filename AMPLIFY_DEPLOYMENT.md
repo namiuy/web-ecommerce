@@ -17,8 +17,8 @@
 
 1. Seleccioná **GitHub**
 2. Autorizá AWS Amplify a acceder a tu cuenta de GitHub
-3. Seleccioná el repositorio: **`namiuy/web-js`**
-4. Seleccioná la rama: **`web-tools-api-refactor`** (o `main` si ya mergeaste)
+3. Seleccioná el repositorio: **`Ignaciort91/web`**
+4. Seleccioná la rama: **`web-tools-api-refactor`**
 
 ### 3. Configurar el build
 
