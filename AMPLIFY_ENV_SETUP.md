@@ -7,6 +7,8 @@ El deployment en Amplify falla con errores 500 en `/api/categories`, `/api/brand
 
 Ve a **AWS Amplify Console** → Tu App → **Environment variables** y agrega TODAS estas variables:
 
+**IMPORTANTE**: Después de agregar las variables, es obligatorio hacer un redeploy para que surtan efecto.
+
 ### Variables Requeridas
 
 ```bash
