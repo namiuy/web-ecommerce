@@ -4,7 +4,7 @@ import { theme as themeNami } from './nami.theme';
 import { theme as themeTools } from './tools.theme';
 import { theme as themeRobotec } from './robotec.theme';
 
-import { envId } from 'shared';
+import { getEnvId } from 'shared';
 
 const themes: Record<string, Record<string, any>> = {
   AUTOPARTS: themeNami,
@@ -14,4 +14,5 @@ const themes: Record<string, Record<string, any>> = {
   ROBOTEC: themeRobotec,
 };
 
-export const theme = themes[envId];
+// Use getter function to avoid build-time execution
+export const theme = themes[getEnvId()] || themeTools;

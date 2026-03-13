@@ -4,7 +4,7 @@ import { Logo as logoElectric } from './LogoElectric';
 import { Logo as logoClima } from './LogoClima';
 import { Logo as logoRobotec } from './LogoRobotec';
 
-import { envId } from 'shared';
+import { getEnvId } from 'shared';
 
 const logos: Record<string, any> = {
   AUTOPARTS: logoAutoparts,
@@ -14,4 +14,5 @@ const logos: Record<string, any> = {
   ROBOTEC: logoRobotec,
 };
 
-export const Logo = logos[envId];
+// Use getter function to avoid build-time execution
+export const Logo = logos[getEnvId()] || logoTools;
