@@ -1,4 +1,4 @@
-import lscache, { set } from 'lscache';
+import lscache from 'lscache';
 import { isBrowser, useStockGet } from 'shared';
 import { Flex, Text, Tooltip, Spinner, Box } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon, PhoneIcon } from '@chakra-ui/icons';
