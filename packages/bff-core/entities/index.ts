@@ -6,6 +6,7 @@ export * from './product-search';
 export * from './product-related';
 export * from './specification';
 export * from './related-link';
+export * from './multimedia';
 
 // Cart entities
 export * from './cart';
