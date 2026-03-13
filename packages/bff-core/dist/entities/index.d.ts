@@ -5,6 +5,7 @@ export * from './product-search';
 export * from './product-related';
 export * from './specification';
 export * from './related-link';
+export * from './multimedia';
 export * from './cart';
 export * from './cart-item';
 export * from './order';

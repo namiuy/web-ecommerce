@@ -2,7 +2,7 @@ import lscache from 'lscache';
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import { Box, Text, Container, Button, Grid, GridItem, Flex } from 'ui';
 import { useEffect, useState } from 'react';
-import { useCart, paymentMethods, shippingMethods, useGetPerson, isBrowser } from 'shared';
+import { useCart, getPaymentMethods, getShippingMethods, useGetPerson, isBrowser } from 'shared';
 import { ShippingMethod } from '../components/Checkout/ShippingMethod';
 import { PaymentMethod } from '../components/Checkout/PaymentMethod';
 import { Verification } from '../components/Checkout/Verification';
@@ -24,6 +24,8 @@ export const Checkout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const issBrowser = isBrowser();
   const router = useRouter();
+  const shippingMethods = getShippingMethods();
+  const paymentMethods = getPaymentMethods();
 
   useEffect(() => {
     if (issBrowser) {

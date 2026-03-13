@@ -232,8 +232,8 @@ export const createProductRepositoryFastAPI = (
         const apiResponse = (await response.json()) as FastAPIResponse<Array<FastAPIProduct>>;
         const products = apiResponse.data.map(mapper);
 
-        const brandIds = [...new Set(products.map(p => p.brand.id))];
-        const categoryIds = [...new Set(products.map(p => p.category.id))];
+        const brandIds = Array.from(new Set(products.map(p => p.brand.id)));
+        const categoryIds = Array.from(new Set(products.map(p => p.category.id)));
 
         return createSuccessResult({
           products,

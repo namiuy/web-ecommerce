@@ -22,6 +22,7 @@ __exportStar(require("./product-search"), exports);
 __exportStar(require("./product-related"), exports);
 __exportStar(require("./specification"), exports);
 __exportStar(require("./related-link"), exports);
+__exportStar(require("./multimedia"), exports);
 // Cart entities
 __exportStar(require("./cart"), exports);
 __exportStar(require("./cart-item"), exports);

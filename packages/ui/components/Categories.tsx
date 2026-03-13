@@ -1,8 +1,10 @@
 import { SimpleGrid, Image, Text, VStack, Link } from '@chakra-ui/react';
 import { Container } from 'ui';
-import { homeCategories } from 'shared';
+import { getHomeCategories } from 'shared';
 
 export const Categories = () => {
+  const homeCategories = getHomeCategories();
+
   return (
     <Container pb="2rem">
       <SimpleGrid columns={{ base: 2, md: 3 }} spacing={{ base: '1rem', md: '3rem' }} mx="auto">

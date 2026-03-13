@@ -1,6 +1,6 @@
 import { Box, HStack, Tooltip, Text } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons';
-import { colors as availableColors } from 'shared';
+import { getColors } from 'shared';
 
 type ColorSelectorProps = {
   colors?: string[];
@@ -19,6 +19,7 @@ export const ColorSelector = ({
   isEdit = false,
   isSelect = false,
 }: ColorSelectorProps) => {
+  const availableColors = getColors();
   const displayedColors = isEdit ? availableColors : availableColors.filter(({ id }) => colors.includes(id));
 
   return (

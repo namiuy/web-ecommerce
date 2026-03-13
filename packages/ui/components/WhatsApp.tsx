@@ -12,7 +12,7 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { BiLogoWhatsapp } from 'react-icons/bi';
-import { branches } from 'shared';
+import { getBranches } from 'shared';
 
 const _grey3 = 'brand.grey.3';
 const _backgroundColor = '#00ea81';
@@ -20,6 +20,8 @@ const _hoverBackgroundColor = '#25D366';
 
 export const WhatsApp = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const branches = getBranches();
+
   return (
     <>
       <Button
@@ -38,7 +40,7 @@ export const WhatsApp = () => {
       >
         <Icon as={BiLogoWhatsapp} w="2.5rem" h="2.5rem" color="white" transition="300ms" />
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader

@@ -1,7 +1,9 @@
 import { Flex, Image } from 'ui';
-import { paymentMethods } from 'shared';
+import { getPaymentMethods } from 'shared';
 
 export const PaymentMethods = () => {
+  const paymentMethods = getPaymentMethods();
+
   return (
     <Flex gap="1.25rem" justifyContent="center" alignItems="center" flexWrap="wrap">
       {paymentMethods.map((method, i) => (
