@@ -39,9 +39,22 @@ export const config = {
 
 // Dependency Injection Container (functional approach)
 // This is a singleton pattern to reuse repository instances
-let repositoriesCache: ReturnType<typeof createRepositories> | null = null;
+type Repositories = {
+  brandRepository: IBrandRepository;
+  categoryRepository: ICategoryRepository;
+  productRepository: IProductRepository;
+  cartRepository: ICartRepository;
+  orderRepository: IOrderRepository;
+  personRepository: IPersonRepository;
+  stateRepository: IStateRepository;
+  cityRepository: ICityRepository;
+  bannerRepository: IBannerRepository;
+  stockRepository: IStockRepository;
+};
 
-export const createRepositories = (getAuthToken?: () => string | null) => {
+let repositoriesCache: Repositories | null = null;
+
+export const createRepositories = (getAuthToken?: () => string | null): Repositories => {
   if (repositoriesCache && !getAuthToken) {
     return repositoriesCache;
   }
@@ -92,7 +105,7 @@ export const createRepositories = (getAuthToken?: () => string | null) => {
 
   const stockRepository: IStockRepository = createStockRepository(
     API_BASE_URL,
-    getAuthToken
+    getAuthToken ? () => getAuthToken() || '' : undefined
   );
 
   const repositories = {

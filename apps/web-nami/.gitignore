@@ -1,0 +1,10 @@
+# Allow .next to be committed for pre-built deployments
+# Comment out the .next line to include build artifacts
+# .next/
+
+# Still ignore these
+node_modules/
+.env.local
+.env.development.local
+.env.test.local
+.DS_Store
