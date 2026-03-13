@@ -1,7 +1,6 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react';
 import { ElementType } from 'react';
-import { multiDomainItems } from 'shared/env';
-import { menuItems } from 'shared/env';
+import { getMultiDomainItems, getMenuItems } from 'shared/env';
 import NavBarDesktopFull from './NavBarDesktopFull';
 import NavBarMobile from './NavBarMobile';
 import NavBarDesktopSimple from './NavBarDesktopSimple';
@@ -36,6 +35,8 @@ export const NavBar = (props: NavBarProps) => {
   });
 
   const { fixed, simple } = props;
+  const multiDomainItems = getMultiDomainItems();
+  const menuItems = getMenuItems();
 
   const NavBarDesktop = simple ? NavBarDesktopSimple : NavBarDesktopFull;
 
