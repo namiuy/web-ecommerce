@@ -1,5 +1,7 @@
 # AWS Amplify - Configuración de Variables de Entorno
 
+Última actualización: 2026-03-13
+
 ## Problema
 El deployment en Amplify falla con errores 500 en `/api/categories`, `/api/brands`, etc. porque faltan las variables de entorno necesarias.
 
