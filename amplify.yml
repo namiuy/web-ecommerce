@@ -8,8 +8,8 @@ applications:
             - echo "Installing dependencies..."
             - cd ../..
             - npm ci
-            - echo "Installing Turbo globally..."
-            - npm install -g turbo
+            - echo "Installing Turbo 1.x globally..."
+            - npm install -g turbo@1.13.4
         build:
           commands:
             - echo "Building packages with Turbo..."

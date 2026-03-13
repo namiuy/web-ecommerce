@@ -25,7 +25,7 @@
     "PRODUCT_FORM_PHOTO_UPLOAD",
     "SIDEBAR_OPTIONS"
   ],
-  "tasks": {
+  "pipeline": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
