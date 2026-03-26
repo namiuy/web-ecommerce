@@ -17,8 +17,6 @@ applications:
             - turbo run build --filter=@namiuy/bff-core --filter=web-nami
       artifacts:
         baseDirectory: .next
-        files:
-          - '**/*'
       cache:
         paths:
           - ../../node_modules/**/*
