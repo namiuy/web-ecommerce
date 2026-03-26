@@ -1,6 +1,8 @@
 import { getToken } from '../../../../lib/auth'
 import { errorResponse, badRequest } from '../../../../lib/errors'
-import { getStockByCode } from '../../../../lib/services/stock.service'
+import { config } from '../../../../lib/config'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET(
   request: Request,
@@ -12,10 +14,41 @@ export async function GET(
 
     const token = getToken(request)
     const { searchParams } = new URL(request.url)
-    const server = searchParams.get('server') || undefined
+    const server = searchParams.get('server') || 'lindo4'
 
-    const stock = await getStockByCode(id, server, token)
-    return Response.json(stock)
+    console.log(`[/api/stocks/${id}] Fetching stock from backend, server=${server}`)
+
+    // Call backend /api/stock endpoint directly
+    // Remove /api from config.apiBaseUrl since stock endpoint already includes it
+    const apiBaseUrlRaw = config.apiBaseUrl.replace('/api', '')
+    const params_string = new URLSearchParams({
+      code: id,
+      server: server,
+    }).toString()
+
+    const response = await fetch(`${apiBaseUrlRaw}/api/stock?${params_string}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    })
+
+    if (!response.ok) {
+      console.error(`[/api/stocks/${id}] Backend returned ${response.status}`)
+      const errorText = await response.text()
+      throw new Error(errorText || `Failed to get stock (HTTP ${response.status})`)
+    }
+
+    const data = await response.json()
+
+    console.log(`[/api/stocks/${id}] Backend response:`, data)
+
+    if (data.success === false) {
+      throw new Error('Stock request failed')
+    }
+
+    return Response.json(data.stock)
   } catch (error) {
     return errorResponse(error)
   }
