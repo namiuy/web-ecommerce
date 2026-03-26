@@ -8,7 +8,8 @@ import { useRequest } from '.';
 export const useGetPerson = (id: string | null | undefined): Result<Person> => {
   // Don't make request if id is invalid
   const shouldFetch = id && id !== '0' && id !== 'null' && id !== 'undefined';
-  return useRequest(shouldFetch ? `/api/person?id=${id as string}` : null, true);
+  const url = shouldFetch && id ? `/api/person?id=${id}` : null;
+  return useRequest(url, true);
 };
 
 const updatePerson = (person: PersonUpdate): Promise<Result<boolean>> => {
