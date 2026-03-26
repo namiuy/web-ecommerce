@@ -1,9 +1,10 @@
 import { apiFetch } from '../api-client';
 import type { Stock } from 'shared/entities/stock';
+import { config } from '../config';
 
-// --- Stock base URL (raw API_BASE_URL without /api path) ---
+// --- Helper to get raw API URL (without /api suffix) ---
 
-const stockBaseUrl = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
+const getApiBaseUrlRaw = () => config.apiBaseUrl.replace('/api', '');
 
 // --- Service functions ---
 
@@ -15,7 +16,7 @@ export async function getStockByCode(code: string, server: string = 'lindo4', to
 
   const raw = await apiFetch<any>(`/api/stock?${params.toString()}`, {
     token,
-    baseUrl: stockBaseUrl,
+    baseUrl: getApiBaseUrlRaw(),
   });
 
   if (raw.success === false) {

@@ -1,8 +1,8 @@
 import { config } from '../config';
 
-// --- Raw API base URL (without /api path) for auth endpoints ---
+// --- Helper to get raw API URL (without /api suffix) ---
 
-const apiBaseUrlRaw = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
+const getApiBaseUrlRaw = () => config.apiBaseUrl.replace('/api', '');
 
 // --- Client types ---
 
@@ -45,7 +45,7 @@ export async function registerUser(userData: RegisterUserData): Promise<{ succes
   };
 
   console.log('[user.service] Syncing user to backend...');
-  const syncResponse = await fetch(`${apiBaseUrlRaw}/api/auth/sync-user`, {
+  const syncResponse = await fetch(`${getApiBaseUrlRaw()}/api/auth/sync-user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(syncUserData),
@@ -130,7 +130,7 @@ export async function getUserByFirebaseUid(uid: string, token: string | null): P
 
   console.log(`[user.service] Fetching user uid=${uid} from backend...`);
 
-  const response = await fetch(`${apiBaseUrlRaw}/api/auth/me`, {
+  const response = await fetch(`${getApiBaseUrlRaw()}/api/auth/me`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
