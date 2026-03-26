@@ -61,10 +61,15 @@ export const Profile = ({ Logo }: ProfileProps) => {
   const [personData, setPersonData] = useState(data);
 
   useEffect(() => {
+    console.log('Profile - personId:', personId);
+    console.log('Profile - data:', data);
+    console.log('Profile - isLoading:', isLoading);
+    console.log('Profile - error:', error);
     if (data) {
+      console.log('Profile - Setting personData:', data);
       setPersonData({ ...data });
     }
-  }, [data]);
+  }, [data, personId, isLoading, error]);
 
   const redirectTo = router.query.redirectTo as string;
 

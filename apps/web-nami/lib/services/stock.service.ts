@@ -3,7 +3,7 @@ import type { Stock } from 'shared/entities/stock';
 
 // --- Stock base URL (raw API_BASE_URL without /api path) ---
 
-const stockBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+const stockBaseUrl = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
 
 // --- Service functions ---
 

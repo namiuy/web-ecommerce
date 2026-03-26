@@ -16,7 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // 3. We sync the user to the backend User table via /api/auth/sync-user
     // 4. We create a person record in the backend
 
-    const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8000';
+    // Use API_BASE_URL_RAW (without /api path) since we're adding /api/... manually
+    const apiBaseUrl = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
 
     console.log('[API /users POST] Starting user registration for:', userData.email);
 

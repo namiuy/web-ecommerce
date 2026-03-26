@@ -11,7 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const { uid } = req.query;
-  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8000';
+  // Use API_BASE_URL_RAW (without /api path) since we're adding /api/... manually
+  const apiBaseUrl = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
 
   if (!uid || typeof uid !== 'string') {
     return res.status(400).json({

@@ -71,13 +71,47 @@ export const Checkout = () => {
   const [nextButtonVisible, setNextButtonVisible] = useState(true);
 
   const [addresses, setAddresses] = useState<Address[]>([]);
+  const [refreshedPersonId, setRefreshedPersonId] = useState<string | null>(null);
 
-  const personId = lscache.get('user')?.personId;
+  const cachedPersonId = lscache.get('user')?.personId;
+  const personId = refreshedPersonId || cachedPersonId;
+
+  // If personId is '0', try to refresh user data from backend
+  useEffect(() => {
+    const refreshUserData = async () => {
+      if (cachedPersonId === '0' || cachedPersonId === 0) {
+        try {
+          const user = lscache.get('user');
+          if (user?.id) {
+            // Fetch fresh user data from backend
+            const response = await fetch(`/api/users/${user.id}`);
+            if (response.ok) {
+              const userData = await response.json();
+              if (userData.personId && userData.personId !== '0') {
+                // Update localStorage with correct personId
+                const updatedUser = { ...user, personId: userData.personId };
+                lscache.set('user', updatedUser);
+                setRefreshedPersonId(userData.personId);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Failed to refresh user data:', error);
+        }
+      }
+    };
+
+    refreshUserData();
+  }, [cachedPersonId]);
+
   const { data: person, isLoading: isLoadingPerson } = useGetPerson(personId);
 
   useEffect(() => {
-    if (person) {
+    if (person && person.addresses) {
       setAddresses(person.addresses);
+    } else {
+      // If no person data, initialize with empty addresses
+      setAddresses([]);
     }
   }, [person]);
 

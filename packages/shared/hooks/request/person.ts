@@ -5,7 +5,11 @@ import { Person } from '../../entities/person';
 import { PersonUpdate } from '../../entities/person-update';
 import { useRequest } from '.';
 
-export const useGetPerson = (id: string): Result<Person> => useRequest(`/api/person?id=${id}`, true);
+export const useGetPerson = (id: string | null | undefined): Result<Person> => {
+  // Don't make request if id is invalid
+  const shouldFetch = id && id !== '0' && id !== 'null' && id !== 'undefined';
+  return useRequest(shouldFetch ? `/api/person?id=${id}` : null, true);
+};
 
 const updatePerson = (person: PersonUpdate): Promise<Result<boolean>> => {
   return put<Result<boolean>>('/api/person', { body: JSON.stringify(person) }, true);

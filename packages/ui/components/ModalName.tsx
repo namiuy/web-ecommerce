@@ -56,7 +56,7 @@ export const ModalName = ({ id, personId, name, lastName, isOpen, onClose, setPe
       setPersonData((prevData: any) => ({
         ...prevData,
         name: newName,
-        lastName: newLastName,
+        last_name: newLastName,
       }));
       onClose();
     }

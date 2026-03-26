@@ -27,12 +27,14 @@ import { createStockRepository } from '@namiuy/bff-core';
 
 // Configuration from environment variables
 const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL_RAW = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
 const API_PATH = process.env.API_PATH || '/api';
 const IMAGES_URL = process.env.IMAGES_URL || process.env.NEXT_PUBLIC_IMAGES_URL || 'https://nami-tools.s3.sa-east-1.amazonaws.com';
 const BRANDS_URL = process.env.BRANDS_URL || process.env.NEXT_PUBLIC_BRANDS_URL || 'https://nami-tools.s3.sa-east-1.amazonaws.com';
 
 export const config = {
   apiBaseUrl: `${API_BASE_URL}${API_PATH}`,
+  apiBaseUrlRaw: API_BASE_URL_RAW,
   imagesUrl: IMAGES_URL,
   brandsUrl: BRANDS_URL,
 };
@@ -90,8 +92,9 @@ export const createRepositories = (getAuthToken?: () => string | null) => {
     config.apiBaseUrl
   );
 
+  // Use API_BASE_URL_RAW for stock repository (it adds /api/stock internally)
   const stockRepository: IStockRepository = createStockRepository(
-    API_BASE_URL,
+    API_BASE_URL_RAW,
     getAuthToken as (() => string) | undefined
   );
 

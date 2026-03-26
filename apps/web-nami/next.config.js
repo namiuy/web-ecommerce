@@ -330,6 +330,15 @@ const homeCategories =
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
+  images: {
+    domains: ['nami-uy.s3.sa-east-1.amazonaws.com', 'nami-tools.s3.sa-east-1.amazonaws.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      },
+    ],
+  },
   publicRuntimeConfig: {
     envId: ID,
     appName: APP_NAME,

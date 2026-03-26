@@ -5,8 +5,12 @@ import type { PersonUpdate } from 'shared/entities/person-update'
 // --- Service functions ---
 
 export async function getPerson(id: string, token: string): Promise<Person> {
+  console.log('[person.service] getPerson called with id:', id)
   const raw = await apiFetch<any>(`/persons/${id}`, { token })
-  return (raw.person ?? raw) as Person
+  console.log('[person.service] Response from backend:', raw)
+  const person = (raw.person ?? raw) as Person
+  console.log('[person.service] Returning person:', person)
+  return person
 }
 
 export async function updatePerson(person: PersonUpdate, token: string): Promise<boolean> {

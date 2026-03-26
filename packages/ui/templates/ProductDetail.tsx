@@ -99,20 +99,21 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const [mainImageUrl, setMainImageUrl] = useState<string>('');
 
   const getAllImages = () => {
-    if (shouldUseMultimedias) {
-      return data?.multimedias?.filter(m => m.type === 'photo' && m.url)?.map(m => m.url!) || [];
-    } else {
-      return data?.images || [];
+    if (shouldUseMultimedias && data?.multimedias && data.multimedias.length > 0) {
+      const multimediaPhotos = data.multimedias.filter(m => m.type === 'photo' && m.url).map(m => m.url!);
+      if (multimediaPhotos.length > 0) return multimediaPhotos;
     }
+    // Fallback to images array
+    return data?.images || [];
   };
 
   const getMainImage = (): string => {
     if (shouldUseMultimedias) {
       const firstPhoto = data?.multimedias?.find(m => m.type === 'photo' && m.url);
-      return firstPhoto?.url || '';
-    } else {
-      return data?.images?.[0] || '';
+      if (firstPhoto?.url) return firstPhoto.url;
     }
+    // Fallback to images array or image_url
+    return data?.images?.[0] || data?.image_url || '';
   };
 
   useEffect(() => {

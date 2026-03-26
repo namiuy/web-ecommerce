@@ -2,7 +2,7 @@ import { config } from '../config';
 
 // --- Raw API base URL (without /api path) for auth endpoints ---
 
-const apiBaseUrlRaw = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiBaseUrlRaw = process.env.API_BASE_URL_RAW || 'http://localhost:8000';
 
 // --- Client types ---
 
@@ -180,7 +180,9 @@ export async function getUserByFirebaseUid(uid: string, token: string | null): P
   }
 
   const userData = await response.json();
-  console.log(`[user.service] User data retrieved successfully`);
+
+  console.log('[user.service] Backend /api/auth/me response:', userData);
+  console.log('[user.service] user_id from backend:', userData.user_id);
 
   return {
     uid,
