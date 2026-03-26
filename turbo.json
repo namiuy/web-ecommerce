@@ -6,6 +6,7 @@
     "ID",
     "APP_NAME",
     "API_BASE_URL",
+    "API_BASE_URL_RAW",
     "API_PATH",
     "IMAGES_URL",
     "BRANDS_URL",
