@@ -7,8 +7,8 @@ import { get } from '../../utils/fetcher';
 
 const oneDay = 60 * 24;
 
-export const useRequest = <T>(url: string, withAuth?: boolean): Result<T> => {
-  return useSWRImmutable<T>(url, () => get<T>(url, {}, withAuth));
+export const useRequest = <T>(url: string | null, withAuth?: boolean): Result<T> => {
+  return useSWRImmutable<T>(url, url ? () => get<T>(url, {}, withAuth) : null);
 };
 
 const isValidResponse = <T>(data: T, error: any): boolean => {
