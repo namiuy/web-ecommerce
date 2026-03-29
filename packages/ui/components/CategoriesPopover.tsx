@@ -78,9 +78,8 @@ export const CategoriesPopover = ({ removeParams, color = _grey3, borderColor = 
         isLoading ? (
           <Skeleton key={i} h="2rem" mb="1rem" />
         ) : (
-          <Box onMouseEnter={() => setCurrentCategory(id)} onMouseLeave={() => setCurrentCategory(null)}>
+          <Box key={id} onMouseEnter={() => setCurrentCategory(id)} onMouseLeave={() => setCurrentCategory(null)}>
             <Popover
-              key={i}
               placement="right-start"
               trigger="hover"
               gutter={0}
@@ -102,8 +101,8 @@ export const CategoriesPopover = ({ removeParams, color = _grey3, borderColor = 
               </PopoverTrigger>
               <PopoverContent w="max-content">
                 <PopoverBody padding="0">
-                  {sub_categories?.map(({ id, name }, ii) => (
-                    <Item key={ii} id={id} name={name} color={color} borderColor={borderColor} onClick={onItemClick} />
+                  {sub_categories?.map(({ id: subId, name: subName }) => (
+                    <Item key={subId} id={subId} name={subName} color={color} borderColor={borderColor} onClick={onItemClick} />
                   ))}
                 </PopoverBody>
               </PopoverContent>

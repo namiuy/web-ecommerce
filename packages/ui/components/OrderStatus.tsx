@@ -43,9 +43,11 @@ export const OrderStatus = ({ orderId, status, isEdit }: StatusProps) => {
     setIsModalOpen(false);
   };
 
+  const statusColor = colors[tempStatus] || { color: 'gray.800', bg: 'gray.100' };
+
   return (
     <>
-      <Box px="0.5rem" py="0.25rem" bg={colors[tempStatus].bg} borderRadius="0.25rem">
+      <Box px="0.5rem" py="0.25rem" bg={statusColor.bg} borderRadius="0.25rem">
         {isEdit ? (
           <Select
             size="sm"
@@ -53,7 +55,7 @@ export const OrderStatus = ({ orderId, status, isEdit }: StatusProps) => {
             border="none"
             _focusVisible={{ border: 'none' }}
             value={tempStatus}
-            color={colors[tempStatus].color}
+            color={statusColor.color}
             onChange={handleChange}
           >
             {Object.values(Status).map(value => (
@@ -63,7 +65,7 @@ export const OrderStatus = ({ orderId, status, isEdit }: StatusProps) => {
             ))}
           </Select>
         ) : (
-          <Text color={colors[tempStatus].color}>{tempStatus}</Text>
+          <Text color={statusColor.color}>{tempStatus}</Text>
         )}
       </Box>
 

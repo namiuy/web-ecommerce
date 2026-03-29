@@ -67,7 +67,7 @@ export const OrderHistory = () => {
               <>
                 {data?.orders?.map(order => (
                   <Flex
-                    key={order.number}
+                    key={order.id}
                     bg="white"
                     p="1.5rem"
                     mt="2rem"
@@ -184,7 +184,7 @@ export const OrderHistory = () => {
                       )}
                       {order.items.map((item, index) => (
                         <GridItem
-                          key={index}
+                          key={`${order.id}-${item.code}-${index}`}
                           borderBottom="1px"
                           borderColor="blackAlpha.200"
                           pb={{ base: '1rem', md: '0' }}

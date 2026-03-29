@@ -46,15 +46,15 @@ export const ProductStock = ({ id, handleStockChange }: StockProps) => {
             <Flex gap="0.375rem" pl="0.25rem">
               {data?.branches?.map((branch, i) => (
                 <Box
-                  key={i}
+                  key={`${branch.code}-${i}`}
                   textAlign="center"
                   borderLeft={i != 0 ? '1px solid lightgrey' : 'none'}
                   pl={i != 0 ? '0.375rem' : 0}
                 >
-                  <Text key={branch.code} color={_color} fontSize="0.75rem" fontWeight="black">
+                  <Text color={_color} fontSize="0.75rem" fontWeight="black">
                     {branch.code}
                   </Text>
-                  <Text key={branch.code} color={_color} fontSize="0.75rem">
+                  <Text color={_color} fontSize="0.75rem">
                     {branch.quant}
                   </Text>
                 </Box>

@@ -37,16 +37,45 @@ export async function GET(
     // Call backend /api/auth/me endpoint
     // Remove /api from config.apiBaseUrl since auth endpoints already include it
     const apiBaseUrlRaw = config.apiBaseUrl.replace('/api', '')
-    const response = await fetch(`${apiBaseUrlRaw}/api/auth/me`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const backendUrl = `${apiBaseUrlRaw}/api/auth/me`
+
+    console.log(`[/api/users/${uid}] Backend URL: ${backendUrl}`)
+    console.log(`[/api/users/${uid}] Token prefix: ${token.substring(0, 20)}...`)
+
+    let response;
+    try {
+      response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        signal: AbortSignal.timeout(5000), // 5 second timeout
+      })
+    } catch (fetchError: any) {
+      console.error(`[/api/users/${uid}] Fetch error:`, fetchError.message)
+      // If backend is not available, return guest user
+      if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED') {
+        console.warn(`[/api/users/${uid}] Backend unavailable, returning guest user`)
+        return Response.json({
+          uid: null,
+          email: null,
+          username: 'guest',
+          full_name: null,
+          roles: [],
+          is_active: false,
+          is_email_verified: false,
+          is_logged_in: false,
+          created_at: null,
+          error: 'Backend service unavailable',
+        })
+      }
+      throw fetchError
+    }
 
     if (!response.ok) {
-      console.error(`[/api/users/${uid}] Backend returned ${response.status}`)
+      const errorText = await response.text()
+      console.error(`[/api/users/${uid}] Backend returned ${response.status}: ${errorText}`)
 
       // 404: user in Firebase but not in DB
       if (response.status === 404) {
@@ -82,7 +111,6 @@ export async function GET(
         })
       }
 
-      const errorText = await response.text()
       throw new Error(errorText || `Failed to get user (HTTP ${response.status})`)
     }
 
@@ -105,6 +133,7 @@ export async function GET(
       created_at: userData.created_at,
     })
   } catch (error) {
+    console.error('[/api/users/[uid]] Error:', error)
     return errorResponse(error)
   }
 }

@@ -31,21 +31,37 @@ export const useCurrentUser = () => {
           // Check if user is logged in and synced
           if (userData && userData.is_logged_in && !userData.needs_sync && !userData.error) {
             // Map BFF response to User entity
+            const fullNameParts = userData.full_name?.split(' ') || [];
+            const firstName = fullNameParts[0] || userData.email?.split('@')[0] || 'Usuario';
+            const lastName = fullNameParts.slice(1).join(' ') || '';
+
             const mappedUser: User = {
               id: userData.uid,
-              first_name: userData.full_name?.split(' ')[0] || '',
-              last_name: userData.full_name?.split(' ').slice(1).join(' ') || '',
+              first_name: firstName,
+              last_name: lastName,
               email: userData.email,
               password: '', // Not needed on frontend
               personId: userData.user_id?.toString() || '0', // PersonId from database
               roles: userData.roles || []
             };
 
+            console.log('[useCurrentUser] Mapped user:', {
+              full_name: userData.full_name,
+              first_name: firstName,
+              last_name: lastName,
+              email: userData.email
+            });
+
             // Update localStorage and state
             lscache.set('user', mappedUser);
             setUser(mappedUser);
           } else {
             // User not synced, not logged in, or error - clear state
+            console.log('[useCurrentUser] User not valid:', {
+              is_logged_in: userData?.is_logged_in,
+              needs_sync: userData?.needs_sync,
+              error: userData?.error
+            });
             lscache.remove('user');
             setUser(null);
           }
