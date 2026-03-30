@@ -55,8 +55,27 @@ export const useCurrentUser = () => {
             // Update localStorage and state
             lscache.set('user', mappedUser);
             setUser(mappedUser);
+          } else if (userData?.error === 'Backend service unavailable') {
+            // Backend is temporarily unavailable - keep cached user if exists
+            console.log('[useCurrentUser] Backend unavailable, keeping cached user');
+            const cachedUser = lscache.get('user');
+            if (cachedUser) {
+              setUser(cachedUser);
+            } else {
+              // No cached user, create minimal user from Firebase
+              const mappedUser: User = {
+                id: firebaseUser.uid,
+                first_name: firebaseUser.displayName?.split(' ')[0] || firebaseUser.email?.split('@')[0] || 'Usuario',
+                last_name: firebaseUser.displayName?.split(' ').slice(1).join(' ') || '',
+                email: firebaseUser.email || '',
+                password: '',
+                personId: '0',
+                roles: []
+              };
+              setUser(mappedUser);
+            }
           } else {
-            // User not synced, not logged in, or error - clear state
+            // User not synced, not logged in, or auth error - clear state
             console.log('[useCurrentUser] User not valid:', {
               is_logged_in: userData?.is_logged_in,
               needs_sync: userData?.needs_sync,
