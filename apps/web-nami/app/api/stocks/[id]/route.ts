@@ -20,7 +20,7 @@ export async function GET(
 
     // Call backend /api/stock endpoint directly
     // Remove /api from config.apiBaseUrl since stock endpoint already includes it
-    if (!config.apiBaseUrl) {
+    if (!config.apiBaseUrl || config.apiBaseUrl === 'undefined') {
       throw new Error('NEXT_PUBLIC_API_BASE_URL is not configured')
     }
     const apiBaseUrlRaw = config.apiBaseUrl.replace('/api', '')
