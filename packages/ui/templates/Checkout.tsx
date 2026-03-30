@@ -57,11 +57,11 @@ export const Checkout = () => {
     }
   }, [data, onOpen]);
 
-  const [shippingMethod, setShippingMethod] = useState(shippingMethods[0].id);
+  const [shippingMethod, setShippingMethod] = useState(shippingMethods[0]?.id || '');
   const [address, setAddress] = useState<number>(0);
   const [observation, setObservation] = useState<string>('');
-  const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].id);
-  const [shippingPrice, setShippingPrice] = useState(shippingMethods[0].price);
+  const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]?.id || '');
+  const [shippingPrice, setShippingPrice] = useState(shippingMethods[0]?.price || 0);
 
   const totalAmount = totalPrice + shippingPrice;
 
