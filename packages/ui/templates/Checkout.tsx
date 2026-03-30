@@ -72,14 +72,22 @@ export const Checkout = () => {
 
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [refreshedPersonId, setRefreshedPersonId] = useState<string | null>(null);
+  const [cachedPersonId, setCachedPersonId] = useState<string | null>(null);
 
-  const cachedPersonId = lscache.get('user')?.personId;
+  // Get cached personId only in browser
+  useEffect(() => {
+    if (issBrowser) {
+      const user = lscache.get('user');
+      setCachedPersonId(user?.personId || null);
+    }
+  }, [issBrowser]);
+
   const personId = refreshedPersonId || cachedPersonId;
 
   // If personId is '0', try to refresh user data from backend
   useEffect(() => {
     const refreshUserData = async () => {
-      if (cachedPersonId === '0' || cachedPersonId === 0) {
+      if (cachedPersonId === '0' || cachedPersonId === null) {
         try {
           const user = lscache.get('user');
           if (user?.id) {
