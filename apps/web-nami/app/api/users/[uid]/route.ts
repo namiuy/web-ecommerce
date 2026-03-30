@@ -53,12 +53,17 @@ export async function GET(
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        signal: AbortSignal.timeout(5000), // 5 second timeout
+        signal: AbortSignal.timeout(30000), // 30 second timeout (increased from 5)
       })
     } catch (fetchError: any) {
-      console.error(`[/api/users/${uid}] Fetch error:`, fetchError.message)
+      console.error(`[/api/users/${uid}] Fetch error:`, fetchError)
+      console.error(`[/api/users/${uid}] Fetch error name:`, fetchError.name)
+      console.error(`[/api/users/${uid}] Fetch error code:`, fetchError.code)
+      console.error(`[/api/users/${uid}] Fetch error cause:`, fetchError.cause)
+      console.error(`[/api/users/${uid}] Backend URL that failed:`, backendUrl)
+
       // If backend is not available, return guest user
-      if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED') {
+      if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED' || fetchError.message?.includes('fetch failed')) {
         console.warn(`[/api/users/${uid}] Backend unavailable, returning guest user`)
         return Response.json({
           uid: null,
