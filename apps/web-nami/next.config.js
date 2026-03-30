@@ -329,8 +329,6 @@ const homeCategories =
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
-  // Explicitly set output mode for Amplify
-  output: 'standalone',
   images: {
     domains: ['nami-uy.s3.sa-east-1.amazonaws.com', 'nami-tools.s3.sa-east-1.amazonaws.com'],
     remotePatterns: [
