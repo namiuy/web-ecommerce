@@ -29,13 +29,39 @@ export async function GET(
       server: server,
     }).toString()
 
-    const response = await fetch(`${apiBaseUrlRaw}/api/stock?${params_string}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-    })
+    let response;
+    try {
+      response = await fetch(`${apiBaseUrlRaw}/api/stock?${params_string}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        signal: AbortSignal.timeout(30000), // 30 second timeout (increased from 5)
+      })
+    } catch (fetchError: any) {
+      console.error(`[/api/stocks/${id}] Fetch error:`, fetchError)
+      console.error(`[/api/stocks/${id}] Fetch error name:`, fetchError.name)
+      console.error(`[/api/stocks/${id}] Fetch error code:`, fetchError.code)
+      console.error(`[/api/stocks/${id}] Fetch error cause:`, fetchError.cause)
+      console.error(`[/api/stocks/${id}] Backend URL that failed:`, `${apiBaseUrlRaw}/api/stock?${params_string}`)
+
+      // If backend is not available, return empty stock with success flag
+      if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED' || fetchError.message?.includes('fetch failed')) {
+        console.warn(`[/api/stocks/${id}] Backend unavailable, returning empty stock`)
+        return Response.json({
+          code: id,
+          total: 0,
+          nami: 0,
+          clima: 0,
+          sircal: 0,
+          lafelor: 0,
+          alodenar: 0,
+          error: 'Backend service unavailable'
+        })
+      }
+      throw fetchError
+    }
 
     if (!response.ok) {
       console.error(`[/api/stocks/${id}] Backend returned ${response.status}`)

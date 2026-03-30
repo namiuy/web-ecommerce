@@ -24,7 +24,7 @@ export async function apiFetch<T = unknown>(
     method = 'GET',
     body,
     token,
-    timeout = 10_000,
+    timeout = 30_000, // Increased from 10s to 30s
     baseUrl = config.apiBaseUrl,
   } = options
 
@@ -35,12 +35,26 @@ export async function apiFetch<T = unknown>(
     headers['Authorization'] = `Bearer ${token}`
   }
 
-  const response = await fetch(`${baseUrl}${endpoint}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-    signal: AbortSignal.timeout(timeout),
-  })
+  let response;
+  const url = `${baseUrl}${endpoint}`;
+
+  try {
+    response = await fetch(url, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+      signal: AbortSignal.timeout(timeout),
+    })
+  } catch (fetchError: any) {
+    console.error(`[apiFetch] Fetch error for ${method} ${url}:`, fetchError)
+    console.error(`[apiFetch] Error name: ${fetchError.name}, code: ${fetchError.code}`)
+
+    // Throw a more descriptive error for network failures
+    if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED' || fetchError.message?.includes('fetch failed')) {
+      throw new ApiError(503, `Backend service unavailable: ${fetchError.message}`)
+    }
+    throw fetchError
+  }
 
   if (!response.ok) {
     const errorText = await response.text()
