@@ -37,7 +37,7 @@ export async function GET(
     // Call backend /api/auth/me endpoint
     // Remove /api from config.apiBaseUrl since auth endpoints already include it
     if (!config.apiBaseUrl) {
-      throw new Error('API_BASE_URL is not configured')
+      throw new Error('NEXT_PUBLIC_API_BASE_URL is not configured')
     }
     const apiBaseUrlRaw = config.apiBaseUrl.replace('/api', '')
     const backendUrl = `${apiBaseUrlRaw}/api/auth/me`

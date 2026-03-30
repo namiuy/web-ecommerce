@@ -2,7 +2,12 @@ import { config } from '../config';
 
 // --- Helper to get raw API URL (without /api suffix) ---
 
-const getApiBaseUrlRaw = () => config.apiBaseUrl.replace('/api', '');
+const getApiBaseUrlRaw = () => {
+  if (!config.apiBaseUrl) {
+    throw new Error('NEXT_PUBLIC_API_BASE_URL is not configured')
+  }
+  return config.apiBaseUrl.replace('/api', '')
+}
 
 // --- Client types ---
 
