@@ -19,7 +19,7 @@ NEXT_PUBLIC_API_BASE_URL=https://api-ecommerce.nami.com.uy/api
 - This is the ONLY required API URL variable
 - The `NEXT_PUBLIC_` prefix makes it available in both client and server contexts
 - Must include the `/api` path suffix
-- Used by all BFF routes and services
+- Used by all Next.js API Routes and services
 
 ## Deprecated Variables
 

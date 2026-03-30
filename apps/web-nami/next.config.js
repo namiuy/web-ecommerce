@@ -2,7 +2,6 @@
 const {
   ID,
   APP_NAME,
-  BFF_URL,
   PRODUCT_CARD_PRICE_TYPE,
   PRODUCT_CARD_CODE,
   PRODUCT_DETAIL_PRICE_TYPE,
@@ -344,7 +343,6 @@ module.exports = {
   publicRuntimeConfig: {
     envId: ID,
     appName: APP_NAME,
-    bffUrl: BFF_URL,
     siteHost: SITE_HOST,
     menuItems,
     socialNeworksItems,
