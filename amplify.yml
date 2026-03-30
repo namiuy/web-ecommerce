@@ -1,23 +1,28 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - echo "Installing dependencies..."
-        - npm ci
-        - echo "Installing Turbo 1.x globally..."
-        - npm install -g turbo@1.13.4
-    build:
-      commands:
-        - echo "Building packages with Turbo..."
-        - npx turbo run build --filter=web-nami
-        - echo "Listing build output..."
-        - ls -la apps/web-nami/.next
-  artifacts:
-    baseDirectory: apps/web-nami/.next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-      - apps/web-nami/.next/cache/**/*
+applications:
+  - appRoot: apps/web-nami
+    platform: WEB_COMPUTE
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Installing dependencies from monorepo root..."
+            - cd ../..
+            - npm ci
+            - echo "Installing Turbo 1.x globally..."
+            - npm install -g turbo@1.13.4
+        build:
+          commands:
+            - echo "Building packages with Turbo from monorepo root..."
+            - cd ../..
+            - npx turbo run build --filter=web-nami
+            - echo "Listing build output..."
+            - ls -la apps/web-nami/.next
+      artifacts:
+        baseDirectory: ../../apps/web-nami/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - ../../node_modules/**/*
+          - ../../apps/web-nami/.next/cache/**/*
