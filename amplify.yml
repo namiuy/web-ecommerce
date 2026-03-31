@@ -8,15 +8,22 @@ applications:
           commands:
             - echo "Current directory:"
             - pwd
+            - echo "CODEBUILD_SRC_DIR value:"
+            - echo $CODEBUILD_SRC_DIR
+            - echo "Listing CODEBUILD_SRC_DIR:"
+            - ls -la $CODEBUILD_SRC_DIR
             - echo "Installing dependencies from monorepo root..."
-            - cd $CODEBUILD_SRC_DIR
+            - cd $CODEBUILD_SRC_DIR/web
+            - echo "After cd, now at:"
+            - pwd
+            - ls -la | grep package
             - npm ci
             - echo "Installing Turbo 1.x globally..."
             - npm install -g turbo@1.13.4
         build:
           commands:
             - echo "Building packages with Turbo from monorepo root..."
-            - cd $CODEBUILD_SRC_DIR
+            - cd $CODEBUILD_SRC_DIR/web
             - npx turbo run build --filter=web-nami
             - echo "Listing build output..."
             - ls -la apps/web-nami/.next
