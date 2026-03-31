@@ -1,14 +1,5 @@
 import { config } from '../config';
 
-// --- Helper to get raw API URL (without /api suffix) ---
-
-const getApiBaseUrlRaw = () => {
-  if (!config.apiBaseUrl || config.apiBaseUrl === 'undefined') {
-    throw new Error('NEXT_PUBLIC_API_BASE_URL is not configured')
-  }
-  return config.apiBaseUrl.replace('/api', '')
-}
-
 // --- Client types ---
 
 type RegisterUserData = {
@@ -50,7 +41,8 @@ export async function registerUser(userData: RegisterUserData): Promise<{ succes
   };
 
   console.log('[user.service] Syncing user to backend...');
-  const syncResponse = await fetch(`${getApiBaseUrlRaw()}/api/auth/sync-user`, {
+  // config.apiBaseUrl already includes /api path
+  const syncResponse = await fetch(`${config.apiBaseUrl}/auth/sync-user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(syncUserData),
@@ -135,7 +127,8 @@ export async function getUserByFirebaseUid(uid: string, token: string | null): P
 
   console.log(`[user.service] Fetching user uid=${uid} from backend...`);
 
-  const response = await fetch(`${getApiBaseUrlRaw()}/api/auth/me`, {
+  // config.apiBaseUrl already includes /api path
+  const response = await fetch(`${config.apiBaseUrl}/auth/me`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

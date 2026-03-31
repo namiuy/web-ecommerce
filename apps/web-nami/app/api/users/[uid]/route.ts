@@ -35,12 +35,13 @@ export async function GET(
     console.log(`[/api/users/${uid}] Fetching user from backend...`)
 
     // Call backend /api/auth/me endpoint
-    // Remove /api from config.apiBaseUrl since auth endpoints already include it
     if (!config.apiBaseUrl || config.apiBaseUrl === 'undefined') {
       throw new Error('NEXT_PUBLIC_API_BASE_URL is not configured')
     }
-    const apiBaseUrlRaw = config.apiBaseUrl.replace('/api', '')
-    const backendUrl = `${apiBaseUrlRaw}/api/auth/me`
+
+    // config.apiBaseUrl already includes /api path, so just append /auth/me
+    // FastAPI does NOT use trailing slashes
+    const backendUrl = `${config.apiBaseUrl}/auth/me`
 
     console.log(`[/api/users/${uid}] Backend URL: ${backendUrl}`)
     console.log(`[/api/users/${uid}] Token prefix: ${token.substring(0, 20)}...`)

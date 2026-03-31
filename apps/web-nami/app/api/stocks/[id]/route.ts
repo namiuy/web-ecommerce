@@ -18,12 +18,13 @@ export async function GET(
 
     console.log(`[/api/stocks/${id}] Fetching stock from backend, server=${server}`)
 
-    // Call backend /api/stock endpoint directly
-    // Remove /api from config.apiBaseUrl since stock endpoint already includes it
+    // Call backend /api/stock endpoint
     if (!config.apiBaseUrl || config.apiBaseUrl === 'undefined') {
       throw new Error('NEXT_PUBLIC_API_BASE_URL is not configured')
     }
-    const apiBaseUrlRaw = config.apiBaseUrl.replace('/api', '')
+
+    // Build stock URL - config.apiBaseUrl already includes /api path
+    const stockUrl = `${config.apiBaseUrl}/stock`
     const params_string = new URLSearchParams({
       code: id,
       server: server,
@@ -31,7 +32,7 @@ export async function GET(
 
     let response;
     try {
-      response = await fetch(`${apiBaseUrlRaw}/api/stock?${params_string}`, {
+      response = await fetch(`${stockUrl}?${params_string}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export async function GET(
       console.error(`[/api/stocks/${id}] Fetch error name:`, fetchError.name)
       console.error(`[/api/stocks/${id}] Fetch error code:`, fetchError.code)
       console.error(`[/api/stocks/${id}] Fetch error cause:`, fetchError.cause)
-      console.error(`[/api/stocks/${id}] Backend URL that failed:`, `${apiBaseUrlRaw}/api/stock?${params_string}`)
+      console.error(`[/api/stocks/${id}] Backend URL that failed:`, `${stockUrl}?${params_string}`)
 
       // If backend is not available, return empty stock with success flag
       if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED' || fetchError.message?.includes('fetch failed')) {
