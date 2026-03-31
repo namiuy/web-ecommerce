@@ -1,11 +1,20 @@
-// Debug logging for environment variables
-console.log('[config] NEXT_PUBLIC_API_BASE_URL:', process.env.NEXT_PUBLIC_API_BASE_URL)
-console.log('[config] API_BASE_URL:', process.env.API_BASE_URL)
+// Function to get config at runtime (for serverless environments)
+function getConfig() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.API_BASE_URL || ''
+  const imagesUrl = process.env.IMAGES_URL || process.env.NEXT_PUBLIC_IMAGES_URL || 'https://nami-uy.s3.sa-east-1.amazonaws.com/products'
+  const brandsUrl = process.env.BRANDS_URL || process.env.NEXT_PUBLIC_BRANDS_URL || 'https://nami-uy.s3.sa-east-1.amazonaws.com/brands'
 
-export const config = {
-  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || process.env.API_BASE_URL || '',
-  imagesUrl: process.env.IMAGES_URL || process.env.NEXT_PUBLIC_IMAGES_URL || 'https://nami-uy.s3.sa-east-1.amazonaws.com/products',
-  brandsUrl: process.env.BRANDS_URL || process.env.NEXT_PUBLIC_BRANDS_URL || 'https://nami-uy.s3.sa-east-1.amazonaws.com/brands',
-} as const;
+  // Debug logging
+  console.log('[config] NEXT_PUBLIC_API_BASE_URL:', process.env.NEXT_PUBLIC_API_BASE_URL)
+  console.log('[config] API_BASE_URL:', process.env.API_BASE_URL)
+  console.log('[config] Final apiBaseUrl:', apiBaseUrl)
 
-console.log('[config] Final apiBaseUrl:', config.apiBaseUrl)
+  return {
+    apiBaseUrl,
+    imagesUrl,
+    brandsUrl,
+  }
+}
+
+// Export as getter for runtime access
+export const config = getConfig()
