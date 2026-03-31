@@ -27,12 +27,9 @@ applications:
             - echo "ID=$ID"
             - echo "APP_NAME=$APP_NAME"
             - echo "===================================="
-            - echo "Building shared package..."
-            - cd packages/shared && npm run build && cd ../..
-            - echo "Building ui package..."
-            - cd packages/ui && npm run build && cd ../..
-            - echo "Building web-nami app..."
-            - cd apps/web-nami && npm run build
+            - echo "Building web-nami app directly (packages are TypeScript, no build needed)..."
+            - cd apps/web-nami
+            - npm run build
             - echo "Listing build output..."
             - ls -la .next
       artifacts:
