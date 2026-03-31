@@ -6,23 +6,25 @@ applications:
       phases:
         preBuild:
           commands:
+            - echo "Current directory:"
+            - pwd
             - echo "Installing dependencies from monorepo root..."
-            - cd ../..
+            - cd $CODEBUILD_SRC_DIR
             - npm ci
             - echo "Installing Turbo 1.x globally..."
             - npm install -g turbo@1.13.4
         build:
           commands:
             - echo "Building packages with Turbo from monorepo root..."
-            - cd ../..
+            - cd $CODEBUILD_SRC_DIR
             - npx turbo run build --filter=web-nami
             - echo "Listing build output..."
             - ls -la apps/web-nami/.next
       artifacts:
-        baseDirectory: ../../apps/web-nami/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
-          - ../../node_modules/**/*
-          - ../../apps/web-nami/.next/cache/**/*
+          - node_modules/**/*
+          - .next/cache/**/*
