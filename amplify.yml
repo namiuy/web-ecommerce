@@ -18,20 +18,23 @@ applications:
             - pwd
             - ls -la | grep package
             - npm ci
-            - echo "Installing Turbo 1.x globally..."
-            - npm install -g turbo@1.13.4
         build:
           commands:
-            - echo "Building packages with Turbo from monorepo root..."
+            - echo "Building WITHOUT Turbo (direct npm run build)..."
             - cd $CODEBUILD_SRC_DIR/web
             - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
             - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
             - echo "ID=$ID"
             - echo "APP_NAME=$APP_NAME"
             - echo "===================================="
-            - npx turbo run build --filter=web-nami
+            - echo "Building shared package..."
+            - cd packages/shared && npm run build && cd ../..
+            - echo "Building ui package..."
+            - cd packages/ui && npm run build && cd ../..
+            - echo "Building web-nami app..."
+            - cd apps/web-nami && npm run build
             - echo "Listing build output..."
-            - ls -la apps/web-nami/.next
+            - ls -la .next
       artifacts:
         baseDirectory: .next
         files:
