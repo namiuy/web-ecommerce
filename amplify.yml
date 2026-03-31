@@ -24,6 +24,11 @@ applications:
           commands:
             - echo "Building packages with Turbo from monorepo root..."
             - cd $CODEBUILD_SRC_DIR/web
+            - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
+            - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
+            - echo "ID=$ID"
+            - echo "APP_NAME=$APP_NAME"
+            - echo "===================================="
             - npx turbo run build --filter=web-nami
             - echo "Listing build output..."
             - ls -la apps/web-nami/.next
