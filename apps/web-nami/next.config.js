@@ -102,11 +102,6 @@ const menuItemsRobotec = [
     href: 'https://www.robotec.edu.uy',
   },
   {
-    id: 'company',
-    text: 'Empresa',
-    href: '/empresa',
-  },
-  {
     id: 'contact',
     text: 'Contacto',
     href: '/contacto',
