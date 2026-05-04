@@ -13,9 +13,7 @@ applications:
             - echo "Listing CODEBUILD_SRC_DIR:"
             - ls -la $CODEBUILD_SRC_DIR
             - echo "Installing dependencies from monorepo root..."
-            - REPO_DIR=$(ls -d $CODEBUILD_SRC_DIR/web* | head -1)
-            - echo "Detected repo dir: $REPO_DIR"
-            - cd $REPO_DIR
+            - cd $CODEBUILD_SRC_DIR/web
             - echo "After cd, now at:"
             - pwd
             - ls -la | grep package
@@ -23,8 +21,7 @@ applications:
         build:
           commands:
             - echo "Building WITHOUT Turbo (direct npm run build)..."
-            - REPO_DIR=$(ls -d $CODEBUILD_SRC_DIR/web* | head -1)
-            - cd $REPO_DIR
+            - cd $CODEBUILD_SRC_DIR/web
             - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
             - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
             - echo "ID=$ID"
