@@ -162,7 +162,7 @@ export const SignIn = ({ Logo }: SignInProps) => {
                 </FormControl>
 
                 <Box mt="0.375rem" mb="1rem" textAlign="end">
-                  <Link href="/restablecer-contrasena" color={_color} fontSize="0.875rem">
+                  <Link href="/reset-password" color={_color} fontSize="0.875rem">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </Box>
