@@ -4,6 +4,7 @@ import { useCelesteStore } from 'shared';
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 export const CursorFlag = () => {
+  const enabled = useCelesteStore(s => s.enabled);
   const hydrated = useCelesteStore(s => s.hydrated);
   const ref = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -15,7 +16,7 @@ export const CursorFlag = () => {
   const raf = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!enabled || !hydrated) return;
     if (typeof window === 'undefined') return;
     if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
 
@@ -59,9 +60,9 @@ export const CursorFlag = () => {
       window.removeEventListener('mousemove', onMove);
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-  }, [hydrated]);
+  }, [enabled, hydrated]);
 
-  if (!hydrated) return null;
+  if (!enabled || !hydrated) return null;
 
   return (
     <div ref={ref} className="credi-cursor-flag">

@@ -5,6 +5,8 @@ import { create } from 'zustand';
 // "faltan 0 días" coincida con el momento exacto en que se enciende todo.
 export const CELESTE_REVEAL_DATE = new Date('2026-06-11T19:00:00-03:00');
 
+export const isCelesteRevealed = () => Date.now() >= CELESTE_REVEAL_DATE.getTime();
+
 type CelesteState = {
   enabled: boolean;
   hydrated: boolean;
@@ -16,7 +18,7 @@ type CelesteState = {
 export const useCelesteStore = create<CelesteState>(set => ({
   enabled: false,
   hydrated: false,
-  toggle: () => set(state => ({ enabled: !state.enabled })),
-  setEnabled: (value: boolean) => set({ enabled: value }),
+  toggle: () => set(state => ({ enabled: !state.enabled && isCelesteRevealed() })),
+  setEnabled: (value: boolean) => set({ enabled: value && isCelesteRevealed() }),
   setHydrated: (value: boolean) => set({ hydrated: value }),
 }));

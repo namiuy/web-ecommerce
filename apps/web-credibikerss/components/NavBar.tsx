@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { AnimationWrapper, NavBar as NavBarUI } from 'ui';
 import { LogoCeleste } from './celeste/LogoCeleste';
 import { BannerStrip } from './celeste/BannerStrip';
-import { useCelesteStore } from 'shared';
+import { useCelesteStore, isCelesteRevealed } from 'shared';
 import { fire } from './celeste/Confetti';
 
 const useLogoClickStreak = () => {
@@ -11,6 +11,7 @@ const useLogoClickStreak = () => {
   const times = useRef<number[]>([]);
 
   return () => {
+    if (!isCelesteRevealed()) return;
     const now = Date.now();
     times.current = [...times.current, now].filter(t => now - t < 1000);
     if (times.current.length >= 4) {
