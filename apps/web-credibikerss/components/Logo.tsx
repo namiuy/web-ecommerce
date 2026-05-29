@@ -1,5 +1,12 @@
 export const Logo = (props: any) => (
-  <svg width={165} height={48} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg
+    width={165}
+    height={48}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+    className={`credi-logo${props?.className ? ` ${props.className}` : ''}`}
+  >
     <path
       d="M36.568 25.333h-18.21a5.286 5.286 0 0 1-4.464-2.45 5.33 5.33 0 0 1-.382-5.083l5.992-13.3A7.646 7.646 0 0 1 26.46 0h21.513l-4.797 10.667H30.294l-1.81 4h12.881l-4.797 10.666ZM18.358 20h1.91l6.606-14.667h12.881-13.28c-.912 0-1.742.534-2.124 1.367L18.36 20ZM83.146 25.333H56.703L68.123 0h26.443l-11.42 25.333ZM64.936 20h1.91l6.606-14.667h12.881H71.56L64.936 20Z"
       fill="#000"

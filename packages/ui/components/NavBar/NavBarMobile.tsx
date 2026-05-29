@@ -77,7 +77,7 @@ const SearchButton = () => {
   );
 };
 
-const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: NavBarProps) => {
+const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems, extraActions }: NavBarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
 
@@ -88,6 +88,9 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
     if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
   }, [issBrowser]);
 
+  const baseCols = user && cartEnabled ? 'auto 3fr auto auto' : 'auto 3fr auto';
+  const cols = extraActions ? `${baseCols} auto` : baseCols;
+
   return (
     <>
       <Grid
@@ -95,7 +98,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
         backdropFilter={_backdropFilter}
         color={_color}
         borderBottomColor={_borderColor}
-        gridTemplateColumns="auto 3fr auto auto"
+        gridTemplateColumns={cols}
         pt="1rem"
         pb="1rem"
         alignItems="center"
@@ -128,6 +131,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
         <GridItem>
           <SearchButton />
         </GridItem>
+        {extraActions && <GridItem pr="0.25rem">{extraActions}</GridItem>}
       </Grid>
       <MenuDrawer
         dark={dark}

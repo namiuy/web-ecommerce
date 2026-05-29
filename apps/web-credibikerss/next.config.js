@@ -101,6 +101,7 @@ const colors = [
 
 module.exports = {
   reactStrictMode: true,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
   transpilePackages: ['shared', 'ui'],
   publicRuntimeConfig: {
     envId: 'CREDI',

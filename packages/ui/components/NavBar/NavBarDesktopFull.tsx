@@ -26,7 +26,7 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [] }: NavBarProps) => {
+const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], extraActions }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
   const issBrowser = isBrowser();
@@ -59,7 +59,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
       <Box bg={_backgroundColorSecondary}>
         <Grid
           p="1.5rem 0 0.5rem 0"
-          gridTemplateColumns={user ? '1fr 3fr auto auto auto' : '1fr 3fr auto auto'}
+          gridTemplateColumns={`${user ? '1fr 3fr auto auto auto' : '1fr 3fr auto auto'}${extraActions ? ' auto' : ''}`}
           alignItems="center"
           gap="1rem"
           w={_mainWidth}
@@ -85,6 +85,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
               <ShoppingCartDrawer />
             </GridItem>
           )}
+          {extraActions && <GridItem>{extraActions}</GridItem>}
         </Grid>
         <Grid
           py="0.625rem"

@@ -21,7 +21,7 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktopSimple = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [] }: NavBarProps) => {
+const NavBarDesktopSimple = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], extraActions }: NavBarProps) => {
   const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
   return (
@@ -46,7 +46,7 @@ const NavBarDesktopSimple = ({ dark, logo: Logo, multiDomainItems = [], menuItem
       <Box bg={_backgroundColorSecondary} backdropFilter={_backdropFilter}>
         <Grid
           p="1.5rem 0"
-          gridTemplateColumns="12rem 1fr auto auto"
+          gridTemplateColumns={extraActions ? '12rem 1fr auto auto auto' : '12rem 1fr auto auto'}
           alignItems="center"
           gap="2rem"
           w={_mainWidth}
@@ -65,6 +65,7 @@ const NavBarDesktopSimple = ({ dark, logo: Logo, multiDomainItems = [], menuItem
           <GridItem>
             <Nav items={menuItemsWithOnClick} />
           </GridItem>
+          {extraActions && <GridItem>{extraActions}</GridItem>}
         </Grid>
       </Box>
     </>
