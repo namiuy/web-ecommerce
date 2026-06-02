@@ -16,9 +16,10 @@ import {
 import { EditIcon } from '@chakra-ui/icons';
 import { useProductSearch } from 'shared';
 import { Box, Flex, Text, ImageModal, ProductEditModal } from 'ui';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Product } from 'shared/entities/product';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import lscache from 'lscache';
 
 type ProductTableProps = {
   categoryId?: string;
@@ -35,13 +36,24 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
   const [product, setProduct] = useState<Product>();
   const [imageSrc, setImageSrc] = useState<string>();
 
-  const handleEdit = (product: Product) => {
-    setProduct({
-      ...product,
-      colors: product.colors ?? [],
-    });
+  const handleEdit = useCallback(async (product: Product) => {
+    // Load full product with specifications and related_links from BFF
+    try {
+      const token = lscache.get('firebase_token');
+      const res = await fetch(`/api/products/${encodeURIComponent(product.id)}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (res.ok) {
+        const fullProduct = await res.json();
+        setProduct({ ...fullProduct, colors: fullProduct.colors ?? [] });
+      } else {
+        setProduct({ ...product, colors: product.colors ?? [] });
+      }
+    } catch {
+      setProduct({ ...product, colors: product.colors ?? [] });
+    }
     onOpen();
-  };
+  }, [onOpen]);
 
   const handleImage = (src: string) => {
     setImageSrc(src);

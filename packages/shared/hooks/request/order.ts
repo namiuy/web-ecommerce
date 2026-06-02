@@ -3,7 +3,7 @@ import { post, get } from '../../utils/fetcher';
 import { Result } from './result';
 import { Order } from '../../entities/order';
 import { OrderList } from '../../entities/order_list';
-import { Checkout } from '@namiuy/bff-core';
+import { Checkout } from '../../entities/checkout';
 import { StatusChange } from '../../entities/status-change';
 
 // Use Next.js BFF instead of calling backend directly

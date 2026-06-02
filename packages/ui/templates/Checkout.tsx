@@ -9,7 +9,7 @@ import { Verification } from '../components/Checkout/Verification';
 import { Summary } from '../components/Checkout/Summary';
 import { useCheckout } from 'shared';
 import { SuccessModal } from '../components/Checkout/SuccessModal';
-import { Checkout as CheckoutValues } from '@namiuy/bff-core';
+import { Checkout as CheckoutValues } from 'shared/entities/checkout';
 import { AddressSelection } from '../components/Checkout/AddressSelection';
 import { Address } from 'shared/entities/address';
 import { useRouter } from 'next/router';

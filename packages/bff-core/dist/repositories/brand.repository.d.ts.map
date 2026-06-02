@@ -1,1 +1,0 @@
-{"version":3,"file":"brand.repository.d.ts","sourceRoot":"","sources":["../../repositories/brand.repository.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAClC,OAAO,EAAE,KAAK,EAAE,MAAM,aAAa,CAAC;AAEpC,MAAM,MAAM,gBAAgB,GAAG;IAC7B,IAAI,EAAE,MAAM,OAAO,CAAC,MAAM,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC;CAC3C,CAAC"}
