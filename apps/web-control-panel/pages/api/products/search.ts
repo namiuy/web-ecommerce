@@ -1,33 +1,22 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { SearchFilters, ProductSearchSortBy } from '@namiuy/bff-core';
-import { createRepositories } from '../_config';
-import { createSearchProductsUseCase } from '../../../usecases/product';
-import { methodNotAllowed, sendResult, optionalAuth } from '../_helpers';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { getToken } from '../../../lib/auth'
+import { searchProducts } from '../../../lib/services/product.service'
+import { errorResponse, methodNotAllowed } from '../../../lib/errors'
 
-export default optionalAuth(async (req: NextApiRequest, res: NextApiResponse, token: string | null) => {
-  // Only allow GET method
-  if (req.method !== 'GET') {
-    return methodNotAllowed(res, ['GET']);
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') return methodNotAllowed(res, ['GET'])
+  try {
+    const token = getToken(req)
+    const { b: brand, c: category, t: words, sortBy = 'rel', index = '0' } = req.query
+
+    const filters: { brand?: number; category?: string; words?: string[] } = {}
+    if (brand && typeof brand === 'string') filters.brand = parseInt(brand)
+    if (category && typeof category === 'string') filters.category = category
+    if (words && typeof words === 'string') filters.words = words.split(',')
+
+    const result = await searchProducts(filters, sortBy as string, parseInt(index as string), token)
+    return res.status(200).json(result)
+  } catch (error) {
+    return errorResponse(res, error)
   }
-
-  // Parse query parameters
-  const { b: brand, c: category, t: words, sortBy = 'rel', index = '0' } = req.query;
-
-  const filters: SearchFilters = {};
-  if (brand && typeof brand === 'string') filters.brand = parseInt(brand);
-  if (category && typeof category === 'string') filters.category = category;
-  if (words && typeof words === 'string') filters.words = words.split(',');
-
-  const sort = sortBy as ProductSearchSortBy;
-  const page = parseInt(index as string);
-
-  // Get repositories with optional auth
-  const { productRepository } = createRepositories(token ? () => token : undefined);
-
-  // Create and execute use case
-  const searchProducts = createSearchProductsUseCase(productRepository);
-  const result = await searchProducts(filters, sort, page);
-
-  // Send response
-  return sendResult(res, result);
-});
+}

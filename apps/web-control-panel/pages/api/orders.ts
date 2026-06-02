@@ -1,38 +1,33 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { Checkout, OrderFilters } from '@namiuy/bff-core';
-import { createRepositories } from './_config';
-import { createCheckoutUseCase, createListOrdersUseCase } from '../../usecases/order';
-import { requireAuth, sendResult, methodNotAllowed } from './_helpers';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { requireToken } from '../../lib/auth'
+import { listMyOrders, listOrdersByGuid, checkout } from '../../lib/services/order.service'
+import { errorResponse, methodNotAllowed } from '../../lib/errors'
 
-export default requireAuth(async (req: NextApiRequest, res: NextApiResponse, token: string) => {
-  // Get repositories with auth
-  const { orderRepository } = createRepositories(() => token);
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const token = requireToken(req)
 
-  switch (req.method) {
-    case 'GET': {
-      // List orders
-      const { guid, companyId, index = '0' } = req.query;
+    switch (req.method) {
+      case 'GET': {
+        const { guid, companyId } = req.query
+        let result
+        if (guid && typeof guid === 'string') {
+          result = await listOrdersByGuid(guid, companyId as string | undefined, token)
+        } else {
+          result = await listMyOrders(token)
+        }
+        return res.status(200).json(result)
+      }
 
-      const filters: OrderFilters = {};
-      if (guid && typeof guid === 'string') filters.guid = guid;
-      if (companyId && typeof companyId === 'string') filters.companyId = companyId;
+      case 'POST': {
+        const result = await checkout(req.body, token)
+        return res.status(200).json(result)
+      }
 
-      const page = parseInt(index as string);
-
-      const listOrders = createListOrdersUseCase(orderRepository);
-      const result = await listOrders(filters, page);
-      return sendResult(res, result);
+      default:
+        return methodNotAllowed(res, ['GET', 'POST'])
     }
-
-    case 'POST': {
-      // Checkout (create order)
-      const checkoutData: Checkout = req.body;
-      const checkout = createCheckoutUseCase(orderRepository);
-      const result = await checkout(checkoutData);
-      return sendResult(res, result);
-    }
-
-    default:
-      return methodNotAllowed(res, ['GET', 'POST']);
+  } catch (error) {
+    return errorResponse(res, error)
   }
-});
+}

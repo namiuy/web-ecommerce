@@ -167,6 +167,9 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
       updateData.images = images;
     }
 
+    updateData.specifications = specifications.filter(s => s.key).map(s => ({ name: s.key, value: s.value }));
+    updateData.related_links = relatedLinks.filter(l => l.name).map(l => ({ name: l.name, url: l.url }));
+
     const diff = getObjectDifference(data, updateData);
     if (Object.keys(diff).length) {
       diff.id = data?.id;
@@ -206,6 +209,12 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   const [mainImage, setMainImage] = useState<string>(product?.images?.[0] ?? '');
 
   const [multimedias, setMultimedias] = useState<Multimedia[]>(product?.multimedias ?? []);
+  const [specifications, setSpecifications] = useState<Array<{ key: string; value: string }>>(
+    product?.specifications?.map(s => ({ key: s.name, value: s.value })) ?? []
+  );
+  const [relatedLinks, setRelatedLinks] = useState<Array<{ name: string; url: string }>>(
+    product?.related_links?.map(l => ({ name: l.name, url: l.url })) ?? []
+  );
   const [mainMultimedia, setMainMultimedia] = useState<Multimedia | undefined>(product?.multimedias?.[0] || undefined);
 
   const getMultimediaType = (url: string): 'photo' | 'video' => {
@@ -658,6 +667,96 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
 
               {!hiddenInputs['colors'] && (
                 <ColorSelector colors={productColors ?? []} onToggleColor={handleToggleColor} isEdit />
+              )}
+
+              {/* Specifications */}
+              {!isAdd && (
+                <Box mt="1rem">
+                  <Flex justifyContent="space-between" alignItems="center" mb="0.5rem">
+                    <FormLabel fontSize="0.875rem" mb="0">Especificaciones</FormLabel>
+                    <Button size="xs" onClick={() => setSpecifications(prev => [...prev, { key: '', value: '' }])}>
+                      <FaPlus />
+                    </Button>
+                  </Flex>
+                  {specifications.map((spec, i) => (
+                    <Flex key={i} gap="0.5rem" mb="0.5rem" alignItems="center">
+                      <Input
+                        size="sm"
+                        placeholder="Clave"
+                        value={spec.key}
+                        bg="#f2f2f2"
+                        onChange={e => {
+                          const updated = [...specifications];
+                          updated[i] = { ...updated[i], key: e.target.value };
+                          setSpecifications(updated);
+                        }}
+                      />
+                      <Input
+                        size="sm"
+                        placeholder="Valor"
+                        value={spec.value}
+                        bg="#f2f2f2"
+                        onChange={e => {
+                          const updated = [...specifications];
+                          updated[i] = { ...updated[i], value: e.target.value };
+                          setSpecifications(updated);
+                        }}
+                      />
+                      <Button
+                        size="xs"
+                        colorScheme="red"
+                        onClick={() => setSpecifications(prev => prev.filter((_, idx) => idx !== i))}
+                      >
+                        <FaTrashAlt size="0.625rem" />
+                      </Button>
+                    </Flex>
+                  ))}
+                </Box>
+              )}
+
+              {/* Related Links */}
+              {!isAdd && (
+                <Box mt="1rem">
+                  <Flex justifyContent="space-between" alignItems="center" mb="0.5rem">
+                    <FormLabel fontSize="0.875rem" mb="0">Links Relacionados</FormLabel>
+                    <Button size="xs" onClick={() => setRelatedLinks(prev => [...prev, { name: '', url: '' }])}>
+                      <FaPlus />
+                    </Button>
+                  </Flex>
+                  {relatedLinks.map((link, i) => (
+                    <Flex key={i} gap="0.5rem" mb="0.5rem" alignItems="center">
+                      <Input
+                        size="sm"
+                        placeholder="Nombre"
+                        value={link.name}
+                        bg="#f2f2f2"
+                        onChange={e => {
+                          const updated = [...relatedLinks];
+                          updated[i] = { ...updated[i], name: e.target.value };
+                          setRelatedLinks(updated);
+                        }}
+                      />
+                      <Input
+                        size="sm"
+                        placeholder="URL"
+                        value={link.url}
+                        bg="#f2f2f2"
+                        onChange={e => {
+                          const updated = [...relatedLinks];
+                          updated[i] = { ...updated[i], url: e.target.value };
+                          setRelatedLinks(updated);
+                        }}
+                      />
+                      <Button
+                        size="xs"
+                        colorScheme="red"
+                        onClick={() => setRelatedLinks(prev => prev.filter((_, idx) => idx !== i))}
+                      >
+                        <FaTrashAlt size="0.625rem" />
+                      </Button>
+                    </Flex>
+                  ))}
+                </Box>
               )}
 
               <Progress

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { Select } from '@chakra-ui/react';
 import { Flex } from 'ui';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   getProductsUrl,
   mapBrandOptions,
@@ -22,9 +22,44 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
   const [selectedBrandId, setSelectedBrandId] = useState<number | undefined>(brandId);
   const { data: categories = [], isLoading: isCategoriesLoading } = useCategoryList();
   const { data: brands = [], isLoading: isBrandsLoading } = useBrandList();
+  const [availableFilters, setAvailableFilters] = useState<{ brandIds: number[]; categoryIds: string[] } | null>(null);
 
-  const selectCategoryOptions = useMemo(() => mapCategoryOptions(categories, router.query), [categories, router.query]);
-  const selectBrandOptions = useMemo(() => mapBrandOptions(brands, router.query), [brands, router.query]);
+  const allCategoryOptions = useMemo(() => mapCategoryOptions(categories, router.query), [categories, router.query]);
+  const allBrandOptions = useMemo(() => mapBrandOptions(brands, router.query), [brands, router.query]);
+
+  // Fetch available filters when brand or category is selected
+  useEffect(() => {
+    const activeBrand = brandId || selectedBrandId;
+    const activeCategory = categoryId || selectedCategoryId;
+
+    if (activeBrand || activeCategory) {
+      const params = new URLSearchParams();
+      if (activeBrand) params.append('brand_id', activeBrand.toString());
+      if (activeCategory) params.append('category_id', activeCategory);
+
+      fetch(`/api/products/available-filters?${params.toString()}`)
+        .then(r => r.json())
+        .then(data => setAvailableFilters(data))
+        .catch(() => setAvailableFilters(null));
+    } else {
+      setAvailableFilters(null);
+    }
+  }, [brandId, selectedBrandId, categoryId, selectedCategoryId]);
+
+  // Filter options based on available filters from backend
+  const selectCategoryOptions = useMemo(() => {
+    if (availableFilters?.categoryIds?.length && (brandId || selectedBrandId)) {
+      return allCategoryOptions.filter(c => availableFilters.categoryIds.includes(c.id));
+    }
+    return allCategoryOptions;
+  }, [allCategoryOptions, availableFilters, brandId, selectedBrandId]);
+
+  const selectBrandOptions = useMemo(() => {
+    if (availableFilters?.brandIds?.length && (categoryId || selectedCategoryId)) {
+      return allBrandOptions.filter(b => availableFilters.brandIds.includes(Number(b.id)));
+    }
+    return allBrandOptions;
+  }, [allBrandOptions, availableFilters, categoryId, selectedCategoryId]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     let href;
@@ -79,7 +114,7 @@ export const Filters = ({ categoryId, brandId }: FiltersProps) => {
       >
         <option value="-1">Seleccione una marca...</option>
         {selectBrandOptions.map(({ id, name }, i) => (
-          <option key={i} value={id} selected={id === categoryId}>
+          <option key={i} value={id}>
             {name}
           </option>
         ))}

@@ -1,5 +1,3 @@
-import { Logo as logoCredi } from './Logo/LogoCredi';
-import { Logo as logoNami } from './Logo/LogoNami';
-import { envId } from 'shared';
+import { Logo as logoRobotec } from './Logo/LogoNami/LogoRobotec';
 
-export const Logo = envId === 'CREDI' ? logoCredi : logoNami;
+export const Logo = logoRobotec;

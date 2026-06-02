@@ -1,21 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { createRepositories } from './_config';
-import { createListCategoriesUseCase } from '../../usecases/category';
-import { methodNotAllowed, sendResult } from './_helpers';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { listCategories } from '../../lib/services/category.service'
+import { errorResponse, methodNotAllowed } from '../../lib/errors'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Only allow GET method
-  if (req.method !== 'GET') {
-    return methodNotAllowed(res, ['GET']);
+  if (req.method !== 'GET') return methodNotAllowed(res, ['GET'])
+  try {
+    const categories = await listCategories()
+    return res.status(200).json(categories)
+  } catch (error) {
+    return errorResponse(res, error)
   }
-
-  // Get repositories (no auth needed for categories)
-  const { categoryRepository } = createRepositories();
-
-  // Create and execute use case
-  const listCategories = createListCategoriesUseCase(categoryRepository);
-  const result = await listCategories();
-
-  // Send response
-  return sendResult(res, result);
 }
