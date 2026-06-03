@@ -13,7 +13,8 @@ export type Page =
   | 'Policies'
   | 'Cart'
   | 'Checkout'
-  | 'MyOrders';
+  | 'MyOrders'
+  | 'ResetPassword';
 
 type Category = 'Cart' | 'Quote';
 
