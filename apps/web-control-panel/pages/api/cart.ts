@@ -14,15 +14,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(200).json(result)
       }
       case 'POST': {
-        const result = await addToCart(body.code, body.quantity, token)
+        const result = await addToCart({ code: body.code, quantity: body.quantity }, token)
         return res.status(200).json(result)
       }
       case 'PUT': {
-        const result = await updateCartQuantity(body.code, body.quantity, token)
+        const result = await updateCartQuantity({ code: body.code, quantity: body.quantity }, token)
         return res.status(200).json(result)
       }
       case 'DELETE': {
-        const result = await deleteFromCart(body.code, token)
+        const result = await deleteFromCart({ code: body.code }, token)
         return res.status(200).json(result)
       }
       default:
