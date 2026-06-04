@@ -9,10 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     switch (req.method) {
       case 'GET': {
-        const { guid, companyId } = req.query
+        const { guid } = req.query
         let result
         if (guid && typeof guid === 'string') {
-          result = await listOrdersByGuid(guid, companyId as string | undefined, token)
+          result = await listOrdersByGuid(guid, token)
         } else {
           result = await listMyOrders(token)
         }
