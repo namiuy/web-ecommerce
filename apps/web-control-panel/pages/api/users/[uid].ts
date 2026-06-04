@@ -113,19 +113,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const userData = await response.json()
     console.log(`[/api/users/${uid}] User data retrieved successfully`)
 
+    // Split full_name into first_name and last_name for frontend
+    const nameParts = (userData.full_name || '').split(' ')
+    const firstName = nameParts[0] || ''
+    const lastName = nameParts.slice(1).join(' ') || ''
+
     return res.status(200).json({
-      uid,
-      user_id: userData.user_id,
-      personId: userData.user_id,
+      id: uid,
+      first_name: firstName,
+      last_name: lastName,
       email: userData.email,
-      username: userData.username,
-      full_name: userData.full_name,
-      name: userData.full_name,
-      roles: userData.roles,
-      is_active: userData.is_active,
-      is_email_verified: userData.is_email_verified,
-      is_logged_in: true,
-      created_at: userData.created_at,
+      password: '',
+      personId: userData.user_id?.toString() || '0',
+      roles: userData.roles || [],
     })
   } catch (error) {
     return errorResponse(res, error)
