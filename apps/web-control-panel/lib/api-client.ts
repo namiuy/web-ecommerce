@@ -37,14 +37,24 @@ export async function apiFetch<T = unknown>(
 
   let response;
   const url = `${baseUrl}${endpoint}`;
+  const fetchOptions = {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+    signal: AbortSignal.timeout(timeout),
+    redirect: 'manual' as RequestRedirect,
+  }
 
   try {
-    response = await fetch(url, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : undefined,
-      signal: AbortSignal.timeout(timeout),
-    })
+    response = await fetch(url, fetchOptions)
+
+    // Handle 307/308 redirects manually to preserve method and body
+    if (response.status === 307 || response.status === 308) {
+      const location = response.headers.get('location')
+      if (location) {
+        response = await fetch(location, { ...fetchOptions, redirect: 'follow' })
+      }
+    }
   } catch (fetchError: any) {
     console.error(`[apiFetch] Fetch error for ${method} ${url}:`, fetchError)
     console.error(`[apiFetch] Error name: ${fetchError.name}, code: ${fetchError.code}`)
