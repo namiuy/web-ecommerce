@@ -40,3 +40,24 @@ applications:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
+  - appRoot: apps/web-control-panel
+    platform: WEB_COMPUTE
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web
+            - npm ci
+        build:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web
+            - cd apps/web-control-panel
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
