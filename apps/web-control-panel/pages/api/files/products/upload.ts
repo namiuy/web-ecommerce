@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = getToken(req)
 
     // Read raw body as buffer
-    const chunks: Buffer[] = []
+    const chunks: Uint8Array[] = []
     for await (const chunk of req) {
       chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
     }
@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await fetch(backendUrl, {
       method: 'POST',
       headers,
-      body,
+      body: body as unknown as BodyInit,
     })
 
     if (!response.ok) {
