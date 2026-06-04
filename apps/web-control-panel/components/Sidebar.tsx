@@ -2,7 +2,7 @@ import lscache from 'lscache';
 import { Icon, Link } from '@chakra-ui/react';
 import { Flex, Text } from 'ui';
 import { UserMenu } from './UserMenu';
-import { appName, isBrowser } from 'shared';
+import { getAppName, isBrowser } from 'shared';
 import { FiBox } from 'react-icons/fi';
 import { HiOutlineShoppingCart } from 'react-icons/hi2';
 import { IoMdPhotos } from 'react-icons/io';
@@ -72,7 +72,7 @@ export const SideBar = ({ currentPage }: SiderBarProps) => {
     >
       <Flex flexDir="column">
         <Text fontWeight="semibold" mt="0.5rem" mb="1.5rem" fontSize="1.125rem">
-          {appName}
+          {getAppName()}
         </Text>
         <Flex flexDir="column" gap="0.625rem" alignItems="start">
           {sidebarOptions.includes('orders') && (
