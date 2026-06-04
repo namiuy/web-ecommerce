@@ -5,9 +5,9 @@ import { AppContextProvider } from 'shared';
 import { ThemeProvider } from 'ui';
 import { theme } from '../theme';
 import Head from 'next/head';
-import { envId } from 'shared';
+import { getEnvId } from 'shared';
 
-const favicon = envId === 'CREDI' ? '/favicon-cb.ico' : '/favicon-nami.ico';
+const favicon = getEnvId() === 'CREDI' ? '/favicon-cb.ico' : '/favicon-nami.ico';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
