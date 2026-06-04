@@ -4,7 +4,7 @@ import { theme as themeAutoparts } from './autoparts.theme';
 import { theme as themeTools } from './tools.theme';
 import { theme as themeRobotec } from './robotec.theme';
 
-import { envId } from 'shared';
+import { getEnvId } from 'shared';
 
 const themes: Record<string, Record<string, any>> = {
   AUTOPARTS: themeAutoparts,
@@ -14,4 +14,4 @@ const themes: Record<string, Record<string, any>> = {
   ROBOTEC: themeRobotec,
 };
 
-export const theme = themes[envId];
+export const theme = themes[getEnvId()];

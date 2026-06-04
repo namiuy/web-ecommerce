@@ -1,6 +1,6 @@
 import { theme as themeCredi } from './theme.credi';
 import { theme as themeNami } from './theme.nami';
 
-import { envId } from 'shared';
+import { getEnvId } from 'shared';
 
-export const theme = envId === 'CREDI' ? themeCredi : themeNami;
+export const theme = getEnvId() === 'CREDI' ? themeCredi : themeNami;
