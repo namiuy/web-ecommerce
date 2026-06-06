@@ -117,7 +117,14 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
   };
 
   const handleError = (error: Error) => {
-    console.log(error);
+    console.error(error);
+    toast({
+      title: 'Error',
+      description: error.message || 'Ocurrió un error',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   const showToast = (message: string) => {

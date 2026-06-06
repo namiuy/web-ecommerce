@@ -29,7 +29,7 @@ export async function searchProducts(
       '/products/search',
       {
         method: 'POST',
-        body: { keywords: filters.words, skip, limit: ROWS_MAX },
+        body: { keywords: filters.words, skip, limit: ROWS_MAX, only_public: false },
         token,
       },
     )

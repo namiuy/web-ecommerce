@@ -8,12 +8,21 @@ import {
   Td,
   IconButton,
   useDisclosure,
+  useToast,
   Image,
   Spinner,
   Checkbox,
   Badge,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalCloseButton,
+  Button,
 } from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons';
+import { EditIcon, ViewIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useProductSearch } from 'shared';
 import { Box, Flex, Text, ImageModal, ProductEditModal } from 'ui';
 import { useState, useCallback } from 'react';
@@ -33,8 +42,56 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
   const { isLoading, error, data } = useProductSearch({ categoryId, brandId, text, index: pageIndex });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const imageDisclosure = useDisclosure();
+  const detailDisclosure = useDisclosure();
+  const deleteDisclosure = useDisclosure();
   const [product, setProduct] = useState<Product>();
+  const [detailProduct, setDetailProduct] = useState<Product>();
+  const [deleteProduct, setDeleteProduct] = useState<Product>();
   const [imageSrc, setImageSrc] = useState<string>();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const toast = useToast();
+
+  const handleViewDetail = useCallback(async (product: Product) => {
+    try {
+      const token = lscache.get('firebase_token');
+      const res = await fetch(`/api/products/${encodeURIComponent(product.id)}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (res.ok) {
+        const fullProduct = await res.json();
+        setDetailProduct(fullProduct);
+      } else {
+        setDetailProduct(product);
+      }
+    } catch {
+      setDetailProduct(product);
+    }
+    detailDisclosure.onOpen();
+  }, [detailDisclosure]);
+
+  const handleDeleteClick = useCallback((product: Product) => {
+    setDeleteProduct(product);
+    deleteDisclosure.onOpen();
+  }, [deleteDisclosure]);
+
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!deleteProduct) return;
+    setIsDeleting(true);
+    try {
+      // Instead of deleting, mark as not public to preserve order history
+      const { put } = await import('shared/utils/fetcher');
+      await put(`/api/products/${encodeURIComponent(deleteProduct.id)}`, {
+        body: JSON.stringify({ is_public: false }),
+      }, true);
+      toast({ title: 'Producto desactivado', description: 'El producto ya no es visible al público', status: 'success', duration: 3000 });
+      deleteDisclosure.onClose();
+      window.location.reload();
+    } catch (err: any) {
+      toast({ title: 'Error al desactivar', description: err.message, status: 'error', duration: 5000 });
+    } finally {
+      setIsDeleting(false);
+    }
+  }, [deleteProduct, deleteDisclosure, toast]);
 
   const handleEdit = useCallback(async (product: Product) => {
     // Load full product with specifications and related_links from BFF
@@ -207,16 +264,33 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
                     <Checkbox isDisabled defaultChecked={product?.is_original} bg="#f2f2f2" />
                   </Td>
                   <Td textAlign="center">
-                    <IconButton
-                      aria-label="Editar"
-                      icon={<EditIcon />}
-                      variant="filled"
-                      colorScheme="primary"
-                      size="lg"
-                      borderRadius="50%"
-                      _hover={{ bg: 'blackAlpha.100' }}
-                      onClick={() => handleEdit(product)}
-                    />
+                    <Flex gap="0.25rem" justifyContent="center">
+                      <IconButton
+                        aria-label="Ver detalle"
+                        icon={<ViewIcon />}
+                        variant="ghost"
+                        size="sm"
+                        _hover={{ bg: 'blue.50' }}
+                        onClick={() => handleViewDetail(product)}
+                      />
+                      <IconButton
+                        aria-label="Editar"
+                        icon={<EditIcon />}
+                        variant="ghost"
+                        size="sm"
+                        _hover={{ bg: 'blackAlpha.100' }}
+                        onClick={() => handleEdit(product)}
+                      />
+                      <IconButton
+                        aria-label="Eliminar"
+                        icon={<DeleteIcon />}
+                        variant="ghost"
+                        size="sm"
+                        colorScheme="red"
+                        _hover={{ bg: 'red.50' }}
+                        onClick={() => handleDeleteClick(product)}
+                      />
+                    </Flex>
                   </Td>
                 </Tr>
               );
@@ -247,6 +321,103 @@ export const ProductTable = ({ categoryId, brandId, text }: ProductTableProps) =
 
       <ImageModal disclosure={imageDisclosure} image={imageSrc} title={''} isMobile={false} />
       <ProductEditModal isOpen={isOpen} product={product} onOpen={onOpen} onClose={onClose} />
+
+      {/* Detail Modal */}
+      <Modal isOpen={detailDisclosure.isOpen} onClose={detailDisclosure.onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Detalle del Producto</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb="1.5rem">
+            {detailProduct && (
+              <Flex flexDir="column" gap="0.75rem" fontSize="0.875rem">
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Código:</Text>
+                  <Text>{detailProduct.id}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Nombre:</Text>
+                  <Text>{detailProduct.name}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Descripción:</Text>
+                  <Text>{detailProduct.description || '-'}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Precio:</Text>
+                  <Text>${detailProduct.price}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Descuento:</Text>
+                  <Text>{detailProduct.discount ?? 0}%</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Marca:</Text>
+                  <Text>{detailProduct.brand?.name || detailProduct.brand?.id}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Categoría:</Text>
+                  <Text>{detailProduct.category?.name || detailProduct.category?.id}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Público:</Text>
+                  <Text>{detailProduct.is_public ? 'Sí' : 'No'}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Original:</Text>
+                  <Text>{detailProduct.is_original ? 'Sí' : 'No'}</Text>
+                </Flex>
+                <Flex gap="1rem">
+                  <Text fontWeight="bold" minW="8rem">Creado:</Text>
+                  <Text>{detailProduct.created_at ? String(detailProduct.created_at) : '-'}</Text>
+                </Flex>
+                {detailProduct.multimedias && detailProduct.multimedias.length > 0 && (
+                  <Flex gap="1rem">
+                    <Text fontWeight="bold" minW="8rem">Multimedia:</Text>
+                    <Text>{detailProduct.multimedias.length} archivo(s)</Text>
+                  </Flex>
+                )}
+                {detailProduct.specifications && detailProduct.specifications.length > 0 && (
+                  <Box>
+                    <Text fontWeight="bold" mb="0.25rem">Especificaciones:</Text>
+                    {detailProduct.specifications.map((s: any, i: number) => (
+                      <Text key={i} ml="1rem">{s.name}: {s.value}</Text>
+                    ))}
+                  </Box>
+                )}
+                {detailProduct.related_links && detailProduct.related_links.length > 0 && (
+                  <Box>
+                    <Text fontWeight="bold" mb="0.25rem">Links relacionados:</Text>
+                    {detailProduct.related_links.map((l: any, i: number) => (
+                      <Text key={i} ml="1rem">{l.name} - {l.url}</Text>
+                    ))}
+                  </Box>
+                )}
+              </Flex>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Desactivar producto</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            ¿Estás seguro que deseas desactivar el producto <strong>{deleteProduct?.name}</strong> ({deleteProduct?.id})? El producto dejará de ser visible al público pero se mantendrá en el sistema.
+          </ModalBody>
+          <ModalFooter>
+            <Flex gap="0.75rem">
+              <Button onClick={deleteDisclosure.onClose}>Cancelar</Button>
+              <Button colorScheme="red" onClick={handleDeleteConfirm} isLoading={isDeleting}>
+                Desactivar
+              </Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

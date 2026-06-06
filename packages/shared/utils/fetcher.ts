@@ -2,15 +2,28 @@ import lscache from 'lscache';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const getRequestInit = (
+const refreshToken = async (): Promise<string | null> => {
+  try {
+    const { getCurrentUserToken } = await import('../services/firebase');
+    const token = await getCurrentUserToken();
+    if (token) {
+      lscache.set('firebase_token', token);
+    }
+    return token;
+  } catch {
+    return lscache.get('firebase_token');
+  }
+};
+
+const getRequestInit = async (
   method: Method,
   init: RequestInit = {} as RequestInit,
   withAuth: boolean = false,
-): RequestInit | undefined => {
+): Promise<RequestInit> => {
   const withContent = method === 'POST' || method === 'PUT' || method === 'DELETE';
 
-  // Get Firebase ID token from localStorage
-  const firebaseToken = lscache.get('firebase_token');
+  // Get fresh Firebase ID token
+  const firebaseToken = withAuth ? await refreshToken() : null;
 
   return {
     method,
@@ -24,29 +37,37 @@ const getRequestInit = (
   };
 };
 
-export const get = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
-  const res = await fetch(url, getRequestInit('GET', init, withAuth));
+const handleResponse = async <T>(res: Response): Promise<T> => {
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || `HTTP ${res.status}`);
+  }
   return await res.json();
+};
+
+export const get = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
+  const res = await fetch(url, await getRequestInit('GET', init, withAuth));
+  return handleResponse<T>(res);
 };
 
 export const post = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
-  const res = await fetch(url, getRequestInit('POST', init, withAuth));
-  return await res.json();
+  const res = await fetch(url, await getRequestInit('POST', init, withAuth));
+  return handleResponse<T>(res);
 };
 
 export const put = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
-  const res = await fetch(url, getRequestInit('PUT', init, withAuth));
-  return await res.json();
+  const res = await fetch(url, await getRequestInit('PUT', init, withAuth));
+  return handleResponse<T>(res);
 };
 
 export const del = async <T>(url: string, init?: RequestInit, withAuth?: boolean): Promise<T> => {
-  const res = await fetch(url, getRequestInit('DELETE', init, withAuth));
-  return await res.json();
+  const res = await fetch(url, await getRequestInit('DELETE', init, withAuth));
+  return handleResponse<T>(res);
 };
 
 export const postFormData = async <T>(url: string, formData: FormData, withAuth?: boolean): Promise<T> => {
-  // Get Firebase ID token from localStorage
-  const firebaseToken = lscache.get('firebase_token');
+  // Get fresh Firebase ID token
+  const firebaseToken = withAuth ? await refreshToken() : null;
 
   const headers: HeadersInit = {
     ...(withAuth && firebaseToken
