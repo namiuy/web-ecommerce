@@ -8,11 +8,12 @@ const refreshToken = async (): Promise<string | null> => {
     const token = await getCurrentUserToken();
     if (token) {
       lscache.set('firebase_token', token);
+      return token;
     }
-    return token;
   } catch {
-    return lscache.get('firebase_token');
+    // Firebase not available, fall through to lscache
   }
+  return lscache.get('firebase_token');
 };
 
 const getRequestInit = async (
@@ -38,7 +39,7 @@ const getRequestInit = async (
 };
 
 const handleResponse = async <T>(res: Response): Promise<T> => {
-  if (!res.ok) {
+  if (!res.ok && res.status >= 500) {
     const text = await res.text();
     throw new Error(text || `HTTP ${res.status}`);
   }
