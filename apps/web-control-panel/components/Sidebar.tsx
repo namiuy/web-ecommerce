@@ -6,6 +6,7 @@ import { getAppName, isBrowser } from 'shared';
 import { FiBox } from 'react-icons/fi';
 import { HiOutlineShoppingCart } from 'react-icons/hi2';
 import { IoMdPhotos } from 'react-icons/io';
+import { RiImageEditLine } from 'react-icons/ri';
 import { useEffect, useState } from 'react';
 import getConfig from 'next/config';
 
@@ -83,6 +84,9 @@ export const SideBar = ({ currentPage }: SiderBarProps) => {
           )}
           {sidebarOptions.includes('photos') && (isUserImageUploader || isUserAdmin) && (
             <SidebarButton path="fotos" text="Fotos" icon={IoMdPhotos} currentPage={currentPage} />
+          )}
+          {sidebarOptions.includes('banners') && isUserAdmin && (
+            <SidebarButton path="banners" text="Banners" icon={RiImageEditLine} currentPage={currentPage} />
           )}
         </Flex>
       </Flex>
