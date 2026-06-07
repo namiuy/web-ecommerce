@@ -80,11 +80,15 @@ export const useListAllOrders = (): Result<OrderList> => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const result = await listAllOrders();
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setOrders(result);
+      try {
+        const result = await listAllOrders();
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setOrders(result);
+        }
+      } catch (err: any) {
+        setError(err.message || 'Error al cargar órdenes');
       }
       setIsLoading(false);
     };
