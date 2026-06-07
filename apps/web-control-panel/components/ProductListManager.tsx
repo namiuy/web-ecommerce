@@ -116,15 +116,15 @@ export const ProductListManager = () => {
     productsDisclosure.onOpen();
   };
 
-  const apiCall = async (method: string, body: any) => {
+  const apiCall = async (method: string, url: string, body?: any) => {
     const token = getToken();
-    return fetch('/api/product-lists', {
+    return fetch(url, {
       method,
       headers: {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: JSON.stringify(body),
+      ...(body ? { body: JSON.stringify(body) } : {}),
     });
   };
 
@@ -135,8 +135,8 @@ export const ProductListManager = () => {
     }
     setIsSaving(true);
     try {
-      const method = isEditing ? 'PUT' : 'POST';
-      const res = await apiCall(method, formData);
+      const url = isEditing ? `/api/product-lists/${formData.id}` : '/api/product-lists';
+      const res = await apiCall(isEditing ? 'PUT' : 'POST', url, formData);
       if (res.ok) {
         toast({ title: isEditing ? 'Lista actualizada' : 'Lista creada', status: 'success', duration: 3000 });
         editDisclosure.onClose();
@@ -156,7 +156,7 @@ export const ProductListManager = () => {
     if (deleteId === null) return;
     setIsSaving(true);
     try {
-      const res = await apiCall('DELETE', { id: deleteId });
+      const res = await apiCall('DELETE', `/api/product-lists/${deleteId}`);
       if (res.ok) {
         toast({ title: 'Lista eliminada', status: 'success', duration: 3000 });
         deleteDisclosure.onClose();
@@ -176,7 +176,7 @@ export const ProductListManager = () => {
     if (!selectedList || !newProductCode.trim()) return;
     setIsSaving(true);
     try {
-      const res = await apiCall('POST', { listId: selectedList.id, productCode: newProductCode.trim() });
+      const res = await apiCall('POST', `/api/product-lists/${selectedList.id}`, { productCode: newProductCode.trim() });
       if (res.ok) {
         toast({ title: 'Producto agregado', status: 'success', duration: 2000 });
         setNewProductCode('');
@@ -200,7 +200,7 @@ export const ProductListManager = () => {
   const handleRemoveProduct = async (productCode: string) => {
     if (!selectedList) return;
     try {
-      const res = await apiCall('DELETE', { listId: selectedList.id, productCode });
+      const res = await apiCall('DELETE', `/api/product-lists/${selectedList.id}`, { productCode });
       if (res.ok) {
         toast({ title: 'Producto eliminado de la lista', status: 'success', duration: 2000 });
         setSelectedList({

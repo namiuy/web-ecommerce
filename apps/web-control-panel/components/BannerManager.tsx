@@ -124,16 +124,14 @@ export const BannerManager = () => {
     setIsSaving(true);
     try {
       const token = lscache.get('firebase_token');
-      const method = isEditing ? 'PUT' : 'POST';
-      const body = isEditing ? { ...formData } : { ...formData };
-
-      const res = await fetch('/api/banners', {
-        method,
+      const url = isEditing ? `/api/banners/${formData.id}` : '/api/banners';
+      const res = await fetch(url, {
+        method: isEditing ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(isEditing ? { ...formData, id: undefined } : formData),
       });
 
       if (res.ok) {
@@ -160,13 +158,11 @@ export const BannerManager = () => {
     setIsSaving(true);
     try {
       const token = lscache.get('firebase_token');
-      const res = await fetch('/api/banners', {
+      const res = await fetch(`/api/banners/${deleteBannerId}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ id: deleteBannerId }),
       });
 
       if (res.ok) {
