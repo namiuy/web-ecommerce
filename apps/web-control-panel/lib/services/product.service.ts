@@ -49,6 +49,7 @@ export async function searchProducts(
     if (filters.category) params.append('category_id', filters.category)
     params.append('skip', skip.toString())
     params.append('limit', ROWS_MAX.toString())
+    params.append('only_public', 'false')
 
     const response = await apiFetch<any>(
       `/products/filter?${params.toString()}`,
@@ -68,6 +69,7 @@ export async function searchProducts(
   const params = new URLSearchParams()
   params.append('skip', skip.toString())
   params.append('limit', ROWS_MAX.toString())
+  params.append('only_public', 'false')
 
   const response = await apiFetch<any>(
     `/products?${params.toString()}`,
