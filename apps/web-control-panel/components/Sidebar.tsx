@@ -3,7 +3,7 @@ import { Icon, Link } from '@chakra-ui/react';
 import { Flex, Text } from 'ui';
 import { UserMenu } from './UserMenu';
 import { getAppName, isBrowser } from 'shared';
-import { FiBox } from 'react-icons/fi';
+import { FiBox, FiList } from 'react-icons/fi';
 import { HiOutlineShoppingCart } from 'react-icons/hi2';
 import { IoMdPhotos } from 'react-icons/io';
 import { RiImageEditLine } from 'react-icons/ri';
@@ -87,6 +87,9 @@ export const SideBar = ({ currentPage }: SiderBarProps) => {
           )}
           {sidebarOptions.includes('banners') && isUserAdmin && (
             <SidebarButton path="banners" text="Banners" icon={RiImageEditLine} currentPage={currentPage} />
+          )}
+          {sidebarOptions.includes('lists') && isUserAdmin && (
+            <SidebarButton path="listas" text="Listas" icon={FiList} currentPage={currentPage} />
           )}
         </Flex>
       </Flex>

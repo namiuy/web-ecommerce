@@ -1,39 +1,68 @@
 import { apiFetch } from '../api-client'
 import type { ProductList } from 'shared/entities/product-list'
 
-export async function listProductLists(): Promise<ProductList[]> {
-  const response = await apiFetch<any>('/product-lists/')
+export async function listProductLists(token?: string | null): Promise<ProductList[]> {
+  const response = await apiFetch<any>('/product-lists/all/admin', { token })
   const data = response.data ?? response
-  return data.map((pl: any, index: number) => ({
+  return (data || []).map((pl: any, index: number) => ({
     id: pl.id,
-    section: 'home_a',
-    indx: pl.display_order ?? index,
+    section: pl.section || 'home_a',
+    indx: pl.indx ?? pl.display_order ?? index,
     name: pl.name,
-    product_ids: (pl.products ?? []).map((p: any) => p.product_code),
+    product_ids: pl.product_ids || (pl.products ?? []).map((p: any) => p.product_code),
     products: [],
   }))
 }
 
-export async function getProductList(id: number): Promise<ProductList> {
-  const response = await apiFetch<any>(`/product-lists/${id}/`)
-  const pl = response.data ?? response
-  const productCodes: string[] = (pl.products ?? []).map((p: any) => p.product_code)
+export async function createProductList(
+  data: { name: string; section?: string; indx?: number },
+  token: string,
+): Promise<any> {
+  return apiFetch<any>('/product-lists', {
+    method: 'POST',
+    body: {
+      name: data.name,
+      list_type: data.section || 'home_a',
+      display_order: data.indx || 0,
+    },
+    token,
+  })
+}
 
-  // Fetch full product details for each product code
-  const productResults = await Promise.allSettled(
-    productCodes.map((code) => apiFetch<any>(`/products/${code}/full`))
-  )
+export async function updateProductList(
+  id: number,
+  data: { name?: string; section?: string; indx?: number },
+  token: string,
+): Promise<any> {
+  return apiFetch<any>(`/product-lists/${id}`, {
+    method: 'PUT',
+    body: {
+      name: data.name,
+      list_type: data.section,
+      display_order: data.indx,
+    },
+    token,
+  })
+}
 
-  const products = productResults
-    .filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled')
-    .map((r) => r.value.data ?? r.value)
+export async function addProductToList(listId: number, productCode: string, token: string): Promise<any> {
+  return apiFetch<any>(`/product-lists/${listId}/products`, {
+    method: 'POST',
+    body: { product_code: productCode },
+    token,
+  })
+}
 
-  return {
-    id: pl.id,
-    section: 'home_a',
-    indx: pl.display_order ?? 0,
-    name: pl.name,
-    product_ids: productCodes,
-    products,
-  }
+export async function removeProductFromList(listId: number, productCode: string, token: string): Promise<any> {
+  return apiFetch<any>(`/product-lists/${listId}/products/${encodeURIComponent(productCode)}`, {
+    method: 'DELETE',
+    token,
+  })
+}
+
+export async function deleteProductList(id: number, token: string): Promise<any> {
+  return apiFetch<any>(`/product-lists/${id}`, {
+    method: 'DELETE',
+    token,
+  })
 }
