@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { requireToken } from '../../lib/auth'
+import { getToken, requireToken } from '../../lib/auth'
 import {
   listProductLists,
   createProductList,
@@ -12,16 +12,16 @@ import { errorResponse, methodNotAllowed } from '../../lib/errors'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const token = requireToken(req)
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
 
     switch (req.method) {
       case 'GET': {
+        const token = getToken(req)
         const lists = await listProductLists(token)
         return res.status(200).json(lists)
       }
       case 'POST': {
-        // Add product to list or create new list
+        const token = requireToken(req)
         if (body.listId && body.productCode) {
           const result = await addProductToList(body.listId, body.productCode, token)
           return res.status(200).json(result)
@@ -30,12 +30,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(200).json(result)
       }
       case 'PUT': {
+        const token = requireToken(req)
         const { id, ...data } = body
         if (id === undefined) return res.status(400).json({ error: 'List ID required' })
         const result = await updateProductList(id, data, token)
         return res.status(200).json(result)
       }
       case 'DELETE': {
+        const token = requireToken(req)
         if (body.listId && body.productCode) {
           const result = await removeProductFromList(body.listId, body.productCode, token)
           return res.status(200).json(result)

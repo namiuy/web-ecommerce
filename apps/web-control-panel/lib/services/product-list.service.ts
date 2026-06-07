@@ -2,7 +2,7 @@ import { apiFetch } from '../api-client'
 import type { ProductList } from 'shared/entities/product-list'
 
 export async function listProductLists(token?: string | null): Promise<ProductList[]> {
-  const response = await apiFetch<any>('/product-lists', { token })
+  const response = await apiFetch<any>('/product-lists/', { token })
   const data = response.data ?? response
   return (data || []).map((pl: any, index: number) => ({
     id: pl.id,
@@ -18,7 +18,7 @@ export async function createProductList(
   data: { name: string; section?: string; indx?: number },
   token: string,
 ): Promise<any> {
-  return apiFetch<any>('/product-lists', {
+  return apiFetch<any>('/product-lists/', {
     method: 'POST',
     body: {
       name: data.name,

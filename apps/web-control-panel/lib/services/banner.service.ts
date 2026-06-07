@@ -2,7 +2,7 @@ import { apiFetch } from '../api-client'
 import type { Banner } from 'shared/entities/banner'
 
 export async function listBanners(token?: string | null): Promise<Banner[]> {
-  const response = await apiFetch<any>('/banners/all', { token })
+  const response = await apiFetch<any>('/banners/all/', { token })
   const items: Banner[] = response.data || response
   return items.map((b: any) => ({
     ...b,
@@ -12,7 +12,7 @@ export async function listBanners(token?: string | null): Promise<Banner[]> {
 }
 
 export async function createBanner(banner: Partial<Banner>, token: string): Promise<any> {
-  return apiFetch<any>('/banners', {
+  return apiFetch<any>('/banners/', {
     method: 'POST',
     body: banner,
     token,

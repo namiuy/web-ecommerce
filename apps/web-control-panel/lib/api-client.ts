@@ -36,7 +36,9 @@ export async function apiFetch<T = unknown>(
   }
 
   let response;
-  const url = `${baseUrl}${endpoint}`;
+  // Ensure trailing slash to avoid FastAPI 307 redirects
+  const path = endpoint.includes('?') ? endpoint : (endpoint.endsWith('/') ? endpoint : `${endpoint}/`);
+  const url = `${baseUrl}${path}`;
   const fetchOptions = {
     method,
     headers,
