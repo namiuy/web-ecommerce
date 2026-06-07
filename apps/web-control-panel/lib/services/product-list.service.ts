@@ -2,7 +2,7 @@ import { apiFetch } from '../api-client'
 import type { ProductList } from 'shared/entities/product-list'
 
 export async function listProductLists(token?: string | null): Promise<ProductList[]> {
-  const response = await apiFetch<any>('/product-lists/all/admin', { token })
+  const response = await apiFetch<any>('/product-lists', { token })
   const data = response.data ?? response
   return (data || []).map((pl: any, index: number) => ({
     id: pl.id,
