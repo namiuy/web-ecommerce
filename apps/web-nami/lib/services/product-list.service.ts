@@ -6,10 +6,10 @@ export async function listProductLists(): Promise<ProductList[]> {
   const data = response.data ?? response
   return data.map((pl: any, index: number) => ({
     id: pl.id,
-    section: 'home_a',
-    indx: pl.display_order ?? index,
+    section: pl.section || 'home_a',
+    indx: pl.indx ?? pl.display_order ?? index,
     name: pl.name,
-    product_ids: (pl.products ?? []).map((p: any) => p.product_code),
+    product_ids: pl.product_ids || (pl.products ?? []).map((p: any) => p.product_code),
     products: [],
   }))
 }
@@ -17,11 +17,11 @@ export async function listProductLists(): Promise<ProductList[]> {
 export async function getProductList(id: number): Promise<ProductList> {
   const response = await apiFetch<any>(`/product-lists/${id}/`)
   const pl = response.data ?? response
-  const productCodes: string[] = (pl.products ?? []).map((p: any) => p.product_code)
+  const productCodes: string[] = pl.product_ids || (pl.products ?? []).map((p: any) => p.product_code)
 
   // Fetch full product details for each product code
   const productResults = await Promise.allSettled(
-    productCodes.map((code) => apiFetch<any>(`/products/${code}/full`))
+    productCodes.map((code) => apiFetch<any>(`/products/${encodeURIComponent(code)}/full/`))
   )
 
   const products = productResults
@@ -30,8 +30,8 @@ export async function getProductList(id: number): Promise<ProductList> {
 
   return {
     id: pl.id,
-    section: 'home_a',
-    indx: pl.display_order ?? 0,
+    section: pl.section || 'home_a',
+    indx: pl.indx ?? pl.display_order ?? 0,
     name: pl.name,
     product_ids: productCodes,
     products,
