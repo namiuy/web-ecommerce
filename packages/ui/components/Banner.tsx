@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Image, useBreakpointValue } from '@chakra-ui/react';
 import { Box, Skeleton } from 'ui';
-import { useBannerList } from 'shared';
+import { useBannerList, getBannerLimit } from 'shared';
 import { BannerCarousel } from './BannerCarousel';
 import { useEffect, useState } from 'react';
 
@@ -13,6 +13,7 @@ type BannerProps = {
 export const Banner = ({ section, showNavigation }: BannerProps) => {
   const { isLoading, error, data = [] } = useBannerList();
   const [bg, setBg] = useState('#383838');
+  const bannerLimit = getBannerLimit();
 
   if (error) {
     console.log(error);
@@ -23,7 +24,8 @@ export const Banner = ({ section, showNavigation }: BannerProps) => {
     md: true,
   });
 
-  const banners = data.filter(b => b.section === section).sort((a, b) => a.indx - b.indx);
+  const allBanners = data.filter(b => b.section === section).sort((a, b) => a.indx - b.indx);
+  const banners = bannerLimit > 0 ? allBanners.slice(0, bannerLimit) : allBanners;
 
   useEffect(() => {
     if (!isLoading && banners?.length) {

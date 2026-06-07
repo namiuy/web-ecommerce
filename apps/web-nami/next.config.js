@@ -16,6 +16,7 @@ const {
   AUTH_ENABLED,
   PAYMENT_METHODS,
   NAVBAR_MESSAGE,
+  BANNER_LIMIT,
 } = process.env;
 
 const multiDomainItemsHrefProd = {
@@ -352,6 +353,7 @@ module.exports = {
     paymentMethods: availablePaymentMethods,
     shippingMethods,
     navbarMessage: NAVBAR_MESSAGE,
+    bannerLimit: BANNER_LIMIT ? parseInt(BANNER_LIMIT) : 0,
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
       googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,

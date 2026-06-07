@@ -95,6 +95,7 @@ export const getSocialNeworksItems = () => getPrc().socialNeworksItems as Social
 export const getProduct = () => getPrc().product as Product;
 export const getColors = () => getPrc().colors as Color[];
 export const getNavbarMessage = () => getPrc().navbarMessage;
+export const getBannerLimit = () => getPrc().bannerLimit as number || 0;
 
 // bff export for backwards compatibility
 export const bff = {
