@@ -149,7 +149,7 @@ const ContactPage = () => {
   const selectedBranch = branches[selectedIdx];
 
   return (
-    <GaPage page="Contacto">
+    <GaPage page="Contact">
       <Box bg={_bodyBg} minH="100vh">
         <Head />
         <NavBar />
