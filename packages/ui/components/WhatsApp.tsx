@@ -31,7 +31,7 @@ export const WhatsApp = () => {
         height="2rem"
         p="1.75rem"
         borderRadius="50%"
-        zIndex="999"
+        zIndex="10000"
         backgroundColor={_backgroundColor}
         _hover={{ backgroundColor: _hoverBackgroundColor }}
         _active={{ color: 'white' }}
@@ -39,8 +39,10 @@ export const WhatsApp = () => {
         <Icon as={BiLogoWhatsapp} w="2.5rem" h="2.5rem" color="white" transition="300ms" />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
-        <ModalOverlay />
-        <ModalContent>
+        {/* z-index por encima del navbar (que está en 9999 para ganarle a los
+            controles de Leaflet del mapa de sucursales) */}
+        <ModalOverlay zIndex={10000} />
+        <ModalContent containerProps={{ zIndex: 10000 }}>
           <ModalHeader
             color={_grey3}
             pb="0.25rem"

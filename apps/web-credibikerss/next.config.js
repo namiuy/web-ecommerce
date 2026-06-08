@@ -31,6 +31,11 @@ const menuItems = [
     text: 'Empresa',
     href: '/empresa',
   },
+  {
+    id: 'contact',
+    text: 'Sucursales',
+    href: '/contacto',
+  },
 ];
 
 const socialNeworksItems = [
@@ -56,7 +61,7 @@ const multiDomainItems = [];
 
 const branches = [
   {
-    location: 'Montevideo',
+    location: 'Centro',
     address: 'Mercedes 1789, esq. Tristán Narvaja',
     schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
     whatsApp: {
@@ -65,6 +70,17 @@ const branches = [
     },
     position: { lat: -34.900745, lng: -56.178579 },
     mapUrl: 'https://maps.app.goo.gl/HFfUmgWHC6NU8d2B6',
+  },
+  {
+    location: 'Malvín',
+    address: 'Av. Italia 3564, Malvín', // TODO: confirmar dirección exacta con Alfredo
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
+    whatsApp: {
+      number: 598091227115,
+      text: '091 227 115',
+    },
+    position: { lat: -34.8869878, lng: -56.1368115 },
+    mapUrl: 'https://maps.app.goo.gl/placeholder-malvin', // TODO: confirmar link Google Maps con Alfredo
   },
   {
     location: 'Las Piedras',
@@ -87,6 +103,17 @@ const branches = [
     },
     position: { lat: -34.722971323908304, lng: -55.960520870846246 },
     mapUrl: 'https://maps.app.goo.gl/EjSJUcaMU7u5UMgz7',
+  },
+  {
+    location: 'Piriápolis',
+    address: 'Piriápolis, Maldonado', // TODO: confirmar dirección exacta con Alfredo
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs', // TODO: confirmar horario con Alfredo
+    whatsApp: {
+      number: 598098919191,
+      text: '098 919 191',
+    },
+    position: { lat: -34.8644, lng: -55.2766 }, // TODO: confirmar coords exactas con Alfredo (estas son aprox. centro de Piriápolis)
+    mapUrl: 'https://maps.app.goo.gl/placeholder-piriapolis', // TODO: confirmar link Google Maps con Alfredo
   },
 ];
 

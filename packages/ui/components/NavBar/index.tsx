@@ -50,7 +50,7 @@ export const NavBar = (props: NavBarProps) => {
 
   return (
     <>
-      <Box w="100%" zIndex="999" position={position} {...(needsTop ? { top: '0' } : {})}>
+      <Box w="100%" zIndex="9999" position={position} {...(needsTop ? { top: '0' } : {})}>
         <NavBarDisplay {...props} multiDomainItems={multiDomainItems} menuItems={menuItems} />
       </Box>
       {showSpacer && <Box h="6rem" bg="black" />}
