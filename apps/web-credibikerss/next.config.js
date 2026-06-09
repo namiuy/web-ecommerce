@@ -34,7 +34,7 @@ const menuItems = [
   {
     id: 'contact',
     text: 'Sucursales',
-    href: '/contacto',
+    href: '/sucursales',
   },
 ];
 

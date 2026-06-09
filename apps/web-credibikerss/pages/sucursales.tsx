@@ -144,7 +144,7 @@ const BranchListItem = ({ branch, isSelected, isLast, onSelect }: BranchListItem
   </Box>
 );
 
-const ContactPage = () => {
+const SucursalesPage = () => {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const selectedBranch = branches[selectedIdx];
 
@@ -221,4 +221,4 @@ const ContactPage = () => {
   );
 };
 
-export default ContactPage;
+export default SucursalesPage;

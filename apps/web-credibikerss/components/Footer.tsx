@@ -14,7 +14,7 @@ const navLinks = [
   { text: 'Inicio', href: '/' },
   { text: 'Productos', href: '/productos' },
   { text: 'Empresa', href: '/empresa' },
-  { text: 'Sucursales', href: '/contacto' },
+  { text: 'Sucursales', href: '/sucursales' },
 ];
 
 const colHeading = {

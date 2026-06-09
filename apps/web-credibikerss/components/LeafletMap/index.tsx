@@ -4,7 +4,7 @@
  * con el fondo claro del sitio (#F7F7F7) y es 100% gratis SIN API key ni registro.
  * Enfoca UNA sucursal por vez (zoom cercano); al cambiar la sucursal seleccionada
  * el mapa se anima hacia ese punto. Cargado con dynamic + ssr:false desde
- * contacto.tsx porque Leaflet usa window.
+ * sucursales.tsx porque Leaflet usa window.
  */
 import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
