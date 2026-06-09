@@ -62,14 +62,14 @@ const multiDomainItems = [];
 const branches = [
   {
     location: 'Centro',
-    address: 'Mercedes 1789, esq. Tristán Narvaja',
+    address: 'Mercedes 1772, esq. Gaboto',
     schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
     whatsApp: {
       number: 598097530690,
       text: '097 530 690',
     },
-    position: { lat: -34.900745, lng: -56.178579 },
-    mapUrl: 'https://maps.app.goo.gl/HFfUmgWHC6NU8d2B6',
+    position: { lat: -34.904150, lng: -56.189360 },
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=-34.904150%2C-56.189360',
   },
   {
     location: 'Malvín',
