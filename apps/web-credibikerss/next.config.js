@@ -68,8 +68,8 @@ const branches = [
       number: 598097530690,
       text: '097 530 690',
     },
-    position: { lat: -34.904150, lng: -56.189360 },
-    mapUrl: 'https://www.google.com/maps/search/?api=1&query=-34.904150%2C-56.189360',
+    position: { lat: -34.901126, lng: -56.178958 },
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=-34.901126%2C-56.178958',
   },
   {
     location: 'Malvín',
