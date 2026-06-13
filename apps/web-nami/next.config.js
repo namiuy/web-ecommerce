@@ -328,6 +328,7 @@ const homeCategories =
     : [];
 
 module.exports = {
+  output: 'standalone',
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
   images: {
