@@ -154,7 +154,12 @@ export const useAddUser = (props?: UserAdd): Result<boolean> => {
           }
         } catch (err: any) {
           console.error('Firebase sign up error:', err);
-          setError(err.message || 'Error al crear la cuenta');
+          const code = err?.code || '';
+          let message = err.message || 'Error al crear la cuenta';
+          if (code === 'auth/email-already-in-use') message = 'Email already in use';
+          else if (code === 'auth/weak-password') message = 'La contraseña es muy débil (mínimo 6 caracteres)';
+          else if (code === 'auth/invalid-email') message = 'El email no es válido';
+          setError(message);
           setData(false);
         } finally {
           setIsLoading(false);
