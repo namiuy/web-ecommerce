@@ -471,6 +471,7 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
           description: product?.description || '',
           price: product?.price || '',
           discount: product?.discount || 0,
+          score: (product as any)?.score || 0,
           is_original: product?.is_original || false,
           is_public: product?.is_public || false,
         }}
@@ -632,6 +633,22 @@ export const ProductForm = ({ product, onSuccess }: ProductFormProps) => {
                   }}
                 />
                 <FormErrorMessage>{errors.discount}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="score" fontSize="0.875rem">
+                  Score (prioridad de visualización)
+                </FormLabel>
+                <Field
+                  as={Input}
+                  disabled={isLoading}
+                  bg="#f2f2f2"
+                  id="score"
+                  name="score"
+                  type="number"
+                  variant="filled"
+                  _focus={{ borderColor: 'primary.main' }}
+                />
               </FormControl>
 
               <Flex justifyContent="flex-start" gap="2rem" mt="0.5rem">
