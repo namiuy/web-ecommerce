@@ -65,8 +65,10 @@ const SearchButton = () => {
         buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen, _hover: { bg: iconButtonHoverColor } }}
       />
       <Modal isOpen={isOpen} size="5xl" onClose={onClose}>
-        <ModalOverlay bg={_backgroundColorSecondary} backdropFilter={_backdropFilter} />
-        <ModalContent m=".5rem 0 0" bg="transparent">
+        {/* z-index por encima del navbar (que está en 9999 para ganarle a los
+            controles de Leaflet del mapa de sucursales) */}
+        <ModalOverlay bg={_backgroundColorSecondary} backdropFilter={_backdropFilter} zIndex={10000} />
+        <ModalContent m=".5rem 0 0" bg="transparent" containerProps={{ zIndex: 10000 }}>
           <ModalCloseButton color="white" />
           <ModalBody pt="3.5rem">
             <SearchInput onSearch={onClose} />
