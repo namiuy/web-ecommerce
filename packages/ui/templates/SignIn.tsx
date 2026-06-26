@@ -149,13 +149,8 @@ export const SignIn = ({ Logo }: SignInProps) => {
                     variant="filled"
                     _focus={{ borderColor: _color }}
                     validate={(value: any) => {
-                      let error;
-
-                      if (!value) {
-                        error = 'Este campo es obligatorio';
-                      }
-
-                      return error;
+                      if (!value) return 'Este campo es obligatorio';
+                      if (value.length < 6) return 'La contraseña debe tener al menos 6 caracteres';
                     }}
                   />
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
