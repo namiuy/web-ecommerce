@@ -1,140 +1,58 @@
 import { apiFetch } from '../api-client'
-import type { Product } from 'shared/entities/product'
-import type { ProductSearch } from 'shared/entities/product-search'
+import { config } from '../config'
 
-// --- Types ---
+const BASE = config.autopartsApiBaseUrl
 
-type SearchFilters = {
-  brand?: number
-  category?: string
-  words?: string[]
-}
-
-// --- Constants ---
-
-const ROWS_MAX = 12
-
-// --- Service functions ---
-
-export async function searchProducts(
-  filters: SearchFilters,
-  sortBy: string,
-  index: number,
-  token?: string | null,
-): Promise<ProductSearch> {
-  const skip = ROWS_MAX * index
-
-  if (filters.words?.length) {
-    const response = await apiFetch<any>(
-      '/products/search',
-      {
-        method: 'POST',
-        body: { keywords: filters.words, skip, limit: ROWS_MAX },
-        token,
-      },
-    )
-    return {
-      products: response.data,
-      count: response.count,
-      filters: {
-        brandIds: Array.from(new Set(response.data.map((p: Product) => p.brand.id))),
-        categoryIds: Array.from(new Set(response.data.map((p: Product) => p.category.id))),
-      },
-    }
-  }
-
-  if (filters.brand || filters.category) {
-    const params = new URLSearchParams()
-    if (filters.brand) params.append('brand_id', filters.brand.toString())
-    if (filters.category) params.append('category_id', filters.category)
-    params.append('skip', skip.toString())
-    params.append('limit', ROWS_MAX.toString())
-
-    const response = await apiFetch<any>(
-      `/products/filter?${params.toString()}`,
-      { token },
-    )
-    return {
-      products: response.data,
-      count: response.count,
-      filters: {
-        brandIds: Array.from(new Set(response.data.map((p: Product) => p.brand.id))),
-        categoryIds: Array.from(new Set(response.data.map((p: Product) => p.category.id))),
-      },
-    }
-  }
-
-  // Default: list all products
-  const params = new URLSearchParams()
-  params.append('skip', skip.toString())
-  params.append('limit', ROWS_MAX.toString())
-
-  const response = await apiFetch<any>(
-    `/products?${params.toString()}`,
-    { token },
-  )
-  return {
-    products: response.data,
-    count: response.count,
-    filters: {
-      brandIds: Array.from(new Set(response.data.map((p: Product) => p.brand.id))),
-      categoryIds: Array.from(new Set(response.data.map((p: Product) => p.category.id))),
-    },
-  }
-}
-
-export async function getProduct(id: string, token?: string | null): Promise<Product> {
-  const response = await apiFetch<any>(`/products/${id}/full`, { token })
-  return response.data
-}
-
-export async function getRelatedProducts(
-  id: string,
-  token?: string | null,
-): Promise<{ products: Product[] }> {
-  const product = await getProduct(id, token)
-  const relatedIds = product.related_links.map((link) => link.name)
-
-  if (relatedIds.length === 0) {
-    return { products: [] }
-  }
-
-  const results = await Promise.allSettled(relatedIds.map((rid) => getProduct(rid, token)))
-  const products = results
-    .filter((r): r is PromiseFulfilledResult<Product> => r.status === 'fulfilled')
-    .map((r) => r.value)
-
-  return { products }
-}
-
-export async function addProduct(
-  product: Partial<Product>,
-  token: string,
-): Promise<Product> {
-  const response = await apiFetch<any>('/products', {
+// Smart search (text-based)
+export async function searchProducts(query: string, limit: number = 50, isAdmin: boolean = false) {
+  const endpoint = isAdmin ? '/search/admin/' : '/search/smart/'
+  return apiFetch<any[]>(endpoint, {
     method: 'POST',
-    body: product,
-    token,
+    body: { query, limit },
+    baseUrl: BASE,
   })
-  return response.data ?? response
 }
 
-export async function updateProduct(
-  id: string,
-  product: Partial<Product>,
-  token: string,
-): Promise<Product> {
-  const response = await apiFetch<any>(`/products/${id}`, {
-    method: 'PUT',
-    body: product,
-    token,
-  })
-  return response.data ?? response
+// Search by code
+export async function getProductByCode(code: string, isAdmin: boolean = false) {
+  const endpoint = isAdmin
+    ? `/api/productos/admin/buscar-codigo/${encodeURIComponent(code)}`
+    : `/api/productos/buscar-codigo/${encodeURIComponent(code)}`
+  return apiFetch<any>(endpoint, { baseUrl: BASE })
 }
 
-export async function deleteProduct(id: string, token: string): Promise<void> {
-  await apiFetch(`/products/${id}`, {
-    method: 'DELETE',
-    token,
+// Partial code search
+export async function searchByPartialCode(code: string, limit: number = 50, isAdmin: boolean = false) {
+  const endpoint = isAdmin
+    ? `/api/productos/admin/buscar-parcial/${encodeURIComponent(code)}`
+    : `/api/productos/buscar-parcial/${encodeURIComponent(code)}`
+  return apiFetch<any>(endpoint, { baseUrl: BASE })
+}
+
+// Product type search (cascading dropdowns)
+export async function getProductTypes() {
+  return apiFetch<string[]>('/product-type-search/product-types/', { baseUrl: BASE })
+}
+
+export async function getBrandsByProductType(productType: string) {
+  return apiFetch<string[]>(`/product-type-search/brands-by-product-type/?product_type=${encodeURIComponent(productType)}`, { baseUrl: BASE })
+}
+
+export async function getModelsByBrandAndProductType(productType: string, brand: string) {
+  return apiFetch<string[]>(`/product-type-search/models-by-brand-and-product-type/?product_type=${encodeURIComponent(productType)}&brand=${encodeURIComponent(brand)}`, { baseUrl: BASE })
+}
+
+export async function searchBySelection(productType: string, brand: string, model: string, isAdmin: boolean = false) {
+  const endpoint = isAdmin
+    ? '/product-type-search/admin/search-by-selection/'
+    : '/product-type-search/search-by-selection/'
+  return apiFetch<any[]>(`${endpoint}?product_type=${encodeURIComponent(productType)}&brand=${encodeURIComponent(brand)}&model=${encodeURIComponent(model)}`, { baseUrl: BASE })
+}
+
+// Stock
+export async function getStock(code: string) {
+  return apiFetch<any>(`/api/stock/${encodeURIComponent(code.trim())}?servidor=lindo4`, {
+    baseUrl: BASE,
+    timeout: 15000,
   })
 }
