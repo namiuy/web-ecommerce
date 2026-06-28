@@ -27,6 +27,8 @@ export const Stack = StackChakra;
 export const StackDivider = StackDividerChakra;
 
 export * from './components/AddToCartButton';
+export { ProductCard } from './components/ProductCard';
+export { ProductCard as AutopartCard } from './components/ProductCard';
 export * from './components/AnimationWrapper';
 export * from './components/Banner';
 export * from './components/Brands';

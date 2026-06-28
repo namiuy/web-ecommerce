@@ -23,6 +23,9 @@ export const useAutopartSearch = (params: {
   return useRequest(url, false);
 };
 
+export const useCategoryById = (id: string): Result<any> =>
+  useRequest(id ? `/api/categories/${id}` : null, false);
+
 export const useBrandsByCategory = (categoryName: string): Result<string[]> =>
   useRequestWithCache(
     categoryName ? `/api/autoparts/brands?productType=${encodeURIComponent(categoryName)}` : null,
