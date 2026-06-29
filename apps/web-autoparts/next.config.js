@@ -331,9 +331,6 @@ const homeCategories =
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
-  env: {
-    AUTOPARTS_API_BASE_URL: process.env.NEXT_PUBLIC_AUTOPARTS_API_BASE_URL || process.env.AUTOPARTS_API_BASE_URL || 'http://localhost:8083',
-  },
   publicRuntimeConfig: {
     envId: ID,
     appName: APP_NAME,
