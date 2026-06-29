@@ -1,7 +1,8 @@
-import { Box, Container, Text, Spinner, Flex, Button, HStack } from '@chakra-ui/react';
+import { Container, Text, Spinner, Flex, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 import { useAutopartSearch, useProductSearch } from 'shared';
+import { useRequest } from 'shared/hooks/request';
 import { SearchResults } from './SearchResults';
 
 type AutopartsTemplateProps = {
@@ -20,21 +21,30 @@ export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
   const router = useRouter();
   const { categoryName, brandName, modelName, text, code } = props;
 
-  // Category search (via api_autoparts)
+  // Category search (tipo > marca > modelo)
   const categorySearch = useAutopartSearch({
     categoryName: categoryName || undefined,
     brandName: brandName || undefined,
     modelName: modelName || undefined,
   });
 
-  // Text/code search (via api_autoparts)
+  // Text search (smart search)
   const textSearch = useProductSearch({
-    text: text || code || undefined,
+    text: text || undefined,
     index: (props.pag || 1) - 1,
   });
 
+  // Code search (buscar-parcial, much faster)
+  const codeSearch = useRequest<{ products: any[] }>(
+    code ? `/api/products/code?q=${encodeURIComponent(code)}` : null,
+    false,
+  );
+
   const isCategory = !!(categoryName && brandName && modelName);
-  const { isLoading, data, error } = isCategory ? categorySearch : textSearch;
+  const isCode = !!code;
+
+  const activeSearch = isCategory ? categorySearch : isCode ? codeSearch : textSearch;
+  const { isLoading, data, error } = activeSearch;
 
   const results = isCategory
     ? (data as any[] || [])
