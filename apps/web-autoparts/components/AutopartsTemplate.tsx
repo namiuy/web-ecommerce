@@ -1,8 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Container, Text, Spinner, Flex, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 import { useAutopartSearch, useProductSearch } from 'shared';
-import { useRequest } from 'shared/hooks/request';
 import { SearchResults } from './SearchResults';
 
 type AutopartsTemplateProps = {
@@ -16,6 +16,28 @@ type AutopartsTemplateProps = {
   pag?: number;
   mode?: string;
 };
+
+function useCodeSearch(code?: string) {
+  const [data, setData] = useState<any[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
+
+  useEffect(() => {
+    if (!code || code.length < 3) {
+      setData(null);
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
+    fetch(`/api/products/code?q=${encodeURIComponent(code)}`)
+      .then(res => res.json())
+      .then(d => setData(d.products || []))
+      .catch(e => setError(e))
+      .finally(() => setIsLoading(false));
+  }, [code]);
+
+  return { data, isLoading, error };
+}
 
 export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
   const router = useRouter();
@@ -35,20 +57,24 @@ export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
   });
 
   // Code search (buscar-parcial, much faster)
-  const codeSearch = useRequest<{ products: any[] }>(
-    code ? `/api/products/code?q=${encodeURIComponent(code)}` : null,
-    false,
-  );
+  const codeSearch = useCodeSearch(code);
 
   const isCategory = !!(categoryName && brandName && modelName);
   const isCode = !!code;
 
-  const activeSearch = isCategory ? categorySearch : isCode ? codeSearch : textSearch;
-  const { isLoading, data, error } = activeSearch;
+  const isLoading = isCategory ? categorySearch.isLoading
+    : isCode ? codeSearch.isLoading
+    : textSearch.isLoading;
+
+  const error = isCategory ? categorySearch.error
+    : isCode ? codeSearch.error
+    : textSearch.error;
 
   const results = isCategory
-    ? (data as any[] || [])
-    : (data as any)?.products || [];
+    ? (categorySearch.data as any[] || [])
+    : isCode
+    ? (codeSearch.data || [])
+    : ((textSearch.data as any)?.products || []);
 
   const searchLabel = isCategory
     ? `${categoryName} / ${brandName} / ${modelName}`
