@@ -26,6 +26,7 @@ export type NavBarProps = {
   fixed?: boolean;
   simple?: boolean;
   hover?: boolean;
+  disableCategoriesPopover?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {

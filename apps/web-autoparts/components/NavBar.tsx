@@ -6,5 +6,5 @@ type NavBarProps = {
 };
 
 export const NavBar = ({ fixed }: NavBarProps) => (
-  <NavBarUI logo={Logo} fixed={fixed} />
+  <NavBarUI logo={Logo} fixed={fixed} disableCategoriesPopover={true} />
 );

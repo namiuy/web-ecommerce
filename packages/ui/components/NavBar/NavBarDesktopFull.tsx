@@ -22,8 +22,10 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [] }: NavBarProps) => {
-  const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
+const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], disableCategoriesPopover }: NavBarProps) => {
+  const menuItemsWithOnClick = disableCategoriesPopover
+    ? menuItems
+    : menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
   // Use the new hook that syncs with Firebase Auth
   const { user, isLoading } = useCurrentUser();
