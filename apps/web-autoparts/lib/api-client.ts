@@ -30,6 +30,7 @@ export async function apiFetch<T = unknown>(
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    'User-Agent': 'web-autoparts/1.0',
   }
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
