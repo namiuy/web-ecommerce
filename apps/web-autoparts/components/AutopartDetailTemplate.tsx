@@ -17,7 +17,7 @@ import {
   QuoteRequestButton,
 } from 'ui';
 import { WhatsAppRequestButton } from 'ui/components/WhatsAppRequestButton';
-import { AutopartStock } from 'ui/components/AutopartStock';
+import { ProductStock } from 'ui/components/ProductStock';
 import { useRouter } from 'next/router';
 import { useAutopartGet, getCartEnabled, getProduct } from 'shared';
 const cartEnabled = getCartEnabled();
@@ -100,12 +100,7 @@ const ProductStockList = ({ products }: { products: any[] }) => {
               <Text fontSize="0.75rem" color={_smallTextColor} mb="0.25rem">
                 Código: {product.id}
               </Text>
-              <Flex alignItems="center" gap="0.5rem">
-                <Text fontSize="0.75rem" color={_smallTextColor}>
-                  Stock:
-                </Text>
-                <AutopartStock productId={product.id} />
-              </Flex>
+              <ProductStock id={product.id} />
             </Box>
             <Box textAlign="right" minW="120px" mt="0.25rem">
               {hasValidPrices && product.price > 0 ? (
