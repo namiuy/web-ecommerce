@@ -17,6 +17,7 @@ const {
   AUTH_ENABLED,
   PAYMENT_METHODS,
   NAVBAR_MESSAGE,
+  CURRENCY_SYMBOL,
 } = process.env;
 
 const multiDomainItemsHrefProd = {
@@ -356,6 +357,7 @@ module.exports = {
       showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS === 'true',
       showStock: PRODUCT_DETAIL_STOCK === 'true',
       showPagination: PRODUCT_PAGINATION === 'true',
+      currencySymbol: CURRENCY_SYMBOL || '$',
     },
   },
 };

@@ -7,7 +7,8 @@ import { formatPrice } from 'shared/utils/product';
 import { getProduct } from 'shared';
 import { ProductStock } from './ProductStock';
 const productConf = getProduct();
-const { showCod, cardPriceType, showStock } = productConf;
+const { showCod, cardPriceType, showStock, currencySymbol: _currency } = productConf;
+const currencySymbol = _currency || 'U$S';
 
 const _black = 'black';
 const _grey0 = 'brand.grey.0';
@@ -33,8 +34,9 @@ const _previousPriceSize = { base: '0.75rem', lg: '1rem' };
 const _bodyP = { base: '0 .5rem', lg: 0 };
 const _bodyGap = '.5rem';
 
-const isPriceWithTax = cardPriceType === 'WITH_TAX';
-const isPriceSimple = cardPriceType === 'SIMPLE';
+const _cardPriceType = (cardPriceType || 'WITH_TAX').toUpperCase();
+const isPriceWithTax = _cardPriceType === 'WITH_TAX';
+const isPriceSimple = _cardPriceType === 'SIMPLE';
 
 export type ProductCardProps = {
   min?: boolean;
@@ -185,7 +187,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                         <Box>
                           <Flex alignItems="baseline" gap="0.25rem" fontWeight="semibold">
                             <Flex gap="0.25rem" alignItems="baseline">
-                              <Text fontSize={_badgeSize}>U$S</Text>
+                              <Text fontSize={_badgeSize}>{currencySymbol}</Text>
                               <Text fontSize={_priceSize}>{formatPrice(price - (price * discount) / 100)}</Text>
                             </Flex>
                             <Text fontSize={_previousPriceSize} fontWeight="medium" as="s" color={_productSale}>
@@ -195,7 +197,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                         </Box>
                       ) : (
                         <Flex alignItems="baseline" gap="0.25rem">
-                          <Text fontSize={_badgeSize}>U$S</Text>
+                          <Text fontSize={_badgeSize}>{currencySymbol}</Text>
                           <Text fontSize={_priceSize}>{formatPrice(price)}</Text>
                         </Flex>
                       )}
@@ -203,7 +205,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                   ) : isPriceWithTax ? (
                     <>
                       <Text as="span" fontSize={_badgeSize}>
-                        U$S{' '}
+                        {currencySymbol}{' '}
                       </Text>
                       {formatPrice(price)}
                       <Text as="span" color={_smallTextColor} fontSize="0.875rem">
@@ -214,7 +216,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
                   ) : (
                     <>
                       <Text as="span" fontSize={_badgeSize}>
-                        U$S{' '}
+                        {currencySymbol}{' '}
                       </Text>
                       {formatPrice(price_without_tax)}
                       <Text as="span" color={_smallTextColor} fontSize="0.875rem">

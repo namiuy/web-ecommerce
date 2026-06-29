@@ -349,7 +349,7 @@ export const CategorySearch = ({ onSearch, loading }: CategorySearchProps) => {
     setFilterValue('');
   }, [currentStep]);
 
-  // Auto-redirect when model is selected
+  // Redirect to results page when model is selected
   useEffect(() => {
     if (selectedModel && activeCategoryName && selectedBrand) {
       const queryParams = new URLSearchParams({
@@ -359,7 +359,7 @@ export const CategorySearch = ({ onSearch, loading }: CategorySearchProps) => {
       });
       router.push(`/productos?${queryParams.toString()}`);
     }
-  }, [selectedModel, activeCategoryName, selectedBrand, router]);
+  }, [selectedModel, activeCategoryName, selectedBrand]);
 
   const handleCategorySelect = (category: Category) => {
     // Clear scroll for the previous category's subcategory/brand/model lists

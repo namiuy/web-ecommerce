@@ -74,6 +74,7 @@ type Product = {
   showStock: boolean;
   showPagination: boolean;
   showColors: boolean;
+  currencySymbol: string;
 };
 
 // Export getter functions

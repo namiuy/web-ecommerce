@@ -73,7 +73,7 @@ export const AutopartsSearch = () => {
   return (
     <Box
       minH="calc(100vh - 158px)"
-      w="full"      
+      w="full"
       display="flex"
       alignItems="flex-start"
       justifyContent="center"

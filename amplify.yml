@@ -13,7 +13,7 @@ applications:
             - echo "Listing CODEBUILD_SRC_DIR:"
             - ls -la $CODEBUILD_SRC_DIR
             - echo "Installing dependencies from monorepo root..."
-            - cd $CODEBUILD_SRC_DIR/web
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
             - echo "After cd, now at:"
             - pwd
             - ls -la | grep package
@@ -21,7 +21,7 @@ applications:
         build:
           commands:
             - echo "Building WITHOUT Turbo (direct npm run build)..."
-            - cd $CODEBUILD_SRC_DIR/web
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
             - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
             - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
             - echo "ID=$ID"
@@ -46,12 +46,33 @@ applications:
       phases:
         preBuild:
           commands:
-            - cd $CODEBUILD_SRC_DIR/web
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
             - npm ci
         build:
           commands:
-            - cd $CODEBUILD_SRC_DIR/web
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
             - cd apps/web-control-panel
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+  - appRoot: apps/web-autoparts
+    platform: WEB_COMPUTE
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - npm ci
+        build:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - cd apps/web-autoparts
             - npm run build
       artifacts:
         baseDirectory: .next

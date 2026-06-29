@@ -6,24 +6,27 @@ import { NavBar } from '../../components';
 import { getAutopartPropsFromRouter } from 'shared';
 import { AutopartsSearch } from '../../components/AutopartsSearch';
 
-type AutopartsPageProps = {
-  brandId?: number;
-  categoryId?: string;
-  text?: string;
-  code?: string;
-  pag?: number;
-};
-
-const AutopartsPage: NextPage<AutopartsPageProps> = () => {
+const AutopartsPage: NextPage = () => {
   const { query, isReady } = useRouter();
+
+  // Don't render anything until router is ready to avoid flash
+  if (!isReady) {
+    return (
+      <>
+        <Head />
+        <NavBar />
+      </>
+    );
+  }
+
   const props = getAutopartPropsFromRouter(query);
   const hasQueryParams = !!props?.brandId || !!props?.categoryId || !!props?.brandName || !!props?.categoryName || !!props?.modelName || !!props?.text || !!props?.code;
-  
+
   return (
     <>
       <Head />
       <NavBar />
-      {!hasQueryParams ? <AutopartsSearch /> : <AutopartsTemplate {...props} />}
+      {hasQueryParams ? <AutopartsTemplate {...props} /> : <AutopartsSearch />}
     </>
   );
 };

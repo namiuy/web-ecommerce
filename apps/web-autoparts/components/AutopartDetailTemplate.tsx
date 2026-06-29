@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { Link, useDisclosure, useBreakpointValue, Divider, AspectRatio, Image } from '@chakra-ui/react';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Container,
@@ -28,6 +29,7 @@ import { RelatedAutoparts } from './RelatedAutoparts';
 import { Product } from 'shared/entities/product';
 
 const { detailPriceType } = productConf;
+const _detailPriceType = (detailPriceType || 'WITH_TAX').toUpperCase();
 
 const _background = 'brand.background';
 const _borderColor = 'brand.productDetail.borderColor';
@@ -36,10 +38,10 @@ const _productSale = 'brand.productDetail.sale';
 const _color = 'brand.productDetail.smallText';
 const _grey0 = 'brand.grey.0';
 
-const isPriceWithTax = detailPriceType === 'WITH_TAX';
-const isPriceWithoutTax = detailPriceType === 'WITHOUT_TAX';
-const isPriceBoth = detailPriceType === 'BOTH';
-const isPriceSimple = detailPriceType === 'SIMPLE';
+const isPriceWithTax = _detailPriceType === 'WITH_TAX';
+const isPriceWithoutTax = _detailPriceType === 'WITHOUT_TAX';
+const isPriceBoth = _detailPriceType === 'BOTH';
+const isPriceSimple = _detailPriceType === 'SIMPLE';
 
 const _mainBoxPaddingY = { lg: '3rem', base: '2rem' };
 const _mainWidth = { lg: '75%', base: '90%' };
@@ -281,16 +283,15 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
   const [quantity, setQuantity] = useState(1);
   const [mainImageUrl, setMainImageUrl] = useState<string>('');
 
-  const shouldUseMultimedias = data?.multimedias !== undefined;
+  const shouldUseMultimedias = data?.multimedias !== undefined && data?.multimedias?.length > 0;
 
 
   const getMainImage = (): string => {
     if (shouldUseMultimedias) {
       const firstPhoto = data?.multimedias?.find(m => m.type === 'photo' && m.url);
       return firstPhoto?.url || '';
-    } else {
-      return '';
     }
+    return data?.image_url || '';
   };
 
   useEffect(() => {
@@ -307,18 +308,22 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
 
   return (
     <Box bg={_background} py={_mainBoxPaddingY} minH="100vh">
-      <Container w={_mainWidth} maxW={_mainMaxWidth} px="0">
-        {data && (
-          <Flex justifyContent="space-between" alignItems="center">
-            <Skeleton isLoaded={!isLoading}>
-              <Box color="brand.grey.2" fontSize="0.875rem" fontWeight="medium">
-                <Link onClick={() => router.back()} _hover={{ textDecoration: 'none' }}>
-                  Volver
-                </Link>
-              </Box>
-            </Skeleton>
-          </Flex>
-        )}
+      <Container w={_mainWidth} maxW={_mainMaxWidth} px="0" mb="0.5rem">
+        <Flex align="center">
+          <Link
+            onClick={() => router.back()}
+            display="inline-flex"
+            alignItems="center"
+            color="blue.600"
+            fontSize="sm"
+            fontWeight="medium"
+            _hover={{ textDecoration: 'none', color: 'blue.700' }}
+            cursor="pointer"
+          >
+            <ChevronLeftIcon boxSize={5} />
+            Volver a resultados
+          </Link>
+        </Flex>
       </Container>
       <Card w={_mainWidth} maxW={_mainMaxWidth} p={_containerPadding} m="0.5rem auto 3.5rem auto">
         <Grid
@@ -339,7 +344,7 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
                   <video src={mainImageUrl} controls style={{ width: '100%', height: '100%', objectFit: 'contain' }}>
                     Tu navegador no soporta el elemento de video.
                   </video>
-                ) : (
+                ) : mainImageUrl ? (
                   <Image
                     w="100%"
                     onClick={imageDisclosure.onOpen}
@@ -349,6 +354,15 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
                     style={{ objectFit: 'contain' }}
                     fallback={<Box w="100%" h="100%" bg={_grey0} />}
                   />
+                ) : (
+                  <Flex w="100%" h="100%" bg={_grey0} alignItems="center" justifyContent="center" borderRadius="md">
+                    <Text fontSize="4rem" color="gray.400">
+                      {data?.category?.name === 'Radiador' ? '\u2744' :
+                       data?.category?.name === 'Compresor' ? '\u2699' :
+                       data?.category?.name === 'Condensador' ? '\u2744' :
+                       '\uD83D\uDD27'}
+                    </Text>
+                  </Flex>
                 )}
               </AspectRatio>
 

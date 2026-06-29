@@ -2,10 +2,12 @@ import { Box, Text, Spinner } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 
 type AutopartStockProps = {
-  code: string;
+  code?: string;
+  productId?: string;
 };
 
-export const AutopartStock = ({ code }: AutopartStockProps) => {
+export const AutopartStock = ({ code, productId }: AutopartStockProps) => {
+  code = code || productId || '';
   const [stock, setStock] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
