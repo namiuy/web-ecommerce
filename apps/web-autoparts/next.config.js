@@ -331,6 +331,11 @@ const homeCategories =
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
+  serverRuntimeConfig: {
+    autopartsApiBaseUrl: process.env.AUTOPARTS_API_BASE_URL || 'http://localhost:8083',
+    apiBaseUrl: process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || '',
+    imagesUrl: process.env.IMAGES_URL || 'https://nami-uy.s3.sa-east-1.amazonaws.com/products',
+  },
   publicRuntimeConfig: {
     envId: ID,
     appName: APP_NAME,
