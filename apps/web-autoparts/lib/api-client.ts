@@ -47,8 +47,8 @@ export async function apiFetch<T = unknown>(
       signal: AbortSignal.timeout(timeout),
     })
   } catch (fetchError: any) {
-    console.error(`[apiFetch] Fetch error for ${method} ${url}:`, fetchError)
-    console.error(`[apiFetch] Error name: ${fetchError.name}, code: ${fetchError.code}`)
+    console.error(`[apiFetch] Fetch error for ${method} ${url}:`, fetchError?.message)
+    console.error(`[apiFetch] Error name: ${fetchError.name}, code: ${fetchError.code}, cause:`, fetchError.cause)
 
     // Throw a more descriptive error for network failures
     if (fetchError.name === 'TimeoutError' || fetchError.code === 'ECONNREFUSED' || fetchError.message?.includes('fetch failed')) {
