@@ -9,7 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const results = await searchByPartialCode(code.trim())
-    res.json({ products: results || [] })
+    const products = results?.productos || results || []
+    res.json({ products: Array.isArray(products) ? products : [] })
   } catch (error: any) {
     console.error('[api/products/code]', error.message)
     // Return empty results on 404 (no products found)
