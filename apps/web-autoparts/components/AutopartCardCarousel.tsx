@@ -33,7 +33,7 @@ export const AutopartCardCarousel = ({ isLoading, autoparts }: AutopartCardCarou
       spaceBetween={32}
     >
       {autoparts?.map((autopart: Autopart, i: number) => (
-        <AutopartCard key={i} isLoading={isLoading} autopart={autopart} />
+        <AutopartCard key={i} isLoading={isLoading} product={autopart} />
       ))}
     </Carousel>
   );
