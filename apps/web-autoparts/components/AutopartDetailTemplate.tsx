@@ -191,7 +191,10 @@ const ProductStockList = ({ products }: { products: any[] }) => {
 const Applications = ({ applications }: { applications: any[] }) => {
   if (!applications || applications.length === 0) return null;
 
-  const hasYearRange = applications.some(app => app.year_range && app.year_range !== '' && app.year_range.toLowerCase() !== 'n/d');
+  const hasYearRange = applications.some((app: any) => {
+    const yr = app.year_range || app.year || '';
+    return yr && yr !== '' && yr.toLowerCase() !== 'n/d';
+  });
 
   return (
     <>
@@ -202,20 +205,20 @@ const Applications = ({ applications }: { applications: any[] }) => {
         </Container>
         <Card w={_mainWidth} maxW={_mainMaxWidth} mx="auto">
           <Box>
-            {applications.map((app, i) => (
+            {applications.map((app: any, i: number) => (
               <Box key={i}>
                 {i !== 0 && <Divider />}
                 <Flex py="0.75rem" pl="1rem" flexDir={{ base: 'column', md: 'row' }}>
                   <Text w={{ base: '100%', md: '25%' }} pb={{ base: '0.25rem', md: '0' }} fontWeight="medium">
-                    {app.brand?.name}
+                    {typeof app.brand === 'object' ? app.brand?.name : app.brand}
                   </Text>
                   {hasYearRange && (
                     <Text w={{ base: '100%', md: '20%' }} pb={{ base: '0.25rem', md: '0' }}>
-                      {app.year_range}
+                      {app.year_range || app.year || ''}
                     </Text>
                   )}
                   <Text w={{ base: '100%', md: hasYearRange ? '55%' : '75%' }}>
-                    {app.name}
+                    {app.name || app.model || ''}
                   </Text>
                 </Flex>
               </Box>
