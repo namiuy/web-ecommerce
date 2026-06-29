@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { listCategories } from '../../../lib/services/category.service'
 
