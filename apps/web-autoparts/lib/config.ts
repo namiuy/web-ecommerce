@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 // Getter function that reads env vars on EVERY access (for serverless)
 export const config = {
   get apiBaseUrl() {

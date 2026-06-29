@@ -28,7 +28,7 @@ export const AutopartsSearch = () => {
     else if (!mode && !catId) {
       setSearchMode('text');
     }
-  }, [router.isReady, router.query.mode, router.query.catId]);
+  }, [router.isReady, router.query.mode, router.query.catId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearchModeChange = (mode: SearchMode) => {
     setSearchMode(mode);

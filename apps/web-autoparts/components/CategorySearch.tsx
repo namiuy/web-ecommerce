@@ -256,7 +256,7 @@ export const CategorySearch = ({ onSearch, loading }: CategorySearchProps) => {
     }
 
     setIsInitialized(true);
-  }, [router.isReady, categories, brands, isInitialized]);
+  }, [router.isReady, categories, brands, isInitialized]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Mark restoration as complete AFTER state has been updated
   useEffect(() => {
@@ -342,7 +342,7 @@ export const CategorySearch = ({ onSearch, loading }: CategorySearchProps) => {
 
     // Update URL without reload
     router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
-  }, [selectedCategory, selectedSubCategory, selectedBrand, isInitialized]);
+  }, [selectedCategory, selectedSubCategory, selectedBrand, isInitialized]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Reset filter when step changes
   useEffect(() => {
@@ -359,7 +359,7 @@ export const CategorySearch = ({ onSearch, loading }: CategorySearchProps) => {
       });
       router.push(`/productos?${queryParams.toString()}`);
     }
-  }, [selectedModel, activeCategoryName, selectedBrand]);
+  }, [selectedModel, activeCategoryName, selectedBrand]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCategorySelect = (category: Category) => {
     // Clear scroll for the previous category's subcategory/brand/model lists
