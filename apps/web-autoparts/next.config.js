@@ -331,6 +331,9 @@ const homeCategories =
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
+  env: {
+    NEXT_PUBLIC_AUTOPARTS_API_BASE_URL: process.env.NEXT_PUBLIC_AUTOPARTS_API_BASE_URL,
+  },
   publicRuntimeConfig: {
     envId: ID,
     appName: APP_NAME,
