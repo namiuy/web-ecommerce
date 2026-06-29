@@ -32,12 +32,13 @@ const isValidResponse = <T>(data: T, error: any): boolean => {
   return true;
 };
 
-export const useRequestWithCache = <T>(url: string, cacheTime: number = oneDay): Result<T> => {
+export const useRequestWithCache = <T>(url: string | null, cacheTime: number = oneDay): Result<T> => {
   const windowState = isBrowser();
   const [cache, setCache] = useState<T>();
   const [isWindowReady, setIsWindowReady] = useState(false);
 
   useEffect(() => {
+    if (!url) return;
     const item = lscache.get(url);
     if (item) setCache(item);
   }, [url]);
@@ -45,13 +46,13 @@ export const useRequestWithCache = <T>(url: string, cacheTime: number = oneDay):
   useEffect(() => setIsWindowReady(windowState), [windowState]);
 
   const { isLoading, error, data } = useSWRImmutable<T>(
-    () => (isWindowReady && !cache ? url : null),
-    () => get<T>(url),
+    () => (isWindowReady && !cache && url ? url : null),
+    () => url ? get<T>(url) : null as any,
   );
 
   useEffect(() => {
-    if (!isLoading && isValidResponse(data, error)) {
-      lscache.set(url, data, cacheTime);
+    if (!url || !isLoading && isValidResponse(data, error)) {
+      if (url) lscache.set(url, data, cacheTime);
     }
   }, [isLoading, data, error, url, cacheTime]);
 

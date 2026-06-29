@@ -72,7 +72,7 @@ export const SearchResults = ({ results }: SearchResultsProps) => {
           const product = mapResultToProduct(result);
           return (
             <WrapItem key={`${product.id}-${index}`}>
-              <AutopartCard product={product} />
+              <AutopartCard product={product as any} />
             </WrapItem>
           );
         })}

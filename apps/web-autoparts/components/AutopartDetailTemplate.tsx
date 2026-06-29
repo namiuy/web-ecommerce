@@ -459,9 +459,9 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
               )}
             </Box>
 
-            {data?.products && data.products.length > 0 && (
+            {(data as any)?.products && (data as any).products.length > 0 && (
               <Skeleton isLoaded={!isLoading} w="100%" mb="1rem">
-                <ProductStockList products={data.products} />
+                <ProductStockList products={(data as any).products} />
               </Skeleton>
             )}
 
@@ -491,8 +491,8 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
       {!!data?.applications?.length && (
         <Applications applications={data.applications} />
       )}
-      {!!data?.products?.length && (
-        <Dimensions products={data.products} />
+      {!!(data as any)?.products?.length && (
+        <Dimensions products={(data as any).products} />
       )}
       {data && (
         <RelatedAutoparts autopart={data} />

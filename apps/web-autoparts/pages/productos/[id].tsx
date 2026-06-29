@@ -15,7 +15,7 @@ const AutopartDetailPage: NextPage = () => {
   }
 
   return (
-    <GaPage page="AutopartDetail">
+    <GaPage page="ProductDetail">
       <>
         <Box>
           <Head />

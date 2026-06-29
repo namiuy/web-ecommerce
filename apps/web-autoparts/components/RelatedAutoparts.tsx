@@ -11,7 +11,7 @@ type RelatedAutopartsProps = {
 };
 
 export const RelatedAutoparts = ({ autopart }: RelatedAutopartsProps) => {
-  const { data, isLoading, error } = useAutopartRelatedGet(autopart.family);
+  const { data, isLoading, error } = useAutopartRelatedGet(autopart.family || '');
 
   if (!data?.autoparts?.length || error) {
     if (error) console.log(error);
