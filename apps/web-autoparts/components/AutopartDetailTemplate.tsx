@@ -304,7 +304,7 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
     return <></>;
   }
 
-  const applicationName = data?.applications?.[0]?.name || data?.description || '';
+  const applicationName = (data?.applications?.[0] as any)?.name || data?.applications?.[0]?.model || data?.description || '';
 
   return (
     <Box bg={_background} py={_mainBoxPaddingY} minH="100vh">
