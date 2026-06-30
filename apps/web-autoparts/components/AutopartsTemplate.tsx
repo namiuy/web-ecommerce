@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { Container, Text, Spinner, Flex, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
-import { useAutopartSearch, useProductSearch } from 'shared';
+import { useAutopartSearch } from 'shared';
 import { SearchResults } from './SearchResults';
+import { config } from '../lib/config';
 
 type AutopartsTemplateProps = {
   brandId?: number;
@@ -17,24 +18,40 @@ type AutopartsTemplateProps = {
   mode?: string;
 };
 
-function useCodeSearch(code?: string) {
+function useDirectSearch(query?: string, type: 'text' | 'code' = 'text') {
   const [data, setData] = useState<any[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    if (!code || code.length < 3) {
+    if (!query || query.length < 2) {
       setData(null);
       return;
     }
     setIsLoading(true);
     setError(null);
-    fetch(`/api/products/code?q=${encodeURIComponent(code)}`)
-      .then(res => res.json())
-      .then(d => setData(d.products || []))
-      .catch(e => setError(e))
-      .finally(() => setIsLoading(false));
-  }, [code]);
+
+    if (type === 'code') {
+      // Code search via BFF (buscar-parcial, fast)
+      fetch(`/api/products/code?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(d => setData(d.products || []))
+        .catch(e => setError(e))
+        .finally(() => setIsLoading(false));
+    } else {
+      // Text search direct to api_autoparts (same as listadearticulos)
+      const apiUrl = config.autopartsApiBaseUrl;
+      fetch(`${apiUrl}/search/smart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query, limit: 50 }),
+      })
+        .then(res => res.json())
+        .then(d => setData(Array.isArray(d) ? d : []))
+        .catch(e => setError(e))
+        .finally(() => setIsLoading(false));
+    }
+  }, [query, type]);
 
   return { data, isLoading, error };
 }
@@ -50,31 +67,29 @@ export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
     modelName: modelName || undefined,
   });
 
-  // Text search (smart search)
-  const textSearch = useProductSearch({
-    text: text || undefined,
-    index: (props.pag || 1) - 1,
-  });
+  // Text search - direct to api_autoparts (no Lambda timeout)
+  const textSearch = useDirectSearch(text, 'text');
 
-  // Code search (buscar-parcial, much faster)
-  const codeSearch = useCodeSearch(code);
+  // Code search - via BFF (buscar-parcial, fast)
+  const codeSearch = useDirectSearch(code, 'code');
 
   const isCategory = !!(categoryName && brandName && modelName);
   const isCode = !!code;
+  const isText = !!text;
 
   const isLoading = isCategory ? categorySearch.isLoading
-    : isCode ? codeSearch.isLoading
-    : textSearch.isLoading;
+    : (isCode || isText) ? (isCode ? codeSearch : textSearch).isLoading
+    : false;
 
   const error = isCategory ? categorySearch.error
-    : isCode ? codeSearch.error
-    : textSearch.error;
+    : (isCode || isText) ? (isCode ? codeSearch : textSearch).error
+    : null;
 
   const results = isCategory
     ? (categorySearch.data as any[] || [])
     : isCode
     ? (codeSearch.data || [])
-    : ((textSearch.data as any)?.products || []);
+    : (textSearch.data || []);
 
   const searchLabel = isCategory
     ? `${categoryName} / ${brandName} / ${modelName}`
