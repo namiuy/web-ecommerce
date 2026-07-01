@@ -4,8 +4,10 @@ import { Box, Text, Image, Container, Button, Grid, GridItem, Flex } from 'ui';
 import { BsTrash3 } from 'react-icons/bs';
 import { QuantityInput } from '../components/QuantityInput';
 import { useRouter } from 'next/router';
-import { isBrowser, useCart } from 'shared';
+import { isBrowser, useCart, getProduct } from 'shared';
 import { useEffect } from 'react';
+
+const _currencySymbol = getProduct()?.currencySymbol || 'U$S';
 
 const _containerW = { base: '90%', lg: '75%' };
 const _mainGridTemplateAreas = { base: '"a" "b"', lg: '"a b"' };
@@ -138,7 +140,7 @@ export const ShoppingCart = () => {
                           <GridItem gridArea="d">
                             <Text fontSize={_productListSubtotal}>
                               <Text as="span" fontSize={_productListSubtotalUSD}>
-                                U$S{' '}
+                                {_currencySymbol}{' '}
                               </Text>{' '}
                               {(parseFloat(product.price) * product.quantity).toFixed(2)}
                             </Text>
@@ -171,7 +173,7 @@ export const ShoppingCart = () => {
                       {' '}
                       <Text fontSize="1.375rem" display="inline-block">
                         <Text as="span" fontSize="1.125rem">
-                          U$S{' '}
+                          {_currencySymbol}{' '}
                         </Text>
                         {totalPrice}{' '}
                       </Text>
