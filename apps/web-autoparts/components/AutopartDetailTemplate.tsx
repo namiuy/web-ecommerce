@@ -80,7 +80,7 @@ const getAction = (action: AutopartAction, props: AutopartActionProps, autopart:
   return <></>;
 };
 
-const ProductStockList = ({ products }: { products: any[] }) => {
+const ProductStockList = ({ products, onStockChange }: { products: any[], onStockChange?: (stock: string) => void }) => {
   const hasValidPrices = products.some(p => p.price && p.price > 0);
 
   return (
@@ -100,7 +100,7 @@ const ProductStockList = ({ products }: { products: any[] }) => {
               <Text fontSize="0.75rem" color={_smallTextColor} mb="0.25rem">
                 Código: {product.id}
               </Text>
-              <ProductStock id={product.id} />
+              <ProductStock id={product.id} handleStockChange={onStockChange} />
             </Box>
             <Box textAlign="right" minW="120px" mt="0.25rem">
               {hasValidPrices && product.price > 0 ? (
@@ -280,6 +280,7 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
 
   const [quantity, setQuantity] = useState(1);
   const [mainImageUrl, setMainImageUrl] = useState<string>('');
+  const [stockAvailability, setStockAvailability] = useState<string>('CO');
 
   const shouldUseMultimedias = data?.multimedias !== undefined && data?.multimedias?.length > 0;
 
@@ -456,7 +457,7 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
 
             {(data as any)?.products && (data as any).products.length > 0 && (
               <Skeleton isLoaded={!isLoading} w="100%" mb="1rem">
-                <ProductStockList products={(data as any).products} />
+                <ProductStockList products={(data as any).products} onStockChange={setStockAvailability} />
               </Skeleton>
             )}
 
@@ -472,12 +473,18 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
             )}
 
             <>
-              {actions.map(action =>
-                getAction(action, {
-                  isLoading,
-                  quantity,
-                }, data as Autopart),
-              )}
+              {actions.map(action => {
+                const product = {
+                  id: data?.id,
+                  path: `/productos/${data?.id}`,
+                  stock: stockAvailability,
+                } as Product;
+                const actionProps = { isLoading, quantity, product };
+                if (action === 'add_to_cart') return <AddToCartButton key={action} {...actionProps} />;
+                if (action === 'quote_request') return <QuoteRequestButton key={action} {...actionProps} />;
+                if (action === 'whatsapp_request') return <WhatsAppRequestButton key={action} {...actionProps} />;
+                return null;
+              })}
             </>
           </GridItem>
         </Grid>

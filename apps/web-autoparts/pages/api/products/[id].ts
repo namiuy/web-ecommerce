@@ -68,7 +68,7 @@ function mapAutopartToProduct(raw: any) {
     image_url: imageUrl,
     images: imageUrl ? [imageUrl] : [],
     path: `/productos/${encodeURIComponent(code)}`,
-    stock: 'AV' as const,
+    stock: 'CO' as const,
     specifications,
     related_links: [],
     colors: [],
