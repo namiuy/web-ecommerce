@@ -1,22 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getProductByCode, getStock } from '../../../lib/services/product.service'
+import { getProductByCode } from '../../../lib/services/product.service'
 import { config } from '../../../lib/config'
 
 /**
  * Maps raw api_autoparts product data to the Product/Autopart format
  * that the frontend components expect.
  */
-async function fetchStockAvailability(code: string): Promise<'AV' | 'CO' | 'NO'> {
-  try {
-    const stockData = await getStock(code)
-    const total = stockData?.total || 0
-    return total > 0 ? 'AV' : 'CO'
-  } catch {
-    return 'CO'
-  }
-}
-
-function mapAutopartToProduct(raw: any, stockAvailability: 'AV' | 'CO' | 'NO' = 'CO') {
+function mapAutopartToProduct(raw: any) {
   const code = raw.code || raw.Codigo || ''
   const description = raw.original_code || raw.CodigoOriginal || raw.description || ''
   const vehicleBrand = raw.vehicle_brand || raw.MarcaVehiculo || ''
@@ -78,7 +68,7 @@ function mapAutopartToProduct(raw: any, stockAvailability: 'AV' | 'CO' | 'NO' = 
     image_url: imageUrl,
     images: imageUrl ? [imageUrl] : [],
     path: `/productos/${encodeURIComponent(code)}`,
-    stock: stockAvailability,
+    stock: 'AV' as const,
     specifications,
     related_links: [],
     colors: [],
@@ -101,8 +91,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Product ID is required' })
     }
     const raw = await getProductByCode(id)
-    const stockAvailability = await fetchStockAvailability(id)
-    const product = mapAutopartToProduct(raw, stockAvailability)
+    const product = mapAutopartToProduct(raw)
     res.json(product)
   } catch (error: any) {
     console.error('[api/products/[id]]', error)
