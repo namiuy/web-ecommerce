@@ -1,6 +1,8 @@
 import { Box, Text, Flex } from 'ui';
 import { RadioGroup, Radio } from '@chakra-ui/react';
-import { getShippingMethods } from 'shared';
+import { getShippingMethods, getProduct } from 'shared';
+
+const _cs = getProduct()?.currencySymbol || 'U$S';
 
 type ShippingMethodProps = {
   shippingMethod: string;
@@ -40,7 +42,7 @@ export const ShippingMethod = ({ shippingMethod, handleShippingChange }: Shippin
               {method.price ? (
                 <Text whiteSpace="nowrap" fontWeight="medium">
                   <Text as="span" fontSize="0.75rem">
-                    U$S{' '}
+                    {_cs}{' '}
                   </Text>
                   {method.price.toFixed(2)}
                 </Text>

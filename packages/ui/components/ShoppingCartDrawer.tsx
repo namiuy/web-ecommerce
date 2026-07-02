@@ -17,7 +17,9 @@ import { HiShoppingCart } from 'react-icons/hi';
 import { QuantityInput } from './QuantityInput';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useCart } from 'shared';
+import { useCart, getProduct } from 'shared';
+
+const _cs = getProduct()?.currencySymbol || 'U$S';
 
 const _productListAreas = { base: '"a b b b e" "a c c d d"', sm: '"a b c d e"' };
 const _productListColumns = { base: '1fr 1fr 1fr auto auto', sm: '10% 41% 22% 22% 5%' };
@@ -190,7 +192,7 @@ export const ShoppingCartDrawer = () => {
                             <Skeleton h="1.5rem" w="100%" isLoaded={!isLoading}>
                               <Text fontSize={{ base: '1rem', sm: '1.125rem' }} fontWeight="medium">
                                 <Text as="span" fontSize={{ base: '0.875rem', sm: '0.925rem' }}>
-                                  U$S{' '}
+                                  {_cs}{' '}
                                 </Text>
                                 {(parseFloat(product.price) * product.quantity).toFixed(2)}
                               </Text>
@@ -227,7 +229,7 @@ export const ShoppingCartDrawer = () => {
               <Skeleton isLoaded={!isLoading} h="1.625rem">
                 <Text mb="0.75rem" fontWeight="bold" fontSize="1.25rem">
                   <Text as="span" fontSize="1rem">
-                    U$S{' '}
+                    {_cs}{' '}
                   </Text>
                   {totalPrice?.toFixed(2)}
                 </Text>

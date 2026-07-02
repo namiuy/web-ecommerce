@@ -1,7 +1,9 @@
 import lscache from 'lscache';
 import { Spinner, useBreakpointValue, Divider, Center } from '@chakra-ui/react';
 import router from 'next/router';
-import { isBrowser, useListOrders, getPaymentMethods } from 'shared';
+import { isBrowser, useListOrders, getPaymentMethods, getProduct } from 'shared';
+
+const _cs = getProduct()?.currencySymbol || 'U$S';
 import { Box, Heading, Text, Container, Flex, Button, Grid, GridItem, Image } from 'ui';
 import { OrderStatus } from '../components/OrderStatus';
 import { Status } from 'shared/entities/status';
@@ -237,7 +239,7 @@ export const OrderHistory = () => {
                             <GridItem gridArea="d">
                               <Text fontSize={_productListSubtotal}>
                                 <Text as="span" fontSize={_productListSubtotalUSD} fontWeight="medium">
-                                  U$S{' '}
+                                  {_cs}{' '}
                                 </Text>{' '}
                                 {item.price}
                               </Text>
@@ -245,7 +247,7 @@ export const OrderHistory = () => {
                             <GridItem gridArea="e">
                               <Text fontSize={_productListSubtotal}>
                                 <Text as="span" fontSize={_productListSubtotalUSD} fontWeight="medium">
-                                  U$S{' '}
+                                  {_cs}{' '}
                                 </Text>{' '}
                                 {(Number(item.price) * Number(item.quantity)).toFixed(2)}
                               </Text>
@@ -258,7 +260,7 @@ export const OrderHistory = () => {
                       <Text fontWeight="semibold">TOTAL:</Text>
                       <Text fontSize={_productListSubtotal}>
                         <Text as="span" fontSize={_productListSubtotalUSD} fontWeight="medium">
-                          U$S{' '}
+                          {_cs}{' '}
                         </Text>{' '}
                         {order.items
                           .reduce((acc, item) => acc + Number(item.price) * Number(item.quantity), 0)

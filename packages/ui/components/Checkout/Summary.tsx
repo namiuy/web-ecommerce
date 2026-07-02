@@ -1,6 +1,8 @@
 import { Spinner } from '@chakra-ui/react';
-import { useCart } from 'shared';
+import { useCart, getProduct } from 'shared';
 import { Box, Text, Flex, Button, Grid, GridItem, Skeleton } from 'ui';
+
+const _cs = getProduct()?.currencySymbol || 'U$S';
 
 type SummaryProps = {
   page: number;
@@ -29,7 +31,7 @@ export const Summary = ({
           <Text>Envío</Text>
           <Text fontSize="1.125rem">
             <Text as="span" fontSize="0.875rem">
-              U$S{' '}
+              {_cs}{' '}
             </Text>
             {shippingPrice ? shippingPrice.toFixed(2) : '0'}{' '}
           </Text>
@@ -37,7 +39,7 @@ export const Summary = ({
         <GridItem gridArea="c" display="flex" justifyContent="space-between" alignItems="center">
           <Text>Productos</Text>
           <Flex alignItems="baseline" gap="0.25rem" fontSize="1.125rem">
-            <Text fontSize="0.875rem">U$S </Text>
+            <Text fontSize="0.875rem">{_cs} </Text>
             {isLoading ? <Skeleton w="4rem" h="1.25rem" /> : totalPrice.toFixed(2)}
           </Flex>
         </GridItem>
@@ -46,7 +48,7 @@ export const Summary = ({
           <Box>
             <Flex alignItems="baseline" gap="0.25rem" fontSize="1.375rem">
               <Text as="span" fontSize="1.125rem">
-                U$S{' '}
+                {_cs}{' '}
               </Text>
               {isLoading ? <Skeleton w="5rem" h="1.75rem" /> : totalAmount.toFixed(2)}
               <Text fontSize="0.75rem">IVA inc</Text>

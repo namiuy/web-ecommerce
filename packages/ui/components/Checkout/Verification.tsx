@@ -1,6 +1,8 @@
 import { Box, Text, Grid, GridItem, Image, Flex } from 'ui';
-import { getShippingMethods, getPaymentMethods, useCart } from 'shared';
+import { getShippingMethods, getPaymentMethods, useCart, getProduct } from 'shared';
 import { Address } from 'shared/entities/address';
+
+const _cs = getProduct()?.currencySymbol || 'U$S';
 
 const _productListAreas = { base: '"a b b b" "a c d d"', sm: '"a b c d"' };
 const _productListColumns = { base: '1fr 1fr 1fr auto', sm: '10% 50% 20% 20%' };
@@ -111,7 +113,7 @@ export const Verification = ({ shippingMethod, paymentMethod, address, observati
               <GridItem gridArea="d">
                 <Text fontSize={_productListSubtotal} fontWeight="medium">
                   <Text as="span" fontSize={_productListSubtotalUSD}>
-                    U$S{' '}
+                    {_cs}{' '}
                   </Text>{' '}
                   {(parseFloat(product.price) * product.quantity).toFixed(2)}
                 </Text>
