@@ -243,27 +243,11 @@ const branchesRobotec = [
 
 const branches = ID === 'ROBOTEC' ? branchesRobotec : branchesNami;
 
-const enabledPaymentMethods = PAYMENT_METHODS ? PAYMENT_METHODS.split(',').map(method => method.trim()) : [];
+const enabledPaymentMethodIds = PAYMENT_METHODS ? PAYMENT_METHODS.split(',').map(method => method.trim()) : [];
 
-const paymentMethods = [
-  {
-    id: 'SADE',
-    name: 'Santander',
-    description: 'Debes depositar a nombre de: Alodenar S.A. Cuenta Corriente Dólares 5100409277 sucursal 61 Cuenta Corriente Pesos 441546 sucursal 61',
-  },
-  {
-    id: 'ITDE',
-    name: 'Itaú',
-    description: 'Debes depositar a nombre de: Alodenar S.A. Cuenta Corriente Dólares 492316 Cuenta Corriente Pesos 485112',
-  },
-  {
-    id: 'ABGI',
-    name: 'Abitab',
-    description: 'Debes girar a nombre de: Maria Fernanda Varela CI 1977433-7',
-  },
-];
-
-const availablePaymentMethods = paymentMethods.filter(method => enabledPaymentMethods.includes(method.id));
+// Payment methods come from DB now via usePaymentMethods hook.
+// Config only stores enabled IDs as placeholder objects for the hook to filter.
+const availablePaymentMethods = enabledPaymentMethodIds.map(id => ({ id, name: id, description: '' }));
 
 const shippingMethods = [
   {
