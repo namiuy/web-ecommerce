@@ -32,3 +32,4 @@ export * from './request/order';
 export * from './useCurrentUser';
 export * from './request/autopart';
 export * from './request/shipping';
+export * from './request/payment';

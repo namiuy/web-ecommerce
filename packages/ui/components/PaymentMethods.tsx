@@ -1,8 +1,8 @@
 import { Flex, Image } from 'ui';
-import { getPaymentMethods } from 'shared';
+import { usePaymentMethods } from 'shared';
 
 export const PaymentMethods = () => {
-  const paymentMethods = getPaymentMethods();
+  const paymentMethods = usePaymentMethods();
 
   return (
     <Flex gap="1.25rem" justifyContent="center" alignItems="center" flexWrap="wrap">

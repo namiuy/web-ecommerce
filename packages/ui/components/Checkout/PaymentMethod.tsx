@@ -1,6 +1,6 @@
 import { Box, Text, Flex, Image } from 'ui';
 import { RadioGroup, Radio } from '@chakra-ui/react';
-import { getPaymentMethods } from 'shared';
+import { usePaymentMethods } from 'shared';
 
 type PaymentMethodProps = {
   paymentMethod: string;
@@ -8,7 +8,7 @@ type PaymentMethodProps = {
 };
 
 export const PaymentMethod = ({ paymentMethod, handlePaymentChange }: PaymentMethodProps) => {
-  const paymentMethods = getPaymentMethods();
+  const paymentMethods = usePaymentMethods();
   return (
     <>
       {' '}

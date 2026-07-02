@@ -1,5 +1,5 @@
 import { Box, Text, Grid, GridItem, Image, Flex } from 'ui';
-import { useShippingMethods, getPaymentMethods, useCart, getProduct } from 'shared';
+import { useShippingMethods, usePaymentMethods, useCart, getProduct } from 'shared';
 import { Address } from 'shared/entities/address';
 
 const _cs = getProduct()?.currencySymbol || 'U$S';
@@ -21,7 +21,7 @@ type VerificationProps = {
 export const Verification = ({ shippingMethod, paymentMethod, address, observation }: VerificationProps) => {
   const { cart } = useCart({});
   const shippingMethods = useShippingMethods();
-  const paymentMethods = getPaymentMethods();
+  const paymentMethods = usePaymentMethods();
 
   const shippingMethodSelected = shippingMethods.find(method => method.id === shippingMethod);
   const paymentMethodSelected = paymentMethods.find(method => method.id === paymentMethod);
