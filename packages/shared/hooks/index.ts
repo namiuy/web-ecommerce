@@ -31,3 +31,4 @@ export * from './zustand/cart';
 export * from './request/order';
 export * from './useCurrentUser';
 export * from './request/autopart';
+export * from './request/shipping';

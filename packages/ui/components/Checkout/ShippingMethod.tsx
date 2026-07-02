@@ -1,6 +1,6 @@
 import { Box, Text, Flex } from 'ui';
 import { RadioGroup, Radio } from '@chakra-ui/react';
-import { getShippingMethods, getProduct } from 'shared';
+import { useShippingMethods, getProduct } from 'shared';
 
 const _cs = getProduct()?.currencySymbol || 'U$S';
 
@@ -10,7 +10,7 @@ type ShippingMethodProps = {
 };
 
 export const ShippingMethod = ({ shippingMethod, handleShippingChange }: ShippingMethodProps) => {
-  const shippingMethods = getShippingMethods();
+  const shippingMethods = useShippingMethods();
   return (
     <>
       {' '}
