@@ -20,7 +20,7 @@ const AutopartsPage: NextPage = () => {
   }
 
   const props = getAutopartPropsFromRouter(query);
-  const hasQueryParams = !!props?.brandId || !!props?.categoryId || !!props?.brandName || !!props?.categoryName || !!props?.modelName || !!props?.text || !!props?.code;
+  const hasQueryParams = !!props?.brandId || !!props?.categoryId || !!props?.brandName || !!props?.categoryName || !!props?.modelName || !!props?.text || !!props?.code || !!props?.dims;
 
   return (
     <>

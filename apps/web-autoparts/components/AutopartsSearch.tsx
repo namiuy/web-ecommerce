@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { Box, HStack, Text } from '@chakra-ui/react';
 import { SearchForm } from '../components/SearchForm';
 import { CategorySearch } from '../components/CategorySearch';
+import { DimensionsSearch } from '../components/DimensionsSearch';
 
-type SearchMode = 'text' | 'code' | 'category';
+type SearchMode = 'text' | 'code' | 'category' | 'dimensions';
 
 export const AutopartsSearch = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ export const AutopartsSearch = () => {
     const { mode, catId } = router.query;
 
     // Only update if mode is explicitly set in URL
-    if (mode === 'text' || mode === 'code' || mode === 'category') {
+    if (mode === 'text' || mode === 'code' || mode === 'category' || mode === 'dimensions') {
       setSearchMode(mode);
     }
     // Fallback: Infer from catId for backward compatibility (only when no mode param exists)
@@ -39,7 +40,7 @@ export const AutopartsSearch = () => {
     query.mode = mode;
 
     // If switching to text or code mode, clear category params and scroll positions
-    if (mode === 'text' || mode === 'code') {
+    if (mode === 'text' || mode === 'code' || mode === 'dimensions') {
       delete query.catId;
       delete query.subCatId;
       delete query.brand;
@@ -68,6 +69,10 @@ export const AutopartsSearch = () => {
 
   const handleCategorySearch = (categoryId: string) => {
     router.push(`/productos?c=${encodeURIComponent(categoryId)}`);
+  };
+
+  const handleDimensionsSearch = (params: string) => {
+    router.push(`/productos?dims=${encodeURIComponent(params)}`);
   };
 
   return (
@@ -168,6 +173,34 @@ export const AutopartsSearch = () => {
               />
             )}
           </Box>
+
+          <Box
+            position="relative"
+            cursor="pointer"
+            onClick={() => handleSearchModeChange('dimensions')}
+            pb={2}
+          >
+            <Text
+              fontSize="md"
+              fontWeight={searchMode === 'dimensions' ? 'semibold' : 'medium'}
+              color={searchMode === 'dimensions' ? 'blue.600' : 'gray.500'}
+              transition="all 0.2s"
+              _hover={{ color: 'blue.600' }}
+            >
+              Búsqueda por medidas
+            </Text>
+            {searchMode === 'dimensions' && (
+              <Box
+                position="absolute"
+                bottom={0}
+                left={0}
+                right={0}
+                h="2px"
+                bg="blue.600"
+                borderRadius="full"
+              />
+            )}
+          </Box>
         </HStack>
 
         {/* Content */}
@@ -185,6 +218,8 @@ export const AutopartsSearch = () => {
               placeholder="Ej: CVW68, DL-A091, 5Z0.121.253.D..."
             />
           </Box>
+        ) : searchMode === 'dimensions' ? (
+          <DimensionsSearch onSearch={handleDimensionsSearch} loading={false} />
         ) : (
           <CategorySearch onSearch={handleCategorySearch} loading={false} />
         )}

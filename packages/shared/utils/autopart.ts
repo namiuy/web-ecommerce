@@ -10,6 +10,7 @@ export type AutopartSearchProps = {
   modelName?: string;
   pag?: number;
   mode?: string;
+  dims?: string;
 }
 
 export const getAutopartPropsFromRouter = (query: ParsedUrlQuery): AutopartSearchProps => {
@@ -23,5 +24,6 @@ export const getAutopartPropsFromRouter = (query: ParsedUrlQuery): AutopartSearc
     modelName: query.mn ? String(query.mn) : undefined,
     pag: query.pag ? Number(query.pag) : undefined,
     mode: query.mode ? String(query.mode) : undefined,
+    dims: query.dims ? String(query.dims) : undefined,
   }
 }
