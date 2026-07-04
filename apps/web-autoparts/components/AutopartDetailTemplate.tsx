@@ -437,7 +437,7 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
               ) : (
                 <Box mb="0.25rem">
                   <Text fontWeight="bold" fontSize="1.5rem">
-                    {data?.description || applicationName}
+                    {applicationName}
                   </Text>
                 </Box>
               )}
