@@ -4,6 +4,7 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 import { useAutopartSearch } from 'shared';
 import { SearchResults } from './SearchResults';
+import { DimensionsResults } from './DimensionsResults';
 import { config } from '../lib/config';
 
 type AutopartsTemplateProps = {
@@ -196,7 +197,9 @@ export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
       )}
 
       {!isLoading && results.length > 0 && (
-        <SearchResults results={results} />
+        isDims
+          ? <DimensionsResults results={results} />
+          : <SearchResults results={results} />
       )}
     </Container>
   );
