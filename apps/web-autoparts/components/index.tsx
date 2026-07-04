@@ -5,6 +5,7 @@ export * from './SearchForm';
 export * from './CategorySearch';
 export * from './DimensionsSearch';
 export * from './DimensionsResults';
+export * from './ListResults';
 export * from './SearchResults';
 export * from './AutopartCardCarousel';
 export * from './AutopartDetailTemplate';

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Container, Text, Spinner, Flex, Button } from '@chakra-ui/react';
-import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { Container, Text, Spinner, Flex, Button, IconButton, HStack, Tooltip } from '@chakra-ui/react';
+import { ChevronLeftIcon, ViewIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 import { useAutopartSearch } from 'shared';
 import { SearchResults } from './SearchResults';
 import { DimensionsResults } from './DimensionsResults';
+import { ListResults } from './ListResults';
 import { config } from '../lib/config';
 
 type AutopartsTemplateProps = {
@@ -94,9 +95,12 @@ function useDirectSearch(query?: string, type: 'text' | 'code' = 'text') {
   return { data, isLoading, error };
 }
 
+type ViewMode = 'card' | 'list';
+
 export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
   const router = useRouter();
   const { categoryName, brandName, modelName, text, code, dims } = props;
+  const [viewMode, setViewMode] = useState<ViewMode>(dims ? 'list' : 'card');
 
   // Category search (tipo > marca > modelo)
   const categorySearch = useAutopartSearch({
@@ -197,9 +201,40 @@ export const AutopartsTemplate = (props: AutopartsTemplateProps) => {
       )}
 
       {!isLoading && results.length > 0 && (
-        isDims
-          ? <DimensionsResults results={results} />
-          : <SearchResults results={results} />
+        <>
+          {!isDims && (
+            <Flex justify="flex-end" mb={3}>
+              <HStack spacing={1} bg="gray.100" p={1} borderRadius="md">
+                <Tooltip label="Vista tarjetas">
+                  <IconButton
+                    aria-label="Vista tarjetas"
+                    icon={<ViewIcon />}
+                    size="sm"
+                    variant={viewMode === 'card' ? 'solid' : 'ghost'}
+                    colorScheme={viewMode === 'card' ? 'blue' : 'gray'}
+                    onClick={() => setViewMode('card')}
+                  />
+                </Tooltip>
+                <Tooltip label="Vista lista">
+                  <IconButton
+                    aria-label="Vista lista"
+                    icon={<HamburgerIcon />}
+                    size="sm"
+                    variant={viewMode === 'list' ? 'solid' : 'ghost'}
+                    colorScheme={viewMode === 'list' ? 'blue' : 'gray'}
+                    onClick={() => setViewMode('list')}
+                  />
+                </Tooltip>
+              </HStack>
+            </Flex>
+          )}
+          {isDims
+            ? <DimensionsResults results={results} />
+            : viewMode === 'list'
+            ? <ListResults results={results} />
+            : <SearchResults results={results} />
+          }
+        </>
       )}
     </Container>
   );
