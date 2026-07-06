@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -6,6 +7,7 @@ import { ThemeProvider, WhatsApp } from 'ui';
 import { theme } from '../theme/index';
 import ReactGA from 'react-ga4';
 import { getKeys, getEnvId } from 'shared';
+import { config } from '../lib/config';
 
 const keys = getKeys();
 const googleGaMeasurementId = keys?.googleGaMeasurementId;
@@ -16,6 +18,10 @@ if (googleGaMeasurementId) {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    fetch(`${config.autopartsApiBaseUrl}/api/log-visit`, { method: 'POST' }).catch(() => {});
+  }, []);
+
   return (
     <>
       <Head>
