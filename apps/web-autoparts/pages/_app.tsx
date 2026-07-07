@@ -19,7 +19,7 @@ if (googleGaMeasurementId) {
 
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
-    fetch(`${config.autopartsApiBaseUrl}/api/log-visit`, { method: 'POST' }).catch(() => {});
+    fetch(`${config.autopartsApiBaseUrl}/api/log-visit?source=web-autoparts`, { method: 'POST' }).catch(() => {});
   }, []);
 
   return (
