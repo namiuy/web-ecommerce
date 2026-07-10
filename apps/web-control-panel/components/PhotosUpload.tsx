@@ -116,6 +116,15 @@ export const PhotosUpload = () => {
     <Box
       flex="1"
       onClick={photos.length === 0 ? openFileDialog : undefined}
+      onDrop={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleFiles(e.dataTransfer.files);
+      }}
+      onDragOver={e => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
       {...(photos.length === 0
         ? {
             border: '2px dashed',
@@ -146,11 +155,6 @@ export const PhotosUpload = () => {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          onDrop={e => {
-            e.preventDefault();
-            handleFiles(e.dataTransfer.files);
-          }}
-          onDragOver={e => e.preventDefault()}
         >
           <Heading size="md">Arrastrá tus fotos aquí</Heading>
           <Text fontSize="sm" color="gray.500" mt={2}>
@@ -164,11 +168,6 @@ export const PhotosUpload = () => {
             maxH="36rem"
             overflowY="auto"
             pr={2}
-            onDrop={e => {
-              e.preventDefault();
-              handleFiles(e.dataTransfer.files);
-            }}
-            onDragOver={e => e.preventDefault()}
           >
             <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={6}>
               {photos.map((photo, index) => (
