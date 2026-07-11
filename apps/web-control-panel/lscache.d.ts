@@ -8,3 +8,8 @@ declare module 'lscache' {
   };
   export default lscache;
 }
+
+declare module 'deep-extend' {
+  function deepExtend<T>(...args: any[]): T;
+  export default deepExtend;
+}
