@@ -28,8 +28,17 @@ export const uploadFile = async ({
   formData.append('keepOriginalName', keepOriginalName ? 'true' : 'false');
 
   try {
+    // Include auth token if available
+    const headers: Record<string, string> = {};
+    try {
+      const lscache = (await import('lscache')).default;
+      const token = lscache.get('firebase_token');
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+    } catch {}
+
     const res = await fetch(`/api/files/${path}/upload`, {
       method: 'POST',
+      headers,
       body: formData,
     });
 
