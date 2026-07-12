@@ -10,8 +10,9 @@ const themes: Record<string, Record<string, any>> = {
   AUTOPARTS: themeAutoparts,
   CLIMA: themeClima,
   TOOLS: themeTools,
+  NAMI: themeTools,
   ELECTRIC: themeElectric,
   ROBOTEC: themeRobotec,
 };
 
-export const theme = themes[getEnvId()];
+export const theme = themes[getEnvId()] || themeTools;
