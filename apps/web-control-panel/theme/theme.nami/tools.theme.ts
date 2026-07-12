@@ -49,6 +49,7 @@ export const theme: Record<string, any> = {
       login: {
         backgroundColorOne: primary,
         backgroundColorTwo: greyBg,
+        color: primary,
       },
       banner: {
         paginationColor: secondary,
