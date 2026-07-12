@@ -98,8 +98,9 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
     if (firebaseUid) {
       const fetchData = async () => {
         try {
-          // Step 4: Fetch user profile from BFF using Firebase UID
+          console.log('[useSignIn] Step 4: Fetching user for UID:', firebaseUid);
           const userData = await getUser(firebaseUid);
+          console.log('[useSignIn] User data received:', userData);
 
           if (userData) {
             lscache.set('user', userData);
@@ -108,7 +109,7 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
             setError('No se pudo obtener el usuario.');
           }
         } catch (err: any) {
-          console.error('Get user error:', err);
+          console.error('[useSignIn] Get user error:', err);
           setError(err.message || 'Error al obtener datos del usuario');
         } finally {
           setIsLoading(false);
