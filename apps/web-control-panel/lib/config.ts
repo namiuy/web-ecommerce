@@ -2,6 +2,8 @@
 export const config = {
   get apiBaseUrl() {
     const base = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.API_BASE_URL || ''
+    // If base already ends with /api, don't append API_PATH again
+    if (base.endsWith('/api')) return base
     const path = process.env.API_PATH || '/api'
     return `${base}${path}`
   },
