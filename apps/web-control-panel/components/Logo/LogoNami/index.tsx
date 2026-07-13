@@ -10,8 +10,9 @@ const logos: Record<string, any> = {
   AUTOPARTS: logoAutoparts,
   CLIMA: logoClima,
   TOOLS: logoTools,
+  NAMI: logoTools,
   ELECTRIC: logoElectric,
   ROBOTEC: logoRobotec,
 };
 
-export const Logo = logos[getEnvId()] || logoRobotec;
+export const Logo = logos[getEnvId()] || logoTools;
