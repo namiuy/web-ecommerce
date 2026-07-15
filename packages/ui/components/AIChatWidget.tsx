@@ -147,8 +147,8 @@ export const AIChatWidget = () => {
           pos="fixed"
           left="1rem"
           bottom="5rem"
-          w={{ base: 'calc(100vw - 2rem)', sm: '370px' }}
-          h={{ base: '60vh', sm: '480px' }}
+          w={{ base: 'calc(100vw - 2rem)', sm: '420px', md: '450px' }}
+          h={{ base: '70vh', sm: '550px', md: '600px' }}
           bg="white"
           borderRadius="xl"
           boxShadow="2xl"
@@ -210,7 +210,7 @@ export const AIChatWidget = () => {
                 mb="2"
               >
                 <Box
-                  maxW="80%"
+                  maxW="85%"
                   px="3"
                   py="2"
                   borderRadius="lg"
@@ -229,9 +229,20 @@ export const AIChatWidget = () => {
                   <Text fontSize="xs" fontWeight="bold" mb="0.5">
                     {msg.role === 'user' ? 'Tú' : msg.role === 'system' ? 'Sistema' : 'Nami IA'}
                   </Text>
-                  <Text fontSize="sm" whiteSpace="pre-wrap" wordBreak="break-word">
-                    {msg.content}
-                  </Text>
+                  <Box
+                    fontSize="sm"
+                    sx={{
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word',
+                      '& strong, & b': { fontWeight: 'bold' },
+                      lineHeight: '1.5',
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: msg.content
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br/>')
+                    }}
+                  />
                 </Box>
               </Flex>
             ))}
