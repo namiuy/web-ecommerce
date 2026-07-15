@@ -54,6 +54,7 @@ export * from './components/ProductSortBy';
 export * from './components/ImageModal';
 export * from './components/QuoteRequestButton';
 export * from './components/WhatsApp';
+export * from './components/AIChatWidget';
 export * from './components/Footer';
 export * from './components/ShoppingCartDrawer';
 export * from './components/OrderStatus';

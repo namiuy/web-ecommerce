@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
-import { ThemeProvider, WhatsApp } from 'ui';
+import { ThemeProvider, WhatsApp, AIChatWidget } from 'ui';
 import { theme } from '../theme/index';
 import ReactGA from 'react-ga4';
 import { getKeys, getEnvId } from 'shared';
@@ -33,6 +33,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
             <WhatsApp />
+            <AIChatWidget />
           </ThemeProvider>
         </ChakraProvider>
       </AppContextProvider>
