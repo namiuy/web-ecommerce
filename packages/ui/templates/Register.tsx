@@ -1,11 +1,10 @@
 import { Link, FormControl, FormLabel, Input, Select, FormErrorMessage, Progress, Icon } from '@chakra-ui/react';
 import { Box, Container, Heading, Button, Grid, GridItem, Text } from 'ui';
 import { Formik, Field } from 'formik';
-import { useState, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { useStateListWithoutCache } from 'shared/hooks/request/state';
-import { useCityList } from 'shared/hooks/request/city';
 import {
   validateEmpty,
   validateEmptySelect,
@@ -37,7 +36,18 @@ type RegisterProps = {
 
 export const Register = ({ Logo }: RegisterProps) => {
   const states = useStateListWithoutCache();
-  const cities = useCityList();
+  const [citiesData, setCitiesData] = useState<City[]>([]);
+  const [citiesLoading, setCitiesLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/cities')
+      .then(res => res.json())
+      .then(data => {
+        setCitiesData(Array.isArray(data) ? data : []);
+      })
+      .catch(() => setCitiesData([]))
+      .finally(() => setCitiesLoading(false));
+  }, []);
   const [password, setPassword] = useState('');
   const [selectedState, setSelectedState] = useState(null);
   const [registerProps, setRegisterProps] = useState<UserAdd>();
@@ -53,8 +63,8 @@ export const Register = ({ Logo }: RegisterProps) => {
   };
 
   const citiesSelect = (id: any) => {
-    return cities?.data?.map((city: City) =>
-      city.stateId === id ? (
+    return citiesData?.map((city: City) =>
+      String(city.stateId) === String(id) ? (
         <option key={city.id} value={city.id}>
           {city.name}
         </option>
@@ -291,7 +301,7 @@ export const Register = ({ Logo }: RegisterProps) => {
                           name="city"
                           type="text"
                           variant="filled"
-                          isDisabled={cities.isLoading || !selectedState || selectedState === '-1'}
+                          isDisabled={citiesLoading || !selectedState || selectedState === '-1'}
                           _focus={{ borderColor: 'primary.main' }}
                           validate={(value: any) => {
                             return validateEmptySelect(value) || validateEmptySelect(selectedState);
