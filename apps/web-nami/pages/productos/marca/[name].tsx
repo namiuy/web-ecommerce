@@ -6,17 +6,20 @@ import { NavBar, Footer } from '../../../components';
 import { Brand } from 'shared/entities/brand';
 
 const BrandPage: NextPage = () => {
-  const { asPath, query } = useRouter();
+  const { query } = useRouter();
   const { isLoading, data = [] } = useBrandList();
   const props = getProductPropsFromRouter(query);
-  const brand = data.find((b: Brand) => decodeURIComponent(asPath).toLowerCase().includes(b.path.toLowerCase()));
+
+  const brandName = typeof query.name === 'string' ? decodeURIComponent(query.name) : '';
+  const brand = data.find((b: Brand) => b.name.toLowerCase() === brandName.toLowerCase());
 
   return (
     <GaPage page="Brand">
       <>
         <Head />
         <NavBar />
-        {!isLoading && <ProductsTemplate {...props} brandId={brand && brand.id} />}
+        {!isLoading && brand && <ProductsTemplate {...props} brandId={brand.id} />}
+        {!isLoading && !brand && brandName && <ProductsTemplate {...props} />}
         <Footer />
       </>
     </GaPage>
