@@ -10,8 +10,9 @@ const BrandPage: NextPage = () => {
   const { isLoading, data = [] } = useBrandList();
   const props = getProductPropsFromRouter(query);
 
-  const brandName = typeof query.name === 'string' ? decodeURIComponent(query.name) : '';
-  const brand = data.find((b: Brand) => b.name.toLowerCase() === brandName.toLowerCase());
+  const rawName = typeof query.name === 'string' ? query.name : '';
+  const brandName = decodeURIComponent(rawName).trim();
+  const brand = data.find((b: Brand) => b.name.trim().toLowerCase() === brandName.toLowerCase());
 
   return (
     <GaPage page="Brand">
