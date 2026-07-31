@@ -6,21 +6,25 @@ import { NavBar, Footer } from '../../../components';
 import { Brand } from 'shared/entities/brand';
 
 const BrandPage: NextPage = () => {
-  const { query } = useRouter();
+  const { isReady, query } = useRouter();
   const { isLoading, data = [] } = useBrandList();
   const props = getProductPropsFromRouter(query);
 
   const rawName = typeof query.name === 'string' ? query.name : '';
   const brandName = decodeURIComponent(rawName).trim();
-  const brand = data.find((b: Brand) => b.name.trim().toLowerCase() === brandName.toLowerCase());
+
+  // Wait for router + brands to be ready before rendering products
+  const ready = isReady && !isLoading && data.length > 0;
+  const brand = ready
+    ? data.find((b: Brand) => b.name.trim().toLowerCase() === brandName.toLowerCase())
+    : undefined;
 
   return (
     <GaPage page="Brand">
       <>
         <Head />
         <NavBar />
-        {!isLoading && brand && <ProductsTemplate {...props} brandId={brand.id} />}
-        {!isLoading && !brand && brandName && <ProductsTemplate {...props} />}
+        {ready && <ProductsTemplate {...props} brandId={brand?.id} />}
         <Footer />
       </>
     </GaPage>
