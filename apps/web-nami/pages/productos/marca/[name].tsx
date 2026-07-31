@@ -1,30 +1,42 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { getProductPropsFromRouter, useBrandList } from 'shared';
+import { useState, useEffect } from 'react';
+import { getProductPropsFromRouter } from 'shared';
 import { GaPage, Head, ProductsTemplate } from 'ui';
 import { NavBar, Footer } from '../../../components';
-import { Brand } from 'shared/entities/brand';
 
 const BrandPage: NextPage = () => {
   const { isReady, query } = useRouter();
-  const { isLoading, data = [] } = useBrandList();
   const props = getProductPropsFromRouter(query);
+  const [brandId, setBrandId] = useState<number | undefined>(undefined);
+  const [resolved, setResolved] = useState(false);
 
   const rawName = typeof query.name === 'string' ? query.name : '';
-  const brandName = decodeURIComponent(rawName).trim();
 
-  // Wait for router + brands to be ready before rendering products
-  const ready = isReady && !isLoading && data.length > 0;
-  const brand = ready
-    ? data.find((b: Brand) => b.name.trim().toLowerCase() === brandName.toLowerCase())
-    : undefined;
+  useEffect(() => {
+    if (!isReady || !rawName) return;
+
+    const brandName = decodeURIComponent(rawName).trim().toLowerCase();
+
+    fetch('/api/brands')
+      .then(res => res.json())
+      .then(brands => {
+        const list = Array.isArray(brands) ? brands : (brands?.data || []);
+        const found = list.find((b: any) => (b.name || '').trim().toLowerCase() === brandName);
+        setBrandId(found?.id);
+        setResolved(true);
+      })
+      .catch(() => {
+        setResolved(true);
+      });
+  }, [isReady, rawName]);
 
   return (
     <GaPage page="Brand">
       <>
         <Head />
         <NavBar />
-        {ready && <ProductsTemplate {...props} brandId={brand?.id} />}
+        {resolved && <ProductsTemplate {...props} brandId={brandId} />}
         <Footer />
       </>
     </GaPage>
