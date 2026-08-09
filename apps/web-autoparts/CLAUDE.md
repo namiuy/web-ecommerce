@@ -6,7 +6,7 @@ E-commerce de autopartes Nami. Usa DOS backends.
 
 | Backend | URL prod | URL local | Para qué |
 |---------|----------|-----------|----------|
-| api_autoparts | https://api-autoparts-ec2.nami.com.uy | http://localhost:8083 | Productos, categorías, búsqueda, stock |
+| api_autoparts_v2 | https://api-autoparts-v2.nami.com.uy | http://localhost:8084 | Productos, categorías, búsqueda, stock |
 | api_ecommerce | https://api-ecommerce.nami.com.uy/api | http://localhost:8000/api | Carrito, auth Firebase, usuarios |
 
 ## Arquitectura de búsqueda
@@ -36,7 +36,7 @@ Variables de entorno requeridas en Amplify:
 ```
 ID=AUTOPARTS
 APP_NAME=Nami Autopartes
-NEXT_PUBLIC_AUTOPARTS_API_BASE_URL=https://api-autoparts-ec2.nami.com.uy
+NEXT_PUBLIC_AUTOPARTS_API_BASE_URL=https://api-autoparts-v2.nami.com.uy
 NEXT_PUBLIC_API_BASE_URL=https://api-ecommerce.nami.com.uy/api
 NEXT_PUBLIC_FIREBASE_API_KEY=...
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
@@ -59,7 +59,7 @@ cd web/apps/web-autoparts
 npm run dev    # puerto 3000
 ```
 
-Requiere api_autoparts en 8083 y api_ecommerce en 8000.
+Requiere api_autoparts_v2 en 8084 y api_ecommerce en 8000.
 
 ## Notas
 

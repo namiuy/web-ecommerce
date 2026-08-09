@@ -316,7 +316,7 @@ module.exports = {
   reactStrictMode: true,
   transpilePackages: ['shared', 'ui'],
   env: {
-    NEXT_PUBLIC_AUTOPARTS_API_BASE_URL: process.env.NEXT_PUBLIC_AUTOPARTS_API_BASE_URL || 'https://api-autoparts-ec2.nami.com.uy',
+    NEXT_PUBLIC_AUTOPARTS_API_BASE_URL: process.env.NEXT_PUBLIC_AUTOPARTS_API_BASE_URL || 'https://api-autoparts-v2.nami.com.uy',
   },
   publicRuntimeConfig: {
     envId: ID,
