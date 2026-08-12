@@ -131,7 +131,7 @@ export const Register = ({ Logo }: RegisterProps) => {
               validateOnChange={false}
               validateOnBlur={false}
             >
-              {({ handleSubmit, errors }) => (
+              {({ handleSubmit, errors, setFieldValue }) => (
                 <form onSubmit={handleSubmit}>
                   <Grid gridTemplateAreas={_gridTemplateAreas} gap="1rem">
                     <GridItem gridArea="first_name">
@@ -273,7 +273,10 @@ export const Register = ({ Logo }: RegisterProps) => {
                           as={Select}
                           disabled={isLoading}
                           onChange={(e: any) => {
-                            setSelectedState(e.target.value);
+                            const val = e.target.value;
+                            setSelectedState(val);
+                            setFieldValue('state', val);
+                            setFieldValue('city', '');
                           }}
                           value={selectedState}
                           id="state"
