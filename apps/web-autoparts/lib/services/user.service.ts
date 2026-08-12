@@ -10,6 +10,7 @@ type RegisterUserData = {
   phone?: string;
   address?: string;
   city?: string;
+  firebase_token?: string;
 };
 
 type UserResponse = {
@@ -42,9 +43,14 @@ export async function registerUser(userData: RegisterUserData): Promise<{ succes
 
   console.log('[user.service] Syncing user to backend...');
   // config.apiBaseUrl already includes /api path
+  // Pass firebase_token if available (sync-user requires Bearer token)
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (userData.firebase_token) {
+    headers['Authorization'] = `Bearer ${userData.firebase_token}`;
+  }
   const syncResponse = await fetch(`${config.apiBaseUrl}/auth/sync-user`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(syncUserData),
   });
 

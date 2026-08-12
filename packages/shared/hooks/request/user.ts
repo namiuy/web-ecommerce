@@ -142,7 +142,8 @@ export const useAddUser = (props?: UserAdd): Result<boolean> => {
           // Step 3: Create user profile in BFF/FastAPI with Firebase UID
           const userDataForBFF = {
             ...props,
-            uid: firebaseUser.uid, // Send Firebase UID to BFF
+            uid: firebaseUser.uid,
+            firebase_token: token, // Pass token for sync-user auth
           };
 
           const result = await addUser(userDataForBFF);
