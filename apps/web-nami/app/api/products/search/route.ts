@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     const filters: { brand?: number; category?: string; words?: string[] } = {}
     if (brand) filters.brand = parseInt(brand)
     if (category) filters.category = category
-    if (words) filters.words = words.split(',')
+    if (words) filters.words = words.split(/[\s,]+/).filter(w => w.length > 0)
 
     const result = await searchProducts(filters, sortBy, index, token)
     return Response.json(result)
