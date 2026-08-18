@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
 import { ThemeProvider, WhatsApp, AIChatWidget } from 'ui';
@@ -18,9 +19,17 @@ if (googleGaMeasurementId) {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
+
   useEffect(() => {
     fetch(`${config.autopartsApiBaseUrl}/api/log-visit?source=web-autoparts`, { method: 'POST' }).catch(() => {});
   }, []);
+
+  const handleProductSearch = useCallback((query: string) => {
+    setTimeout(() => {
+      router.push(`/productos?t=${encodeURIComponent(query)}`);
+    }, 1500);
+  }, [router]);
 
   return (
     <>
@@ -33,7 +42,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
             <WhatsApp />
-            <AIChatWidget />
+            <AIChatWidget onProductSearch={handleProductSearch} />
           </ThemeProvider>
         </ChakraProvider>
       </AppContextProvider>

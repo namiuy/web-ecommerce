@@ -16,9 +16,13 @@ interface ChatMessage {
   content: string;
 }
 
+interface AIChatWidgetProps {
+  onProductSearch?: (query: string) => void;
+}
+
 const WS_URL = 'wss://ia.nami.com.uy';
 
-export const AIChatWidget = () => {
+export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -55,6 +59,9 @@ export const AIChatWidget = () => {
         } else if (data.type === 'message') {
           setMessages((prev) => [...prev, { role: 'assistant', content: data.content }]);
           setLoading(false);
+          if (data.search_query && onProductSearch) {
+            onProductSearch(data.search_query);
+          }
         } else if (data.type === 'error') {
           setMessages((prev) => [...prev, { role: 'system', content: data.message }]);
           setLoading(false);
