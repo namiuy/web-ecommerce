@@ -4,12 +4,11 @@ import { Head } from 'ui';
 import { AutopartsTemplate } from '../../components/AutopartsTemplate';
 import { NavBar } from '../../components';
 import { getAutopartPropsFromRouter } from 'shared';
-import { AutopartsSearch } from '../../components/AutopartsSearch';
+import { BusquedaTotalSearch } from '../../components/busqueda-total';
 
 const AutopartsPage: NextPage = () => {
   const { query, isReady } = useRouter();
 
-  // Don't render anything until router is ready to avoid flash
   if (!isReady) {
     return (
       <>
@@ -20,13 +19,13 @@ const AutopartsPage: NextPage = () => {
   }
 
   const props = getAutopartPropsFromRouter(query);
-  const hasQueryParams = !!props?.brandId || !!props?.categoryId || !!props?.brandName || !!props?.categoryName || !!props?.modelName || !!props?.text || !!props?.code || !!props?.dims;
+  const hasDimsParams = !!props?.dims;
 
   return (
     <>
       <Head />
       <NavBar />
-      {hasQueryParams ? <AutopartsTemplate {...props} /> : <AutopartsSearch />}
+      {hasDimsParams ? <AutopartsTemplate {...props} /> : <BusquedaTotalSearch initialQuery={query as Record<string, string>} />}
     </>
   );
 };

@@ -1,0 +1,1 @@
+export { BusquedaTotalSearch } from './BusquedaTotalSearch';
