@@ -348,26 +348,38 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
           {/* Search form */}
           <Box bg="white" borderRadius="lg" shadow="sm" p={4} mb={4} border="1px solid" borderColor="gray.200">
             <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={3} mb={3}>
-              <Select
-                size="sm" placeholder="Pieza" value={selectedPart}
-                onChange={(e) => handlePartChange(e.target.value)}
-              >
-                {partTypes.map(p => <option key={p.id} value={p.label}>{p.label}</option>)}
-              </Select>
-              <Select
-                size="sm" placeholder="Marca" value={selectedPiezaBrand}
-                onChange={(e) => handlePiezaBrandChange(e.target.value)}
-                disabled={loadingPiezaBrands}
-              >
-                {piezaBrands.map(b => <option key={b} value={b}>{b}</option>)}
-              </Select>
-              <Select
-                size="sm" placeholder="Modelo" value={selectedPiezaModel}
-                onChange={(e) => handlePiezaModelChange(e.target.value)}
-                disabled={!selectedPiezaBrand || loadingPiezaModels}
-              >
-                {piezaModels.map(m => <option key={m} value={m}>{m}</option>)}
-              </Select>
+              <Box>
+                <Text fontSize="xs" fontWeight="bold" mb={1} color="gray.600">Tipo Producto</Text>
+                <Select
+                  size="sm" value={selectedPart}
+                  onChange={(e) => handlePartChange(e.target.value)}
+                >
+                  <option value="">Todos</option>
+                  {partTypes.map(p => <option key={p.id} value={p.label}>{p.label}</option>)}
+                </Select>
+              </Box>
+              <Box>
+                <Text fontSize="xs" fontWeight="bold" mb={1} color="gray.600">Marca</Text>
+                <Select
+                  size="sm" value={selectedPiezaBrand}
+                  onChange={(e) => handlePiezaBrandChange(e.target.value)}
+                  disabled={loadingPiezaBrands}
+                >
+                  <option value="">Todas</option>
+                  {piezaBrands.map(b => <option key={b} value={b}>{b}</option>)}
+                </Select>
+              </Box>
+              <Box>
+                <Text fontSize="xs" fontWeight="bold" mb={1} color="gray.600">Modelo Madre</Text>
+                <Select
+                  size="sm" value={selectedPiezaModel}
+                  onChange={(e) => handlePiezaModelChange(e.target.value)}
+                  disabled={!selectedPiezaBrand || loadingPiezaModels}
+                >
+                  <option value="">Todos</option>
+                  {piezaModels.map(m => <option key={m} value={m}>{m}</option>)}
+                </Select>
+              </Box>
               <Flex gap={1}>
                 <Input
                   size="sm" placeholder="Codigo (Nami, proveedor u original...)"
