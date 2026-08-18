@@ -10,6 +10,19 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ChatIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons';
+import { Icon } from '@chakra-ui/react';
+
+const MicIcon = (props: any) => (
+  <Icon viewBox="0 0 24 24" {...props}>
+    <path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+  </Icon>
+);
+
+const StopIcon = (props: any) => (
+  <Icon viewBox="0 0 24 24" {...props}>
+    <path fill="currentColor" d="M6 6h12v12H6z"/>
+  </Icon>
+);
 
 interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -21,6 +34,7 @@ interface AIChatWidgetProps {
 }
 
 const WS_URL = 'wss://ia.nami.com.uy';
+const API_URL = 'https://ia.nami.com.uy';
 
 export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -28,10 +42,14 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [connected, setConnected] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [transcribing, setTranscribing] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const sessionIdRef = useRef(`web_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`);
   const reconnectRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -121,6 +139,53 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
+    }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      chunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunksRef.current.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach(track => track.stop());
+        const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
+        if (audioBlob.size < 1000) return; // Ignorar grabaciones muy cortas
+
+        setTranscribing(true);
+        try {
+          const formData = new FormData();
+          formData.append('file', audioBlob, 'audio.webm');
+          const res = await fetch(`${API_URL}/api/transcribe`, { method: 'POST', body: formData });
+          const data = await res.json();
+          if (data.text && data.text.trim()) {
+            setInput(data.text.trim());
+          }
+        } catch (err) {
+          console.error('Error transcribing:', err);
+        } finally {
+          setTranscribing(false);
+        }
+      };
+
+      mediaRecorder.start();
+      mediaRecorderRef.current = mediaRecorder;
+      setRecording(true);
+    } catch (err) {
+      console.error('Error accessing microphone:', err);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current = null;
+      setRecording(false);
     }
   };
 
@@ -266,11 +331,20 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
             <Flex gap="2">
               <Input
                 size="sm"
-                placeholder={connected ? 'Escribe tu consulta...' : 'Conectando...'}
+                placeholder={transcribing ? 'Transcribiendo...' : connected ? 'Escribe tu consulta...' : 'Conectando...'}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                disabled={!connected || loading}
+                disabled={!connected || loading || transcribing}
+                borderRadius="lg"
+              />
+              <IconButton
+                aria-label={recording ? 'Detener' : 'Micrófono'}
+                icon={recording ? <StopIcon /> : <MicIcon />}
+                size="sm"
+                colorScheme={recording ? 'red' : 'gray'}
+                onClick={recording ? stopRecording : startRecording}
+                isDisabled={!connected || loading || transcribing}
                 borderRadius="lg"
               />
               <IconButton
