@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, Fragment } from 'react';
 import {
   Box, Text, Flex, Select, Input, Button, Spinner, Badge, Image,
   Table, Thead, Tbody, Tr, Th, Td, IconButton, Collapse, SimpleGrid,
-  HStack, VStack, Alert, AlertIcon,
+  HStack, Alert, AlertIcon,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon, ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
@@ -12,10 +12,11 @@ import {
   smartSearch, searchByCode, searchByBrandModel,
   getFamiliaById, fetchStockDetail, getImageUrl,
 } from '../../lib/services/parque.service';
-import type { UnifiedResult, FamiliaMatch, FamiliaProviderRow, PartType, StockDetail } from './types';
+import type { UnifiedResult, FamiliaMatch, FamiliaProviderRow, PartType } from './types';
 import { DimensionsSearch } from '../DimensionsSearch';
 
 const PAGE_SIZE = 40;
+const DOLAR_RATE = 43.5;
 
 interface BusquedaTotalSearchProps {
   initialQuery?: Record<string, string | string[] | undefined>;
@@ -93,7 +94,7 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
       id: item.id, familyId: item.id,
       code: item.code || '', family: item.family || '', category: item.category || '',
       vehicle: item.model || '', motor: item.vehicle_type || '',
-      price: item.price || 0, brand: item.brand || '',
+      price: (item.price || 0) * DOLAR_RATE, brand: item.brand || '',
       year, origen: (item.origen || '').trim(),
     };
   });
@@ -236,7 +237,7 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
           id: item.id, familyId: item.id,
           code: item.code || '', family: item.family || '', category: item.category || '',
           vehicle: item.model || '', motor: item.vehicle_type || '',
-          price: item.price || 0, brand: item.brand || '',
+          price: (item.price || 0) * DOLAR_RATE, brand: item.brand || '',
           year, origen: (item.origen || '').trim(),
         };
       }));
@@ -557,7 +558,7 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
                                                       </Td>
                                                       <Td isNumeric>
                                                         <Text fontSize="sm" fontWeight="bold">
-                                                          ${Math.round(prov.PrecioLista).toLocaleString()}
+                                                          ${Math.round((prov.PrecioLista || 0) * DOLAR_RATE).toLocaleString()}
                                                         </Text>
                                                       </Td>
                                                       <Td textAlign="center">
