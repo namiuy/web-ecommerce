@@ -72,11 +72,11 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
   // Reset page when results, filter or text change
   useEffect(() => { setPage(0); }, [results, filterCategory, filterText]);
 
-  // Handle initial query from URL
+  // Handle query from URL (initial + NavBar search changes)
   useEffect(() => {
-    if (!initialQuery) return;
-    const t = initialQuery.t ? String(initialQuery.t) : '';
-    const code = initialQuery.code ? String(initialQuery.code) : '';
+    if (!router.isReady) return;
+    const t = router.query.t ? String(router.query.t) : '';
+    const code = router.query.code ? String(router.query.code) : '';
     if (t) {
       setFilterText(t);
       doSearch('', '', '', t);
@@ -84,7 +84,7 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
       setFamilyCode(code);
       searchByCodigoFn(code);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [router.query.t, router.query.code]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // --- Mappers ---
   const mapSmartResults = (data: any[]): UnifiedResult[] => data.map((item: any) => {
