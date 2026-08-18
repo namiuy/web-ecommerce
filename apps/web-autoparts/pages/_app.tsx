@@ -42,7 +42,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
             <WhatsApp />
-            {/* <AIChatWidget onProductSearch={handleProductSearch} /> */}
+            <AIChatWidget onProductSearch={handleProductSearch} />
           </ThemeProvider>
         </ChakraProvider>
       </AppContextProvider>
