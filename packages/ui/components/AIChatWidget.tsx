@@ -331,13 +331,14 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
             <Flex gap="2">
               <Input
                 size="sm"
-                placeholder={transcribing ? 'Transcribiendo...' : connected ? 'Escribe tu consulta...' : 'Conectando...'}
+                placeholder={connected ? 'Escribe tu consulta...' : 'Conectando...'}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                disabled={!connected || loading || transcribing}
+                disabled={!connected || loading}
                 borderRadius="lg"
               />
+              {/* Micrófono desactivado temporalmente
               <IconButton
                 aria-label={recording ? 'Detener' : 'Micrófono'}
                 icon={recording ? <StopIcon /> : <MicIcon />}
@@ -347,6 +348,7 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
                 isDisabled={!connected || loading || transcribing}
                 borderRadius="lg"
               />
+              */}
               <IconButton
                 aria-label="Enviar"
                 icon={<ChatIcon />}
