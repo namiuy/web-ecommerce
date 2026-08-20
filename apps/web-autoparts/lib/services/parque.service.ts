@@ -50,7 +50,7 @@ export const smartSearch = async (query: string, limit = 500, tipo_producto?: st
   return res.json();
 };
 
-export const searchByCode = async (code: string, limit = 500): Promise<any[]> => {
+export const searchByCode = async (code: string, limit = 200): Promise<any[]> => {
   const res = await fetch(`${API()}/api/productos/buscar-parcial/${encodeURIComponent(code)}?limit=${limit}`);
   const data = await res.json();
   return data.productos || data || [];

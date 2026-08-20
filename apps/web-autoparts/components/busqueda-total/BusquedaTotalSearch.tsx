@@ -18,11 +18,7 @@ import { DimensionsSearch } from '../DimensionsSearch';
 const PAGE_SIZE = 40;
 const DOLAR_RATE = 43.5;
 
-interface BusquedaTotalSearchProps {
-  initialQuery?: Record<string, string | string[] | undefined>;
-}
-
-export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) => {
+export const BusquedaTotalSearch = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'vehiculo' | 'dimensiones'>('vehiculo');
 
@@ -229,7 +225,7 @@ export const BusquedaTotalSearch = ({ initialQuery }: BusquedaTotalSearchProps) 
     setLoading(true); setError(null); setExpandedId(null); setFilterCategory('');
     setSearchSource('Codigo');
     try {
-      const data = await searchByCode(c, 500);
+      const data = await searchByCode(c, 200);
       setResults((data || []).map((item: any) => {
         const y1 = item.year_from; const y2 = item.year_to;
         const year = y1 && y2 ? `${y1}-${y2}` : y1 ? `${y1}-` : y2 ? `-${y2}` : (item.ano || '').toString().trim();

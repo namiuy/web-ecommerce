@@ -25,7 +25,7 @@ const AutopartsPage: NextPage = () => {
     <>
       <Head />
       <NavBar />
-      {hasDimsParams ? <AutopartsTemplate {...props} /> : <BusquedaTotalSearch initialQuery={query as Record<string, string>} />}
+      {hasDimsParams ? <AutopartsTemplate {...props} /> : <BusquedaTotalSearch />}
     </>
   );
 };
