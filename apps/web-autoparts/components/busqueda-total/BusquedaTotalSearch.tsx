@@ -472,7 +472,6 @@ export const BusquedaTotalSearch = () => {
                           <Th>Marca</Th>
                           <Th w="30px">Or</Th>
                           <Th>Ano</Th>
-                          <Th>Precio</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
@@ -512,18 +511,11 @@ export const BusquedaTotalSearch = () => {
                                   </Text>
                                 </Td>
                                 <Td fontSize="sm">{item.year || '-'}</Td>
-                                <Td>
-                                  {item.price > 0 && (
-                                    <Text fontSize="sm" fontWeight="bold">
-                                      ${Math.round(item.price).toLocaleString()}
-                                    </Text>
-                                  )}
-                                </Td>
                               </Tr>
 
                               {/* Expansion row */}
                               <Tr>
-                                <Td colSpan={9} p={0} border={expandedId === fId ? undefined : 'none'}>
+                                <Td colSpan={8} p={0} border={expandedId === fId ? undefined : 'none'}>
                                   <Collapse in={expandedId === fId} animateOpacity>
                                     <Box p={4} bg="gray.50">
                                       {loadingFamily ? (
