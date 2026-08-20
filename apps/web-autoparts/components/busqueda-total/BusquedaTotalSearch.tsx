@@ -467,7 +467,6 @@ export const BusquedaTotalSearch = () => {
                           <Th w="40px"></Th>
                           <Th>Tipo</Th>
                           <Th>Codigo</Th>
-                          <Th>Familia</Th>
                           <Th>Vehiculo</Th>
                           <Th>Marca</Th>
                           <Th w="30px">Or</Th>
@@ -498,10 +497,7 @@ export const BusquedaTotalSearch = () => {
                                   )}
                                 </Td>
                                 <Td>
-                                  <Text fontSize="sm" fontWeight="bold" fontFamily="mono">{item.code}</Text>
-                                </Td>
-                                <Td>
-                                  <Text fontSize="sm" fontFamily="mono">{item.family || '-'}</Text>
+                                  <Text fontSize="sm" fontWeight="bold" fontFamily="mono">{item.family || item.code}</Text>
                                 </Td>
                                 <Td fontSize="sm">{item.vehicle || '-'}</Td>
                                 <Td fontSize="sm">{item.brand || '-'}</Td>
@@ -515,7 +511,7 @@ export const BusquedaTotalSearch = () => {
 
                               {/* Expansion row */}
                               <Tr>
-                                <Td colSpan={8} p={0} border={expandedId === fId ? undefined : 'none'}>
+                                <Td colSpan={7} p={0} border={expandedId === fId ? undefined : 'none'}>
                                   <Collapse in={expandedId === fId} animateOpacity>
                                     <Box p={4} bg="gray.50">
                                       {loadingFamily ? (
