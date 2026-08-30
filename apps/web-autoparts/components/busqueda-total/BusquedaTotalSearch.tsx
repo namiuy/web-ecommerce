@@ -27,6 +27,7 @@ export const BusquedaTotalSearch = () => {
   const [piezaBrands, setPiezaBrands] = useState<string[]>([]);
   const [piezaModels, setPiezaModels] = useState<string[]>([]);
   const [selectedPart, setSelectedPart] = useState('');
+  const [showAllParts, setShowAllParts] = useState(false);
   const [selectedPiezaBrand, setSelectedPiezaBrand] = useState('');
   const [selectedPiezaModel, setSelectedPiezaModel] = useState('');
   const [loadingPiezaBrands, setLoadingPiezaBrands] = useState(false);
@@ -61,7 +62,7 @@ export const BusquedaTotalSearch = () => {
 
   // Load parts and brands on mount
   useEffect(() => {
-    getParqueParts().then(data => setPartTypes(data || [])).catch(() => {});
+    getParqueParts(true).then(data => setPartTypes(data || [])).catch(() => {});
     getParqueAllBrands().then(data => setPiezaBrands(data || [])).catch(() => {});
   }, []);
 
@@ -348,10 +349,19 @@ export const BusquedaTotalSearch = () => {
                 <Text fontSize="xs" fontWeight="bold" mb={1} color="gray.600">Tipo Producto</Text>
                 <Select
                   size="sm" value={selectedPart}
-                  onChange={(e) => handlePartChange(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value === '__toggle__') {
+                      setShowAllParts(prev => !prev);
+                      e.target.value = selectedPart;
+                      return;
+                    }
+                    handlePartChange(e.target.value);
+                  }}
                 >
                   <option value="">Todos</option>
-                  {partTypes.map(p => <option key={p.id} value={p.label}>{p.label}</option>)}
+                  {partTypes.filter(p => p.main).map(p => <option key={p.id} value={p.label}>{p.label}</option>)}
+                  <option value="__toggle__">{showAllParts ? '▲ Menos tipos' : '▼ Más tipos'}</option>
+                  {showAllParts && partTypes.filter(p => !p.main).map(p => <option key={p.id} value={p.label}>{p.label}</option>)}
                 </Select>
               </Box>
               <Box>

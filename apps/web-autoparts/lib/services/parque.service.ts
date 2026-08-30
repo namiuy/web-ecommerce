@@ -6,8 +6,9 @@ const S3_BASE = 'https://nami-uy.s3.sa-east-1.amazonaws.com/products';
 
 // --- Parque (cascade dropdowns) ---
 
-export const getParqueParts = async (): Promise<{ id: number; label: string }[]> => {
-  const res = await fetch(`${API()}/parque/parts`);
+export const getParqueParts = async (all = false): Promise<{ id: number; label: string; main?: boolean }[]> => {
+  const url = all ? `${API()}/parque/parts?all=true` : `${API()}/parque/parts`;
+  const res = await fetch(url);
   return res.json();
 };
 

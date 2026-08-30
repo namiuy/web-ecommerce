@@ -41,4 +41,5 @@ export interface FamiliaMatch {
 export interface PartType {
   id: number;
   label: string;
+  main?: boolean;
 }
