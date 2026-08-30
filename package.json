@@ -9,11 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:cp": "turbo run dev --filter=web-control-panel",
-    "dev:credi": "turbo run dev --filter=web-credibikerss",
     "dev:nami": "turbo run dev --filter=web-nami",
-    "dev:nexlab": "turbo run dev --filter=web-nexlab",
-    "dev:nexlab-control": "turbo run dev --filter=web-nexlab-control",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
