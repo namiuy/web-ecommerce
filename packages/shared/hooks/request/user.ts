@@ -7,7 +7,7 @@ import lscache from 'lscache';
 import { UserRestorePwd1 } from '../../entities/user-restore-pwd-1';
 import { UserRestorePwd2 } from '../../entities/user-restore-pwd-2';
 import { UserChangePwd } from '../../entities/user-change-pwd';
-import { firebaseSignIn, firebaseSignUp } from '../../services/firebase';
+import { firebaseSignIn, firebaseSignUp, firebaseSignInWithGoogle } from '../../services/firebase';
 
 type SignInProps = {
   email: string;
@@ -121,6 +121,74 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
   }, [firebaseUid]);
 
   return { isLoading, data: user, error };
+};
+
+export const useSignInWithGoogle = (): {
+  signIn: () => void;
+  isLoading: boolean;
+  data?: User;
+  error?: string;
+} => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User>();
+  const [error, setError] = useState<string>();
+
+  const signIn = async () => {
+    setIsLoading(true);
+    setError(undefined);
+    try {
+      // Step 1: Google popup login
+      const { user: firebaseUser, token } = await firebaseSignInWithGoogle();
+      lscache.set('firebase_token', token);
+
+      // Step 2: Try to get user from backend
+      let userData: any;
+      try {
+        userData = await getUser(firebaseUser.uid);
+      } catch {
+        userData = null;
+      }
+
+      // Step 3: If user doesn't exist in DB, sync them
+      if (!userData || userData.needs_sync || userData.error) {
+        console.log('[useSignInWithGoogle] User needs sync, calling sync-user...');
+        const syncBody = {
+          firebase_uid: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          role: 'customer',
+          full_name: firebaseUser.displayName || '',
+        };
+        const syncRes = await post<any>('/api/users', {
+          body: JSON.stringify({ ...syncBody, firebase_token: token }),
+        });
+        if (syncRes.error) {
+          console.warn('[useSignInWithGoogle] Sync warning:', syncRes.error);
+        }
+        // Fetch user again after sync
+        userData = await getUser(firebaseUser.uid);
+      }
+
+      if (userData && !userData.error) {
+        lscache.set('user', userData);
+        setUser(userData);
+      } else {
+        setError('No se pudo obtener el usuario después del registro.');
+      }
+    } catch (err: any) {
+      console.error('[useSignInWithGoogle] Error:', err);
+      const code = err?.code || '';
+      if (code === 'auth/popup-closed-by-user') {
+        // User closed the popup, not an error
+        setError(undefined);
+      } else {
+        setError(err.message || 'Error al iniciar sesión con Google');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { signIn, isLoading, data: user, error };
 };
 
 export const useAddUser = (props?: UserAdd): Result<boolean> => {
