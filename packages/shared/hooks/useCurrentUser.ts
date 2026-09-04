@@ -90,8 +90,9 @@ export const useCurrentUser = () => {
           setUser(null);
         }
       } else {
-        // User is signed out
+        // User is signed out — clear all cached auth data
         lscache.remove('user');
+        lscache.remove('firebase_token');
         setUser(null);
       }
       setIsLoading(false);

@@ -13,7 +13,8 @@ const refreshToken = async (): Promise<string | null> => {
   } catch {
     // Firebase not available, fall through to lscache
   }
-  return lscache.get('firebase_token');
+  // No fallback to cached token — it could belong to a different user
+  return null;
 };
 
 const getRequestInit = async (
