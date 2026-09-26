@@ -248,6 +248,7 @@ export const Checkout = () => {
               totalAmount={totalAmount}
               shippingPrice={shippingPrice}
               handleCheckout={handleCheckout}
+              paymentMethod={paymentMethod}
             />
           </GridItem>
         </Grid>

@@ -17,6 +17,7 @@ const {
   PAYMENT_METHODS,
   NAVBAR_MESSAGE,
   BANNER_LIMIT,
+  NEXT_PUBLIC_PAYPAL_CLIENT_ID,
 } = process.env;
 
 const multiDomainItemsHrefProd = {
@@ -260,6 +261,11 @@ const paymentMethods = [
     name: 'Abitab',
     description: 'Debes girar a nombre de: Maria Fernanda Varela CI 1977433-7',
   },
+  {
+    id: 'PAYPAL',
+    name: 'PayPal',
+    description: 'Pagar con tu cuenta PayPal o tarjeta de crédito/débito',
+  },
 ];
 
 const availablePaymentMethods = paymentMethods.filter(method => enabledPaymentMethods.includes(method.id));
@@ -355,6 +361,7 @@ module.exports = {
     shippingMethods,
     navbarMessage: NAVBAR_MESSAGE,
     bannerLimit: BANNER_LIMIT ? parseInt(BANNER_LIMIT) : 0,
+    paypalClientId: NEXT_PUBLIC_PAYPAL_CLIENT_ID || '',
     keys: {
       googleMapsApiKey: GOOGLE_MAP_API_KEY,
       googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,
