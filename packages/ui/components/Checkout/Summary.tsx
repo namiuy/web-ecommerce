@@ -10,7 +10,7 @@ type SummaryProps = {
   page: number;
   totalAmount: number;
   shippingPrice: number;
-  handleCheckout: () => void;
+  handleCheckout: (paymentTransactionId?: string) => void;
   isLoading: boolean;
   paymentMethod?: string;
 };
@@ -78,7 +78,7 @@ export const Summary = ({
         });
         const captureData = await res.json();
         if (captureData.status === 'COMPLETED') {
-          handleCheckout();
+          handleCheckout(captureData.transaction_id);
         } else {
           alert('Error al procesar el pago con PayPal');
         }
@@ -137,7 +137,7 @@ export const Summary = ({
               color="white"
               _hover={{ backgroundColor: 'secondary.main' }}
               isDisabled={page !== 4 || isLoadingCheckout}
-              onClick={handleCheckout}
+              onClick={() => handleCheckout()}
             >
               {isLoadingCheckout ? <Spinner size="sm" /> : 'FINALIZAR COMPRA'}
             </Button>

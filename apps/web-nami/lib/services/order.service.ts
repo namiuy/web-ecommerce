@@ -35,7 +35,7 @@ export async function listAllOrders(token: string): Promise<{ orders: Order[]; c
 }
 
 export async function checkout(
-  data: { shippingId: string; paymentId: string; addressIdx: number; observation?: string },
+  data: { shippingId: string; paymentId: string; addressIdx: number; observation?: string; paymentTransactionId?: string },
   token: string,
 ): Promise<Order> {
   const response = await apiFetch<any>('/cart/checkout', {
@@ -45,6 +45,7 @@ export async function checkout(
       payment_id: data.paymentId,
       address_idx: data.addressIdx,
       observation: data.observation,
+      payment_transaction_id: data.paymentTransactionId,
     },
     token,
   })

@@ -3,4 +3,5 @@ export type Checkout = {
   paymentId: string;
   addressIdx: number;
   observation: string;
+  paymentTransactionId?: string;
 };

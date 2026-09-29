@@ -177,12 +177,13 @@ export const Checkout = () => {
     }
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = (paymentTransactionId?: string) => {
     setCheckoutValues({
       shippingId: shippingMethod,
       paymentId: paymentMethod,
       addressIdx: address,
       observation,
+      paymentTransactionId,
     });
   };
 
