@@ -1,6 +1,7 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react';
-import { ElementType } from 'react';
-import { getMultiDomainItems, getMenuItems } from 'shared/env';
+import { ElementType, ReactNode } from 'react';
+import { multiDomainItems } from 'shared/env';
+import { menuItems } from 'shared/env';
 import NavBarDesktopFull from './NavBarDesktopFull';
 import NavBarMobile from './NavBarMobile';
 import NavBarDesktopSimple from './NavBarDesktopSimple';
@@ -24,9 +25,11 @@ export type NavBarProps = {
   multiDomainItems?: Array<MultiDomainItem>;
   menuItems?: Array<MenuItem>;
   fixed?: boolean;
+  sticky?: boolean;
   simple?: boolean;
   hover?: boolean;
-  disableCategoriesPopover?: boolean;
+  extraActions?: ReactNode;
+  spacer?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {
@@ -35,20 +38,22 @@ export const NavBar = (props: NavBarProps) => {
     lg: true,
   });
 
-  const { fixed, simple } = props;
-  const multiDomainItems = getMultiDomainItems();
-  const menuItems = getMenuItems();
+  const { fixed, sticky, simple, spacer } = props;
 
   const NavBarDesktop = simple ? NavBarDesktopSimple : NavBarDesktopFull;
 
   const NavBarDisplay = isLg ? NavBarDesktop : NavBarMobile;
 
+  const position = sticky ? 'sticky' : fixed ? 'fixed' : 'static';
+  const showSpacer = spacer ?? (simple && !sticky);
+  const needsTop = sticky || fixed;
+
   return (
     <>
-      <Box w="100%" zIndex="999" position={fixed ? 'fixed' : 'static'}>
+      <Box w="100%" zIndex="9999" position={position} {...(needsTop ? { top: '0' } : {})}>
         <NavBarDisplay {...props} multiDomainItems={multiDomainItems} menuItems={menuItems} />
       </Box>
-      {simple && <Box h="6rem" bg="black" />}
+      {showSpacer && <Box h="6rem" bg="black" />}
     </>
   );
 };

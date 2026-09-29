@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { Box, Flex, Image, Link, Badge } from '@chakra-ui/react';
 import { Product } from 'shared/entities/product';
 import { Card, Text, Skeleton } from 'ui';
@@ -83,7 +84,7 @@ export const ProductCard = ({ min = false, isLoading = false, product }: Product
   const productHasVideo = hasVideo();
 
   return (
-    <Link href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
+    <Link as={NextLink} href={`/productos/${id}`} display="contents" _hover={{ textDecoration: 'none' }}>
       <Card minW={_minW} maxW={_maxW} mt={_mt} p={_p} size="sm" _hover={{ boxShadow: boxShadowMd }}>
         <Flex direction="column" justifyContent="space-between">
           <Box mb={_imageMb} position="relative">

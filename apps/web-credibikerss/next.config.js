@@ -1,0 +1,157 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
+
+const {
+  APP_NAME,
+  BFF_URL,
+  GOOGLE_MAP_API_KEY,
+  PRODUCT_CARD_PRICE_TYPE,
+  PRODUCT_CARD_CODE,
+  PRODUCT_DETAIL_PRICE_TYPE,
+  PRODUCT_DETAIL_RELATED_PRODUCTS,
+  PRODUCT_DETAIL_STOCK,
+  SITE_HOST,
+  GOOGLE_GA_MEASUREMENT_ID,
+  CART_ENABLED,
+  AUTH_ENABLED,
+} = process.env;
+
+const menuItems = [
+  {
+    id: 'index',
+    text: 'Inicio',
+    href: '/',
+  },
+  {
+    id: 'products',
+    text: 'Productos',
+    href: '/productos',
+  },
+  {
+    id: 'company',
+    text: 'Empresa',
+    href: '/empresa',
+  },
+  {
+    id: 'contact',
+    text: 'Sucursales',
+    href: '/sucursales',
+  },
+];
+
+const socialNeworksItems = [
+  {
+    id: 'facebook',
+    href: 'https://www.facebook.com/Credibikerss',
+  },
+  {
+    id: 'instagram',
+    href: 'https://www.instagram.com/credibikerss',
+  },
+  {
+    id: 'tiktok',
+    href: 'https://www.tiktok.com/@credibikerss',
+  },
+  {
+    id: 'whatsapp',
+    href: '/',
+  },
+];
+
+const multiDomainItems = [];
+
+const branches = [
+  {
+    location: 'Centro',
+    address: 'Mercedes 1772, esq. Gaboto',
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
+    whatsApp: {
+      number: 598097530690,
+      text: '097 530 690',
+    },
+    position: { lat: -34.901126, lng: -56.178958 },
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=-34.901126%2C-56.178958',
+  },
+  {
+    location: 'Malvín',
+    address: 'Av. Italia 3564, Malvín', // TODO: confirmar dirección exacta con Alfredo
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
+    whatsApp: {
+      number: 598091227115,
+      text: '091 227 115',
+    },
+    position: { lat: -34.8869878, lng: -56.1368115 },
+    mapUrl: 'https://maps.app.goo.gl/placeholder-malvin', // TODO: confirmar link Google Maps con Alfredo
+  },
+  {
+    location: 'Las Piedras',
+    address: 'Av. Dr. Enrique Pouey 711, esq. Aparicio Saravia',
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
+    whatsApp: {
+      number: 598092555609,
+      text: '092 555 609',
+    },
+    position: { lat: -34.7308552, lng: -56.2236266 },
+    mapUrl: 'https://maps.app.goo.gl/1zXx8qUZdsgGxNQv7',
+  },
+  {
+    location: 'Pando',
+    address: 'Av. 18 de Julio 1190, entre Sarandí y Treinta y Tres',
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs',
+    whatsApp: {
+      number: 598098155509,
+      text: '098 155 509',
+    },
+    position: { lat: -34.722971323908304, lng: -55.960520870846246 },
+    mapUrl: 'https://maps.app.goo.gl/EjSJUcaMU7u5UMgz7',
+  },
+  {
+    location: 'Piriápolis',
+    address: 'Piriápolis, Maldonado', // TODO: confirmar dirección exacta con Alfredo
+    schedule: 'Lunes a viernes de 10:00 a 19:00 y sabados de 10:00 a 13:00 hrs', // TODO: confirmar horario con Alfredo
+    whatsApp: {
+      number: 598098919191,
+      text: '098 919 191',
+    },
+    position: { lat: -34.8644, lng: -55.2766 }, // TODO: confirmar coords exactas con Alfredo (estas son aprox. centro de Piriápolis)
+    mapUrl: 'https://maps.app.goo.gl/placeholder-piriapolis', // TODO: confirmar link Google Maps con Alfredo
+  },
+];
+
+const colors = [
+  { id: 'red', color: '#FF0000', name: 'Rojo' },
+  { id: 'black', color: '#000000', name: 'Negro' },
+  { id: 'blue', color: '#0000FF', name: 'Azul' },
+  { id: 'green', color: '#008000', name: 'Verde' },
+  { id: 'yellow', color: '#FFFF00', name: 'Amarillo' },
+  { id: 'purple', color: '#800080', name: 'Morado' },
+];
+
+module.exports = {
+  reactStrictMode: true,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
+  transpilePackages: ['shared', 'ui'],
+  publicRuntimeConfig: {
+    envId: 'CREDI',
+    appName: APP_NAME,
+    bffUrl: BFF_URL,
+    siteHost: SITE_HOST,
+    menuItems,
+    socialNeworksItems,
+    multiDomainItems,
+    colors,
+    branches,
+    cartEnabled: CART_ENABLED === 'true',
+    authEnabled: AUTH_ENABLED === 'true',
+    keys: {
+      googleMapsApiKey: GOOGLE_MAP_API_KEY,
+      googleGaMeasurementId: GOOGLE_GA_MEASUREMENT_ID,
+    },
+    product: {
+      cardPriceType: PRODUCT_CARD_PRICE_TYPE,
+      detailPriceType: PRODUCT_DETAIL_PRICE_TYPE,
+      showCod: PRODUCT_CARD_CODE === 'true',
+      showRelatedProducts: PRODUCT_DETAIL_RELATED_PRODUCTS === 'true',
+      showStock: PRODUCT_DETAIL_STOCK === 'true',
+    },
+  },
+};

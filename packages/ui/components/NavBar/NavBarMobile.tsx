@@ -63,8 +63,10 @@ const SearchButton = () => {
         buttonProps={{ mr: '0.25rem', 'aria-label': 'Carrito', onClick: onOpen, _hover: { bg: iconButtonHoverColor } }}
       />
       <Modal isOpen={isOpen} size="5xl" onClose={onClose}>
-        <ModalOverlay bg={_backgroundColorSecondary} backdropFilter={_backdropFilter} />
-        <ModalContent m=".5rem 0 0" bg="transparent">
+        {/* z-index por encima del navbar (que está en 9999 para ganarle a los
+            controles de Leaflet del mapa de sucursales) */}
+        <ModalOverlay bg={_backgroundColorSecondary} backdropFilter={_backdropFilter} zIndex={10000} />
+        <ModalContent m=".5rem 0 0" bg="transparent" containerProps={{ zIndex: 10000 }}>
           <ModalCloseButton color="white" />
           <ModalBody pt="3.5rem">
             <SearchInput onSearch={onClose} />
@@ -75,12 +77,15 @@ const SearchButton = () => {
   );
 };
 
-const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: NavBarProps) => {
+const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems, extraActions }: NavBarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
 
   // Use the new hook that syncs with Firebase Auth
   const { user, isLoading } = useCurrentUser();
+
+  const baseCols = user && cartEnabled ? 'auto 3fr auto auto' : 'auto 3fr auto';
+  const cols = extraActions ? `${baseCols} auto` : baseCols;
 
   return (
     <>
@@ -89,7 +94,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
         backdropFilter={_backdropFilter}
         color={_color}
         borderBottomColor={_borderColor}
-        gridTemplateColumns="auto 3fr auto auto"
+        gridTemplateColumns={cols}
         pt="1rem"
         pb="1rem"
         alignItems="center"
@@ -122,6 +127,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems }: Na
         <GridItem>
           <SearchButton />
         </GridItem>
+        {extraActions && <GridItem pr="0.25rem">{extraActions}</GridItem>}
       </Grid>
       <MenuDrawer
         dark={dark}

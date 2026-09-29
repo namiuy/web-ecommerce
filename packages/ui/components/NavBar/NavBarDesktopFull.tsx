@@ -8,7 +8,11 @@ import SocialNetworks from '../SocialNetworks';
 import NavMultiDomain from '../NavMultiDomain';
 import MenuAdmin from '../MenuAdmin';
 import { ShoppingCartDrawer } from '../ShoppingCartDrawer';
-import { getAuthEnabled, getCartEnabled, useCurrentUser, getNavbarMessage } from 'shared';
+import { useEffect, useState } from 'react';
+import { isBrowser, authEnabled, cartEnabled } from 'shared';
+import { User } from 'shared/entities/user';
+import lscache from 'lscache';
+import { navbarMessage } from 'shared';
 
 const _navItemColor = 'brand.nav.item.color';
 const _backgroundColorPrimary = 'brand.navBar.backgroundColorPrimary';
@@ -22,13 +26,15 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], disableCategoriesPopover }: NavBarProps) => {
-  const menuItemsWithOnClick = disableCategoriesPopover
-    ? menuItems
-    : menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
+const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], extraActions }: NavBarProps) => {
+  const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
 
-  // Use the new hook that syncs with Firebase Auth
-  const { user, isLoading } = useCurrentUser();
+  const issBrowser = isBrowser();
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    if (issBrowser) setUser(lscache.get('user')); // TODO: improve this
+  }, [issBrowser]);
 
   return (
     <>
@@ -53,7 +59,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
       <Box bg={_backgroundColorSecondary}>
         <Grid
           p="1.5rem 0 0.5rem 0"
-          gridTemplateColumns={user ? '1fr 3fr auto auto auto' : '1fr 3fr auto auto'}
+          gridTemplateColumns={`${user ? '1fr 3fr auto auto auto' : '1fr 3fr auto auto'}${extraActions ? ' auto' : ''}`}
           alignItems="center"
           gap="1rem"
           w={_mainWidth}
@@ -69,16 +75,17 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
           <GridItem>
             <SearchInput />
           </GridItem>
-          {getAuthEnabled() && (
+          {authEnabled && (
             <GridItem pl="1rem">
               <MenuAdmin />
             </GridItem>
           )}
-          {user && getCartEnabled() && (
+          {user && cartEnabled && (
             <GridItem>
               <ShoppingCartDrawer />
             </GridItem>
           )}
+          {extraActions && <GridItem>{extraActions}</GridItem>}
         </Grid>
         <Grid
           py="0.625rem"
@@ -94,7 +101,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
           </GridItem>
           <GridItem>
             <Text color="white" fontWeight="semibold" fontSize="0.875rem">
-              {getNavbarMessage()}
+              {navbarMessage}
             </Text>
           </GridItem>
         </Grid>
