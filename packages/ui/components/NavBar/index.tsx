@@ -29,6 +29,7 @@ export type NavBarProps = {
   hover?: boolean;
   extraActions?: ReactNode;
   spacer?: boolean;
+  disableCategoriesPopover?: boolean;
 };
 
 export const NavBar = (props: NavBarProps) => {
