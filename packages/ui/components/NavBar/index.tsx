@@ -1,7 +1,6 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react';
 import { ElementType, ReactNode } from 'react';
-import { multiDomainItems } from 'shared/env';
-import { menuItems } from 'shared/env';
+import { getMultiDomainItems, getMenuItems } from 'shared/env';
 import NavBarDesktopFull from './NavBarDesktopFull';
 import NavBarMobile from './NavBarMobile';
 import NavBarDesktopSimple from './NavBarDesktopSimple';
@@ -51,7 +50,7 @@ export const NavBar = (props: NavBarProps) => {
   return (
     <>
       <Box w="100%" zIndex="9999" position={position} {...(needsTop ? { top: '0' } : {})}>
-        <NavBarDisplay {...props} multiDomainItems={multiDomainItems} menuItems={menuItems} />
+        <NavBarDisplay {...props} multiDomainItems={getMultiDomainItems()} menuItems={getMenuItems()} />
       </Box>
       {showSpacer && <Box h="6rem" bg="black" />}
     </>

@@ -84,7 +84,7 @@ const NavBarMobile = ({ dark, logo: Logo, menuItems = [], multiDomainItems, extr
   // Use the new hook that syncs with Firebase Auth
   const { user, isLoading } = useCurrentUser();
 
-  const baseCols = user && cartEnabled ? 'auto 3fr auto auto' : 'auto 3fr auto';
+  const baseCols = user && getCartEnabled() ? 'auto 3fr auto auto' : 'auto 3fr auto';
   const cols = extraActions ? `${baseCols} auto` : baseCols;
 
   return (
