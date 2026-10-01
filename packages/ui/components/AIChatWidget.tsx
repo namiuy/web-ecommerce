@@ -31,12 +31,18 @@ interface ChatMessage {
 
 interface AIChatWidgetProps {
   onProductSearch?: (query: string) => void;
+  wsUrl?: string;
+  apiUrl?: string;
+  title?: string;
 }
 
-const WS_URL = 'wss://ia.nami.com.uy';
-const API_URL = 'https://ia.nami.com.uy';
+const DEFAULT_WS_URL = 'wss://ia.nami.com.uy';
+const DEFAULT_API_URL = 'https://ia.nami.com.uy';
 
-export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
+export const AIChatWidget = ({ onProductSearch, wsUrl, apiUrl, title }: AIChatWidgetProps) => {
+  const WS_URL = wsUrl || DEFAULT_WS_URL;
+  const API_URL = apiUrl || DEFAULT_API_URL;
+  const chatTitle = title || 'Nami IA';
   const { isOpen, onToggle, onClose } = useDisclosure();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -241,7 +247,7 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
           >
             <Flex align="center" gap="2">
               <ChatIcon />
-              <Text fontWeight="bold" fontSize="md">Nami IA</Text>
+              <Text fontWeight="bold" fontSize="md">{chatTitle}</Text>
               <Badge
                 colorScheme={connected ? 'green' : 'red'}
                 variant="solid"
@@ -299,7 +305,7 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
                   borderColor="gray.200"
                 >
                   <Text fontSize="xs" fontWeight="bold" mb="0.5">
-                    {msg.role === 'user' ? 'Tú' : msg.role === 'system' ? 'Sistema' : 'Nami IA'}
+                    {msg.role === 'user' ? 'Tú' : msg.role === 'system' ? 'Sistema' : chatTitle}
                   </Text>
                   <Box
                     fontSize="sm"
@@ -320,7 +326,7 @@ export const AIChatWidget = ({ onProductSearch }: AIChatWidgetProps) => {
             ))}
             {loading && (
               <Flex align="center" gap="2" ml="1">
-                <Text fontSize="xs" color="gray.500">Nami IA está escribiendo...</Text>
+                <Text fontSize="xs" color="gray.500">{chatTitle} está escribiendo...</Text>
               </Flex>
             )}
             <div ref={messagesEndRef} />

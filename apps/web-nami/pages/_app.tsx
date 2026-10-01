@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
-import { ThemeProvider, WhatsApp } from 'ui';
+import { ThemeProvider, WhatsApp, AIChatWidget } from 'ui';
 import { theme as themeTools } from '../theme/tools.theme';
 import ReactGA from 'react-ga4';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 const App = ({ Component, pageProps }: AppProps) => {
   const [faviconPath, setFaviconPath] = useState('/favicon-tools.ico');
   const [currentTheme, setCurrentTheme] = useState(themeTools);
+  const [isRobotec, setIsRobotec] = useState(false);
 
   // Initialize Google Analytics, favicon, and theme only on client side
   useEffect(() => {
@@ -31,6 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       const favicon = envId === 'ROBOTEC' ? '/favicon-robotec.ico' : '/favicon-tools.ico';
       setFaviconPath(favicon);
       setCurrentTheme(themeModule.theme);
+      setIsRobotec(envId === 'ROBOTEC');
     });
   }, []);
 
@@ -44,6 +46,13 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={currentTheme}>
             <Component {...pageProps} />
             <WhatsApp />
+            {isRobotec && (
+              <AIChatWidget
+                wsUrl="ws://100.30.234.52:8002"
+                apiUrl="http://100.30.234.52:8002"
+                title="Robotec IA"
+              />
+            )}
           </ThemeProvider>
         </ChakraProvider>
       </AppContextProvider>
