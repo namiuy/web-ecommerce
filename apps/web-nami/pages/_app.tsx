@@ -48,8 +48,8 @@ const App = ({ Component, pageProps }: AppProps) => {
             <WhatsApp />
             {isRobotec && (
               <AIChatWidget
-                wsUrl="ws://100.30.234.52:8002"
-                apiUrl="http://100.30.234.52:8002"
+                wsUrl="wss://ia.nami.com.uy/robotec"
+                apiUrl="https://ia.nami.com.uy/robotec"
                 title="Robotec IA"
               />
             )}
