@@ -19,7 +19,7 @@ import {
 import { WhatsAppRequestButton } from 'ui/components/WhatsAppRequestButton';
 import { ProductStock } from 'ui/components/ProductStock';
 import { useRouter } from 'next/router';
-import { useAutopartGet, getCartEnabled, getProduct } from 'shared';
+import { useAutopartGet, getCartEnabled, getProduct, trackViewItem } from 'shared';
 const cartEnabled = getCartEnabled();
 const productConf = getProduct();
 import { Autopart } from 'shared/entities/autopart';
@@ -297,6 +297,12 @@ export const AutopartDetailTemplate = ({ id, actions = [] }: AutopartDetailTempl
     const mainImg = getMainImage();
     setMainImageUrl(mainImg);
   }, [data, shouldUseMultimedias]);
+
+  useEffect(() => {
+    if (!data?.id) return;
+    const name = (data?.applications?.[0] as any)?.name || data?.applications?.[0]?.model || data?.description || String(data.id);
+    trackViewItem({ item_id: String(data.id), item_name: name, item_category: data?.category?.name });
+  }, [data?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
     console.log(error);

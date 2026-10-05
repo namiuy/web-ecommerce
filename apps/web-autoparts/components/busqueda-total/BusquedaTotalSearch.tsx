@@ -14,6 +14,7 @@ import {
 } from '../../lib/services/parque.service';
 import type { UnifiedResult, FamiliaMatch, FamiliaProviderRow, PartType } from './types';
 import { DimensionsSearch } from '../DimensionsSearch';
+import { trackSearch, trackViewSearchResults } from 'shared';
 
 const PAGE_SIZE = 40;
 const DOLAR_RATE = 43.5;
@@ -127,9 +128,13 @@ export const BusquedaTotalSearch = () => {
 
     try {
       if (text.trim().length >= 2) {
+        const term = text.trim();
+        trackSearch(term);
         setSearchSource(part ? `Texto + ${part}` : 'Texto');
-        const data = await smartSearch(text.trim(), 500, part || undefined);
-        setResults(mapSmartResults(data || []));
+        const data = await smartSearch(term, 500, part || undefined);
+        const mapped = mapSmartResults(data || []);
+        setResults(mapped);
+        trackViewSearchResults(term, mapped.length);
         return;
       }
       if (part && brand) {
