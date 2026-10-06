@@ -14,8 +14,9 @@ const keys = getKeys();
 const googleGaMeasurementId = keys?.googleGaMeasurementId;
 
 if (googleGaMeasurementId) {
-  console.log('ReactGA initialized');
-  ReactGA.initialize(googleGaMeasurementId);
+  ReactGA.initialize(googleGaMeasurementId, {
+    gtagOptions: process.env.NODE_ENV !== 'production' ? { debug_mode: true } : undefined, // DebugView en dev
+  });
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
