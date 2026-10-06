@@ -3,7 +3,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Formik, Field } from 'formik';
 import { Link, FormControl, FormLabel, FormErrorMessage, Input, useToast, Progress } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
-import { useSignIn, useSignInWithGoogle } from 'shared';
+import { useSignIn, useSignInWithGoogle, trackLogin } from 'shared';
 import { useRouter } from 'next/router';
 import { Divider as ChakraDivider } from '@chakra-ui/react';
 
@@ -66,6 +66,7 @@ export const SignIn = ({ Logo }: SignInProps) => {
 
   useEffect(() => {
     if (data || googleData) {
+      trackLogin(googleData ? 'google' : 'password');
       const redirectPath = sessionStorage.getItem('redirectAfterLogin');
       if (redirectPath) {
         sessionStorage.removeItem('redirectAfterLogin');

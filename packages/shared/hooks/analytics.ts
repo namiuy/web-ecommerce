@@ -63,14 +63,66 @@ export const trackAddToCart = (item: GaItem) => {
   ReactGA.event('add_to_cart', { currency: CURRENCY, value: (item.price ?? 0) * (item.quantity ?? 1), items: [item] });
 };
 
+export const trackRemoveFromCart = (item: GaItem) => {
+  if (isInternalUser() || !item?.item_id) return;
+  ReactGA.event('remove_from_cart', { currency: CURRENCY, value: (item.price ?? 0) * (item.quantity ?? 1), items: [item] });
+};
+
+export const trackViewCart = (items: GaItem[], value: number) => {
+  if (isInternalUser()) return;
+  ReactGA.event('view_cart', { currency: CURRENCY, value, items });
+};
+
+export const trackViewItemList = (items: GaItem[], listName: string) => {
+  if (isInternalUser() || !items?.length) return;
+  ReactGA.event('view_item_list', { item_list_name: listName, items });
+};
+
+export const trackSelectItem = (item: GaItem, listName: string) => {
+  if (isInternalUser() || !item?.item_id) return;
+  ReactGA.event('select_item', { item_list_name: listName, items: [item] });
+};
+
 export const trackBeginCheckout = (items: GaItem[], value: number) => {
   if (isInternalUser()) return;
   ReactGA.event('begin_checkout', { currency: CURRENCY, value, items });
 };
 
+export const trackAddShippingInfo = (shippingTier: string, value: number, items: GaItem[] = []) => {
+  if (isInternalUser()) return;
+  ReactGA.event('add_shipping_info', { currency: CURRENCY, value, shipping_tier: shippingTier, items });
+};
+
+export const trackAddPaymentInfo = (paymentType: string, value: number, items: GaItem[] = []) => {
+  if (isInternalUser()) return;
+  ReactGA.event('add_payment_info', { currency: CURRENCY, value, payment_type: paymentType, items });
+};
+
 export const trackPurchase = (transactionId: string, items: GaItem[], value: number) => {
   if (isInternalUser()) return;
   ReactGA.event('purchase', { transaction_id: transactionId, currency: CURRENCY, value, items });
+};
+
+export const trackLogin = (method: string) => {
+  if (isInternalUser()) return;
+  ReactGA.event('login', { method });
+};
+
+export const trackSignUp = (method: string) => {
+  if (isInternalUser()) return;
+  ReactGA.event('sign_up', { method });
+};
+
+// generate_lead: cotizacion, contacto, consulta por WhatsApp (canales fuera de la compra directa)
+export const trackGenerateLead = (source: string, itemId?: string) => {
+  if (isInternalUser()) return;
+  ReactGA.event('generate_lead', { lead_source: source, ...(itemId ? { item_id: itemId } : {}) });
+};
+
+// Escape hatch gateado para eventos custom (variantes de busqueda, chat IA, newsletter, etc.)
+export const trackEvent = (name: string, params: Record<string, any> = {}) => {
+  if (isInternalUser()) return;
+  ReactGA.event(name, params);
 };
 
 export const useAnalytics = () => {

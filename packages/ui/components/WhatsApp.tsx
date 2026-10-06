@@ -12,7 +12,7 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { BiLogoWhatsapp } from 'react-icons/bi';
-import { getBranches } from 'shared';
+import { getBranches, trackGenerateLead } from 'shared';
 
 const _grey3 = 'brand.grey.3';
 const _backgroundColor = '#00ea81';
@@ -65,6 +65,7 @@ export const WhatsApp = () => {
                   <Link
                     href={`https://wa.me/${branch.whatsApp.number}`}
                     target="_blank"
+                    onClick={() => trackGenerateLead('whatsapp_floating')}
                     _hover={{ color: _backgroundColor }}
                   >
                     <Heading size="lg" textTransform="uppercase">

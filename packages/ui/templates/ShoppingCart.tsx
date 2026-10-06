@@ -4,8 +4,10 @@ import { Box, Text, Image, Container, Button, Grid, GridItem, Flex } from 'ui';
 import { BsTrash3 } from 'react-icons/bs';
 import { QuantityInput } from '../components/QuantityInput';
 import { useRouter } from 'next/router';
-import { isBrowser, useCart, getProduct } from 'shared';
+import { isBrowser, useCart, getProduct, trackViewCart, trackRemoveFromCart, trackBeginCheckout } from 'shared';
 import { useEffect } from 'react';
+
+const toGaItem = (p: any) => ({ item_id: String(p.code), item_name: p.name, price: parseFloat(p.price) || 0, quantity: p.quantity });
 
 const _currencySymbol = getProduct()?.currencySymbol || 'U$S';
 
@@ -36,7 +38,13 @@ export const ShoppingCart = () => {
 
   const { cart, isLoading, error, totalPrice, updateQuantityCart, deleteFromCart } = useCart({});
 
+  useEffect(() => {
+    if (cart?.items?.length) trackViewCart(cart.items.map(toGaItem), Number(totalPrice) || 0);
+  }, [cart?.items?.length]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleDelete = (itemCode: string) => {
+    const item = cart?.items?.find((p: any) => p.code === itemCode);
+    if (item) trackRemoveFromCart(toGaItem(item));
     deleteFromCart(itemCode);
   };
 
@@ -196,7 +204,10 @@ export const ShoppingCart = () => {
                       bg="secondary.main"
                       color="white"
                       _hover={{ backgroundColor: 'primary.main' }}
-                      onClick={() => router.replace('/checkout')}
+                      onClick={() => {
+                        trackBeginCheckout((cart?.items || []).map(toGaItem), Number(totalPrice) || 0);
+                        router.replace('/checkout');
+                      }}
                     >
                       FINALIZAR COMPRA
                     </Button>
