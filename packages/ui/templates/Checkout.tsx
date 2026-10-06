@@ -2,7 +2,7 @@ import lscache from 'lscache';
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import { Box, Text, Container, Button, Grid, GridItem, Flex } from 'ui';
 import { useEffect, useState } from 'react';
-import { useCart, usePaymentMethods, useShippingMethods, useGetPerson, isBrowser } from 'shared';
+import { useCart, usePaymentMethods, useShippingMethods, useGetPerson, isBrowser, trackAddShippingInfo, trackAddPaymentInfo, trackPurchase } from 'shared';
 import { ShippingMethod } from '../components/Checkout/ShippingMethod';
 import { PaymentMethod } from '../components/Checkout/PaymentMethod';
 import { Verification } from '../components/Checkout/Verification';
@@ -45,17 +45,19 @@ export const Checkout = () => {
     });
   };
 
-  const { totalPrice } = useCart({ onError });
+  const { totalPrice, cart } = useCart({ onError });
 
   const [checkoutValues, setCheckoutValues] = useState<CheckoutValues>();
   const { isLoading, data, error } = useCheckout(checkoutValues);
 
   useEffect(() => {
     if (data) {
+      const items = (cart?.items || []).map((p: any) => ({ item_id: String(p.code), item_name: p.name, price: parseFloat(p.price) || 0, quantity: p.quantity }));
+      trackPurchase(String((data as any)?.id || (data as any)?.order_id || ''), items, totalAmount);
       onOpen();
       setCheckoutValues(undefined);
     }
-  }, [data, onOpen]);
+  }, [data, onOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [shippingMethod, setShippingMethod] = useState(shippingMethods[0]?.id || '');
   const [address, setAddress] = useState<number>(0);
@@ -170,6 +172,9 @@ export const Checkout = () => {
         onError('Debes especificar la empresa de transporte');
         return;
       }
+
+      if (page === 1) trackAddShippingInfo(shippingMethod, totalAmount);
+      if (page === 3) trackAddPaymentInfo(paymentMethod, totalAmount);
 
       setPage(newPage);
       setBackButtonVisible(newPage > 1);

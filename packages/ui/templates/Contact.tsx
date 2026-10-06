@@ -16,7 +16,7 @@ import { Field, Formik } from 'formik';
 import { MdLocationOn } from 'react-icons/md';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { BiSolidTime } from 'react-icons/bi';
-import { validateEmpty, validateEmail } from 'shared';
+import { validateEmpty, validateEmail, trackGenerateLead } from 'shared';
 import { useContactRequest } from 'shared/hooks/request/contact';
 import { Contact as ContactValues } from 'shared/entities/contact';
 import { useEffect, useState } from 'react';
@@ -65,8 +65,9 @@ export const Contact = () => {
         });
       }
       contactProps?.resetForm?.();
+      trackGenerateLead('contact_form');
     }
-  }, [toast, data]);
+  }, [toast, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (values: ContactValues, { resetForm }: { resetForm: () => void }) => {
     setContactProps({ ...values, resetForm });

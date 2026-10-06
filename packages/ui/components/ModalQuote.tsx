@@ -25,6 +25,7 @@ import { Product } from 'shared/entities/product';
 import { File as FileEntity } from 'shared/entities/file';
 import { Quote } from 'shared/entities/quote';
 import { useQuoteRequest } from 'shared/hooks';
+import { trackGenerateLead } from 'shared';
 import { Flex } from '..';
 import { Field, Formik } from 'formik';
 import { formatPrice, validateEmail, validateEmpty } from 'shared';
@@ -84,6 +85,10 @@ export const ModalQuote = ({ isOpen, product, onClose }: ModalQuoteProps) => {
       setSelectedColor(product.colors[0]);
     }
   }, [product.colors]);
+
+  useEffect(() => {
+    if (isSuccess) trackGenerateLead('quote', String(product.id));
+  }, [isSuccess]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (error) console.log(error);

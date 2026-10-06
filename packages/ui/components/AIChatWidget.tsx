@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ChatIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
+import { trackEvent } from 'shared';
 
 const MicIcon = (props: any) => (
   <Icon viewBox="0 0 24 24" {...props}>
@@ -84,6 +85,7 @@ export const AIChatWidget = ({ onProductSearch, wsUrl, apiUrl, title }: AIChatWi
           setMessages((prev) => [...prev, { role: 'assistant', content: data.content }]);
           setLoading(false);
           if (data.search_query && onProductSearch) {
+            trackEvent('chat_product_search', { search_query: data.search_query });
             onProductSearch(data.search_query);
           }
         } else if (data.type === 'error') {
@@ -111,6 +113,7 @@ export const AIChatWidget = ({ onProductSearch, wsUrl, apiUrl, title }: AIChatWi
 
   useEffect(() => {
     if (isOpen) {
+      trackEvent('chat_open');
       connectWebSocket();
     }
     return () => {
@@ -130,6 +133,7 @@ export const AIChatWidget = ({ onProductSearch, wsUrl, apiUrl, title }: AIChatWi
 
     setMessages((prev) => [...prev, { role: 'user', content: input.trim() }]);
     setLoading(true);
+    trackEvent('chat_message_sent');
 
     wsRef.current.send(JSON.stringify({ type: 'message', content: input.trim() }));
     setInput('');

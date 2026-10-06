@@ -12,6 +12,7 @@ import {
   validateEmail,
   validateRepeatPassword,
   useAddUser,
+  trackSignUp,
 } from 'shared';
 import { State } from 'shared/entities/state';
 import { City } from 'shared/entities/city';
@@ -53,6 +54,10 @@ export const Register = ({ Logo }: RegisterProps) => {
   const [registerProps, setRegisterProps] = useState<UserAdd>();
   const { isLoading, data, error } = useAddUser(registerProps);
   const emailInUseError = error === EMAIL_ALREADY_IN_USE;
+
+  useEffect(() => {
+    if (data) trackSignUp('email');
+  }, [data]);
 
   const statesSelect = () => {
     return states?.data?.map((state: State) => (

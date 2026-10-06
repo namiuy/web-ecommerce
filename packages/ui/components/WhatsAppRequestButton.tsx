@@ -2,7 +2,7 @@ import { Icon, Link } from '@chakra-ui/react';
 import { Button, Skeleton } from 'ui';
 import { ProductActionProps } from '../templates/ProductDetail';
 import { BiLogoWhatsapp } from 'react-icons/bi';
-import { getSiteHost } from 'shared';
+import { getSiteHost, trackGenerateLead } from 'shared';
 
 export const WhatsAppRequestButton = ({ isLoading, product }: ProductActionProps) => (
   <Skeleton isLoaded={!isLoading}>
@@ -10,6 +10,7 @@ export const WhatsAppRequestButton = ({ isLoading, product }: ProductActionProps
       as={Link}
       href={`https://wa.me/598091033282/?text=Hola,%20estoy%20interesado%20en%20el%20siguiente%20producto:%20${getSiteHost()}${product?.path}`}
       target="_blank"
+      onClick={() => trackGenerateLead('whatsapp_product', product?.id ? String(product.id) : undefined)}
       width="100%"
       height="2.75rem"
       borderRadius="0.5rem"

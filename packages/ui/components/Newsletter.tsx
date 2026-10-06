@@ -1,7 +1,7 @@
 import { Stack, Input, IconButton, Heading, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BiMailSend } from 'react-icons/bi';
-import { newsletterSubscribe, validateEmail } from 'shared';
+import { newsletterSubscribe, validateEmail, trackEvent } from 'shared';
 
 const _placeholderColor = 'brand.footer.color';
 const _backgroundColor = 'brand.footer.input.backgroundColor';
@@ -33,6 +33,7 @@ const Newsletter = () => {
     })
       .then(() => {
         setIsSuccess(true);
+        trackEvent('newsletter_subscribe');
         toast({
           position: 'top',
           description: 'Se ha suscrito exitosamente',

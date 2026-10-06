@@ -14,6 +14,7 @@ import {
 } from '../../lib/services/parque.service';
 import type { UnifiedResult, FamiliaMatch, FamiliaProviderRow, PartType } from './types';
 import { DimensionsSearch } from '../DimensionsSearch';
+import { trackSearch, trackViewSearchResults, trackEvent } from 'shared';
 
 const PAGE_SIZE = 40;
 const DOLAR_RATE = 43.5;
@@ -125,11 +126,19 @@ export const BusquedaTotalSearch = () => {
     setExpandedId(null);
     setFilterCategory('');
 
+    if (text.trim().length < 2 && (part || brand || model)) {
+      trackEvent('search_by_vehicle', { part, brand, model });
+    }
+
     try {
       if (text.trim().length >= 2) {
+        const term = text.trim();
+        trackSearch(term);
         setSearchSource(part ? `Texto + ${part}` : 'Texto');
-        const data = await smartSearch(text.trim(), 500, part || undefined);
-        setResults(mapSmartResults(data || []));
+        const data = await smartSearch(term, 500, part || undefined);
+        const mapped = mapSmartResults(data || []);
+        setResults(mapped);
+        trackViewSearchResults(term, mapped.length);
         return;
       }
       if (part && brand) {
@@ -227,6 +236,7 @@ export const BusquedaTotalSearch = () => {
     setSearchSource('Codigo');
     try {
       const data = await searchByCode(c, 200);
+      trackEvent('search_by_code', { code: c, results_count: (data || []).length });
       setResults((data || []).map((item: any) => {
         const y1 = item.year_from; const y2 = item.year_to;
         const year = y1 && y2 ? `${y1}-${y2}` : y1 ? `${y1}-` : y2 ? `-${y2}` : (item.ano || '').toString().trim();
@@ -306,6 +316,7 @@ export const BusquedaTotalSearch = () => {
   const pagedResults = filteredResults.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   const handleDimensionsSearch = (params: string) => {
+    trackEvent('search_by_dimensions', { dims: params });
     router.push(`/productos?dims=${encodeURIComponent(params)}`);
   };
 

@@ -17,7 +17,7 @@ import { HiShoppingCart } from 'react-icons/hi';
 import { QuantityInput } from './QuantityInput';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useCart, getProduct } from 'shared';
+import { useCart, getProduct, trackRemoveFromCart } from 'shared';
 
 const _cs = getProduct()?.currencySymbol || 'U$S';
 
@@ -59,6 +59,8 @@ export const ShoppingCartDrawer = () => {
   }, []);
 
   const handleDelete = (itemCode: string) => {
+    const item = cart?.items?.find((p: any) => p.code === itemCode);
+    if (item) trackRemoveFromCart({ item_id: String(item.code), item_name: item.name, price: parseFloat(item.price) || 0, quantity: item.quantity });
     deleteFromCart(itemCode);
   };
 
