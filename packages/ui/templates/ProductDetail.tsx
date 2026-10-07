@@ -25,7 +25,7 @@ import { formatPrice } from 'shared/utils/product';
 import { QuantityInput } from '../components/QuantityInput';
 import { ColorSelector } from '../components/ColorSelector';
 
-import { useProductGet, getProduct, getCartEnabled } from 'shared';
+import { useProductGet, getProduct, getCartEnabled, trackViewItem } from 'shared';
 const productConf = getProduct();
 const { detailPriceType, showRelatedProducts, showStock } = productConf;
 const cartEnabled = getCartEnabled();
@@ -78,6 +78,11 @@ export const ProductDetail = ({ id, actions = [] }: ProductDetailProps) => {
   const isMobile = useBreakpointValue({ base: true, sm: false });
 
   const { isLoading, error, data } = useProductGet(id);
+
+  useEffect(() => {
+    if (!data?.id) return;
+    trackViewItem({ item_id: String(data.id), item_name: data?.name, item_category: data?.category?.name, price: data?.price });
+  }, [data?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [stock, setStock] = useState<'NO' | 'CO' | 'AV' | undefined>();
 
