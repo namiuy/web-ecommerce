@@ -3,7 +3,23 @@ import { getDashboardData, Dashboard, BarRow, Kpi, TableRow } from '../lib/analy
 
 const maxOf = (rows: BarRow[]) => Math.max(...rows.map(r => r.value), 1);
 
+const Empty = () => <p className="muted" style={{ fontSize: 12, margin: '14px 0' }}>Sin datos aun</p>;
+
+const Sparkline = ({ series }: { series: number[] }) => {
+  if (!series.length || series.every(v => !v)) return <Empty />;
+  const w = 520, h = 170, max = Math.max(...series, 1);
+  const step = series.length > 1 ? w / (series.length - 1) : w;
+  const pts = series.map((v, i) => `${Math.round(i * step)},${Math.round(h - (v / max) * (h - 20) - 10)}`).join(' ');
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={170} preserveAspectRatio="none">
+      <polyline fill="rgba(56,193,114,.15)" stroke="none" points={`0,${h} ${pts} ${w},${h}`} />
+      <polyline fill="none" stroke="var(--ok)" strokeWidth="2.5" points={pts} />
+    </svg>
+  );
+};
+
 const Bars = ({ rows }: { rows: BarRow[] }) => {
+  if (!rows.length) return <Empty />;
   const max = maxOf(rows);
   return (
     <div className="bars">
@@ -28,6 +44,7 @@ const KpiCard = ({ k }: { k: Kpi }) => (
 );
 
 const Table = ({ rows, head }: { rows: TableRow[]; head: string[] }) => (
+  !rows.length ? <Empty /> :
   <table>
     <thead><tr>{head.map((h, i) => <th key={i} className={i ? 'r' : ''}>{h}</th>)}</tr></thead>
     <tbody>
@@ -43,6 +60,7 @@ const Table = ({ rows, head }: { rows: TableRow[]; head: string[] }) => (
 );
 
 const Donut = ({ slices }: { slices: Dashboard['searchMix'] }) => {
+  if (!slices.length) return <Empty />;
   let acc = 0;
   return (
     <div className="donut-wrap">
@@ -97,12 +115,7 @@ const Home: NextPage<{ data: Dashboard }> = ({ data }) => (
       </div>
       <div className="panel">
         <h3>Ingresos por dia</h3><div className="evt">purchase.value</div>
-        <div className="spark">
-          <svg viewBox="0 0 520 170" width="100%" height={170} preserveAspectRatio="none">
-            <polyline fill="rgba(56,193,114,.15)" stroke="none" points="0,150 0,110 40,120 80,95 120,105 160,80 200,90 240,60 280,75 320,55 360,70 400,45 440,58 480,40 520,52 520,170 0,170" />
-            <polyline fill="none" stroke="var(--ok)" strokeWidth="2.5" points="0,110 40,120 80,95 120,105 160,80 200,90 240,60 280,75 320,55 360,70 400,45 440,58 480,40 520,52" />
-          </svg>
-        </div>
+        <div className="spark"><Sparkline series={data.revenueSeries} /></div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }} className="muted"><span>hace 28d</span><span>hoy</span></div>
         <h3 style={{ marginTop: 18 }}>Compras por metodo de pago</h3><div className="evt">add_payment_info.payment_type</div>
         <Bars rows={data.paymentMix} />

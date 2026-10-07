@@ -59,6 +59,17 @@ export async function topEventParam(eventName: string, paramDim: string, limit =
     .filter(r => r.label && r.label !== '(not set)');
 }
 
+// Ingresos por dia (serie cronologica)
+export async function dailyRevenue(): Promise<number[]> {
+  const c = getClient(); if (!c) return [];
+  const [resp] = await c.runReport({
+    property: property(), dateRanges: DATE_RANGE,
+    dimensions: [{ name: 'date' }], metrics: [{ name: 'purchaseRevenue' }],
+    orderBys: [{ dimension: { dimensionName: 'date' } }],
+  });
+  return (resp.rows || []).map(r => Number(r.metricValues?.[0]?.value || 0));
+}
+
 // Sesiones por categoria de dispositivo
 export async function deviceSplit(): Promise<{ label: string; value: number }[]> {
   const c = getClient(); if (!c) return [];

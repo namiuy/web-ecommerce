@@ -34,6 +34,7 @@ export type Dashboard = {
   chat: BarRow[];
   account: TableRow[];
   devices: BarRow[];
+  revenueSeries: number[];
 };
 
 const mock: Dashboard = {
@@ -114,9 +115,10 @@ const mock: Dashboard = {
     { label: 'Mobile', value: 68, tone: 'blue' }, { label: 'Desktop', value: 28, tone: 'blue' },
     { label: 'Tablet', value: 4, tone: 'blue' },
   ],
+  revenueSeries: [110, 95, 120, 80, 130, 90, 140, 100, 160, 120, 180, 150, 200, 170],
 };
 
-import { ga4Available, eventCounts, totals, topEventParam, deviceSplit } from './ga4';
+import { ga4Available, eventCounts, totals, topEventParam, deviceSplit, dailyRevenue } from './ga4';
 
 const toPct = (rows: { label: string; value: number }[], tone?: BarRow['tone']): BarRow[] => {
   const total = rows.reduce((a, b) => a + b.value, 0) || 1;
@@ -126,7 +128,7 @@ const toPct = (rows: { label: string; value: number }[], tone?: BarRow['tone']):
 export async function getDashboardData(): Promise<Dashboard> {
   if (!ga4Available()) return mock; // sin GA4_PROPERTY_ID -> datos de ejemplo
   try {
-    const [ev, tot, searches, noRes, payMix, leadSrc, devices] = await Promise.all([
+    const [ev, tot, searches, noRes, payMix, leadSrc, devices, revSeries] = await Promise.all([
       eventCounts(),
       totals(),
       topEventParam('search', 'search_term').catch(() => []),
@@ -134,6 +136,7 @@ export async function getDashboardData(): Promise<Dashboard> {
       topEventParam('add_payment_info', 'payment_type').catch(() => []),
       topEventParam('generate_lead', 'lead_source', 10).catch(() => []),
       deviceSplit().catch(() => []),
+      dailyRevenue().catch(() => []),
     ]);
     const n = (k: string) => ev[k] || 0;
     const fmt = (x: number) => x.toLocaleString('es-UY');
@@ -175,11 +178,12 @@ export async function getDashboardData(): Promise<Dashboard> {
         { label: 'add_payment_info', event: 'add_payment_info', count: pay, pct: pct(pay, viewItem), drop: ship ? 100 - pct(pay, ship) : 0 },
         { label: 'purchase', event: 'purchase', count: purchases, pct: pct(purchases, viewItem), drop: pay ? 100 - pct(purchases, pay) : 0 },
       ],
-      paymentMix: payMix.length ? toPct(payMix, 'blue') : mock.paymentMix,
-      topSearches: searches.length ? searches : mock.topSearches,
-      noResults: noRes.length ? noRes.map(r => ({ ...r, tone: 'bad' as const })) : mock.noResults,
-      searchMix: smTotal > 1 ? searchMixRaw.map(s => ({ label: s.label, pct: Math.round((s.value / smTotal) * 100), color: s.color })) : mock.searchMix,
-      topViewed: mock.topViewed, topAdded: mock.topAdded, topPurchased: mock.topPurchased, // item-scoped: pendiente
+      // En modo real NO se inventan datos: seccion sin dato -> vacia ("sin datos" en la UI)
+      paymentMix: payMix.length ? toPct(payMix, 'blue') : [],
+      topSearches: searches.length ? searches : [],
+      noResults: noRes.length ? noRes.map(r => ({ ...r, tone: 'bad' as const })) : [],
+      searchMix: searchMixRaw.some(s => s.value > 0) ? searchMixRaw.map(s => ({ label: s.label, pct: Math.round((s.value / smTotal) * 100), color: s.color })) : [],
+      topViewed: [], topAdded: [], topPurchased: [], // item-scoped: pendiente de instrumentar flujo products
       leads: [
         { label: 'Cotizaciones', value: fmt(leadBy('quote')), event: 'generate_lead: quote' },
         { label: 'Form de contacto', value: fmt(leadBy('contact_form')), event: 'generate_lead: contact_form' },
@@ -196,7 +200,8 @@ export async function getDashboardData(): Promise<Dashboard> {
         { label: 'Registros', a: fmt(n('sign_up')), b: 'sign_up', tone: 'ok' },
         { label: 'Altas newsletter', a: fmt(n('newsletter_subscribe')), b: 'newsletter_subscribe' },
       ],
-      devices: devices.length ? devices : mock.devices,
+      devices: devices.length ? devices : [],
+      revenueSeries: revSeries,
     };
   } catch (e) {
     return { ...mock }; // ante cualquier error de la Data API, no romper el panel
