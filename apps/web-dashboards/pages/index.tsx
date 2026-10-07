@@ -126,7 +126,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const q = ctx.query.range as RangeKey;
   const range: RangeKey = valid.includes(q) ? q : '28d';
   const [data, realtime] = await Promise.all([getDashboardData(range), getRealtime()]);
-  return { props: { data, realtime } };
+  // JSON round-trip: Next no serializa `undefined` en props (deltaPct, campos opcionales)
+  return { props: JSON.parse(JSON.stringify({ data, realtime })) };
 };
 
 export default Home;
