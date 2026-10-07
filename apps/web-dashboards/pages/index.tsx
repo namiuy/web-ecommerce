@@ -1,7 +1,8 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
-import { getDashboardData, getRealtime, Dashboard, Realtime, BarRow, Kpi, TableRow } from '../lib/analytics';
+import { Dashboard, Realtime, BarRow, Kpi, TableRow } from '../lib/analytics';
 import { RangeKey } from '../lib/ga4';
+import { buildProps } from '../lib/props';
 
 const RevenueChart = dynamic(() => import('../components/Charts').then(m => m.RevenueChart), { ssr: false });
 const FunnelChart = dynamic(() => import('../components/Charts').then(m => m.FunnelChart), { ssr: false });
@@ -53,7 +54,7 @@ const Table = ({ rows, head, hint }: { rows: TableRow[]; head: string[]; hint?: 
 
 const RANGE_OPTS: { k: RangeKey; t: string }[] = [{ k: 'today', t: 'Hoy' }, { k: '7d', t: '7 dias' }, { k: '28d', t: '28 dias' }, { k: '90d', t: '90 dias' }];
 
-const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
+export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
   <div className="wrap">
     <header className="top">
       <div className="brand"><span className="dot" /> ROBOTEC <small>Panel de ventas</small></div>
@@ -65,7 +66,7 @@ const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtim
 
     <div className="toolbar">
       <div className="ranges">
-        {RANGE_OPTS.map(o => <a key={o.k} href={`?range=${o.k}`} className={`chip ${data.rangeKey === o.k ? 'active' : ''}`}>{o.t}</a>)}
+        {RANGE_OPTS.map(o => <a key={o.k} href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${o.k}`} className={`chip ${data.rangeKey === o.k ? 'active' : ''}`}>{o.t}</a>)}
       </div>
       <span className="muted cmp">vs periodo anterior &middot; excluye trafico interno</span>
     </div>
@@ -121,13 +122,6 @@ const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtim
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const valid: RangeKey[] = ['today', '7d', '28d', '90d'];
-  const q = ctx.query.range as RangeKey;
-  const range: RangeKey = valid.includes(q) ? q : '28d';
-  const [data, realtime] = await Promise.all([getDashboardData(range), getRealtime()]);
-  // JSON round-trip: Next no serializa `undefined` en props (deltaPct, campos opcionales)
-  return { props: JSON.parse(JSON.stringify({ data, realtime })) };
-};
+export const getServerSideProps: GetServerSideProps = async () => buildProps('28d');
 
-export default Home;
+export default DashboardView;
