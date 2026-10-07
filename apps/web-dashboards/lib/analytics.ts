@@ -116,7 +116,89 @@ const mock: Dashboard = {
   ],
 };
 
+import { ga4Available, eventCounts, totals, topEventParam, deviceSplit } from './ga4';
+
+const toPct = (rows: { label: string; value: number }[], tone?: BarRow['tone']): BarRow[] => {
+  const total = rows.reduce((a, b) => a + b.value, 0) || 1;
+  return rows.map(r => ({ label: r.label, value: Math.round((r.value / total) * 100), tone }));
+};
+
 export async function getDashboardData(): Promise<Dashboard> {
-  // TODO(GA4 Data API): si hay credenciales, consultar runReport y mapear a Dashboard.
-  return mock;
+  if (!ga4Available()) return mock; // sin GA4_PROPERTY_ID -> datos de ejemplo
+  try {
+    const [ev, tot, searches, noRes, payMix, leadSrc, devices] = await Promise.all([
+      eventCounts(),
+      totals(),
+      topEventParam('search', 'search_term').catch(() => []),
+      topEventParam('search_no_results', 'search_term').catch(() => []),
+      topEventParam('add_payment_info', 'payment_type').catch(() => []),
+      topEventParam('generate_lead', 'lead_source', 10).catch(() => []),
+      deviceSplit().catch(() => []),
+    ]);
+    const n = (k: string) => ev[k] || 0;
+    const fmt = (x: number) => x.toLocaleString('es-UY');
+    const money = (x: number) => '$ ' + Math.round(x).toLocaleString('es-UY');
+    const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0);
+
+    const sessions = tot?.sessions || 0, users = tot?.users || 0, revenue = tot?.revenue || 0;
+    const purchases = tot?.purchases || n('purchase');
+    const viewItem = n('view_item'), addCart = n('add_to_cart'), beginCk = n('begin_checkout'), ship = n('add_shipping_info'), pay = n('add_payment_info');
+    const leadBy = (src: string) => leadSrc.find(l => l.label === src)?.value ?? 0;
+
+    const searchMixRaw = [
+      { label: 'Texto libre', value: n('search'), color: 'var(--blue)' },
+      { label: 'Por vehiculo', value: n('search_by_vehicle'), color: 'var(--violet)' },
+      { label: 'Por codigo', value: n('search_by_code'), color: 'var(--warn)' },
+      { label: 'Por medidas', value: n('search_by_dimensions'), color: 'var(--ok)' },
+    ];
+    const smTotal = searchMixRaw.reduce((a, b) => a + b.value, 0) || 1;
+
+    return {
+      source: 'ga4',
+      range: 'Ultimos 28 dias',
+      property: `GA4 ${process.env.GA4_PROPERTY_ID}`,
+      kpis: [
+        { label: 'Sesiones', value: fmt(sessions) },
+        { label: 'Usuarios', value: fmt(users) },
+        { label: 'Tasa de conversion', value: (sessions ? (purchases / sessions * 100).toFixed(1) : '0') + '%', event: 'purchase / sesiones' },
+        { label: 'Ingresos', value: money(revenue), event: 'purchase.value' },
+        { label: 'Ticket promedio', value: purchases ? money(revenue / purchases) : '-' },
+        { label: 'Carritos abandonados', value: addCart ? (100 - pct(purchases, addCart)) + '%' : '-', event: 'add_to_cart sin purchase', alert: true },
+        { label: 'Leads generados', value: fmt(n('generate_lead')), event: 'generate_lead' },
+        { label: 'Busquedas sin resultado', value: fmt(n('search_no_results')), event: 'search_no_results', alert: true },
+      ],
+      funnel: [
+        { label: 'view_item', event: 'view_item', count: viewItem, pct: 100 },
+        { label: 'add_to_cart', event: 'add_to_cart', count: addCart, pct: pct(addCart, viewItem), drop: viewItem ? 100 - pct(addCart, viewItem) : 0 },
+        { label: 'begin_checkout', event: 'begin_checkout', count: beginCk, pct: pct(beginCk, viewItem), drop: addCart ? 100 - pct(beginCk, addCart) : 0 },
+        { label: 'add_shipping_info', event: 'add_shipping_info', count: ship, pct: pct(ship, viewItem), drop: beginCk ? 100 - pct(ship, beginCk) : 0 },
+        { label: 'add_payment_info', event: 'add_payment_info', count: pay, pct: pct(pay, viewItem), drop: ship ? 100 - pct(pay, ship) : 0 },
+        { label: 'purchase', event: 'purchase', count: purchases, pct: pct(purchases, viewItem), drop: pay ? 100 - pct(purchases, pay) : 0 },
+      ],
+      paymentMix: payMix.length ? toPct(payMix, 'blue') : mock.paymentMix,
+      topSearches: searches.length ? searches : mock.topSearches,
+      noResults: noRes.length ? noRes.map(r => ({ ...r, tone: 'bad' as const })) : mock.noResults,
+      searchMix: smTotal > 1 ? searchMixRaw.map(s => ({ label: s.label, pct: Math.round((s.value / smTotal) * 100), color: s.color })) : mock.searchMix,
+      topViewed: mock.topViewed, topAdded: mock.topAdded, topPurchased: mock.topPurchased, // item-scoped: pendiente
+      leads: [
+        { label: 'Cotizaciones', value: fmt(leadBy('quote')), event: 'generate_lead: quote' },
+        { label: 'Form de contacto', value: fmt(leadBy('contact_form')), event: 'generate_lead: contact_form' },
+        { label: 'WhatsApp producto', value: fmt(leadBy('whatsapp_product')), event: 'generate_lead: whatsapp_product' },
+        { label: 'WhatsApp flotante', value: fmt(leadBy('whatsapp_floating')), event: 'generate_lead: whatsapp_floating' },
+      ],
+      chat: [
+        { label: 'Aperturas', value: n('chat_open'), tone: 'violet' },
+        { label: 'Mensajes enviados', value: n('chat_message_sent'), tone: 'violet' },
+        { label: 'Derivo a busqueda', value: n('chat_product_search'), tone: 'violet' },
+      ],
+      account: [
+        { label: 'Logins', a: fmt(n('login')) },
+        { label: 'Registros', a: fmt(n('sign_up')), b: 'sign_up', tone: 'ok' },
+        { label: 'Altas newsletter', a: fmt(n('newsletter_subscribe')), b: 'newsletter_subscribe' },
+      ],
+      devices: devices.length ? devices : mock.devices,
+    };
+  } catch (e) {
+    return { ...mock }; // ante cualquier error de la Data API, no romper el panel
+  }
 }
