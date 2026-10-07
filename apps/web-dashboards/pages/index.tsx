@@ -1,33 +1,32 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { getDashboardData, Dashboard, BarRow, Kpi, TableRow } from '../lib/analytics';
+import dynamic from 'next/dynamic';
+import { getDashboardData, getRealtime, Dashboard, Realtime, BarRow, Kpi, TableRow } from '../lib/analytics';
+import { RangeKey } from '../lib/ga4';
 
-const maxOf = (rows: BarRow[]) => Math.max(...rows.map(r => r.value), 1);
+const RevenueChart = dynamic(() => import('../components/Charts').then(m => m.RevenueChart), { ssr: false });
+const FunnelChart = dynamic(() => import('../components/Charts').then(m => m.FunnelChart), { ssr: false });
+const MixDoughnut = dynamic(() => import('../components/Charts').then(m => m.MixDoughnut), { ssr: false });
+const LiveStrip = dynamic(() => import('../components/LiveStrip'), { ssr: false });
 
-const Empty = () => <p className="muted" style={{ fontSize: 12, margin: '14px 0' }}>Sin datos aun</p>;
+const Empty = ({ hint }: { hint?: string }) => <p className="muted empty">{hint || 'Sin datos aun'}</p>;
 
-const Sparkline = ({ series }: { series: number[] }) => {
-  if (!series.length || series.every(v => !v)) return <Empty />;
-  const w = 520, h = 170, max = Math.max(...series, 1);
-  const step = series.length > 1 ? w / (series.length - 1) : w;
-  const pts = series.map((v, i) => `${Math.round(i * step)},${Math.round(h - (v / max) * (h - 20) - 10)}`).join(' ');
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={170} preserveAspectRatio="none">
-      <polyline fill="rgba(56,193,114,.15)" stroke="none" points={`0,${h} ${pts} ${w},${h}`} />
-      <polyline fill="none" stroke="var(--ok)" strokeWidth="2.5" points={pts} />
-    </svg>
-  );
+const Delta = ({ pct, invert }: { pct?: number; invert?: boolean }) => {
+  if (pct === undefined || !isFinite(pct)) return null;
+  const up = pct >= 0;
+  const good = invert ? !up : up;
+  return <span className={`delta ${good ? 'up' : 'down'}`}>{up ? '▲' : '▼'} {Math.abs(pct)}%</span>;
 };
 
-const Bars = ({ rows }: { rows: BarRow[] }) => {
-  if (!rows.length) return <Empty />;
-  const max = maxOf(rows);
+const Bars = ({ rows, hint }: { rows: BarRow[]; hint?: string }) => {
+  if (!rows.length) return <Empty hint={hint} />;
+  const max = Math.max(...rows.map(r => r.value), 1);
   return (
     <div className="bars">
       {rows.map((r, i) => (
         <div className="bar" key={i}>
           <span className="lbl">{r.label}</span>
-          <div className="track"><div className={`fill ${r.tone === 'violet' ? 'violet' : r.tone === 'bad' ? 'bad' : ''}`} style={{ width: `${Math.round((r.value / max) * 100)}%` }} /></div>
-          <span className="n">{r.value}</span>
+          <div className="track"><div className={`fill ${r.tone || 'blue'}`} style={{ width: `${Math.round((r.value / max) * 100)}%` }} /></div>
+          <span className="n">{r.value.toLocaleString('es-UY')}</span>
         </div>
       ))}
     </div>
@@ -35,135 +34,99 @@ const Bars = ({ rows }: { rows: BarRow[] }) => {
 };
 
 const KpiCard = ({ k }: { k: Kpi }) => (
-  <div className="panel kpi" style={k.alert ? { borderColor: '#4a2a28' } : undefined}>
+  <div className={`panel kpi ${k.alert ? 'alert' : ''}`}>
     <h3>{k.label}</h3>
     <div className="val">{k.value}</div>
-    {k.delta && <div className={`delta ${k.trend === 'down' ? 'down' : 'up'}`}>{k.trend === 'down' ? '▼' : '▲'} {k.delta}</div>}
-    {k.event && <div className="evt">{k.event}</div>}
+    <div className="kline"><Delta pct={k.deltaPct} invert={k.invert} />{k.event && <span className="evt">{k.event}</span>}</div>
   </div>
 );
 
-const Table = ({ rows, head }: { rows: TableRow[]; head: string[] }) => (
-  !rows.length ? <Empty /> :
-  <table>
-    <thead><tr>{head.map((h, i) => <th key={i} className={i ? 'r' : ''}>{h}</th>)}</tr></thead>
-    <tbody>
-      {rows.map((r, i) => (
-        <tr key={i}>
-          <td>{r.label}</td>
-          <td className="r">{r.a}</td>
-          {r.b !== undefined && <td className="r">{r.tone ? <span className={`pill ${r.tone}`}>{r.b}</span> : r.b}</td>}
-        </tr>
-      ))}
-    </tbody>
-  </table>
+const Table = ({ rows, head, hint }: { rows: TableRow[]; head: string[]; hint?: string }) => (
+  !rows.length ? <Empty hint={hint} /> :
+    <table>
+      <thead><tr>{head.map((h, i) => <th key={i} className={i ? 'r' : ''}>{h}</th>)}</tr></thead>
+      <tbody>{rows.map((r, i) => (
+        <tr key={i}><td>{r.label}</td><td className="r">{r.a}</td>{r.b !== undefined && <td className="r">{r.tone ? <span className={`pill ${r.tone}`}>{r.b}</span> : r.b}</td>}</tr>
+      ))}</tbody>
+    </table>
 );
 
-const Donut = ({ slices }: { slices: Dashboard['searchMix'] }) => {
-  if (!slices.length) return <Empty />;
-  let acc = 0;
-  return (
-    <div className="donut-wrap">
-      <svg width="120" height="120" viewBox="0 0 42 42">
-        <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--panel2)" strokeWidth="6" />
-        {slices.map((s, i) => {
-          const el = <circle key={i} cx="21" cy="21" r="15.9" fill="none" stroke={s.color} strokeWidth="6" strokeDasharray={`${s.pct} ${100 - s.pct}`} strokeDashoffset={25 - acc} />;
-          acc += s.pct;
-          return el;
-        })}
-      </svg>
-      <div className="legend">
-        {slices.map((s, i) => <div key={i}><i style={{ background: s.color }} />{s.label} &nbsp;{s.pct}%</div>)}
-      </div>
-    </div>
-  );
-};
+const RANGE_OPTS: { k: RangeKey; t: string }[] = [{ k: 'today', t: 'Hoy' }, { k: '7d', t: '7 dias' }, { k: '28d', t: '28 dias' }, { k: '90d', t: '90 dias' }];
 
-const Home: NextPage<{ data: Dashboard }> = ({ data }) => (
+const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
   <div className="wrap">
     <header className="top">
-      <div className="brand"><span className="dot" /> ROBOTEC AUTOPARTES <small>&nbsp;&middot;&nbsp; Panel GA4</small></div>
-      <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-        {data.source === 'mock' && <span className="flag">DATOS DE EJEMPLO - Data API pendiente</span>}
-        <span className="muted" style={{ fontSize: 12 }}>{data.property}</span>
+      <div className="brand"><span className="dot" /> ROBOTEC <small>Panel de ventas</small></div>
+      <div className="top-right">
+        {data.source === 'mock' && <span className="flag">DATOS DE EJEMPLO</span>}
+        <span className="muted mono">{data.property}</span>
       </div>
     </header>
 
-    <div className="filters">
-      <span className="chip active">{data.range}</span>
-      <span className="chip">Hoy</span><span className="chip">7 dias</span><span className="chip">90 dias</span>
-      <span className="chip">Comparar periodo anterior</span>
-      <span className="chip" style={{ marginLeft: 'auto' }}>Excluye trafico interno (vendedor/admin)</span>
+    <div className="toolbar">
+      <div className="ranges">
+        {RANGE_OPTS.map(o => <a key={o.k} href={`?range=${o.k}`} className={`chip ${data.rangeKey === o.k ? 'active' : ''}`}>{o.t}</a>)}
+      </div>
+      <span className="muted cmp">vs periodo anterior &middot; excluye trafico interno</span>
     </div>
 
-    <h2 className="sec">Resumen</h2>
-    <div className="grid g4">{data.kpis.map((k, i) => <KpiCard k={k} key={i} />)}</div>
+    <LiveStrip initial={realtime} />
 
-    <h2 className="sec">Funnel de venta</h2>
-    <div className="grid g2">
+    <div className="grid g4 sec">{data.kpis.map((k, i) => <KpiCard k={k} key={i} />)}</div>
+
+    <div className="grid cols-2-1 sec">
       <div className="panel">
-        <h3>Embudo de compra</h3>
-        <div className="evt">view_item &rarr; add_to_cart &rarr; begin_checkout &rarr; add_shipping_info &rarr; add_payment_info &rarr; purchase</div>
-        <div className="funnel">
-          {data.funnel.map((s, i) => (
-            <div className="step" key={i}>
-              <div className="meta">{s.event}<br /><b>{s.count.toLocaleString('es-UY')}</b> {s.drop ? <span className="drop">-{s.drop}%</span> : null}</div>
-              <div className="fbar" style={{ width: `${Math.max(s.pct, 12)}%` }}>{s.pct}%</div>
-            </div>
-          ))}
-        </div>
+        <h3>Ingresos</h3><div className="evt">purchase.value &middot; {data.range}</div>
+        <div className="chart h260">{data.revenue.values.some(v => v) ? <RevenueChart labels={data.revenue.labels} values={data.revenue.values} /> : <Empty hint="Sin compras en el periodo" />}</div>
       </div>
       <div className="panel">
-        <h3>Ingresos por dia</h3><div className="evt">purchase.value</div>
-        <div className="spark"><Sparkline series={data.revenueSeries} /></div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }} className="muted"><span>hace 28d</span><span>hoy</span></div>
-        <h3 style={{ marginTop: 18 }}>Compras por metodo de pago</h3><div className="evt">add_payment_info.payment_type</div>
-        <Bars rows={data.paymentMix} />
+        <h3>Funnel de venta</h3><div className="evt">view_item &rarr; purchase</div>
+        <div className="chart h260">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
+        <div className="funnel-foot">{data.funnel.map((s, i) => <span key={i}><b>{s.pct}%</b> {s.label}</span>)}</div>
       </div>
     </div>
 
-    <h2 className="sec">Busquedas - que buscan y que no encuentran</h2>
+    <h2 className="sec-t">Trafico y pagos</h2>
     <div className="grid g3">
-      <div className="panel"><h3>Palabras mas buscadas</h3><div className="evt">search.search_term</div><Bars rows={data.topSearches} /></div>
-      <div className="panel" style={{ borderColor: '#4a2a28' }}>
-        <h3>Busquedas SIN resultado</h3><div className="evt">search_no_results.search_term</div>
-        <p className="muted" style={{ fontSize: 11, margin: '6px 0' }}>Demanda insatisfecha / gaps de catalogo o de nombres. Lo mas accionable del panel.</p>
-        <Bars rows={data.noResults} />
-      </div>
-      <div className="panel"><h3>Tipo de busqueda</h3><div className="evt">search / search_by_vehicle / search_by_code / search_by_dimensions</div><Donut slices={data.searchMix} /></div>
+      <div className="panel"><h3>Canales</h3><div className="evt">sessionDefaultChannelGroup</div><div className="chart h200">{data.channels.length ? <MixDoughnut rows={data.channels} /> : <Empty />}</div></div>
+      <div className="panel"><h3>Dispositivos</h3><div className="evt">deviceCategory</div><div className="chart h200">{data.devices.length ? <MixDoughnut rows={data.devices} /> : <Empty />}</div></div>
+      <div className="panel"><h3>Metodo de pago</h3><div className="evt">add_payment_info.payment_type</div><div className="chart h200">{data.paymentMix.length ? <MixDoughnut rows={data.paymentMix} /> : <Empty hint="Requiere custom dimension payment_type" />}</div></div>
     </div>
 
-    <h2 className="sec">Productos</h2>
+    <h2 className="sec-t">Busquedas - que buscan y que no encuentran</h2>
     <div className="grid g3">
-      <div className="panel"><h3>Mas vistos</h3><div className="evt">view_item</div><Table rows={data.topViewed} head={['Producto', 'Vistas']} /></div>
-      <div className="panel"><h3>Mas agregados al carrito</h3><div className="evt">add_to_cart</div><Table rows={data.topAdded} head={['Producto', 'Add', 'Ratio']} /></div>
-      <div className="panel"><h3>Mas comprados</h3><div className="evt">purchase.items</div><Table rows={data.topPurchased} head={['Producto', 'Unid.', '$']} /></div>
+      <div className="panel"><h3>Palabras mas buscadas</h3><div className="evt">search.search_term</div><Bars rows={data.topSearches} hint="Requiere custom dimension search_term" /></div>
+      <div className="panel alert"><h3>Busquedas SIN resultado</h3><div className="evt">search_no_results.search_term</div><Bars rows={data.noResults} hint="Requiere custom dimension search_term" /></div>
+      <div className="panel"><h3>Tipo de busqueda</h3><div className="evt">search / by_vehicle / by_code / by_dimensions</div><div className="chart h200">{data.searchMix.length ? <MixDoughnut rows={data.searchMix.map(s => ({ label: s.label, value: s.pct }))} /> : <Empty />}</div></div>
     </div>
 
-    <h2 className="sec">Leads y contacto (canales fuera de la compra directa)</h2>
+    <h2 className="sec-t">Productos</h2>
+    <div className="grid g3">
+      <div className="panel"><h3>Mas vistos</h3><div className="evt">view_item</div><Table rows={data.topViewed} head={['Producto', 'Vistas']} hint="Pendiente: flujo products" /></div>
+      <div className="panel"><h3>Mas agregados</h3><div className="evt">add_to_cart</div><Table rows={data.topAdded} head={['Producto', 'Add', 'Ratio']} hint="Pendiente: flujo products" /></div>
+      <div className="panel"><h3>Mas comprados</h3><div className="evt">purchase.items</div><Table rows={data.topPurchased} head={['Producto', 'Unid.', '$']} hint="Pendiente: flujo products" /></div>
+    </div>
+
+    <h2 className="sec-t">Leads</h2>
     <div className="grid g4">{data.leads.map((k, i) => <KpiCard k={k} key={i} />)}</div>
 
-    <h2 className="sec">Chat IA (Nami IA) y cuenta</h2>
+    <h2 className="sec-t">Chat IA y cuenta</h2>
     <div className="grid g3">
-      <div className="panel">
-        <h3>Uso del chat IA</h3><div className="evt">chat_open / chat_message_sent / chat_product_search</div>
-        <Bars rows={data.chat} />
-        <p className="muted" style={{ fontSize: 11, marginTop: 10 }}>Mide si el chat ayuda a encontrar producto o solo consume.</p>
-      </div>
-      <div className="panel"><h3>Cuenta</h3><div className="evt">login / sign_up / newsletter_subscribe</div><Table rows={data.account} head={['', '', '']} /></div>
-      <div className="panel"><h3>Dispositivo</h3><div className="evt">GA4 estandar (device)</div><Bars rows={data.devices} /></div>
+      <div className="panel"><h3>Uso del chat IA</h3><div className="evt">chat_open / message / product_search</div><Bars rows={data.chat} /></div>
+      <div className="panel"><h3>Cuenta</h3><div className="evt">login / sign_up / newsletter</div><Table rows={data.account} head={['', '', '']} /></div>
+      <div className="panel"><h3>Dispositivo (sesiones)</h3><div className="evt">deviceCategory</div><Bars rows={data.devices} /></div>
     </div>
 
-    <footer>
-      {data.source === 'mock' ? 'Datos de ejemplo - al conectar la GA4 Data API se reemplazan por reales.' : 'Datos en vivo - GA4 Data API.'}<br />
-      Mapea 1:1 con los eventos instrumentados en web-autoparts. Robotec Autopartes &middot; {data.property}
-    </footer>
+    <footer>{data.source === 'ga4' ? 'Datos en vivo - GA4 Data API.' : 'Datos de ejemplo.'} &middot; Robotec &middot; {data.property}</footer>
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await getDashboardData();
-  return { props: { data } };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const valid: RangeKey[] = ['today', '7d', '28d', '90d'];
+  const q = ctx.query.range as RangeKey;
+  const range: RangeKey = valid.includes(q) ? q : '28d';
+  const [data, realtime] = await Promise.all([getDashboardData(range), getRealtime()]);
+  return { props: { data, realtime } };
 };
 
 export default Home;
