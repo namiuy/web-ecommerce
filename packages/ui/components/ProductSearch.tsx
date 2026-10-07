@@ -1,7 +1,7 @@
 import lscache from 'lscache';
 import { Flex, Grid, GridItem, Heading, Skeleton, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { getEmptyArray, useProductSearch, isBrowser, getProduct } from 'shared';
+import { getEmptyArray, useProductSearch, isBrowser, getProduct, trackSearch, trackViewSearchResults } from 'shared';
 import { Product } from 'shared/entities/product';
 import { User } from 'shared/entities/user';
 import { ProductSearchSortBy } from 'shared/entities/product-search';
@@ -40,6 +40,12 @@ export const ProductSearch = (props: ProductSearchProps) => {
   }, [issBrowser]);
 
   const { isLoading, error, data } = useProductSearch({ ...props, index: props?.pag ? props?.pag - 1 : 0 });
+
+  useEffect(() => {
+    if (isLoading || !props.text) return;
+    trackSearch(props.text);
+    trackViewSearchResults(props.text, data?.count ?? 0); // 0 -> search_no_results
+  }, [props.text, isLoading, data?.count]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
     console.log(error);
