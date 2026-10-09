@@ -1,5 +1,5 @@
 // Capa de datos del panel. Server-only. Datos reales via GA4 Data API; si no hay property -> mock (demo).
-import { ga4Available, eventCounts, totals, topEventParam, splitBy, revenueSeries, realtime, RANGES, RangeKey } from './ga4';
+import { ga4Available, eventCounts, totals, topEventParam, splitBy, revenueSeries, activitySeries, realtime, RANGES, RangeKey } from './ga4';
 
 export type Kpi = { label: string; value: string; deltaPct?: number; event?: string; alert?: boolean; invert?: boolean };
 export type FunnelStep = { label: string; event: string; count: number; pct: number };
@@ -16,6 +16,7 @@ export type Dashboard = {
   kpis: Kpi[];
   funnel: FunnelStep[];
   revenue: Series;
+  activity: Series;
   paymentMix: BarRow[];
   channels: BarRow[];
   topSearches: BarRow[];
@@ -55,6 +56,7 @@ const mock: Dashboard = {
     { label: 'Compra', event: 'purchase', count: 238, pct: 3 },
   ],
   revenue: { labels: ['01/09', '05/09', '10/09', '15/09', '20/09', '25/09', '30/09'], values: [12000, 18000, 15000, 24000, 21000, 30000, 27000] },
+  activity: { labels: ['01/09', '05/09', '10/09', '15/09', '20/09', '25/09', '30/09'], values: [320, 410, 380, 520, 470, 610, 560] },
   paymentMix: [{ label: 'Transferencia', value: 58, tone: 'blue' }, { label: 'PayPal', value: 27, tone: 'violet' }, { label: 'Otros', value: 15, tone: 'ok' }],
   channels: [{ label: 'Organico', value: 44, tone: 'blue' }, { label: 'Directo', value: 31, tone: 'violet' }, { label: 'Social', value: 18, tone: 'ok' }, { label: 'Referral', value: 7, tone: 'bad' }],
   topSearches: [{ label: 'taladro', value: 820 }, { label: 'amoladora', value: 640 }, { label: 'compresor', value: 500 }, { label: 'soldadora', value: 385 }, { label: 'generador', value: 290 }],
@@ -80,8 +82,8 @@ export async function getDashboardData(rangeKey: RangeKey = '28d'): Promise<Dash
   if (!ga4Available()) return { ...mock, rangeKey, range: RANGES[rangeKey].label };
   const r = RANGES[rangeKey];
   try {
-    const [ev, evPrev, tot, rev, searches, noRes, payMix, leadSrc, devices, channels] = await Promise.all([
-      eventCounts(r.cur), eventCounts(r.prev), totals(rangeKey), revenueSeries(rangeKey),
+    const [ev, evPrev, tot, rev, act, searches, noRes, payMix, leadSrc, devices, channels] = await Promise.all([
+      eventCounts(r.cur), eventCounts(r.prev), totals(rangeKey), revenueSeries(rangeKey), activitySeries(rangeKey),
       topEventParam(r.cur, 'search', 'search_term').catch(() => []),
       topEventParam(r.cur, 'search_no_results', 'search_term').catch(() => []),
       topEventParam(r.cur, 'add_payment_info', 'payment_type').catch(() => []),
@@ -124,6 +126,7 @@ export async function getDashboardData(rangeKey: RangeKey = '28d'): Promise<Dash
         { label: 'Compra', event: 'purchase', count: purchases, pct: viewItem ? Math.round(purchases / viewItem * 100) : 0 },
       ],
       revenue: rev,
+      activity: act,
       paymentMix: payMix.length ? payMix.map((p, i) => ({ label: p.label, value: p.value, tone: (['blue', 'violet', 'ok', 'bad'] as const)[i % 4] })) : [],
       channels: channels.length ? channels.map((p, i) => ({ label: p.label, value: p.value, tone: (['blue', 'violet', 'ok', 'bad'] as const)[i % 4] })) : [],
       topSearches: searches,

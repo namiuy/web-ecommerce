@@ -4,7 +4,10 @@ import { Dashboard, Realtime, BarRow, Kpi, TableRow } from '../lib/analytics';
 import { RangeKey } from '../lib/ga4';
 import { buildProps } from '../lib/props';
 
+import TopBar from '../components/TopBar';
+
 const RevenueChart = dynamic(() => import('../components/Charts').then(m => m.RevenueChart), { ssr: false });
+const ActivityChart = dynamic(() => import('../components/Charts').then(m => m.ActivityChart), { ssr: false });
 const FunnelChart = dynamic(() => import('../components/Charts').then(m => m.FunnelChart), { ssr: false });
 const MixDoughnut = dynamic(() => import('../components/Charts').then(m => m.MixDoughnut), { ssr: false });
 const LiveStrip = dynamic(() => import('../components/LiveStrip'), { ssr: false });
@@ -56,13 +59,7 @@ const RANGE_OPTS: { k: RangeKey; t: string }[] = [{ k: 'today', t: 'Hoy' }, { k:
 
 export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
   <div className="wrap">
-    <header className="top">
-      <div className="brand"><span className="dot" /> ROBOTEC <small>Panel de ventas</small></div>
-      <div className="top-right">
-        {data.source === 'mock' && <span className="flag">DATOS DE EJEMPLO</span>}
-        <span className="muted mono">{data.property}</span>
-      </div>
-    </header>
+    <TopBar source={data.source} property={data.property} />
 
     <div className="toolbar">
       <div className="ranges">
@@ -75,14 +72,21 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
 
     <div className="grid g4 sec">{data.kpis.map((k, i) => <KpiCard k={k} key={i} />)}</div>
 
-    <div className="grid cols-2-1 sec">
+    <div className="grid g2 sec">
       <div className="panel">
         <h3>Ingresos</h3><div className="evt">purchase.value &middot; {data.range}</div>
-        <div className="chart h260">{data.revenue.values.some(v => v) ? <RevenueChart labels={data.revenue.labels} values={data.revenue.values} /> : <Empty hint="Sin compras en el periodo" />}</div>
+        <div className="chart h230">{data.revenue.values.some(v => v) ? <RevenueChart labels={data.revenue.labels} values={data.revenue.values} /> : <Empty hint="Sin compras en el periodo" />}</div>
       </div>
       <div className="panel">
+        <h3>Actividad</h3><div className="evt">sessions &middot; {data.range}</div>
+        <div className="chart h230">{data.activity.values.some(v => v) ? <ActivityChart labels={data.activity.labels} values={data.activity.values} /> : <Empty />}</div>
+      </div>
+    </div>
+
+    <div className="grid sec">
+      <div className="panel">
         <h3>Funnel de venta</h3><div className="evt">view_item &rarr; purchase</div>
-        <div className="chart h260">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
+        <div className="chart h220">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
         <div className="funnel-foot">{data.funnel.map((s, i) => <span key={i}><b>{s.pct}%</b> {s.label}</span>)}</div>
       </div>
     </div>
