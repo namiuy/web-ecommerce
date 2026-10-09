@@ -98,14 +98,20 @@ td.r,th.r{text-align:right}
 
 footer{color:var(--muted);font-size:11px;margin:34px 0 6px;text-align:center}
 
-/* --- Modo TV (fullscreen kiosk) --- */
-body.tv .wrap{max-width:none;padding:26px 44px}
-body.tv .clock{font-size:20px}
-body.tv .kpi .val{font-size:40px}
-body.tv .panel h3{font-size:15px}
+/* --- Modo TV (fullscreen kiosk, 1 pantalla sin scroll, pensado para 1080p) --- */
+body.tv{overflow:hidden}
+body.tv .tv-hide{display:none !important}
+body.tv .toolbar,body.tv .ctrl,body.tv footer{display:none}
+body.tv .wrap{max-width:none;height:100vh;padding:16px 32px;display:flex;flex-direction:column;gap:12px}
+body.tv .sec{margin-top:0}
+body.tv .clock{font-size:22px}
 body.tv .live-num{font-size:40px}
-body.tv .ctrl{display:none}
-body.tv .h230{height:280px}body.tv .h220{height:260px}body.tv .h200{height:230px}
-body.tv .sec-t{font-size:13px}
+body.tv .g4{grid-template-columns:repeat(8,1fr)}   /* 8 KPIs en una sola fila en la TV ancha */
+body.tv .kpi .val{font-size:30px}
+/* las dos filas de charts crecen para llenar el alto disponible; nunca scroll */
+body.tv .g2,body.tv .funnel-row{flex:1 1 0;min-height:0}
+body.tv .g2 .panel,body.tv .funnel-row .panel{display:flex;flex-direction:column;min-height:0}
+body.tv .g2 .chart,body.tv .funnel-row .chart{flex:1;height:auto !important;min-height:0}
+body.tv .funnel-foot{display:none}
 
 @media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}.g2,.cols-2-1{grid-template-columns:1fr}}

@@ -83,7 +83,7 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
       </div>
     </div>
 
-    <div className="grid sec">
+    <div className="grid sec funnel-row">
       <div className="panel">
         <h3>Funnel de venta</h3><div className="evt">view_item &rarr; purchase</div>
         <div className="chart h220">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
@@ -91,32 +91,32 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
       </div>
     </div>
 
-    <h2 className="sec-t">Trafico y pagos</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Trafico y pagos</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Canales</h3><div className="evt">sessionDefaultChannelGroup</div><div className="chart h200">{data.channels.length ? <MixDoughnut rows={data.channels} /> : <Empty />}</div></div>
       <div className="panel"><h3>Dispositivos</h3><div className="evt">deviceCategory</div><div className="chart h200">{data.devices.length ? <MixDoughnut rows={data.devices} /> : <Empty />}</div></div>
       <div className="panel"><h3>Metodo de pago</h3><div className="evt">add_payment_info.payment_type</div><div className="chart h200">{data.paymentMix.length ? <MixDoughnut rows={data.paymentMix} /> : <Empty hint="Requiere custom dimension payment_type" />}</div></div>
     </div>
 
-    <h2 className="sec-t">Busquedas - que buscan y que no encuentran</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Busquedas - que buscan y que no encuentran</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Palabras mas buscadas</h3><div className="evt">search.search_term</div><Bars rows={data.topSearches} hint="Requiere custom dimension search_term" /></div>
       <div className="panel alert"><h3>Busquedas SIN resultado</h3><div className="evt">search_no_results.search_term</div><Bars rows={data.noResults} hint="Requiere custom dimension search_term" /></div>
       <div className="panel"><h3>Tipo de busqueda</h3><div className="evt">search / by_vehicle / by_code / by_dimensions</div><div className="chart h200">{data.searchMix.length ? <MixDoughnut rows={data.searchMix.map(s => ({ label: s.label, value: s.pct }))} /> : <Empty />}</div></div>
     </div>
 
-    <h2 className="sec-t">Productos</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Productos</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Mas vistos</h3><div className="evt">view_item</div><Table rows={data.topViewed} head={['Producto', 'Vistas']} hint="Pendiente: flujo products" /></div>
       <div className="panel"><h3>Mas agregados</h3><div className="evt">add_to_cart</div><Table rows={data.topAdded} head={['Producto', 'Add', 'Ratio']} hint="Pendiente: flujo products" /></div>
       <div className="panel"><h3>Mas comprados</h3><div className="evt">purchase.items</div><Table rows={data.topPurchased} head={['Producto', 'Unid.', '$']} hint="Pendiente: flujo products" /></div>
     </div>
 
-    <h2 className="sec-t">Leads</h2>
-    <div className="grid g4">{data.leads.map((k, i) => <KpiCard k={k} key={i} />)}</div>
+    <h2 className="sec-t tv-hide">Leads</h2>
+    <div className="grid g4 tv-hide">{data.leads.map((k, i) => <KpiCard k={k} key={i} />)}</div>
 
-    <h2 className="sec-t">Chat IA y cuenta</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Chat IA y cuenta</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Uso del chat IA</h3><div className="evt">chat_open / message / product_search</div><Bars rows={data.chat} /></div>
       <div className="panel"><h3>Cuenta</h3><div className="evt">login / sign_up / newsletter</div><Table rows={data.account} head={['', '', '']} /></div>
       <div className="panel"><h3>Dispositivo (sesiones)</h3><div className="evt">deviceCategory</div><Bars rows={data.devices} /></div>
