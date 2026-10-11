@@ -2,12 +2,13 @@
 
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
-import { ThemeProvider, WhatsApp, AIChatWidget } from 'ui';
+import { ThemeProvider, WhatsApp } from 'ui';
 import { theme as themeTools } from '../theme/tools.theme';
 import ReactGA from 'react-ga4';
-import { useEffect, useState } from 'react';
+import { createElement, useEffect, useState } from 'react';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [faviconPath, setFaviconPath] = useState('/favicon-tools.ico');
@@ -47,11 +48,22 @@ const App = ({ Component, pageProps }: AppProps) => {
             <Component {...pageProps} />
             <WhatsApp />
             {isRobotec && (
-              <AIChatWidget
-                wsUrl="wss://ia.nami.com.uy/robotec"
-                apiUrl="https://ia.nami.com.uy/robotec"
-                title="Robotec IA"
-              />
+              <>
+                {/* Carpincho Viajero: bienvenida + asistente con voz (ver public/carpincho-avatar.js) */}
+                <Script src="/carpincho-avatar.js" strategy="afterInteractive" />
+                {createElement('carpincho-avatar', {
+                  'ws-url': 'wss://ia.nami.com.uy/robotec',
+                  'api-url': 'https://ia.nami.com.uy/robotec',
+                  'products-api': 'https://api-ecommerce.robotec.com.uy',
+                  'product-base': '/productos/',
+                  whatsapp: '59899263226',
+                  // canción del Carpincho Viajero en la principal, hasta que empiecen a usar el asistente
+                  'music-src': '/carpincho-viajero.mp3',
+                  'music-pages': '/',
+                  'music-bpm': '97.5',
+                  'music-volume': '0.35',
+                })}
+              </>
             )}
           </ThemeProvider>
         </ChakraProvider>
