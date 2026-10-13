@@ -1,10 +1,10 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, createElement } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
-import { ThemeProvider, WhatsApp, AIChatWidget } from 'ui';
+import { ThemeProvider, WhatsApp } from 'ui';
 import { theme } from '../theme/index';
 import ReactGA from 'react-ga4';
 import { getKeys, getEnvId } from 'shared';
@@ -20,17 +20,9 @@ if (googleGaMeasurementId) {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter();
-
   useEffect(() => {
     fetch(`${config.autopartsApiBaseUrl}/api/log-visit?source=web-autoparts`, { method: 'POST' }).catch(() => {});
   }, []);
-
-  const handleProductSearch = useCallback((query: string) => {
-    setTimeout(() => {
-      router.push(`/productos?t=${encodeURIComponent(query)}`);
-    }, 1500);
-  }, [router]);
 
   return (
     <>
@@ -43,7 +35,16 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
             <WhatsApp />
-            <AIChatWidget onProductSearch={handleProductSearch} />
+            {/* Viriato, el mecánico de Nami: bienvenida + asistente con voz (ver public/viriato-avatar.js) */}
+            <Script src="/viriato-avatar.js" strategy="afterInteractive" />
+            {createElement('viriato-avatar', {
+              'img-src': '/viriato.png',
+              'ws-url': 'wss://ia.nami.com.uy',
+              'api-url': 'https://ia.nami.com.uy',
+              'products-api': 'https://api-autoparts-v2.nami.com.uy',
+              'product-base': '/productos/',
+              whatsapp: '59891033282',
+            })}
           </ThemeProvider>
         </ChakraProvider>
       </AppContextProvider>
