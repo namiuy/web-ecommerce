@@ -1,7 +1,25 @@
 import { useEffect, createElement } from 'react';
+import dynamic from 'next/dynamic';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
+
+const ViriatoAvatar = dynamic(
+  () => Promise.resolve(() => (
+    <>
+      <Script src="/viriato-avatar.js" strategy="afterInteractive" />
+      {createElement('viriato-avatar', {
+        'img-src': '/viriato.png',
+        'ws-url': 'wss://ia.nami.com.uy',
+        'api-url': 'https://ia.nami.com.uy',
+        'products-api': 'https://api-autoparts-v2.nami.com.uy',
+        'product-base': '/productos/',
+        whatsapp: '59891033282',
+      })}
+    </>
+  )),
+  { ssr: false }
+);
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppContextProvider } from 'shared';
 import { ThemeProvider, WhatsApp } from 'ui';
@@ -35,16 +53,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
             <WhatsApp />
-            {/* Viriato, el mecánico de Nami: bienvenida + asistente con voz (ver public/viriato-avatar.js) */}
-            <Script src="/viriato-avatar.js" strategy="afterInteractive" />
-            {createElement('viriato-avatar', {
-              'img-src': '/viriato.png',
-              'ws-url': 'wss://ia.nami.com.uy',
-              'api-url': 'https://ia.nami.com.uy',
-              'products-api': 'https://api-autoparts-v2.nami.com.uy',
-              'product-base': '/productos/',
-              whatsapp: '59891033282',
-            })}
+            <ViriatoAvatar />
           </ThemeProvider>
         </ChakraProvider>
       </AppContextProvider>
