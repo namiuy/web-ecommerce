@@ -18,7 +18,7 @@ E-commerce de autopartes Nami. Usa DOS backends.
 | Por categoría | Browser → pages/api/autoparts/search → api_autoparts | `/product-type-search/search-by-selection` |
 | Categorías | Browser → pages/api/categories → api_autoparts | `/api/tipos-base` + mapper |
 | Detalle | Browser → pages/api/products/[id] → api_autoparts | `/api/productos/buscar-codigo/` + mapper |
-| Stock | Browser → pages/api/stocks/[id] → api_autoparts | `/api/stock/` SOAP + mapper |
+| Stock | Browser → pages/api/stocks/[id] → api_autoparts | `/api/stock/{codigo}` REST (api_autoparts → api_stock 98.92.141.176:8085) |
 
 ## Pages Router
 
