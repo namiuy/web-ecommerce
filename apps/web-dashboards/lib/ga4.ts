@@ -95,6 +95,24 @@ export async function revenueSeries(key: RangeKey): Promise<{ labels: string[]; 
   return { labels, values };
 }
 
+// Serie de actividad (sesiones por dia/hora) para graficar el tiempo
+export async function activitySeries(key: RangeKey): Promise<{ labels: string[]; values: number[] }> {
+  const c = getClient(); if (!c) return { labels: [], values: [] };
+  const r = RANGES[key];
+  const [resp] = await c.runReport({
+    property: property(), dateRanges: dr(r.cur),
+    dimensions: [{ name: r.bucket === 'hour' ? 'hour' : 'date' }], metrics: [{ name: 'sessions' }],
+    orderBys: [{ dimension: { dimensionName: r.bucket === 'hour' ? 'hour' : 'date' } }],
+  });
+  const labels: string[] = [], values: number[] = [];
+  for (const row of resp.rows || []) {
+    const d = row.dimensionValues?.[0]?.value || '';
+    labels.push(r.bucket === 'hour' ? `${d}h` : `${d.slice(6, 8)}/${d.slice(4, 6)}`);
+    values.push(+(row.metricValues?.[0]?.value || 0));
+  }
+  return { labels, values };
+}
+
 // --- Realtime (ultimos ~30 min) ---
 export async function realtime() {
   const c = getClient(); if (!c) return null;

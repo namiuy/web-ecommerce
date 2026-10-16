@@ -1,9 +1,13 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
-import { getDashboardData, getRealtime, Dashboard, Realtime, BarRow, Kpi, TableRow } from '../lib/analytics';
+import { Dashboard, Realtime, BarRow, Kpi, TableRow } from '../lib/analytics';
 import { RangeKey } from '../lib/ga4';
+import { buildProps } from '../lib/props';
+
+import TopBar from '../components/TopBar';
 
 const RevenueChart = dynamic(() => import('../components/Charts').then(m => m.RevenueChart), { ssr: false });
+const ActivityChart = dynamic(() => import('../components/Charts').then(m => m.ActivityChart), { ssr: false });
 const FunnelChart = dynamic(() => import('../components/Charts').then(m => m.FunnelChart), { ssr: false });
 const MixDoughnut = dynamic(() => import('../components/Charts').then(m => m.MixDoughnut), { ssr: false });
 const LiveStrip = dynamic(() => import('../components/LiveStrip'), { ssr: false });
@@ -53,19 +57,13 @@ const Table = ({ rows, head, hint }: { rows: TableRow[]; head: string[]; hint?: 
 
 const RANGE_OPTS: { k: RangeKey; t: string }[] = [{ k: 'today', t: 'Hoy' }, { k: '7d', t: '7 dias' }, { k: '28d', t: '28 dias' }, { k: '90d', t: '90 dias' }];
 
-const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
+export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
   <div className="wrap">
-    <header className="top">
-      <div className="brand"><span className="dot" /> ROBOTEC <small>Panel de ventas</small></div>
-      <div className="top-right">
-        {data.source === 'mock' && <span className="flag">DATOS DE EJEMPLO</span>}
-        <span className="muted mono">{data.property}</span>
-      </div>
-    </header>
+    <TopBar source={data.source} property={data.property} />
 
     <div className="toolbar">
       <div className="ranges">
-        {RANGE_OPTS.map(o => <a key={o.k} href={`?range=${o.k}`} className={`chip ${data.rangeKey === o.k ? 'active' : ''}`}>{o.t}</a>)}
+        {RANGE_OPTS.map(o => <a key={o.k} href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${o.k}`} className={`chip ${data.rangeKey === o.k ? 'active' : ''}`}>{o.t}</a>)}
       </div>
       <span className="muted cmp">vs periodo anterior &middot; excluye trafico interno</span>
     </div>
@@ -74,44 +72,51 @@ const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtim
 
     <div className="grid g4 sec">{data.kpis.map((k, i) => <KpiCard k={k} key={i} />)}</div>
 
-    <div className="grid cols-2-1 sec">
+    <div className="grid g2 sec">
       <div className="panel">
         <h3>Ingresos</h3><div className="evt">purchase.value &middot; {data.range}</div>
-        <div className="chart h260">{data.revenue.values.some(v => v) ? <RevenueChart labels={data.revenue.labels} values={data.revenue.values} /> : <Empty hint="Sin compras en el periodo" />}</div>
+        <div className="chart h230">{data.revenue.values.some(v => v) ? <RevenueChart labels={data.revenue.labels} values={data.revenue.values} /> : <Empty hint="Sin compras en el periodo" />}</div>
       </div>
       <div className="panel">
+        <h3>Actividad</h3><div className="evt">sessions &middot; {data.range}</div>
+        <div className="chart h230">{data.activity.values.some(v => v) ? <ActivityChart labels={data.activity.labels} values={data.activity.values} /> : <Empty />}</div>
+      </div>
+    </div>
+
+    <div className="grid sec funnel-row">
+      <div className="panel">
         <h3>Funnel de venta</h3><div className="evt">view_item &rarr; purchase</div>
-        <div className="chart h260">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
+        <div className="chart h220">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
         <div className="funnel-foot">{data.funnel.map((s, i) => <span key={i}><b>{s.pct}%</b> {s.label}</span>)}</div>
       </div>
     </div>
 
-    <h2 className="sec-t">Trafico y pagos</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Trafico y pagos</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Canales</h3><div className="evt">sessionDefaultChannelGroup</div><div className="chart h200">{data.channels.length ? <MixDoughnut rows={data.channels} /> : <Empty />}</div></div>
       <div className="panel"><h3>Dispositivos</h3><div className="evt">deviceCategory</div><div className="chart h200">{data.devices.length ? <MixDoughnut rows={data.devices} /> : <Empty />}</div></div>
       <div className="panel"><h3>Metodo de pago</h3><div className="evt">add_payment_info.payment_type</div><div className="chart h200">{data.paymentMix.length ? <MixDoughnut rows={data.paymentMix} /> : <Empty hint="Requiere custom dimension payment_type" />}</div></div>
     </div>
 
-    <h2 className="sec-t">Busquedas - que buscan y que no encuentran</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Busquedas - que buscan y que no encuentran</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Palabras mas buscadas</h3><div className="evt">search.search_term</div><Bars rows={data.topSearches} hint="Requiere custom dimension search_term" /></div>
       <div className="panel alert"><h3>Busquedas SIN resultado</h3><div className="evt">search_no_results.search_term</div><Bars rows={data.noResults} hint="Requiere custom dimension search_term" /></div>
       <div className="panel"><h3>Tipo de busqueda</h3><div className="evt">search / by_vehicle / by_code / by_dimensions</div><div className="chart h200">{data.searchMix.length ? <MixDoughnut rows={data.searchMix.map(s => ({ label: s.label, value: s.pct }))} /> : <Empty />}</div></div>
     </div>
 
-    <h2 className="sec-t">Productos</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Productos</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Mas vistos</h3><div className="evt">view_item</div><Table rows={data.topViewed} head={['Producto', 'Vistas']} hint="Pendiente: flujo products" /></div>
       <div className="panel"><h3>Mas agregados</h3><div className="evt">add_to_cart</div><Table rows={data.topAdded} head={['Producto', 'Add', 'Ratio']} hint="Pendiente: flujo products" /></div>
       <div className="panel"><h3>Mas comprados</h3><div className="evt">purchase.items</div><Table rows={data.topPurchased} head={['Producto', 'Unid.', '$']} hint="Pendiente: flujo products" /></div>
     </div>
 
-    <h2 className="sec-t">Leads</h2>
-    <div className="grid g4">{data.leads.map((k, i) => <KpiCard k={k} key={i} />)}</div>
+    <h2 className="sec-t tv-hide">Leads</h2>
+    <div className="grid g4 tv-hide">{data.leads.map((k, i) => <KpiCard k={k} key={i} />)}</div>
 
-    <h2 className="sec-t">Chat IA y cuenta</h2>
-    <div className="grid g3">
+    <h2 className="sec-t tv-hide">Chat IA y cuenta</h2>
+    <div className="grid g3 tv-hide">
       <div className="panel"><h3>Uso del chat IA</h3><div className="evt">chat_open / message / product_search</div><Bars rows={data.chat} /></div>
       <div className="panel"><h3>Cuenta</h3><div className="evt">login / sign_up / newsletter</div><Table rows={data.account} head={['', '', '']} /></div>
       <div className="panel"><h3>Dispositivo (sesiones)</h3><div className="evt">deviceCategory</div><Bars rows={data.devices} /></div>
@@ -121,13 +126,6 @@ const Home: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtim
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const valid: RangeKey[] = ['today', '7d', '28d', '90d'];
-  const q = ctx.query.range as RangeKey;
-  const range: RangeKey = valid.includes(q) ? q : '28d';
-  const [data, realtime] = await Promise.all([getDashboardData(range), getRealtime()]);
-  // JSON round-trip: Next no serializa `undefined` en props (deltaPct, campos opcionales)
-  return { props: JSON.parse(JSON.stringify({ data, realtime })) };
-};
+export const getServerSideProps: GetServerSideProps = async () => buildProps('28d');
 
-export default Home;
+export default DashboardView;

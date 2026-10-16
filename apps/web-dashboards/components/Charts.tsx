@@ -17,12 +17,12 @@ export function RevenueChart({ labels, values }: { labels: string[]; values: num
       data={{
         labels,
         datasets: [{
-          data: values, borderColor: '#ff6a3d', borderWidth: 2.5, tension: 0.4,
+          data: values, borderColor: '#00b0e7', borderWidth: 2.5, tension: 0.4,
           fill: true, pointRadius: 0, pointHoverRadius: 4,
           backgroundColor: (ctx: any) => {
-            const { ctx: c, chartArea } = ctx.chart; if (!chartArea) return 'rgba(255,106,61,0.1)';
+            const { ctx: c, chartArea } = ctx.chart; if (!chartArea) return 'rgba(0,176,231,0.1)';
             const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-            g.addColorStop(0, 'rgba(255,106,61,0.35)'); g.addColorStop(1, 'rgba(255,106,61,0)'); return g;
+            g.addColorStop(0, 'rgba(0,176,231,0.35)'); g.addColorStop(1, 'rgba(0,176,231,0)'); return g;
           },
         }],
       }}
@@ -39,12 +39,24 @@ export function FunnelChart({ steps }: { steps: { label: string; count: number; 
     <Bar
       data={{
         labels: steps.map(s => s.label),
-        datasets: [{ data: steps.map(s => s.count), backgroundColor: steps.map((_, i) => ['#ff6a3d', '#ff8255', '#f6a35a', '#f6c343', '#9bd16a', '#38c172'][i] || '#ff6a3d'), borderRadius: 6, barThickness: 26 }],
+        datasets: [{ data: steps.map(s => s.count), backgroundColor: steps.map((_, i) => ['#00b0e7', '#2cc0ee', '#58cff2', '#86ddf6', '#b3eafa', '#38c172'][i] || '#00b0e7'), borderRadius: 6, barThickness: 26 }],
       }}
       options={{
         indexAxis: 'y' as const, responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c: any) => `${c.raw.toLocaleString('es-UY')} (${steps[c.dataIndex].pct}%)` } } } as any,
         scales: { x: { grid, beginAtZero: true }, y: { grid: { display: false } } },
+      }}
+    />
+  );
+}
+
+export function ActivityChart({ labels, values }: { labels: string[]; values: number[] }) {
+  return (
+    <Bar
+      data={{ labels, datasets: [{ data: values, backgroundColor: 'rgba(0,176,231,0.55)', hoverBackgroundColor: '#00b0e7', borderRadius: 4, barThickness: 'flex' as any, maxBarThickness: 22 }] }}
+      options={{
+        responsive: true, maintainAspectRatio: false, plugins: noLegend as any,
+        scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }, y: { grid, beginAtZero: true, ticks: { precision: 0 } } },
       }}
     />
   );
