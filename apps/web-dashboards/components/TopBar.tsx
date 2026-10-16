@@ -32,6 +32,8 @@ export default function TopBar({ source, property }: { source: string; property:
     const saved = (localStorage.getItem('rbt-theme') as 'dark' | 'light') || 'dark';
     setTheme(saved);
     document.documentElement.setAttribute('data-theme', saved);
+    // ?tv=1 -> entra directo en layout TV (para rotadores/kiosko; el navegador ya pone fullscreen)
+    if (new URLSearchParams(window.location.search).get('tv') === '1') { document.body.classList.add('tv'); setTv(true); }
   }, []);
 
   const toggleTheme = () => {
