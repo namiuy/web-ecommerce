@@ -73,6 +73,9 @@ applications:
           commands:
             - cd $CODEBUILD_SRC_DIR/web-ecommerce
             - cd apps/web-dashboards
+            # Amplify no expone env server-only al runtime SSR -> volcarlas a .env.production
+            - echo "GA4_PROPERTY_ID=$GA4_PROPERTY_ID" >> .env.production
+            - echo "GA4_SA_CREDENTIALS=$GA4_SA_CREDENTIALS" >> .env.production
             - npm run build
       artifacts:
         baseDirectory: .next
