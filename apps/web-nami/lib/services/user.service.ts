@@ -3,10 +3,12 @@ import { config } from '../config';
 // --- Client types ---
 
 type RegisterUserData = {
-  uid: string;
+  uid?: string;
+  firebase_uid?: string;
   email: string;
   first_name?: string;
   last_name?: string;
+  full_name?: string;
   phone?: string;
   address?: string;
   city?: string;
@@ -35,10 +37,10 @@ type UserResponse = {
 
 export async function registerUser(userData: RegisterUserData): Promise<{ success: boolean; message: string; user?: unknown }> {
   const syncUserData = {
-    firebase_uid: userData.uid,
+    firebase_uid: userData.uid || userData.firebase_uid,
     email: userData.email,
     role: 'customer',
-    full_name: `${userData.first_name || ''} ${userData.last_name || ''}`.trim() || null,
+    full_name: userData.full_name || `${userData.first_name || ''} ${userData.last_name || ''}`.trim() || null,
   };
 
   console.log('[user.service] Syncing user to backend...');
