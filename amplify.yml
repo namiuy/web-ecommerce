@@ -1,88 +1,26 @@
 version: 1
-applications:
-  - appRoot: apps/web-nami
-    platform: WEB_COMPUTE
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - echo "Current directory:"
-            - pwd
-            - echo "CODEBUILD_SRC_DIR value:"
-            - echo $CODEBUILD_SRC_DIR
-            - echo "Listing CODEBUILD_SRC_DIR:"
-            - ls -la $CODEBUILD_SRC_DIR
-            - echo "Installing dependencies from monorepo root..."
-            - cd $CODEBUILD_SRC_DIR/web-ecommerce
-            - echo "After cd, now at:"
-            - pwd
-            - ls -la | grep package
-            - npm ci
-        build:
-          commands:
-            - echo "Building WITHOUT Turbo (direct npm run build)..."
-            - cd $CODEBUILD_SRC_DIR/web-ecommerce
-            - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
-            - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
-            - echo "ID=$ID"
-            - echo "APP_NAME=$APP_NAME"
-            - echo "===================================="
-            - echo "Building web-nami app directly (packages are TypeScript, no build needed)..."
-            - cd apps/web-nami
-            - npm run build
-            - echo "Listing build output..."
-            - ls -la .next
-      artifacts:
-        baseDirectory: .next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-          - .next/cache/**/*
-  - appRoot: apps/web-autoparts
-    platform: WEB_COMPUTE
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - cd $CODEBUILD_SRC_DIR/web-ecommerce
-            - npm ci
-        build:
-          commands:
-            - cd $CODEBUILD_SRC_DIR/web-ecommerce
-            - cd apps/web-autoparts
-            - npm run build
-      artifacts:
-        baseDirectory: .next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-          - .next/cache/**/*
-  - appRoot: apps/web-dashboards
-    platform: WEB_COMPUTE
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - cd $CODEBUILD_SRC_DIR/web-ecommerce
-            - npm ci
-        build:
-          commands:
-            - cd $CODEBUILD_SRC_DIR/web-ecommerce
-            - cd apps/web-dashboards
-            # Amplify no expone env server-only al runtime SSR -> volcarlas a .env.production
-            - echo "GA4_PROPERTY_ID=$GA4_PROPERTY_ID" >> .env.production
-            - echo "GA4_SA_CREDENTIALS=$GA4_SA_CREDENTIALS" >> .env.production
-            - echo "DASH_PASSWORD=$DASH_PASSWORD" >> .env.production
-            - npm run build
-      artifacts:
-        baseDirectory: .next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-          - .next/cache/**/*
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Installing dependencies from monorepo root..."
+        - cd $CODEBUILD_SRC_DIR/web-ecommerce
+        - npm ci
+    build:
+      commands:
+        - cd $CODEBUILD_SRC_DIR/web-ecommerce
+        - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
+        - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
+        - echo "ID=$ID"
+        - echo "APP_NAME=$APP_NAME"
+        - echo "===================================="
+        - cd apps/web-nami
+        - npm run build
+  artifacts:
+    baseDirectory: apps/web-nami/.next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - apps/web-nami/.next/cache/**/*
