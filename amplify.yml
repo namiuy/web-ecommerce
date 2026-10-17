@@ -1,26 +1,74 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - echo "Installing dependencies from monorepo root..."
-        - cd $CODEBUILD_SRC_DIR/web-ecommerce
-        - npm ci
-    build:
-      commands:
-        - cd $CODEBUILD_SRC_DIR/web-ecommerce
-        - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
-        - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
-        - echo "ID=$ID"
-        - echo "APP_NAME=$APP_NAME"
-        - echo "===================================="
-        - cd apps/web-nami
-        - npm run build
-  artifacts:
-    baseDirectory: apps/web-nami/.next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-      - apps/web-nami/.next/cache/**/*
+applications:
+  - appRoot: apps/web-nami
+    platform: WEB_COMPUTE
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Installing dependencies from monorepo root..."
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - npm ci
+        build:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
+            - echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL"
+            - echo "ID=$ID"
+            - echo "APP_NAME=$APP_NAME"
+            - echo "===================================="
+            - cd apps/web-nami
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+  - appRoot: apps/web-autoparts
+    platform: WEB_COMPUTE
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - npm ci
+        build:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - cd apps/web-autoparts
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+  - appRoot: apps/web-dashboards
+    platform: WEB_COMPUTE
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - npm ci
+        build:
+          commands:
+            - cd $CODEBUILD_SRC_DIR/web-ecommerce
+            - cd apps/web-dashboards
+            - echo "GA4_PROPERTY_ID=$GA4_PROPERTY_ID" >> .env.production
+            - echo "GA4_SA_CREDENTIALS=$GA4_SA_CREDENTIALS" >> .env.production
+            - echo "DASH_PASSWORD=$DASH_PASSWORD" >> .env.production
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
