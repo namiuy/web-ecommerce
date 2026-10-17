@@ -94,8 +94,8 @@
     { label: 'Sucursales y horarios', text: '¿Dónde están las sucursales y en qué horario atienden?' },
   ];
 
-  const GREETING = '¡Hola! Soy Viriato, el mecánico de Nami. Decime qué repuesto buscás y para qué auto, y te lo encuentro.';
-  const NAME = 'Viriato';
+  const GREETING = '¡Hola! Soy Luis, el mecánico de Nami. Decime qué repuesto buscás y para qué auto, y te lo encuentro.';
+  const NAME = 'Luis';
   const ROLE = 'El mecánico de Nami';
 
   const CSS = `
@@ -317,12 +317,12 @@ header{position:relative;background:radial-gradient(120% 90% at 50% 0%,var(--lag
       const root = this.attachShadow({ mode: 'open' });
       const img = esc(this.cfg.img);
       root.innerHTML = `<style>${CSS}</style>
-<button class="launcher" type="button" aria-label="Abrir a Viriato, el asistente de Nami">
+<button class="launcher" type="button" aria-label="Abrir a Luis, el asistente de Nami">
   <span class="tip" hidden></span>
   <span class="mini">${VIRIATO_SVG('l', img, '78 -6 180 180')}</span>
 </button>
 <div class="backdrop" hidden></div>
-<section class="panel dock" role="dialog" aria-modal="false" aria-label="Viriato, asistente de Nami" hidden>
+<section class="panel dock" role="dialog" aria-modal="false" aria-label="Luis, asistente de Nami" hidden>
   <header>
     <div class="stage">${VIRIATO_SVG('p', img)}<div class="ring"></div><div class="dots"><i></i><i></i><i></i></div></div>
     <div class="hgroup"><strong>${NAME}</strong><span class="status">${ROLE}</span></div>
@@ -407,7 +407,7 @@ header{position:relative;background:radial-gradient(120% 90% at 50% 0%,var(--lag
     showTip() {
       if (!this.el.panel.hidden || ss.get('viriato_tip')) return;
       ss.set('viriato_tip', 1);
-      this.el.tip.textContent = '¡Hola! Soy Viriato. ¿Qué repuesto buscás?';
+      this.el.tip.textContent = '¡Hola! Soy Luis. ¿Qué repuesto buscás?';
       this.el.tip.hidden = false;
       setTimeout(() => { this.el.tip.hidden = true; }, 8000);
     }
@@ -466,7 +466,7 @@ header{position:relative;background:radial-gradient(120% 90% at 50% 0%,var(--lag
 
     updateWa() {
       const lastQ = [...this.msgs].reverse().find((m) => m.role === 'user');
-      const text = `Hola Nami, vengo de Viriato en la web.${lastQ ? ` Mi consulta: ${lastQ.text}` : ''}`;
+      const text = `Hola Nami, vengo de Luis en la web.${lastQ ? ` Mi consulta: ${lastQ.text}` : ''}`;
       this.el.wa.href = `https://wa.me/${this.cfg.whatsapp}?text=${encodeURIComponent(text)}`;
     }
 
@@ -614,7 +614,9 @@ header{position:relative;background:radial-gradient(120% 90% at 50% 0%,var(--lag
       const d = document.createElement('div');
       d.className = `msg ${m.role === 'user' ? 'user' : m.role === 'error' ? 'err' : 'bot'}`;
       // si hay tarjetas, las tablas de productos sobran (y en el celular no entran)
-      d.innerHTML = m.role === 'user' || m.role === 'error' ? esc(m.text) : this.md(m.text, !!(m.products && m.products.length));
+      const cards = !!(m.products && m.products.length);
+      // con tarjetas, del texto mostramos solo la introducción (la lista de productos ya está en las tarjetas)
+      d.innerHTML = m.role === 'user' || m.role === 'error' ? esc(m.text) : this.md(cards ? this.intro(m.text) : m.text, cards);
       frag.appendChild(d);
       if (m.products && m.products.length) {
         const c = document.createElement('div');
@@ -623,6 +625,21 @@ header{position:relative;background:radial-gradient(120% 90% at 50% 0%,var(--lag
         frag.appendChild(c);
       }
       return frag;
+    }
+
+    // el texto antes de que empiece la lista de productos (código en negrita, "Vehículo:", "Precio:", links, viñetas)
+    intro(text) {
+      const out = [];
+      for (const raw of String(text || '').split('\n')) {
+        const l = raw.trim();
+        if (/^\*\*[^*]{2,40}\*\*\s*[–—-]/.test(l) || /^(?:Veh[íi]culo|Precio|Estado|C[óo]digo)\s*:/i.test(l) || /Ver producto|productos\//i.test(l) || /^(?:[-*•]|\d+[.)])\s+/.test(l) || l.startsWith('|')) {
+          if (out.length) break; else continue;
+        }
+        if (/^-{3,}$/.test(l)) { if (out.length) break; else continue; }
+        out.push(raw);
+      }
+      const t = out.join('\n').trim();
+      return t || 'Te dejo las opciones en pantalla.';
     }
 
     cardHtml(p) {
@@ -719,9 +736,12 @@ header{position:relative;background:radial-gradient(120% 90% at 50% 0%,var(--lag
       if (this.ws && this.ws.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(payload));
       else { this.queue.push(payload); this.retries = 0; this.connect(); }
       clearTimeout(this.waitTimer);
+      clearTimeout(this.slowTimer);
+      // las búsquedas en el catálogo pueden tardar: avisamos en vez de quedar callados
+      this.slowTimer = setTimeout(() => { if (this.state === 'thinking') this.el.status.textContent = 'Revisando el catálogo…'; }, 9000);
       this.waitTimer = setTimeout(() => {
         if (this.state === 'thinking') { this.setState('idle'); this.add({ role: 'error', text: 'Me quedé pensando de más. ¿Me lo repetís?' }); }
-      }, 45000);
+      }, 90000);
     }
 
     async onServer(d) {
