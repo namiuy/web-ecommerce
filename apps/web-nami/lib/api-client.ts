@@ -36,7 +36,19 @@ export async function apiFetch<T = unknown>(
   }
 
   let response;
-  const url = `${baseUrl}${endpoint}`;
+  // Asegurar trailing slash en el path (no en query params) para evitar redirects 307 que pierden el prefijo de nginx
+  let normalizedEndpoint = endpoint;
+  const qIdx = endpoint.indexOf('?');
+  if (qIdx === -1) {
+    // Sin query params: agregar trailing slash
+    if (!endpoint.endsWith('/')) normalizedEndpoint = endpoint + '/';
+  } else {
+    // Con query params: agregar slash antes del ?
+    const path = endpoint.substring(0, qIdx);
+    const query = endpoint.substring(qIdx);
+    normalizedEndpoint = (path.endsWith('/') ? path : path + '/') + query;
+  }
+  const url = `${baseUrl}${normalizedEndpoint}`;
 
   try {
     response = await fetch(url, {
