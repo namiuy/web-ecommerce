@@ -89,6 +89,17 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .funnel-foot{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:12px;font-size:11px;color:var(--muted)}
 .funnel-foot b{color:var(--ink)}
 
+/* funnel de conversion por pasos */
+.fnl{display:flex;flex-direction:column;gap:13px;margin-top:14px}
+.fnl-top{display:flex;justify-content:space-between;align-items:baseline}
+.fnl-name{font-size:13px;font-weight:600}
+.fnl-count{font-size:17px;font-weight:800;letter-spacing:-.3px}
+.fnl-bar{background:var(--panel2);border-radius:6px;height:12px;overflow:hidden;margin:5px 0}
+.fnl-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));min-width:3px}
+.fnl-meta{display:flex;align-items:center;gap:7px;font-size:11px}
+.fnl-meta b{font-size:12px}
+.fnl-drop{color:var(--bad);font-weight:700;margin-left:auto}
+
 table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
 th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
 th{color:var(--muted);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
@@ -108,11 +119,10 @@ body.tv .clock{font-size:22px}
 body.tv .live-num{font-size:40px}
 body.tv .g4{grid-template-columns:repeat(8,1fr)}   /* 8 KPIs en una sola fila en la TV ancha */
 body.tv .kpi .val{font-size:30px}
-/* las dos filas de charts crecen para llenar el alto disponible; nunca scroll */
-body.tv .g2,body.tv .funnel-row{flex:1 1 0;min-height:0}
-body.tv .g2 .panel,body.tv .funnel-row .panel{display:flex;flex-direction:column;min-height:0}
-body.tv .g2 .chart,body.tv .funnel-row .chart{flex:1;height:auto !important;min-height:0}
-body.tv .funnel-foot{display:none}
+/* la fila de charts (ingresos+actividad) crece para llenar el alto disponible; el funnel queda natural; nunca scroll */
+body.tv .g2{flex:1 1 0;min-height:0}
+body.tv .g2 .panel{display:flex;flex-direction:column;min-height:0}
+body.tv .g2 .chart{flex:1;height:auto !important;min-height:0}
 
 /* --- Login --- */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
