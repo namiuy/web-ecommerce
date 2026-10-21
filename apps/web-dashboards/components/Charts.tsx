@@ -35,16 +35,23 @@ export function RevenueChart({ labels, values }: { labels: string[]; values: num
 }
 
 export function FunnelChart({ steps }: { steps: { label: string; count: number; pct: number }[] }) {
+  // El 1er paso (view_item / detalle) es solo visual en gris; la escala arranca en el carrito = 100%
+  const base = steps[1]?.count || 0;
+  const realMax = Math.max(...steps.slice(1).map(s => s.count), 1);
+  const colors = steps.map((_, i) => i === 0 ? 'rgba(139,149,164,0.38)' : ['#00b0e7', '#2cc0ee', '#58cff2', '#86ddf6', '#38c172'][i - 1] || '#00b0e7');
   return (
     <Bar
       data={{
         labels: steps.map(s => s.label),
-        datasets: [{ data: steps.map(s => s.count), backgroundColor: steps.map((_, i) => ['#00b0e7', '#2cc0ee', '#58cff2', '#86ddf6', '#b3eafa', '#38c172'][i] || '#00b0e7'), borderRadius: 6, barThickness: 26 }],
+        datasets: [{ data: steps.map(s => s.count), backgroundColor: colors, borderRadius: 6, barThickness: 24 }],
       }}
       options={{
         indexAxis: 'y' as const, responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c: any) => `${c.raw.toLocaleString('es-UY')} (${steps[c.dataIndex].pct}%)` } } } as any,
-        scales: { x: { grid, beginAtZero: true }, y: { grid: { display: false } } },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c: any) => {
+          const cnt = Number(c.raw).toLocaleString('es-UY');
+          return c.dataIndex === 0 ? `${cnt} (detalle - referencia)` : `${cnt} - ${base ? Math.round(c.raw / base * 100) : 0}% del carrito`;
+        } } } } as any,
+        scales: { x: { grid, beginAtZero: true, max: realMax }, y: { grid: { display: false } } },
       }}
     />
   );

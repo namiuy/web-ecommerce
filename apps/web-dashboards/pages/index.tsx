@@ -8,6 +8,7 @@ import TopBar from '../components/TopBar';
 
 const RevenueChart = dynamic(() => import('../components/Charts').then(m => m.RevenueChart), { ssr: false });
 const ActivityChart = dynamic(() => import('../components/Charts').then(m => m.ActivityChart), { ssr: false });
+const FunnelChart = dynamic(() => import('../components/Charts').then(m => m.FunnelChart), { ssr: false });
 const MixDoughnut = dynamic(() => import('../components/Charts').then(m => m.MixDoughnut), { ssr: false });
 const LiveStrip = dynamic(() => import('../components/LiveStrip'), { ssr: false });
 
@@ -54,28 +55,6 @@ const Table = ({ rows, head, hint }: { rows: TableRow[]; head: string[]; hint?: 
     </table>
 );
 
-// Funnel como conversion paso-a-paso: cada barra = % que convierte del paso anterior (comparables entre si)
-const FunnelRows = ({ steps }: { steps: Dashboard['funnel'] }) => (
-  <div className="fnl">
-    {steps.map((s, i) => {
-      const prev = i > 0 ? steps[i - 1].count : s.count;
-      const conv = i === 0 ? 100 : prev ? Math.round((s.count / prev) * 1000) / 10 : 0;
-      const drop = Math.round((100 - conv) * 10) / 10;
-      return (
-        <div className="fnl-row" key={i}>
-          <div className="fnl-top"><span className="fnl-name">{s.label}</span><span className="fnl-count">{s.count.toLocaleString('es-UY')}</span></div>
-          <div className="fnl-bar"><div className="fnl-fill" style={{ width: `${Math.max(conv, 1)}%` }} /></div>
-          <div className="fnl-meta">
-            {i === 0
-              ? <span className="muted">inicio del funnel &middot; {s.pct}% base</span>
-              : <><b className={conv < 20 ? 'down' : 'up'}>{conv}%</b><span className="muted">del paso anterior</span><span className="fnl-drop">-{drop}%</span></>}
-          </div>
-        </div>
-      );
-    })}
-  </div>
-);
-
 const RANGE_OPTS: { k: RangeKey; t: string }[] = [{ k: 'today', t: 'Hoy' }, { k: '7d', t: '7 dias' }, { k: '28d', t: '28 dias' }, { k: '90d', t: '90 dias' }];
 
 export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = ({ data, realtime }) => (
@@ -106,8 +85,15 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
 
     <div className="grid sec funnel-row">
       <div className="panel">
-        <h3>Funnel de venta</h3><div className="evt">conversion paso a paso &middot; view_item &rarr; purchase</div>
-        {data.funnel.some(s => s.count) ? <FunnelRows steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}
+        <h3>Funnel de venta</h3><div className="evt">carrito = 100% &middot; add_to_cart &rarr; purchase</div>
+        <div className="chart h220">{data.funnel.some(s => s.count) ? <FunnelChart steps={data.funnel} /> : <Empty hint="Faltan eventos de compra (flujo products)" />}</div>
+        <div className="funnel-foot">
+          <span className="fnl-ref">{data.funnel[0]?.label}: {(data.funnel[0]?.count || 0).toLocaleString('es-UY')} (detalle, referencia)</span>
+          {data.funnel.slice(1).map((s, i) => {
+            const base = data.funnel[1]?.count || 0;
+            return <span key={i}><b>{base ? Math.round((s.count / base) * 100) : 0}%</b> {s.label}</span>;
+          })}
+        </div>
       </div>
     </div>
 
