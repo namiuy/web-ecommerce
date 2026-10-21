@@ -4,4 +4,5 @@ module.exports = {
   reactStrictMode: true,
   basePath: basePath || undefined,
   assetPrefix: basePath || undefined,
+  eslint: { ignoreDuringBuilds: true }, // app standalone (sin eslint-config del workspace)
 };
