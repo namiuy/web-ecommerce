@@ -72,6 +72,7 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
 
     <div className="grid g4 sec">{data.kpis.map((k, i) => <KpiCard k={k} key={i} />)}</div>
 
+    <div className="mid-band">
     <div className="grid g2 sec">
       <div className="panel">
         <h3>Ingresos</h3><div className="evt">purchase.value &middot; {data.range}</div>
@@ -96,6 +97,7 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
         </div>
       </div>
     </div>
+    </div>
 
     <h2 className="sec-t tv-hide">Trafico y pagos</h2>
     <div className="grid g3 tv-hide">
@@ -104,8 +106,8 @@ export const DashboardView: NextPage<{ data: Dashboard; realtime: Realtime }> = 
       <div className="panel"><h3>Metodo de pago</h3><div className="evt">add_payment_info.payment_type</div><div className="chart h200">{data.paymentMix.length ? <MixDoughnut rows={data.paymentMix} /> : <Empty hint="Requiere custom dimension payment_type" />}</div></div>
     </div>
 
-    <h2 className="sec-t tv-hide">Busquedas - que buscan y que no encuentran</h2>
-    <div className="grid g3 tv-hide">
+    <h2 className="sec-t tv-search">Busquedas - que buscan y que no encuentran</h2>
+    <div className="grid g3 tv-search search-row">
       <div className="panel"><h3>Palabras mas buscadas</h3><div className="evt">search.search_term</div><Bars rows={data.topSearches} hint="Requiere custom dimension search_term" /></div>
       <div className="panel alert"><h3>Busquedas SIN resultado</h3><div className="evt">search_no_results.search_term</div><Bars rows={data.noResults} hint="Requiere custom dimension search_term" /></div>
       <div className="panel"><h3>Tipo de busqueda</h3><div className="evt">search / by_vehicle / by_code / by_dimensions</div><div className="chart h200">{data.searchMix.length ? <MixDoughnut rows={data.searchMix.map(s => ({ label: s.label, value: s.pct }))} /> : <Empty />}</div></div>
