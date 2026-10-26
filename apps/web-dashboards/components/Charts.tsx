@@ -43,11 +43,10 @@ export function FunnelChart({ steps }: { steps: { label: string; count: number; 
     <Bar
       data={{
         labels: steps.map(s => s.label),
-        datasets: [{ data: steps.map(s => s.count), backgroundColor: colors, borderRadius: 6, maxBarThickness: 30 }],
+        datasets: [{ data: steps.map(s => s.count), backgroundColor: colors, borderRadius: 6, maxBarThickness: 30, categoryPercentage: 0.82, barPercentage: 0.9 }],
       }}
       options={{
         indexAxis: 'y' as const, responsive: true, maintainAspectRatio: false,
-        categoryPercentage: 0.82, barPercentage: 0.9,
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c: any) => {
           const cnt = Number(c.raw).toLocaleString('es-UY');
           return c.dataIndex === 0 ? `${cnt} (detalle - referencia)` : `${cnt} - ${base ? Math.round(c.raw / base * 100) : 0}% del carrito`;
