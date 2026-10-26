@@ -32,8 +32,9 @@ export default function TopBar({ source, property }: { source: string; property:
     const saved = (localStorage.getItem('rbt-theme') as 'dark' | 'light') || 'dark';
     setTheme(saved);
     document.documentElement.setAttribute('data-theme', saved);
-    // ?tv=1 -> entra directo en layout TV (para rotadores/kiosko; el navegador ya pone fullscreen)
-    if (new URLSearchParams(window.location.search).get('tv') === '1') { document.body.classList.add('tv'); setTv(true); }
+    // ?tv=1 (kiosko) o sessionStorage (sobrevive el auto-refresh de 3 min aunque se haya entrado por el boton)
+    const wantTv = new URLSearchParams(window.location.search).get('tv') === '1' || sessionStorage.getItem('rbt-tv') === '1';
+    if (wantTv) { document.body.classList.add('tv'); setTv(true); }
   }, []);
 
   const toggleTheme = () => {
@@ -46,15 +47,21 @@ export default function TopBar({ source, property }: { source: string; property:
   const enterTv = useCallback(() => {
     document.documentElement.requestFullscreen?.().catch(() => {});
     document.body.classList.add('tv');
+    sessionStorage.setItem('rbt-tv', '1');
     setTv(true);
   }, []);
 
+  // Salir de TV con Escape. NO atado a fullscreen: cambiar de tab (rotadores/kiosko) o salir de
+  // pantalla completa ya no corta el modo TV, igual que el panel de NexLab Control.
   useEffect(() => {
-    const onFs = () => {
-      if (!document.fullscreenElement) { document.body.classList.remove('tv'); setTv(false); }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      document.body.classList.remove('tv'); setTv(false);
+      sessionStorage.removeItem('rbt-tv');
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
     };
-    document.addEventListener('fullscreenchange', onFs);
-    return () => document.removeEventListener('fullscreenchange', onFs);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, []);
 
   // En modo TV refresca la pagina cada 3 min para traer la data agregada actualizada
