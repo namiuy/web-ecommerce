@@ -3,34 +3,37 @@ import type { Order } from 'shared/entities/order'
 
 // --- Service functions ---
 
-export async function listMyOrders(token: string): Promise<{ orders: Order[]; count: number }> {
+export async function listMyOrders(token: string): Promise<{ orders: Order[]; result_count: number }> {
   const response = await apiFetch<any>('/orders/user/me', { token })
+  const orders = response.data || []
   return {
-    orders: response.data,
-    count: response.count,
+    orders,
+    result_count: orders.length,
   }
 }
 
 export async function listOrdersByGuid(
   guid: string,
   token: string,
-): Promise<{ orders: Order[]; count: number }> {
+): Promise<{ orders: Order[]; result_count: number }> {
   const params = new URLSearchParams({ guid })
   const response = await apiFetch<any>(
     `/orders?${params.toString()}`,
     { token },
   )
+  const orders = response.data || []
   return {
-    orders: response.data,
-    count: response.count,
+    orders,
+    result_count: orders.length,
   }
 }
 
-export async function listAllOrders(token: string): Promise<{ orders: Order[]; count: number }> {
+export async function listAllOrders(token: string): Promise<{ orders: Order[]; result_count: number }> {
   const response = await apiFetch<any>('/orders/user/me', { token })
+  const orders = response.data || []
   return {
-    orders: response.data,
-    count: response.count,
+    orders,
+    result_count: orders.length,
   }
 }
 
