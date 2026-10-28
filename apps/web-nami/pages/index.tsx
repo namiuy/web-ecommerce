@@ -38,7 +38,7 @@ const HomePage: NextPage = () => (
       <NavBar />
       <Container p="0" mb="2rem">
         <Flex direction="column" gap="2rem">
-          {envId === 'robotec' ? <MejoraBanner /> : <Banner section="home_a" />}
+          {envId === 'ROBOTEC' ? <MejoraBanner /> : <Banner section="home_a" />}
           <Brands />
           <Categories />
         </Flex>
