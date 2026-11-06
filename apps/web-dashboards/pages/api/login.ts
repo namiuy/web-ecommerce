@@ -7,6 +7,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password } = (req.body || {}) as { password?: string };
   if (!PASS || password !== PASS) return res.status(401).json({ ok: false });
   // cookie opaca httpOnly = el propio secreto; no legible por JS del cliente
-  res.setHeader('Set-Cookie', `dash_auth=${encodeURIComponent(PASS)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
+  res.setHeader('Set-Cookie', `dash_auth=${encodeURIComponent(PASS)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`); // 7 dias, igual que web-nexlab-control
   res.status(200).json({ ok: true });
 }

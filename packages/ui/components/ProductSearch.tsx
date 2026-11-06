@@ -43,9 +43,10 @@ export const ProductSearch = (props: ProductSearchProps) => {
 
   useEffect(() => {
     if (isLoading || !props.text) return;
+    const found = data?.products?.length ?? 0; // "sin resultado" = lo mismo que decide la UI (products), no count: el backend puede devolver productos con count 0/undefined
     trackSearch(props.text);
-    trackViewSearchResults(props.text, data?.count ?? 0); // 0 -> search_no_results
-  }, [props.text, isLoading, data?.count]); // eslint-disable-line react-hooks/exhaustive-deps
+    trackViewSearchResults(props.text, found ? (data?.count || found) : 0); // 0 -> search_no_results
+  }, [props.text, isLoading, data?.products?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
     console.log(error);
