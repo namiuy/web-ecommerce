@@ -42,11 +42,11 @@ export const ProductSearch = (props: ProductSearchProps) => {
   const { isLoading, error, data } = useProductSearch({ ...props, index: props?.pag ? props?.pag - 1 : 0 });
 
   useEffect(() => {
-    if (isLoading || !props.text) return;
-    const found = data?.products?.length ?? 0; // "sin resultado" = lo mismo que decide la UI (products), no count: el backend puede devolver productos con count 0/undefined
+    // Solo trackear respuestas validas: un error 4xx (body sin products) o 5xx (data undefined) NO es "sin resultado"
+    if (isLoading || error || !props.text || !Array.isArray(data?.products)) return;
     trackSearch(props.text);
-    trackViewSearchResults(props.text, found ? (data?.count || found) : 0); // 0 -> search_no_results
-  }, [props.text, isLoading, data?.products?.length]); // eslint-disable-line react-hooks/exhaustive-deps
+    trackViewSearchResults(props.text, data.count ?? data.products.length); // 0 -> search_no_results
+  }, [props.text, isLoading, error, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
     console.log(error);
