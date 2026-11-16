@@ -73,6 +73,7 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
       const fetchData = async () => {
         if (props) {
           setIsLoading(true);
+          setError(undefined);
           try {
             // Step 1: Sign in with Firebase
             const { user: firebaseUser, token } = await firebaseSignIn(props.email, props.password);

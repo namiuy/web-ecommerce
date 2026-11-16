@@ -92,7 +92,8 @@ export const SignIn = ({ Logo }: SignInProps) => {
   }, [toast, googleError]);
 
   const handleSubmit = async (values: SignInValues) => {
-    setSignInProps(values);
+    // Spread crea un objeto nuevo cada vez para que useEffect detecte el cambio
+    setSignInProps({ ...values });
   };
 
   return (
