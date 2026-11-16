@@ -84,7 +84,18 @@ export const useSignIn = (props?: SignInProps): Result<User> => {
             setFirebaseUid(firebaseUser.uid);
           } catch (err: any) {
             console.error('Firebase sign in error:', err);
-            setError(err.message || 'Error al iniciar sesión');
+            const code = err?.code || '';
+            let message = 'Error al iniciar sesión';
+            if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+              message = 'El email o la contraseña son incorrectos';
+            } else if (code === 'auth/too-many-requests') {
+              message = 'Demasiados intentos fallidos. Intentá de nuevo en unos minutos';
+            } else if (code === 'auth/user-disabled') {
+              message = 'Esta cuenta ha sido deshabilitada';
+            } else if (code === 'auth/network-request-failed') {
+              message = 'Error de conexión. Verificá tu internet';
+            }
+            setError(message);
             setIsLoading(false);
           }
         }

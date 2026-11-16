@@ -50,10 +50,7 @@ export const SignIn = ({ Logo }: SignInProps) => {
         toast({
           id,
           title: 'Error al iniciar sesión',
-          description:
-            error === USER_OR_PWD_ICORRECT || error === UNAUTHORIZED
-              ? 'El usuario o la contraseña es incorrecto/a'
-              : error,
+          description: error,
           position: 'top',
           status: 'error',
           duration: 4000,
