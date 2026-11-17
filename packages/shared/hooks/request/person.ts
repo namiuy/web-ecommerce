@@ -1,15 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Result } from './result';
-import { get, post, put } from '../../utils/fetcher';
+import { get, put } from '../../utils/fetcher';
 import { Person } from '../../entities/person';
 import { PersonUpdate } from '../../entities/person-update';
-import { useRequest } from '.';
 
-export const useGetPerson = (id: string | null | undefined): Result<Person> => {
-  // Don't make request if id is invalid
+export const useGetPerson = (id: string | null | undefined): Result<Person> & { refetch: () => void } => {
+  const [data, setData] = useState<Person | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [fetchCount, setFetchCount] = useState(0);
+
   const shouldFetch = id && id !== '0' && id !== 'null' && id !== 'undefined';
-  const url = shouldFetch && id ? `/api/person?id=${id}` : null;
-  return useRequest(url, true);
+
+  useEffect(() => {
+    if (!shouldFetch || !id) return;
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const result = await get<Person>(`/api/person?id=${id}`, {}, true);
+        if ((result as any)?.error) {
+          setError((result as any).error);
+        } else {
+          setData(result);
+          setError(undefined);
+        }
+      } catch (err: any) {
+        setError(err.message || 'Error');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [id, shouldFetch, fetchCount]);
+
+  const refetch = useCallback(() => setFetchCount((c) => c + 1), []);
+
+  return { data, isLoading, error, refetch };
 };
 
 const updatePerson = (person: PersonUpdate): Promise<Result<boolean>> => {

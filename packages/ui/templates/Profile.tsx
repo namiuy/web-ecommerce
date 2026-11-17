@@ -56,7 +56,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
 
   const id = lscache.get('user')?.id;
   const personId = lscache.get('user')?.personId;
-  const { data, isLoading, error } = useGetPerson(personId);
+  const { data, isLoading, error, refetch } = useGetPerson(personId);
 
   const [personData, setPersonData] = useState(data);
 
@@ -230,7 +230,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                   name={personData?.name}
                   lastName={personData?.last_name}
                   isOpen={isOpenSecond}
-                  onClose={onCloseSecond}
+                  onClose={() => { onCloseSecond(); refetch(); }}
                   setPersonData={setPersonData}
                 />
               )}
@@ -250,7 +250,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                   id={id}
                   personId={personId}
                   isOpen={isOpenThird}
-                  onClose={onCloseThird}
+                  onClose={() => { onCloseThird(); refetch(); }}
                   setPersonData={setPersonData}
                 />
               </Flex>
@@ -309,6 +309,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                 onClose={() => {
                   setEditPhone(undefined);
                   onCloseFourth();
+                  refetch();
                 }}
                 phone={editPhone}
                 defaultPhone={personData?.default_phone}
@@ -330,7 +331,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                   id={id}
                   personId={personId}
                   isOpen={isOpenFifth}
-                  onClose={onCloseFifth}
+                  onClose={() => { onCloseFifth(); refetch(); }}
                   setPersonData={setPersonData}
                   redirectTo={redirectTo}
                 />
@@ -406,7 +407,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                 postal_code={editPostalCode!}
                 default_address={personData?.default_address}
                 isOpen={isOpenSixth}
-                onClose={onCloseSixth}
+                onClose={() => { onCloseSixth(); refetch(); }}
                 setPersonData={setPersonData}
               />
             </Box>
