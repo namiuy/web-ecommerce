@@ -1,7 +1,7 @@
 import lscache from 'lscache';
 import { Spinner, useBreakpointValue, Divider, Center } from '@chakra-ui/react';
 import router from 'next/router';
-import { isBrowser, useListOrders, usePaymentMethods, getProduct } from 'shared';
+import { isBrowser, useListAllOrders, usePaymentMethods, getProduct } from 'shared';
 
 const _cs = getProduct()?.currencySymbol || 'U$S';
 import { Box, Heading, Text, Container, Flex, Button, Grid, GridItem, Image } from 'ui';
@@ -20,8 +20,7 @@ export const OrderHistory = () => {
   const md = useBreakpointValue({ base: false, md: true });
   const paymentMethods = usePaymentMethods();
 
-  const guid = lscache.get('user')?.id;
-  const { data, isLoading, error } = useListOrders(guid);
+  const { data, isLoading, error } = useListAllOrders();
 
   const issBrowser = isBrowser();
 

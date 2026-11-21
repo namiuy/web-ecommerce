@@ -16,7 +16,7 @@ const listOrders = (id: string): Promise<OrderList> => {
 };
 
 const listAllOrders = (): Promise<OrderList> => {
-  return get<OrderList>(`/api/orders/all`, {}, true);
+  return get<OrderList>(`/api/orders`, {}, true);
 };
 
 export const useCheckout = (checkout_values?: Checkout): Result<Order> => {
