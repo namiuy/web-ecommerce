@@ -40,7 +40,7 @@ const getRequestInit = async (
 };
 
 const handleResponse = async <T>(res: Response): Promise<T> => {
-  if (!res.ok && res.status >= 500) {
+  if (!res.ok) {
     const text = await res.text();
     throw new Error(text || `HTTP ${res.status}`);
   }

@@ -17,7 +17,7 @@ import { HiShoppingCart } from 'react-icons/hi';
 import { QuantityInput } from './QuantityInput';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useCart, getProduct, trackRemoveFromCart } from 'shared';
+import { useCart, useCurrentUser, getProduct, trackRemoveFromCart } from 'shared';
 
 const _cs = getProduct()?.currencySymbol || 'U$S';
 
@@ -29,6 +29,7 @@ const _productListPaddingY = { base: '0.5rem', sm: '0' };
 export const ShoppingCartDrawer = () => {
   const router = useRouter();
   const toast = useToast();
+  const { user } = useCurrentUser();
 
   const onError = (error: string) => {
     if (error == 'Stock Insuficiente') {
@@ -55,8 +56,8 @@ export const ShoppingCartDrawer = () => {
   } = useCart({ onError });
 
   useEffect(() => {
-    getCart();
-  }, []);
+    if (user) getCart();
+  }, [user]);
 
   const handleDelete = (itemCode: string) => {
     const item = cart?.items?.find((p: any) => p.code === itemCode);
