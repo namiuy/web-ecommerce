@@ -179,7 +179,6 @@ export const BusquedaTotalSearch = () => {
     if (!part) {
       setSelectedPiezaBrand(''); setSelectedPiezaModel(''); setPiezaModels([]);
       getParqueAllBrands().then(data => setPiezaBrands(data || [])).catch(() => {});
-      setResults([]); setSearchSource('');
       return;
     }
     setLoadingPiezaBrands(true);
@@ -188,18 +187,12 @@ export const BusquedaTotalSearch = () => {
       setPiezaBrands(data || []);
       if (selectedPiezaBrand && !(data || []).includes(selectedPiezaBrand)) {
         setSelectedPiezaBrand(''); setSelectedPiezaModel(''); setPiezaModels([]);
-        doSearch(part, '', '', filterText);
       } else if (selectedPiezaBrand) {
         const models = await getParqueModelsByPart(selectedPiezaBrand, part);
         setPiezaModels(models || []);
         if (selectedPiezaModel && !(models || []).includes(selectedPiezaModel)) {
           setSelectedPiezaModel('');
-          doSearch(part, selectedPiezaBrand, '', filterText);
-        } else {
-          doSearch(part, selectedPiezaBrand, selectedPiezaModel, filterText);
         }
-      } else {
-        doSearch(part, '', '', filterText);
       }
     } catch { /* ignore */ }
     finally { setLoadingPiezaBrands(false); }
@@ -208,7 +201,7 @@ export const BusquedaTotalSearch = () => {
   const handlePiezaBrandChange = async (brand: string) => {
     setSelectedPiezaBrand(brand);
     setSelectedPiezaModel(''); setPiezaModels([]);
-    if (!brand) { doSearch(selectedPart, '', '', filterText); return; }
+    if (!brand) return;
     setLoadingPiezaModels(true);
     try {
       const data = selectedPart
@@ -217,12 +210,10 @@ export const BusquedaTotalSearch = () => {
       setPiezaModels(data || []);
     } catch { /* ignore */ }
     finally { setLoadingPiezaModels(false); }
-    doSearch(selectedPart, brand, '', filterText);
   };
 
   const handlePiezaModelChange = (model: string) => {
     setSelectedPiezaModel(model);
-    doSearch(selectedPart, selectedPiezaBrand, model, filterText);
   };
 
   const handleSearchButton = () => {
@@ -424,7 +415,7 @@ export const BusquedaTotalSearch = () => {
               <Button
                 size="sm" colorScheme="blue" minW="120px"
                 onClick={handleSearchButton}
-                isDisabled={loading || (!selectedPart && filterText.trim().length < 2)}
+                isDisabled={loading || (!selectedPart && !selectedPiezaBrand && !familyCode.trim() && filterText.trim().length < 2)}
                 leftIcon={loading ? <Spinner size="xs" /> : <SearchIcon />}
               >
                 Buscar
