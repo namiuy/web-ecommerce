@@ -26,8 +26,10 @@ const CategoriesWrapper = () => (
   </Container>
 );
 
-const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], extraActions }: NavBarProps) => {
-  const menuItemsWithOnClick = menuItems.map(i => (i.id === 'products' ? { ...i, menuContent: CategoriesWrapper } : i));
+const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems = [], extraActions, disableCategoriesPopover }: NavBarProps) => {
+  const menuItemsWithOnClick = menuItems.map(i =>
+    (i.id === 'products' && !disableCategoriesPopover) ? { ...i, menuContent: CategoriesWrapper } : i
+  );
 
   const issBrowser = isBrowser();
   const [user, setUser] = useState<User>();
