@@ -48,6 +48,14 @@ export const useCart = (props: CartProps): CartState => {
   };
 
   const getCart = async () => {
+    // Ensure Firebase token is available before calling cart API
+    try {
+      const { getCurrentUserToken } = await import('../../services/firebase');
+      const token = await getCurrentUserToken();
+      if (!token) return; // Firebase not ready yet, skip
+    } catch {
+      return; // Firebase not available
+    }
     setIsLoading(true);
     apiGetCart()
       .then(result => {

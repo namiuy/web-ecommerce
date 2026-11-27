@@ -45,13 +45,6 @@ export const useCurrentUser = () => {
               roles: userData.roles || []
             };
 
-            console.log('[useCurrentUser] Mapped user:', {
-              full_name: userData.full_name,
-              first_name: firstName,
-              last_name: lastName,
-              email: userData.email
-            });
-
             // Update localStorage and state
             lscache.set('user', mappedUser);
             setUser(mappedUser);
