@@ -13,14 +13,9 @@ export const useCurrentUser = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage first for immediate render
-    const cachedUser = lscache.get('user');
-    if (cachedUser) {
-      setUser(cachedUser);
-      setIsLoading(false);
-    }
-
     // Listen to Firebase auth state changes
+    // Note: we don't load from lscache upfront to avoid triggering
+    // authenticated API calls before Firebase has a valid token
     const unsubscribe = onAuthStateChange(async (firebaseUser) => {
       if (firebaseUser) {
         // User is signed in
