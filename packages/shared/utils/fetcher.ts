@@ -27,6 +27,11 @@ const getRequestInit = async (
   // Get fresh Firebase ID token
   const firebaseToken = withAuth ? await refreshToken() : null;
 
+  // If auth is required but no token available, fail early
+  if (withAuth && !firebaseToken) {
+    throw new Error('No auth token available');
+  }
+
   return {
     method,
     headers: {
