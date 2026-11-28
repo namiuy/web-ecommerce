@@ -56,6 +56,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
 
   const id = lscache.get('user')?.id;
   const personId = lscache.get('user')?.personId;
+  const userEmail = lscache.get('user')?.email;
   const { data, isLoading, error } = useGetPerson(personId);
 
   const [personData, setPersonData] = useState(data);
@@ -157,7 +158,7 @@ export const Profile = ({ Logo }: ProfileProps) => {
                   <Skeleton w="10rem" h="1.25rem" />
                 ) : (
                   <Box>
-                    <Text fontSize="0.875rem">{personData?.email}</Text>
+                    <Text fontSize="0.875rem">{personData?.email || userEmail}</Text>
                   </Box>
                 )}
               </Flex>
