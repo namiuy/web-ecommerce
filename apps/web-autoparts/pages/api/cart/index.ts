@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getCart, addToCart, updateCartQuantity, deleteFromCart, mergeCarts } from '../../lib/services/cart.service'
+import { getCart, addToCart, updateCartQuantity, deleteFromCart } from '../../../lib/services/cart.service'
 
 function getTokenFromReq(req: NextApiRequest): string | null {
   const authHeader = req.headers.authorization
