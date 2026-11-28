@@ -56,8 +56,8 @@ export const ShoppingCartDrawer = () => {
   } = useCart({ onError });
 
   useEffect(() => {
-    if (user) getCart();
-  }, [user]);
+    getCart();
+  }, []);
 
   const handleDelete = (itemCode: string) => {
     const item = cart?.items?.find((p: any) => p.code === itemCode);

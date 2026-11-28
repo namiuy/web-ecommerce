@@ -82,7 +82,7 @@ const NavBarDesktopFull = ({ dark, logo: Logo, multiDomainItems = [], menuItems 
               <MenuAdmin />
             </GridItem>
           )}
-          {user && getCartEnabled() && (
+          {getCartEnabled() && (
             <GridItem>
               <ShoppingCartDrawer />
             </GridItem>

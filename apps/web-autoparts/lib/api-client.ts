@@ -7,6 +7,8 @@ type ApiFetchOptions = {
   timeout?: number
   /** Override base URL (for stock which uses API_BASE_URL without /api path) */
   baseUrl?: string
+  /** Extra headers to pass to the request */
+  extraHeaders?: Record<string, string>
 }
 
 export class ApiError extends Error {
@@ -26,11 +28,13 @@ export async function apiFetch<T = unknown>(
     token,
     timeout = 30_000, // Increased from 10s to 30s
     baseUrl = config.apiBaseUrl,
+    extraHeaders = {},
   } = options
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     'User-Agent': 'web-autoparts/1.0',
+    ...extraHeaders,
   }
   if (token) {
     headers['Authorization'] = `Bearer ${token}`

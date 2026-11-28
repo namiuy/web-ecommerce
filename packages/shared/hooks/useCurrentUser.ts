@@ -43,6 +43,12 @@ export const useCurrentUser = () => {
             // Update localStorage and state
             lscache.set('user', mappedUser);
             setUser(mappedUser);
+
+            // Merge anonymous cart if exists
+            try {
+              const { mergeAnonymousCart } = await import('./request/cart');
+              await mergeAnonymousCart();
+            } catch { /* ignore merge errors */ }
           } else if (userData?.error === 'Backend service unavailable') {
             // Backend is temporarily unavailable - keep cached user if exists
             console.log('[useCurrentUser] Backend unavailable, keeping cached user');

@@ -27,14 +27,7 @@ export const ShoppingCart = () => {
   const issBrowser = isBrowser();
   const router = useRouter();
 
-  useEffect(() => {
-    if (issBrowser) {
-      const user = lscache.get('user'); // TODO: improve this
-      if (!user || !user.id) {
-        router.push('/');
-      }
-    }
-  }, [issBrowser]);
+  const isLoggedIn = issBrowser && !!lscache.get('user')?.id;
 
   const { cart, isLoading, error, totalPrice, updateQuantityCart, deleteFromCart } = useCart({});
 
@@ -205,11 +198,16 @@ export const ShoppingCart = () => {
                       color="white"
                       _hover={{ backgroundColor: 'primary.main' }}
                       onClick={() => {
-                        trackBeginCheckout((cart?.items || []).map(toGaItem), Number(totalPrice) || 0);
-                        router.replace('/checkout');
+                        if (!isLoggedIn) {
+                          sessionStorage.setItem('redirectAfterLogin', '/checkout');
+                          router.push('/iniciar');
+                        } else {
+                          trackBeginCheckout((cart?.items || []).map(toGaItem), Number(totalPrice) || 0);
+                          router.replace('/checkout');
+                        }
                       }}
                     >
-                      FINALIZAR COMPRA
+                      {isLoggedIn ? 'FINALIZAR COMPRA' : 'INICIAR SESIÓN PARA COMPRAR'}
                     </Button>
                   </GridItem>
                   <GridItem gridArea="d" w="100%">
