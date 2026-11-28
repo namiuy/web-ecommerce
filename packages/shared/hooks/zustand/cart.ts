@@ -56,7 +56,7 @@ export const useCart = (props: CartProps): CartState => {
         }
       })
       .catch((err: any) => {
-        setError(err.message);
+        if (!err.silent) setError(err.message);
       })
       .finally(() => {
         setIsLoading(false);

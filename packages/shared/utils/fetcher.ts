@@ -27,9 +27,9 @@ const getRequestInit = async (
   // Get fresh Firebase ID token
   const firebaseToken = withAuth ? await refreshToken() : null;
 
-  // If auth is required but no token available, fail early
+  // If auth is required but no token available, fail early with 401-like error
   if (withAuth && !firebaseToken) {
-    throw new Error('No auth token available');
+    throw Object.assign(new Error('No auth token available'), { status: 401, silent: true });
   }
 
   return {
